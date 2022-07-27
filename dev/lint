@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+if ! which protolint &>/dev/null; then
+    go install github.com/yoheimuta/protolint/cmd/protolint@latest
+fi
+
+protolint lint -fix -config_path=./.protolint.yaml ./proto

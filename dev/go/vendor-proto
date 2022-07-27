@@ -1,0 +1,11 @@
+#!/usr/bin/env sh
+set -e
+
+vendor_dir="build/tmp/vendor"
+if [ ! -d "${vendor_dir}" ]; then
+    mkdir -p "${vendor_dir}"
+    cd "${vendor_dir}"
+    git clone --depth 1 https://github.com/googleapis/googleapis.git
+    mv googleapis/google ./
+    rm -rf googleapis
+fi
