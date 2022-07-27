@@ -1,0 +1,10 @@
+#!/usr/bin/env sh
+
+FOLDER="$1"
+if [ -z "$FOLDER" ]
+then
+    echo "Must specify folder as first argument"
+    exit 1
+fi
+
+rm -rf ./ts/dist/$1

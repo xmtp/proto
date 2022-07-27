@@ -1,0 +1,40 @@
+{
+  "name": "@xmtp/proto",
+  "version": "0.0.0-development",
+  "description": "Protobuf client and generated classes for GRPC API",
+  "main": "./ts/dist/cjs/message_api.js",
+  "module": "./dist/esm/index.js",
+  "exports": {
+    ".": {
+      "types": "./dist/esm/index.d.ts",
+      "import": "./dist/esm/index.js",
+      "require": "./dist/cjs/index.cjs"
+    }
+  },
+  "scripts": {
+    "build:cjs": "./dev/ts/clean cjs && tsc -p ./ts/tsconfig.cjs.json",
+    "build:esm": "./dev/ts/clean esm && tsc -p ./ts/tsconfig.esm.json",
+    "build:types": "./dev/ts/clean types && tsc -p ./ts/tsconfig.types.json",
+    "generate": "./dev/ts/generate",
+    "build": "npm run build:cjs && npm run build:esm && npm run build:types",
+    "prebuild": "npm run generate",
+    "test": "exit 0",
+    "prepare": "husky install"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://git@github.com/xmtp/proto.git"
+  },
+  "author": "Nick Molnar",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/xmtp/proto/issues"
+  },
+  "homepage": "https://github.com/xmtp/proto#readme",
+  "dependencies": {
+    "google-protobuf": "^3.20.1"
+  },
+  "devDependencies": {
+    "husky": "^8.0.0"
+  }
+}
