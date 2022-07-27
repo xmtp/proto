@@ -1,0 +1,69 @@
+syntax = "proto3";
+package xmtp.message_api.v1;
+
+import "google/api/annotations.proto";
+import "google/protobuf/timestamp.proto";
+
+option go_package = "./message_api/v1";
+
+// RPC
+service MessageApi {
+  rpc Publish (PublishRequest) returns (PublishResponse) {
+    option (google.api.http) = {
+        post: "/message/v1/publish"
+        body: "*"
+    };
+  }
+  rpc Subscribe (SubscribeRequest) returns (stream Envelope) {
+    option (google.api.http) = {
+        post: "/message/v1/subscribe"
+        body: "*"
+    };
+  }
+  rpc Query (QueryRequest) returns (QueryResponse) {
+    option (google.api.http) = {
+        post: "/message/v1/query"
+        body: "*"
+    };
+  }
+}
+
+// Envelope encapsulates a message while in transit.
+message Envelope {
+  string id = 1;
+  string content_topic = 2;
+  google.protobuf.Timestamp timestamp = 3;
+  bytes message = 4;
+}
+
+// Publish
+message PublishRequest {
+  repeated string content_topics = 1;
+  bytes message = 2;
+}
+
+message PublishResponse{
+}
+
+// Subscribe
+message SubscribeRequest {
+  repeated string content_topics = 1;
+}
+
+
+// Query
+
+message QueryRequest {
+  repeated string content_topics = 1;
+  uint32 limit = 2;
+  enum SortDirection {
+    SORT_DIRECTION_UNSPECIFIED = 0;
+    SORT_DIRECTION_ASCENDING = 1;
+    SORT_DIRECTION_DESCENDING = 2;
+  }
+  SortDirection sort_direction = 3;
+}
+
+message QueryResponse{
+  repeated Envelope envelopes = 1;
+}
