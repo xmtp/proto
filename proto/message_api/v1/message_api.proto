@@ -39,22 +39,26 @@ enum SortDirection {
     SORT_DIRECTION_DESCENDING = 2;
 }
 
-// This is based off of the go-waku Index type, but with the receiverTime and pubsubTopic removed for simplicity.
+// This is based off of the go-waku Index type, but with the
+// receiverTime and pubsubTopic removed for simplicity.
 // Both removed fields are optional
 message IndexCursor {
     bytes digest = 1;
     sint64 sender_time = 2;
 }
 
+// Wrapper for potentially multiple types of cursor
 message Cursor {
-    // Making the cursor a one-of type, as I would like to change the way we handle pagination to use a precomputed sort field
+    // Making the cursor a one-of type, as I would like to change the way we
+    // handle pagination to use a precomputed sort field.
     // This way we can handle both methods
     oneof cursor {
         IndexCursor index = 1;
     }
 }
 
-// This is based off of the go-waku PagingInfo struct, but with the direction changed to our SortDirection enum format
+// This is based off of the go-waku PagingInfo struct, but with the direction
+// changed to our SortDirection enum format
 message PagingInfo {
     // Note: this is a uint32, while go-waku's pageSize is a uint64
     uint32 limit = 1;

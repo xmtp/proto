@@ -74,7 +74,8 @@ func (SortDirection) EnumDescriptor() ([]byte, []int) {
 	return file_message_api_v1_message_api_proto_rawDescGZIP(), []int{0}
 }
 
-// This is based off of the go-waku Index type, but with the receiverTime and pubsubTopic removed for simplicity.
+// This is based off of the go-waku Index type, but with the
+// receiverTime and pubsubTopic removed for simplicity.
 // Both removed fields are optional
 type IndexCursor struct {
 	state         protoimpl.MessageState
@@ -131,12 +132,14 @@ func (x *IndexCursor) GetSenderTime() int64 {
 	return 0
 }
 
+// Wrapper for potentially multiple types of cursor
 type Cursor struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	// Making the cursor a one-of type, as I would like to change the way we handle pagination to use a precomputed sort field
+	// Making the cursor a one-of type, as I would like to change the way we
+	// handle pagination to use a precomputed sort field.
 	// This way we can handle both methods
 	//
 	// Types that are assignable to Cursor:
@@ -200,7 +203,8 @@ type Cursor_Index struct {
 
 func (*Cursor_Index) isCursor_Cursor() {}
 
-// This is based off of the go-waku PagingInfo struct, but with the direction changed to our SortDirection enum format
+// This is based off of the go-waku PagingInfo struct, but with the direction
+// changed to our SortDirection enum format
 type PagingInfo struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
