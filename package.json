@@ -2,13 +2,13 @@
   "name": "@xmtp/proto",
   "version": "0.0.0-development",
   "description": "Protobuf client and generated classes for GRPC API",
-  "main": "./ts/dist/cjs/message_api.js",
-  "module": "./dist/esm/index.js",
+  "main": "./ts/dist/cjs/message_api/v1/message_api.pb.js",
+  "module": "./ts/dist/esm/message_api/v1/message_api.pb.js",
   "exports": {
     ".": {
-      "types": "./dist/esm/index.d.ts",
-      "import": "./dist/esm/index.js",
-      "require": "./dist/cjs/index.cjs"
+      "types": "./ts/types/cjs/message_api/v1/message_api.pb.d.js",
+      "import": "./ts/dist/esm/message_api/v1/message_api.pb.js",
+      "require": "./ts/dist/cjs/message_api/v1/message_api.pb.js"
     }
   },
   "scripts": {
