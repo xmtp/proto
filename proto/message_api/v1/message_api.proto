@@ -34,32 +34,32 @@ service MessageApi {
 
 // Sort direction
 enum SortDirection {
-  SORT_DIRECTION_UNSPECIFIED = 0;
-  SORT_DIRECTION_ASCENDING = 1;
-  SORT_DIRECTION_DESCENDING = 2;
+    SORT_DIRECTION_UNSPECIFIED = 0;
+    SORT_DIRECTION_ASCENDING = 1;
+    SORT_DIRECTION_DESCENDING = 2;
 }
 
 // This is based off of the go-waku Index type, but with the receiverTime and pubsubTopic removed for simplicity.
 // Both removed fields are optional
 message IndexCursor {
-  bytes digest = 1;
-  sint64 senderTime = 2;
+    bytes digest = 1;
+    sint64 sender_time = 2;
 }
 
 message Cursor {
-  // Making the cursor a one-of type, as I would like to change the way we handle pagination to use a precomputed sort field
-  // This way we can handle both methods
-  oneof cursor {
-    IndexCursor index = 1;
-  }
+    // Making the cursor a one-of type, as I would like to change the way we handle pagination to use a precomputed sort field
+    // This way we can handle both methods
+    oneof cursor {
+        IndexCursor index = 1;
+    }
 }
 
 // This is based off of the go-waku PagingInfo struct, but with the direction changed to our SortDirection enum format
 message PagingInfo {
-  // Note: this is a uint32, while go-waku's pageSize is a uint64
-  uint32 limit = 1;
-  Cursor cursor = 2;
-  SortDirection direction = 3;
+    // Note: this is a uint32, while go-waku's pageSize is a uint64
+    uint32 limit = 1;
+    Cursor cursor = 2;
+    SortDirection direction = 3;
 }
 
 // Envelope encapsulates a message while in transit.
