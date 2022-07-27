@@ -22,8 +22,11 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type MessageApiClient interface {
+	// Publish a message to the network
 	Publish(ctx context.Context, in *PublishRequest, opts ...grpc.CallOption) (*PublishResponse, error)
+	// Subscribe to a stream of envelopers matching a predicate
 	Subscribe(ctx context.Context, in *SubscribeRequest, opts ...grpc.CallOption) (MessageApi_SubscribeClient, error)
+	// Query the store for messages
 	Query(ctx context.Context, in *QueryRequest, opts ...grpc.CallOption) (*QueryResponse, error)
 }
 
@@ -89,8 +92,11 @@ func (c *messageApiClient) Query(ctx context.Context, in *QueryRequest, opts ...
 // All implementations must embed UnimplementedMessageApiServer
 // for forward compatibility
 type MessageApiServer interface {
+	// Publish a message to the network
 	Publish(context.Context, *PublishRequest) (*PublishResponse, error)
+	// Subscribe to a stream of envelopers matching a predicate
 	Subscribe(*SubscribeRequest, MessageApi_SubscribeServer) error
+	// Query the store for messages
 	Query(context.Context, *QueryRequest) (*QueryResponse, error)
 	mustEmbedUnimplementedMessageApiServer()
 }
