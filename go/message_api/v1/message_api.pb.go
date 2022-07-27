@@ -143,6 +143,7 @@ func (x *Envelope) GetMessage() []byte {
 	return nil
 }
 
+// Publish
 type PublishRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -236,6 +237,7 @@ func (*PublishResponse) Descriptor() ([]byte, []int) {
 	return file_message_api_v1_message_api_proto_rawDescGZIP(), []int{2}
 }
 
+// Subscribe
 type SubscribeRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
