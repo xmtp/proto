@@ -32,6 +32,36 @@ service MessageApi {
     }
 }
 
+// Sort direction
+enum SortDirection {
+  SORT_DIRECTION_UNSPECIFIED = 0;
+  SORT_DIRECTION_ASCENDING = 1;
+  SORT_DIRECTION_DESCENDING = 2;
+}
+
+// This is based off of the go-waku Index type, but with the receiverTime and pubsubTopic removed for simplicity.
+// Both removed fields are optional
+message IndexCursor {
+  bytes digest = 1;
+  sint64 senderTime = 2;
+}
+
+message Cursor {
+  // Making the cursor a one-of type, as I would like to change the way we handle pagination to use a precomputed sort field
+  // This way we can handle both methods
+  oneof cursor {
+    IndexCursor index = 1;
+  }
+}
+
+// This is based off of the go-waku PagingInfo struct, but with the direction changed to our SortDirection enum format
+message PagingInfo {
+  // Note: this is a uint32, while go-waku's pageSize is a uint64
+  uint32 limit = 1;
+  Cursor cursor = 2;
+  SortDirection direction = 3;
+}
+
 // Envelope encapsulates a message while in transit.
 message Envelope {
     string id = 1;
@@ -42,8 +72,9 @@ message Envelope {
 
 // Publish
 message PublishRequest {
-    repeated string content_topics = 1;
+    string content_topic = 1;
     bytes message = 2;
+    google.protobuf.Timestamp timestamp = 3;
 }
 
 // Empty message as a response for Publish
@@ -59,17 +90,13 @@ message SubscribeRequest {
 // Query
 message QueryRequest {
     repeated string content_topics = 1;
-    uint32 limit = 2;
-    // Sort direction
-    enum SortDirection {
-        SORT_DIRECTION_UNSPECIFIED = 0;
-        SORT_DIRECTION_ASCENDING = 1;
-        SORT_DIRECTION_DESCENDING = 2;
-    }
-    SortDirection sort_direction = 3;
+    google.protobuf.Timestamp start_time = 2;
+    google.protobuf.Timestamp end_time = 3;
+    PagingInfo paging_info = 4;
 }
 
 // The response, containing envelopes, for a query
 message QueryResponse{
     repeated Envelope envelopes = 1;
+    PagingInfo paging_info = 2;
 }
