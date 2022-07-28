@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+set -e
+
+(
+  cd dev/ts/protoc
+  docker build -t xmtp/protoc .
+)
+
+rm -f ./ts/**/*.pb.ts
+docker run --rm -i -v${PWD}:/code xmtp/protoc -I=./proto --grpc-gateway-ts_out=ts message_api/v1/message_api.proto

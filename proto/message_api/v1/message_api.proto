@@ -3,7 +3,6 @@ syntax = "proto3";
 package xmtp.message_api.v1;
 
 import "google/api/annotations.proto";
-import "google/protobuf/timestamp.proto";
 
 option go_package = "./message_api/v1";
 
@@ -44,7 +43,7 @@ enum SortDirection {
 // Both removed fields are optional
 message IndexCursor {
     bytes digest = 1;
-    sint64 sender_time = 2;
+    uint64 sender_time_ns = 2;
 }
 
 // Wrapper for potentially multiple types of cursor
@@ -70,7 +69,7 @@ message PagingInfo {
 message Envelope {
     string id = 1;
     string content_topic = 2;
-    google.protobuf.Timestamp timestamp = 3;
+    uint64 timestamp_ns = 3;
     bytes message = 4;
 }
 
@@ -78,7 +77,7 @@ message Envelope {
 message PublishRequest {
     string content_topic = 1;
     bytes message = 2;
-    google.protobuf.Timestamp timestamp = 3;
+    uint64 timestamp_ns = 3;
 }
 
 // Empty message as a response for Publish
@@ -94,8 +93,8 @@ message SubscribeRequest {
 // Query
 message QueryRequest {
     repeated string content_topics = 1;
-    google.protobuf.Timestamp start_time = 2;
-    google.protobuf.Timestamp end_time = 3;
+    uint64 start_time_ns = 2;
+    uint64 end_time_ns = 3;
     PagingInfo paging_info = 4;
 }
 
