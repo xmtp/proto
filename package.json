@@ -57,6 +57,7 @@
   },
   "homepage": "https://github.com/xmtp/proto#readme",
   "devDependencies": {
+    "@commitlint/config-conventional": "^17.0.3",
     "husky": "^8.0.0",
     "semantic-release": "^19.0.3"
   }
