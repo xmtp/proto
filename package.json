@@ -13,17 +13,17 @@
     }
   },
   "scripts": {
+    "build": "npm run clean && npm run build:cjs && npm run build:esm && npm run build:types",
     "build:cjs": "./dev/ts/clean cjs && tsc -p ./ts/tsconfig.cjs.json",
     "build:esm": "./dev/ts/clean esm && tsc -p ./ts/tsconfig.esm.json",
     "build:types": "./dev/ts/clean types && tsc -p ./ts/tsconfig.types.json",
     "clean": "rm -rf ./ts/dist",
     "generate": "./dev/ts/generate",
-    "build": "npm run clean && npm run build:cjs && npm run build:esm && npm run build:types",
     "prebuild": "npm run generate",
-    "test": "node ./ts/dist/cjs/index.js",
-    "pretest": "npm run build",
     "prepare": "husky install",
-    "semantic-release": "semantic-release"
+    "pretest": "npm run build",
+    "semantic-release": "semantic-release",
+    "test": "node ./ts/dist/cjs/index.js"
   },
   "publishConfig": {
     "access": "public"
