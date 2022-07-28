@@ -22,7 +22,8 @@
     "prebuild": "npm run generate",
     "test": "node ./ts/dist/cjs/index.js",
     "pretest": "npm run build",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "semantic-release": "semantic-release"
   },
   "publishConfig": {
     "access": "public"
@@ -52,10 +53,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://git@github.com/xmtp/proto.git"
+    "url": "https://github.com/xmtp/proto.git"
   },
   "homepage": "https://github.com/xmtp/proto#readme",
   "devDependencies": {
-    "husky": "^8.0.0"
+    "husky": "^8.0.0",
+    "semantic-release": "^19.0.3"
   }
 }
