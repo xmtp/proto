@@ -2,38 +2,59 @@
   "name": "@xmtp/proto",
   "version": "0.0.0-development",
   "description": "Protobuf client and generated classes for GRPC API",
-  "main": "./ts/dist/cjs/message_api/v1/message_api.pb.js",
-  "module": "./ts/dist/esm/message_api/v1/message_api.pb.js",
+  "main": "./ts/dist/cjs/index.js",
+  "module": "./ts/dist/esm/index.js",
+  "types": "./ts/dist/index.d.ts",
   "exports": {
     ".": {
-      "types": "./ts/types/cjs/message_api/v1/message_api.pb.d.js",
-      "import": "./ts/dist/esm/message_api/v1/message_api.pb.js",
-      "require": "./ts/dist/cjs/message_api/v1/message_api.pb.js"
+      "types": "./ts/types/cjs/index.d.ts",
+      "import": "./ts/dist/esm/index.js",
+      "require": "./ts/dist/cjs/index.js"
     }
   },
   "scripts": {
     "build:cjs": "./dev/ts/clean cjs && tsc -p ./ts/tsconfig.cjs.json",
     "build:esm": "./dev/ts/clean esm && tsc -p ./ts/tsconfig.esm.json",
     "build:types": "./dev/ts/clean types && tsc -p ./ts/tsconfig.types.json",
+    "clean": "rm -rf ./ts/dist",
     "generate": "./dev/ts/generate",
-    "build": "npm run build:cjs && npm run build:esm && npm run build:types",
+    "build": "npm run clean && npm run build:cjs && npm run build:esm && npm run build:types",
     "prebuild": "npm run generate",
-    "test": "exit 0",
+    "test": "node ./ts/dist/cjs/index.js",
+    "pretest": "npm run build",
     "prepare": "husky install"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "ts/dist"
+  ],
+  "keywords": [
+    "xmtp",
+    "messaging",
+    "web3",
+    "sdk",
+    "js",
+    "javascript",
+    "node",
+    "nodejs"
+  ],
+  "author": "XMTP Labs <eng@xmtp.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/xmtp/proto/issues"
+  },
+  "release": {
+    "branches": [
+      "main"
+    ]
   },
   "repository": {
     "type": "git",
     "url": "git+https://git@github.com/xmtp/proto.git"
   },
-  "author": "Nick Molnar",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/xmtp/proto/issues"
-  },
   "homepage": "https://github.com/xmtp/proto#readme",
-  "dependencies": {
-    "google-protobuf": "^3.20.1"
-  },
   "devDependencies": {
     "husky": "^8.0.0"
   }
