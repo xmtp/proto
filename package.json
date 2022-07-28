@@ -4,7 +4,7 @@
   "description": "Protobuf client and generated classes for GRPC API",
   "main": "./ts/dist/cjs/index.js",
   "module": "./ts/dist/esm/index.js",
-  "types": "./ts/dist/index.d.ts",
+  "types": "./ts/dist/types/index.d.ts",
   "exports": {
     ".": {
       "types": "./ts/types/cjs/index.d.ts",
@@ -22,6 +22,7 @@
     "prebuild": "npm run generate",
     "prepare": "husky install",
     "pretest": "npm run build",
+    "prepublish": "npm run build",
     "semantic-release": "semantic-release",
     "test": "node ./ts/dist/cjs/index.js"
   },
