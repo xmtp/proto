@@ -67,17 +67,14 @@ message PagingInfo {
 
 // Envelope encapsulates a message while in transit.
 message Envelope {
-    string id = 1;
-    string content_topic = 2;
-    uint64 timestamp_ns = 3;
-    bytes message = 4;
+    string content_topic = 1;
+    uint64 timestamp_ns = 2;
+    bytes message = 3;
 }
 
 // Publish
 message PublishRequest {
-    string content_topic = 1;
-    bytes message = 2;
-    uint64 timestamp_ns = 3;
+    repeated Envelope envelopes = 1;
 }
 
 // Empty message as a response for Publish
