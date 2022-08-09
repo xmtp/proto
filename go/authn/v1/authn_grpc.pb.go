@@ -18,86 +18,86 @@ import (
 // Requires gRPC-Go v1.32.0 or later.
 const _ = grpc.SupportPackageIsVersion7
 
-// AuthnClient is the client API for Authn service.
+// AuthnApiClient is the client API for AuthnApi service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-type AuthnClient interface {
+type AuthnApiClient interface {
 	Authenticate(ctx context.Context, in *ClientAuthRequest, opts ...grpc.CallOption) (*ClientAuthResponse, error)
 }
 
-type authnClient struct {
+type authnApiClient struct {
 	cc grpc.ClientConnInterface
 }
 
-func NewAuthnClient(cc grpc.ClientConnInterface) AuthnClient {
-	return &authnClient{cc}
+func NewAuthnApiClient(cc grpc.ClientConnInterface) AuthnApiClient {
+	return &authnApiClient{cc}
 }
 
-func (c *authnClient) Authenticate(ctx context.Context, in *ClientAuthRequest, opts ...grpc.CallOption) (*ClientAuthResponse, error) {
+func (c *authnApiClient) Authenticate(ctx context.Context, in *ClientAuthRequest, opts ...grpc.CallOption) (*ClientAuthResponse, error) {
 	out := new(ClientAuthResponse)
-	err := c.cc.Invoke(ctx, "/xmtp.authn.v1.Authn/Authenticate", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/xmtp.authn.v1.AuthnApi/Authenticate", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-// AuthnServer is the server API for Authn service.
-// All implementations must embed UnimplementedAuthnServer
+// AuthnApiServer is the server API for AuthnApi service.
+// All implementations must embed UnimplementedAuthnApiServer
 // for forward compatibility
-type AuthnServer interface {
+type AuthnApiServer interface {
 	Authenticate(context.Context, *ClientAuthRequest) (*ClientAuthResponse, error)
-	mustEmbedUnimplementedAuthnServer()
+	mustEmbedUnimplementedAuthnApiServer()
 }
 
-// UnimplementedAuthnServer must be embedded to have forward compatible implementations.
-type UnimplementedAuthnServer struct {
+// UnimplementedAuthnApiServer must be embedded to have forward compatible implementations.
+type UnimplementedAuthnApiServer struct {
 }
 
-func (UnimplementedAuthnServer) Authenticate(context.Context, *ClientAuthRequest) (*ClientAuthResponse, error) {
+func (UnimplementedAuthnApiServer) Authenticate(context.Context, *ClientAuthRequest) (*ClientAuthResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Authenticate not implemented")
 }
-func (UnimplementedAuthnServer) mustEmbedUnimplementedAuthnServer() {}
+func (UnimplementedAuthnApiServer) mustEmbedUnimplementedAuthnApiServer() {}
 
-// UnsafeAuthnServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to AuthnServer will
+// UnsafeAuthnApiServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to AuthnApiServer will
 // result in compilation errors.
-type UnsafeAuthnServer interface {
-	mustEmbedUnimplementedAuthnServer()
+type UnsafeAuthnApiServer interface {
+	mustEmbedUnimplementedAuthnApiServer()
 }
 
-func RegisterAuthnServer(s grpc.ServiceRegistrar, srv AuthnServer) {
-	s.RegisterService(&Authn_ServiceDesc, srv)
+func RegisterAuthnApiServer(s grpc.ServiceRegistrar, srv AuthnApiServer) {
+	s.RegisterService(&AuthnApi_ServiceDesc, srv)
 }
 
-func _Authn_Authenticate_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _AuthnApi_Authenticate_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(ClientAuthRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(AuthnServer).Authenticate(ctx, in)
+		return srv.(AuthnApiServer).Authenticate(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/xmtp.authn.v1.Authn/Authenticate",
+		FullMethod: "/xmtp.authn.v1.AuthnApi/Authenticate",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AuthnServer).Authenticate(ctx, req.(*ClientAuthRequest))
+		return srv.(AuthnApiServer).Authenticate(ctx, req.(*ClientAuthRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-// Authn_ServiceDesc is the grpc.ServiceDesc for Authn service.
+// AuthnApi_ServiceDesc is the grpc.ServiceDesc for AuthnApi service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
-var Authn_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "xmtp.authn.v1.Authn",
-	HandlerType: (*AuthnServer)(nil),
+var AuthnApi_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "xmtp.authn.v1.AuthnApi",
+	HandlerType: (*AuthnApiServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
 			MethodName: "Authenticate",
-			Handler:    _Authn_Authenticate_Handler,
+			Handler:    _AuthnApi_Authenticate_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

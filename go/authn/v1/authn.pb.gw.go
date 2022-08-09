@@ -31,7 +31,7 @@ var _ = runtime.String
 var _ = utilities.NewDoubleArray
 var _ = metadata.Join
 
-func request_Authn_Authenticate_0(ctx context.Context, marshaler runtime.Marshaler, client AuthnClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func request_AuthnApi_Authenticate_0(ctx context.Context, marshaler runtime.Marshaler, client AuthnApiClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq ClientAuthRequest
 	var metadata runtime.ServerMetadata
 
@@ -48,7 +48,7 @@ func request_Authn_Authenticate_0(ctx context.Context, marshaler runtime.Marshal
 
 }
 
-func local_request_Authn_Authenticate_0(ctx context.Context, marshaler runtime.Marshaler, server AuthnServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func local_request_AuthnApi_Authenticate_0(ctx context.Context, marshaler runtime.Marshaler, server AuthnApiServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq ClientAuthRequest
 	var metadata runtime.ServerMetadata
 
@@ -65,25 +65,25 @@ func local_request_Authn_Authenticate_0(ctx context.Context, marshaler runtime.M
 
 }
 
-// RegisterAuthnHandlerServer registers the http handlers for service Authn to "mux".
-// UnaryRPC     :call AuthnServer directly.
+// RegisterAuthnApiHandlerServer registers the http handlers for service AuthnApi to "mux".
+// UnaryRPC     :call AuthnApiServer directly.
 // StreamingRPC :currently unsupported pending https://github.com/grpc/grpc-go/issues/906.
-// Note that using this registration option will cause many gRPC library features to stop working. Consider using RegisterAuthnHandlerFromEndpoint instead.
-func RegisterAuthnHandlerServer(ctx context.Context, mux *runtime.ServeMux, server AuthnServer) error {
+// Note that using this registration option will cause many gRPC library features to stop working. Consider using RegisterAuthnApiHandlerFromEndpoint instead.
+func RegisterAuthnApiHandlerServer(ctx context.Context, mux *runtime.ServeMux, server AuthnApiServer) error {
 
-	mux.Handle("POST", pattern_Authn_Authenticate_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("POST", pattern_AuthnApi_Authenticate_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
-		ctx, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/xmtp.authn.v1.Authn/Authenticate", runtime.WithHTTPPathPattern("/authn/v1/authenticate"))
+		ctx, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/xmtp.authn.v1.AuthnApi/Authenticate", runtime.WithHTTPPathPattern("/authn/v1/authenticate"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := local_request_Authn_Authenticate_0(ctx, inboundMarshaler, server, req, pathParams)
+		resp, md, err := local_request_AuthnApi_Authenticate_0(ctx, inboundMarshaler, server, req, pathParams)
 		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
 		ctx = runtime.NewServerMetadataContext(ctx, md)
 		if err != nil {
@@ -91,16 +91,16 @@ func RegisterAuthnHandlerServer(ctx context.Context, mux *runtime.ServeMux, serv
 			return
 		}
 
-		forward_Authn_Authenticate_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_AuthnApi_Authenticate_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
 	return nil
 }
 
-// RegisterAuthnHandlerFromEndpoint is same as RegisterAuthnHandler but
+// RegisterAuthnApiHandlerFromEndpoint is same as RegisterAuthnApiHandler but
 // automatically dials to "endpoint" and closes the connection when "ctx" gets done.
-func RegisterAuthnHandlerFromEndpoint(ctx context.Context, mux *runtime.ServeMux, endpoint string, opts []grpc.DialOption) (err error) {
+func RegisterAuthnApiHandlerFromEndpoint(ctx context.Context, mux *runtime.ServeMux, endpoint string, opts []grpc.DialOption) (err error) {
 	conn, err := grpc.Dial(endpoint, opts...)
 	if err != nil {
 		return err
@@ -120,40 +120,40 @@ func RegisterAuthnHandlerFromEndpoint(ctx context.Context, mux *runtime.ServeMux
 		}()
 	}()
 
-	return RegisterAuthnHandler(ctx, mux, conn)
+	return RegisterAuthnApiHandler(ctx, mux, conn)
 }
 
-// RegisterAuthnHandler registers the http handlers for service Authn to "mux".
+// RegisterAuthnApiHandler registers the http handlers for service AuthnApi to "mux".
 // The handlers forward requests to the grpc endpoint over "conn".
-func RegisterAuthnHandler(ctx context.Context, mux *runtime.ServeMux, conn *grpc.ClientConn) error {
-	return RegisterAuthnHandlerClient(ctx, mux, NewAuthnClient(conn))
+func RegisterAuthnApiHandler(ctx context.Context, mux *runtime.ServeMux, conn *grpc.ClientConn) error {
+	return RegisterAuthnApiHandlerClient(ctx, mux, NewAuthnApiClient(conn))
 }
 
-// RegisterAuthnHandlerClient registers the http handlers for service Authn
-// to "mux". The handlers forward requests to the grpc endpoint over the given implementation of "AuthnClient".
-// Note: the gRPC framework executes interceptors within the gRPC handler. If the passed in "AuthnClient"
+// RegisterAuthnApiHandlerClient registers the http handlers for service AuthnApi
+// to "mux". The handlers forward requests to the grpc endpoint over the given implementation of "AuthnApiClient".
+// Note: the gRPC framework executes interceptors within the gRPC handler. If the passed in "AuthnApiClient"
 // doesn't go through the normal gRPC flow (creating a gRPC client etc.) then it will be up to the passed in
-// "AuthnClient" to call the correct interceptors.
-func RegisterAuthnHandlerClient(ctx context.Context, mux *runtime.ServeMux, client AuthnClient) error {
+// "AuthnApiClient" to call the correct interceptors.
+func RegisterAuthnApiHandlerClient(ctx context.Context, mux *runtime.ServeMux, client AuthnApiClient) error {
 
-	mux.Handle("POST", pattern_Authn_Authenticate_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("POST", pattern_AuthnApi_Authenticate_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
-		ctx, err = runtime.AnnotateContext(ctx, mux, req, "/xmtp.authn.v1.Authn/Authenticate", runtime.WithHTTPPathPattern("/authn/v1/authenticate"))
+		ctx, err = runtime.AnnotateContext(ctx, mux, req, "/xmtp.authn.v1.AuthnApi/Authenticate", runtime.WithHTTPPathPattern("/authn/v1/authenticate"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := request_Authn_Authenticate_0(ctx, inboundMarshaler, client, req, pathParams)
+		resp, md, err := request_AuthnApi_Authenticate_0(ctx, inboundMarshaler, client, req, pathParams)
 		ctx = runtime.NewServerMetadataContext(ctx, md)
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
 
-		forward_Authn_Authenticate_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_AuthnApi_Authenticate_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
@@ -161,9 +161,9 @@ func RegisterAuthnHandlerClient(ctx context.Context, mux *runtime.ServeMux, clie
 }
 
 var (
-	pattern_Authn_Authenticate_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"authn", "v1", "authenticate"}, ""))
+	pattern_AuthnApi_Authenticate_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"authn", "v1", "authenticate"}, ""))
 )
 
 var (
-	forward_Authn_Authenticate_0 = runtime.ForwardResponseMessage
+	forward_AuthnApi_Authenticate_0 = runtime.ForwardResponseMessage
 )

@@ -33,7 +33,7 @@ message Secp256k1Uncompresed {
 // defined as a union to support cryptographic algorithm agility.
 message PublicKey {
     uint64 timestamp = 1;
-    optional Signature signature = 2;
+    Signature signature = 2;
     oneof union {
         Secp256k1Uncompresed secp256k1_uncompressed = 3;
     }
@@ -41,33 +41,21 @@ message PublicKey {
 
 ///////////////////////////////////////////////////////////////////////////////
 
-message V1ClientAuthRequest {
-    bytes identity_key_bytes = 1;
-    Signature wallet_signature = 2;
-    bytes auth_data_bytes = 3;
-    Signature auth_signature = 4;
-}
-  
 message ClientAuthRequest {
-    oneof version {
-        V1ClientAuthRequest v1 = 1;
-    }
+    PublicKey identity_key = 1;
+    bytes auth_data_bytes = 3;
+    Signature auth_data_signature = 4;
 }
   
-message V1ClientAuthResponse {
-    bool auth_successful = 1;
-    string error_str = 2;
-}
-  
-message ClientAuthResponse{
-    oneof version {
-        V1ClientAuthResponse v1 = 1;
+message ClientAuthResponse {
+    oneof union {
+        bytes token = 1;  // if auth was successful
+        string error_str = 2; // if auth was not successful
     }
 }
   
 message AuthData {
     string wallet_addr = 1;
-    string peer_id = 2;
     uint64 timestamp = 3;
 }
 
