@@ -2,6 +2,8 @@
 syntax = "proto3";
 package xmtp.authn.v1;
 
+import "google/api/annotations.proto";
+
 option go_package = "./authn/v1";
 
 // ----------------------------------------------------------------------------
@@ -68,3 +70,14 @@ message V1ClientAuthRequest {
     string peer_id = 2;
     uint64 timestamp = 3;
   }
+
+  ////////////////////////////
+
+service Authn {
+    rpc Authenticate (ClientAuthRequest) returns (ClientAuthResponse) {
+        option (google.api.http) = {
+        post: "/authn/v1/authenticate"
+        body: "*"
+    };
+  }
+}
