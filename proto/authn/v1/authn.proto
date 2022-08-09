@@ -1,0 +1,70 @@
+// Authn protocol
+syntax = "proto3";
+package xmtp.authn.v1;
+
+option go_package = "./authn/v1";
+
+// ----------------------------------------------------------------------------
+// These objects are copied from xmtpjs.
+// Compile failure occurs with GoGo protobuf as optional fields are not 
+// supported.
+// Migrating to go
+// ----------------------------------------------------------------------------
+
+// Signature represents a generalized public key signature,
+// defined as a union to support cryptographic algorithm agility.
+message Signature {
+  message ECDSACompact {
+    bytes bytes = 1; // compact representation [ R || S ], 64 bytes
+    uint32 recovery = 2; // recovery bit
+  }
+  oneof union {
+    ECDSACompact ecdsa_compact = 1;
+  }
+}
+
+message Secp256k1Uncompresed {
+  // uncompressed point with prefix (0x04) [ P || X || Y ], 65 bytes
+  bytes bytes = 1; 
+}
+// PublicKey represents a generalized public key,
+// defined as a union to support cryptographic algorithm agility.
+message PublicKey {
+  uint64 timestamp = 1;
+  optional Signature signature = 2;
+  oneof union {
+    Secp256k1Uncompresed secp256k1_uncompressed = 3;
+  }
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+message V1ClientAuthRequest {
+    bytes identity_key_bytes = 1;
+    Signature wallet_signature = 2;
+    bytes auth_data_bytes = 3;
+    Signature auth_signature = 4;
+  }
+  
+  message ClientAuthRequest {
+    oneof version {
+      V1ClientAuthRequest v1 = 1;
+    }
+  }
+  
+  message V1ClientAuthResponse {
+    bool auth_successful = 1;
+    string error_str = 2;
+  }
+  
+  message ClientAuthResponse{
+    oneof version {
+      V1ClientAuthResponse v1 = 1;
+    }
+  }
+  
+  message AuthData {
+    string wallet_addr = 1;
+    string peer_id = 2;
+    uint64 timestamp = 3;
+  }
