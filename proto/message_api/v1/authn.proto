@@ -27,7 +27,7 @@ message Signature {
 // PublicKey represents a generalized public key,
 // defined as a union to support cryptographic algorithm agility.
 message PublicKey {
-    uint64 created_ns = 1;
+    uint64 timestamp = 1;
     Signature signature = 2;  // signature is optional in the xmtp-js version
     oneof union {
         Secp256k1Uncompresed secp256k1_uncompressed = 3;
@@ -51,19 +51,16 @@ message Token {
     bytes auth_data_bytes = 2;
     // identity key signature of AuthData bytes
     Signature auth_data_signature = 3; 
-
-    // AuthData carries token parameters that are authenticated
-    // by the identity key signature.
-    // It is embedded in the Token structure as bytes
-    // so that the bytes don't need to be reconstructed
-    // to verify the token signature.
-    message AuthData {
-        // address of the wallet
-        string wallet_addr = 1;
-        // time when the token was generated/signed 
-        uint64 created_ns = 2; 
-    }
 }
 
-
-
+// AuthData carries token parameters that are authenticated
+// by the identity key signature.
+// It is embedded in the Token structure as bytes
+// so that the bytes don't need to be reconstructed
+// to verify the token signature.
+message AuthData {
+    // address of the wallet
+    string wallet_addr = 1;
+    // time when the token was generated/signed 
+    uint64 created_ns = 2; 
+}
