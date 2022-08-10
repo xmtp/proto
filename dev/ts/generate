@@ -7,5 +7,4 @@ set -e
 )
 
 rm -f ./ts/**/*.pb.ts
-docker run --rm -i -v${PWD}:/code xmtp/protoc -I=./proto --grpc-gateway-ts_out=ts message_api/v1/message_api.proto
-docker run --rm -i -v${PWD}:/code xmtp/protoc -I=./proto --grpc-gateway-ts_out=ts --experimental_allow_proto3_optional authn/v1/authn.proto
+docker run --rm -i -v${PWD}:/code xmtp/protoc -I=./proto --grpc-gateway-ts_out=ts message_api/v1/message_api.proto message_api/v1/authn.proto
