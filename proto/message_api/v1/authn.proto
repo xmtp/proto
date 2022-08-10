@@ -5,7 +5,7 @@ package xmtp.message_api.v1;
 option go_package = "./message_api/v1";
 
 // ----------------------------------------------------------------------------
-// These objects are copied from xmtpjs. 
+// These objects are copied from xmtp-js. 
 // Differences:
 // * PublicKey.signature is made non-optional
 // ----------------------------------------------------------------------------
@@ -28,6 +28,7 @@ message Secp256k1Uncompresed {
     // uncompressed point with prefix (0x04) [ P || X || Y ], 65 bytes
     bytes bytes = 1; 
 }
+
 // PublicKey represents a generalized public key,
 // defined as a union to support cryptographic algorithm agility.
 message PublicKey {
@@ -40,7 +41,7 @@ message PublicKey {
 
 ///////////////////////////////////////////////////////////////////////////////
 
-// Token is used by the clients to prove to the node
+// Token is used by clients to prove to the nodes
 // that they are serving a specific wallet.
 message Token {
     // identity key signed by a wallet
@@ -50,7 +51,8 @@ message Token {
     // identity key signature of AuthData bytes
     Signature auth_data_signature = 3; 
 }
-// AuthData carries the token parameters that are authenticated
+
+// AuthData carries token parameters that are authenticated
 // by the identity key signature.
 // It is embedded in the Token structure as bytes
 // so that the bytes don't need to be reconstructed
