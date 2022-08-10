@@ -90,6 +90,7 @@ type Signature_EcdsaCompact struct {
 
 func (*Signature_EcdsaCompact) isSignature_Union() {}
 
+// Secp256k1 public key in uncompressed point format.
 type Secp256K1Uncompresed struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -222,15 +223,19 @@ type PublicKey_Secp256K1Uncompressed struct {
 
 func (*PublicKey_Secp256K1Uncompressed) isPublicKey_Union() {}
 
-// Token is used by the clients to prove to the node that they are serving a specific wallet.
+// Token is used by clients to prove to the nodes
+// that they are serving a specific wallet.
 type Token struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	IdentityKey       *PublicKey `protobuf:"bytes,1,opt,name=identity_key,json=identityKey,proto3" json:"identity_key,omitempty"`                     // identity key signed by a wallet
-	AuthDataBytes     []byte     `protobuf:"bytes,2,opt,name=auth_data_bytes,json=authDataBytes,proto3" json:"auth_data_bytes,omitempty"`             // encoded bytes of AuthData
-	AuthDataSignature *Signature `protobuf:"bytes,3,opt,name=auth_data_signature,json=authDataSignature,proto3" json:"auth_data_signature,omitempty"` // identity key signature of AuthData bytes
+	// identity key signed by a wallet
+	IdentityKey *PublicKey `protobuf:"bytes,1,opt,name=identity_key,json=identityKey,proto3" json:"identity_key,omitempty"`
+	// encoded bytes of AuthData
+	AuthDataBytes []byte `protobuf:"bytes,2,opt,name=auth_data_bytes,json=authDataBytes,proto3" json:"auth_data_bytes,omitempty"`
+	// identity key signature of AuthData bytes
+	AuthDataSignature *Signature `protobuf:"bytes,3,opt,name=auth_data_signature,json=authDataSignature,proto3" json:"auth_data_signature,omitempty"`
 }
 
 func (x *Token) Reset() {
@@ -286,16 +291,20 @@ func (x *Token) GetAuthDataSignature() *Signature {
 	return nil
 }
 
-// AuthData carries the token parameters that are authenticated by the wallet signature.
-// It is embedded in the Token structure as bytes so that the bytes don't need to be
-// reconstructed to verify the token signature.
+// AuthData carries token parameters that are authenticated
+// by the identity key signature.
+// It is embedded in the Token structure as bytes
+// so that the bytes don't need to be reconstructed
+// to verify the token signature.
 type AuthData struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	WalletAddr string `protobuf:"bytes,1,opt,name=wallet_addr,json=walletAddr,proto3" json:"wallet_addr,omitempty"` // address of the wallet
-	Timestamp  uint64 `protobuf:"varint,2,opt,name=timestamp,proto3" json:"timestamp,omitempty"`                    //
+	// address of the wallet
+	WalletAddr string `protobuf:"bytes,1,opt,name=wallet_addr,json=walletAddr,proto3" json:"wallet_addr,omitempty"`
+	// time when the token was generated/signed
+	Timestamp uint64 `protobuf:"varint,2,opt,name=timestamp,proto3" json:"timestamp,omitempty"`
 }
 
 func (x *AuthData) Reset() {
@@ -344,6 +353,7 @@ func (x *AuthData) GetTimestamp() uint64 {
 	return 0
 }
 
+// ECDSA signature in its compact format
 type Signature_ECDSACompact struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
