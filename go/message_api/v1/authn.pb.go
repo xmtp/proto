@@ -9,6 +9,7 @@
 package v1
 
 import (
+	message_contents "github.com/xmtp/proto/go/message_contents"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
@@ -22,158 +23,6 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-// Signature represents a generalized public key signature,
-// defined as a union to support cryptographic algorithm agility.
-type Signature struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	// Types that are assignable to Union:
-	//	*Signature_EcdsaCompact
-	Union isSignature_Union `protobuf_oneof:"union"`
-}
-
-func (x *Signature) Reset() {
-	*x = Signature{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_message_api_v1_authn_proto_msgTypes[0]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *Signature) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*Signature) ProtoMessage() {}
-
-func (x *Signature) ProtoReflect() protoreflect.Message {
-	mi := &file_message_api_v1_authn_proto_msgTypes[0]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use Signature.ProtoReflect.Descriptor instead.
-func (*Signature) Descriptor() ([]byte, []int) {
-	return file_message_api_v1_authn_proto_rawDescGZIP(), []int{0}
-}
-
-func (m *Signature) GetUnion() isSignature_Union {
-	if m != nil {
-		return m.Union
-	}
-	return nil
-}
-
-func (x *Signature) GetEcdsaCompact() *Signature_ECDSACompact {
-	if x, ok := x.GetUnion().(*Signature_EcdsaCompact); ok {
-		return x.EcdsaCompact
-	}
-	return nil
-}
-
-type isSignature_Union interface {
-	isSignature_Union()
-}
-
-type Signature_EcdsaCompact struct {
-	EcdsaCompact *Signature_ECDSACompact `protobuf:"bytes,1,opt,name=ecdsa_compact,json=ecdsaCompact,proto3,oneof"`
-}
-
-func (*Signature_EcdsaCompact) isSignature_Union() {}
-
-// PublicKey represents a generalized public key,
-// defined as a union to support cryptographic algorithm agility.
-type PublicKey struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	Timestamp uint64     `protobuf:"varint,1,opt,name=timestamp,proto3" json:"timestamp,omitempty"`
-	Signature *Signature `protobuf:"bytes,2,opt,name=signature,proto3" json:"signature,omitempty"` // signature is optional in the xmtp-js version
-	// Types that are assignable to Union:
-	//	*PublicKey_Secp256K1Uncompressed
-	Union isPublicKey_Union `protobuf_oneof:"union"`
-}
-
-func (x *PublicKey) Reset() {
-	*x = PublicKey{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_message_api_v1_authn_proto_msgTypes[1]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *PublicKey) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*PublicKey) ProtoMessage() {}
-
-func (x *PublicKey) ProtoReflect() protoreflect.Message {
-	mi := &file_message_api_v1_authn_proto_msgTypes[1]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use PublicKey.ProtoReflect.Descriptor instead.
-func (*PublicKey) Descriptor() ([]byte, []int) {
-	return file_message_api_v1_authn_proto_rawDescGZIP(), []int{1}
-}
-
-func (x *PublicKey) GetTimestamp() uint64 {
-	if x != nil {
-		return x.Timestamp
-	}
-	return 0
-}
-
-func (x *PublicKey) GetSignature() *Signature {
-	if x != nil {
-		return x.Signature
-	}
-	return nil
-}
-
-func (m *PublicKey) GetUnion() isPublicKey_Union {
-	if m != nil {
-		return m.Union
-	}
-	return nil
-}
-
-func (x *PublicKey) GetSecp256K1Uncompressed() *PublicKey_Secp256K1Uncompresed {
-	if x, ok := x.GetUnion().(*PublicKey_Secp256K1Uncompressed); ok {
-		return x.Secp256K1Uncompressed
-	}
-	return nil
-}
-
-type isPublicKey_Union interface {
-	isPublicKey_Union()
-}
-
-type PublicKey_Secp256K1Uncompressed struct {
-	Secp256K1Uncompressed *PublicKey_Secp256K1Uncompresed `protobuf:"bytes,3,opt,name=secp256k1_uncompressed,json=secp256k1Uncompressed,proto3,oneof"`
-}
-
-func (*PublicKey_Secp256K1Uncompressed) isPublicKey_Union() {}
-
 // Token is used by clients to prove to the nodes
 // that they are serving a specific wallet.
 type Token struct {
@@ -182,17 +31,17 @@ type Token struct {
 	unknownFields protoimpl.UnknownFields
 
 	// identity key signed by a wallet
-	IdentityKey *PublicKey `protobuf:"bytes,1,opt,name=identity_key,json=identityKey,proto3" json:"identity_key,omitempty"`
+	IdentityKey *message_contents.PublicKey `protobuf:"bytes,1,opt,name=identity_key,json=identityKey,proto3" json:"identity_key,omitempty"`
 	// encoded bytes of AuthData
 	AuthDataBytes []byte `protobuf:"bytes,2,opt,name=auth_data_bytes,json=authDataBytes,proto3" json:"auth_data_bytes,omitempty"`
 	// identity key signature of AuthData bytes
-	AuthDataSignature *Signature `protobuf:"bytes,3,opt,name=auth_data_signature,json=authDataSignature,proto3" json:"auth_data_signature,omitempty"`
+	AuthDataSignature *message_contents.Signature `protobuf:"bytes,3,opt,name=auth_data_signature,json=authDataSignature,proto3" json:"auth_data_signature,omitempty"`
 }
 
 func (x *Token) Reset() {
 	*x = Token{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_message_api_v1_authn_proto_msgTypes[2]
+		mi := &file_message_api_v1_authn_proto_msgTypes[0]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -205,7 +54,7 @@ func (x *Token) String() string {
 func (*Token) ProtoMessage() {}
 
 func (x *Token) ProtoReflect() protoreflect.Message {
-	mi := &file_message_api_v1_authn_proto_msgTypes[2]
+	mi := &file_message_api_v1_authn_proto_msgTypes[0]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -218,10 +67,10 @@ func (x *Token) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Token.ProtoReflect.Descriptor instead.
 func (*Token) Descriptor() ([]byte, []int) {
-	return file_message_api_v1_authn_proto_rawDescGZIP(), []int{2}
+	return file_message_api_v1_authn_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *Token) GetIdentityKey() *PublicKey {
+func (x *Token) GetIdentityKey() *message_contents.PublicKey {
 	if x != nil {
 		return x.IdentityKey
 	}
@@ -235,7 +84,7 @@ func (x *Token) GetAuthDataBytes() []byte {
 	return nil
 }
 
-func (x *Token) GetAuthDataSignature() *Signature {
+func (x *Token) GetAuthDataSignature() *message_contents.Signature {
 	if x != nil {
 		return x.AuthDataSignature
 	}
@@ -261,7 +110,7 @@ type AuthData struct {
 func (x *AuthData) Reset() {
 	*x = AuthData{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_message_api_v1_authn_proto_msgTypes[3]
+		mi := &file_message_api_v1_authn_proto_msgTypes[1]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -274,7 +123,7 @@ func (x *AuthData) String() string {
 func (*AuthData) ProtoMessage() {}
 
 func (x *AuthData) ProtoReflect() protoreflect.Message {
-	mi := &file_message_api_v1_authn_proto_msgTypes[3]
+	mi := &file_message_api_v1_authn_proto_msgTypes[1]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -287,7 +136,7 @@ func (x *AuthData) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use AuthData.ProtoReflect.Descriptor instead.
 func (*AuthData) Descriptor() ([]byte, []int) {
-	return file_message_api_v1_authn_proto_rawDescGZIP(), []int{3}
+	return file_message_api_v1_authn_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *AuthData) GetWalletAddr() string {
@@ -304,164 +153,35 @@ func (x *AuthData) GetCreatedNs() uint64 {
 	return 0
 }
 
-// ECDSA signature in its compact format
-type Signature_ECDSACompact struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	Bytes    []byte `protobuf:"bytes,1,opt,name=bytes,proto3" json:"bytes,omitempty"`        // compact representation [ R || S ], 64 bytes
-	Recovery uint32 `protobuf:"varint,2,opt,name=recovery,proto3" json:"recovery,omitempty"` // recovery bit
-}
-
-func (x *Signature_ECDSACompact) Reset() {
-	*x = Signature_ECDSACompact{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_message_api_v1_authn_proto_msgTypes[4]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *Signature_ECDSACompact) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*Signature_ECDSACompact) ProtoMessage() {}
-
-func (x *Signature_ECDSACompact) ProtoReflect() protoreflect.Message {
-	mi := &file_message_api_v1_authn_proto_msgTypes[4]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use Signature_ECDSACompact.ProtoReflect.Descriptor instead.
-func (*Signature_ECDSACompact) Descriptor() ([]byte, []int) {
-	return file_message_api_v1_authn_proto_rawDescGZIP(), []int{0, 0}
-}
-
-func (x *Signature_ECDSACompact) GetBytes() []byte {
-	if x != nil {
-		return x.Bytes
-	}
-	return nil
-}
-
-func (x *Signature_ECDSACompact) GetRecovery() uint32 {
-	if x != nil {
-		return x.Recovery
-	}
-	return 0
-}
-
-// Secp256k1 public key in uncompressed point format.
-type PublicKey_Secp256K1Uncompresed struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	// uncompressed point with prefix (0x04) [ P || X || Y ], 65 bytes
-	Bytes []byte `protobuf:"bytes,1,opt,name=bytes,proto3" json:"bytes,omitempty"`
-}
-
-func (x *PublicKey_Secp256K1Uncompresed) Reset() {
-	*x = PublicKey_Secp256K1Uncompresed{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_message_api_v1_authn_proto_msgTypes[5]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *PublicKey_Secp256K1Uncompresed) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*PublicKey_Secp256K1Uncompresed) ProtoMessage() {}
-
-func (x *PublicKey_Secp256K1Uncompresed) ProtoReflect() protoreflect.Message {
-	mi := &file_message_api_v1_authn_proto_msgTypes[5]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use PublicKey_Secp256K1Uncompresed.ProtoReflect.Descriptor instead.
-func (*PublicKey_Secp256K1Uncompresed) Descriptor() ([]byte, []int) {
-	return file_message_api_v1_authn_proto_rawDescGZIP(), []int{1, 0}
-}
-
-func (x *PublicKey_Secp256K1Uncompresed) GetBytes() []byte {
-	if x != nil {
-		return x.Bytes
-	}
-	return nil
-}
-
 var File_message_api_v1_authn_proto protoreflect.FileDescriptor
 
 var file_message_api_v1_authn_proto_rawDesc = []byte{
 	0x0a, 0x1a, 0x6d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x5f, 0x61, 0x70, 0x69, 0x2f, 0x76, 0x31,
 	0x2f, 0x61, 0x75, 0x74, 0x68, 0x6e, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x12, 0x13, 0x78, 0x6d,
 	0x74, 0x70, 0x2e, 0x6d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x5f, 0x61, 0x70, 0x69, 0x2e, 0x76,
-	0x31, 0x22, 0xaa, 0x01, 0x0a, 0x09, 0x53, 0x69, 0x67, 0x6e, 0x61, 0x74, 0x75, 0x72, 0x65, 0x12,
-	0x52, 0x0a, 0x0d, 0x65, 0x63, 0x64, 0x73, 0x61, 0x5f, 0x63, 0x6f, 0x6d, 0x70, 0x61, 0x63, 0x74,
-	0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x2b, 0x2e, 0x78, 0x6d, 0x74, 0x70, 0x2e, 0x6d, 0x65,
-	0x73, 0x73, 0x61, 0x67, 0x65, 0x5f, 0x61, 0x70, 0x69, 0x2e, 0x76, 0x31, 0x2e, 0x53, 0x69, 0x67,
-	0x6e, 0x61, 0x74, 0x75, 0x72, 0x65, 0x2e, 0x45, 0x43, 0x44, 0x53, 0x41, 0x43, 0x6f, 0x6d, 0x70,
-	0x61, 0x63, 0x74, 0x48, 0x00, 0x52, 0x0c, 0x65, 0x63, 0x64, 0x73, 0x61, 0x43, 0x6f, 0x6d, 0x70,
-	0x61, 0x63, 0x74, 0x1a, 0x40, 0x0a, 0x0c, 0x45, 0x43, 0x44, 0x53, 0x41, 0x43, 0x6f, 0x6d, 0x70,
-	0x61, 0x63, 0x74, 0x12, 0x14, 0x0a, 0x05, 0x62, 0x79, 0x74, 0x65, 0x73, 0x18, 0x01, 0x20, 0x01,
-	0x28, 0x0c, 0x52, 0x05, 0x62, 0x79, 0x74, 0x65, 0x73, 0x12, 0x1a, 0x0a, 0x08, 0x72, 0x65, 0x63,
-	0x6f, 0x76, 0x65, 0x72, 0x79, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0d, 0x52, 0x08, 0x72, 0x65, 0x63,
-	0x6f, 0x76, 0x65, 0x72, 0x79, 0x42, 0x07, 0x0a, 0x05, 0x75, 0x6e, 0x69, 0x6f, 0x6e, 0x22, 0x8c,
-	0x02, 0x0a, 0x09, 0x50, 0x75, 0x62, 0x6c, 0x69, 0x63, 0x4b, 0x65, 0x79, 0x12, 0x1c, 0x0a, 0x09,
-	0x74, 0x69, 0x6d, 0x65, 0x73, 0x74, 0x61, 0x6d, 0x70, 0x18, 0x01, 0x20, 0x01, 0x28, 0x04, 0x52,
-	0x09, 0x74, 0x69, 0x6d, 0x65, 0x73, 0x74, 0x61, 0x6d, 0x70, 0x12, 0x3c, 0x0a, 0x09, 0x73, 0x69,
-	0x67, 0x6e, 0x61, 0x74, 0x75, 0x72, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1e, 0x2e,
-	0x78, 0x6d, 0x74, 0x70, 0x2e, 0x6d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x5f, 0x61, 0x70, 0x69,
-	0x2e, 0x76, 0x31, 0x2e, 0x53, 0x69, 0x67, 0x6e, 0x61, 0x74, 0x75, 0x72, 0x65, 0x52, 0x09, 0x73,
-	0x69, 0x67, 0x6e, 0x61, 0x74, 0x75, 0x72, 0x65, 0x12, 0x6c, 0x0a, 0x16, 0x73, 0x65, 0x63, 0x70,
-	0x32, 0x35, 0x36, 0x6b, 0x31, 0x5f, 0x75, 0x6e, 0x63, 0x6f, 0x6d, 0x70, 0x72, 0x65, 0x73, 0x73,
-	0x65, 0x64, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x33, 0x2e, 0x78, 0x6d, 0x74, 0x70, 0x2e,
-	0x6d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x5f, 0x61, 0x70, 0x69, 0x2e, 0x76, 0x31, 0x2e, 0x50,
-	0x75, 0x62, 0x6c, 0x69, 0x63, 0x4b, 0x65, 0x79, 0x2e, 0x53, 0x65, 0x63, 0x70, 0x32, 0x35, 0x36,
-	0x6b, 0x31, 0x55, 0x6e, 0x63, 0x6f, 0x6d, 0x70, 0x72, 0x65, 0x73, 0x65, 0x64, 0x48, 0x00, 0x52,
-	0x15, 0x73, 0x65, 0x63, 0x70, 0x32, 0x35, 0x36, 0x6b, 0x31, 0x55, 0x6e, 0x63, 0x6f, 0x6d, 0x70,
-	0x72, 0x65, 0x73, 0x73, 0x65, 0x64, 0x1a, 0x2c, 0x0a, 0x14, 0x53, 0x65, 0x63, 0x70, 0x32, 0x35,
-	0x36, 0x6b, 0x31, 0x55, 0x6e, 0x63, 0x6f, 0x6d, 0x70, 0x72, 0x65, 0x73, 0x65, 0x64, 0x12, 0x14,
-	0x0a, 0x05, 0x62, 0x79, 0x74, 0x65, 0x73, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0c, 0x52, 0x05, 0x62,
-	0x79, 0x74, 0x65, 0x73, 0x42, 0x07, 0x0a, 0x05, 0x75, 0x6e, 0x69, 0x6f, 0x6e, 0x22, 0xc2, 0x01,
-	0x0a, 0x05, 0x54, 0x6f, 0x6b, 0x65, 0x6e, 0x12, 0x41, 0x0a, 0x0c, 0x69, 0x64, 0x65, 0x6e, 0x74,
-	0x69, 0x74, 0x79, 0x5f, 0x6b, 0x65, 0x79, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1e, 0x2e,
-	0x78, 0x6d, 0x74, 0x70, 0x2e, 0x6d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x5f, 0x61, 0x70, 0x69,
-	0x2e, 0x76, 0x31, 0x2e, 0x50, 0x75, 0x62, 0x6c, 0x69, 0x63, 0x4b, 0x65, 0x79, 0x52, 0x0b, 0x69,
-	0x64, 0x65, 0x6e, 0x74, 0x69, 0x74, 0x79, 0x4b, 0x65, 0x79, 0x12, 0x26, 0x0a, 0x0f, 0x61, 0x75,
-	0x74, 0x68, 0x5f, 0x64, 0x61, 0x74, 0x61, 0x5f, 0x62, 0x79, 0x74, 0x65, 0x73, 0x18, 0x02, 0x20,
-	0x01, 0x28, 0x0c, 0x52, 0x0d, 0x61, 0x75, 0x74, 0x68, 0x44, 0x61, 0x74, 0x61, 0x42, 0x79, 0x74,
-	0x65, 0x73, 0x12, 0x4e, 0x0a, 0x13, 0x61, 0x75, 0x74, 0x68, 0x5f, 0x64, 0x61, 0x74, 0x61, 0x5f,
-	0x73, 0x69, 0x67, 0x6e, 0x61, 0x74, 0x75, 0x72, 0x65, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0b, 0x32,
-	0x1e, 0x2e, 0x78, 0x6d, 0x74, 0x70, 0x2e, 0x6d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x5f, 0x61,
-	0x70, 0x69, 0x2e, 0x76, 0x31, 0x2e, 0x53, 0x69, 0x67, 0x6e, 0x61, 0x74, 0x75, 0x72, 0x65, 0x52,
-	0x11, 0x61, 0x75, 0x74, 0x68, 0x44, 0x61, 0x74, 0x61, 0x53, 0x69, 0x67, 0x6e, 0x61, 0x74, 0x75,
-	0x72, 0x65, 0x22, 0x4a, 0x0a, 0x08, 0x41, 0x75, 0x74, 0x68, 0x44, 0x61, 0x74, 0x61, 0x12, 0x1f,
-	0x0a, 0x0b, 0x77, 0x61, 0x6c, 0x6c, 0x65, 0x74, 0x5f, 0x61, 0x64, 0x64, 0x72, 0x18, 0x01, 0x20,
-	0x01, 0x28, 0x09, 0x52, 0x0a, 0x77, 0x61, 0x6c, 0x6c, 0x65, 0x74, 0x41, 0x64, 0x64, 0x72, 0x12,
-	0x1d, 0x0a, 0x0a, 0x63, 0x72, 0x65, 0x61, 0x74, 0x65, 0x64, 0x5f, 0x6e, 0x73, 0x18, 0x02, 0x20,
-	0x01, 0x28, 0x04, 0x52, 0x09, 0x63, 0x72, 0x65, 0x61, 0x74, 0x65, 0x64, 0x4e, 0x73, 0x42, 0x12,
-	0x5a, 0x10, 0x2e, 0x2f, 0x6d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x5f, 0x61, 0x70, 0x69, 0x2f,
-	0x76, 0x31, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x31, 0x1a, 0x24, 0x6d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x5f, 0x63, 0x6f, 0x6e, 0x74, 0x65,
+	0x6e, 0x74, 0x73, 0x2f, 0x78, 0x6d, 0x74, 0x70, 0x5f, 0x65, 0x6e, 0x76, 0x65, 0x6c, 0x6f, 0x70,
+	0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x22, 0xc6, 0x01, 0x0a, 0x05, 0x54, 0x6f, 0x6b, 0x65,
+	0x6e, 0x12, 0x43, 0x0a, 0x0c, 0x69, 0x64, 0x65, 0x6e, 0x74, 0x69, 0x74, 0x79, 0x5f, 0x6b, 0x65,
+	0x79, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x20, 0x2e, 0x78, 0x6d, 0x74, 0x70, 0x2e, 0x6d,
+	0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x5f, 0x63, 0x6f, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x73, 0x2e,
+	0x50, 0x75, 0x62, 0x6c, 0x69, 0x63, 0x4b, 0x65, 0x79, 0x52, 0x0b, 0x69, 0x64, 0x65, 0x6e, 0x74,
+	0x69, 0x74, 0x79, 0x4b, 0x65, 0x79, 0x12, 0x26, 0x0a, 0x0f, 0x61, 0x75, 0x74, 0x68, 0x5f, 0x64,
+	0x61, 0x74, 0x61, 0x5f, 0x62, 0x79, 0x74, 0x65, 0x73, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0c, 0x52,
+	0x0d, 0x61, 0x75, 0x74, 0x68, 0x44, 0x61, 0x74, 0x61, 0x42, 0x79, 0x74, 0x65, 0x73, 0x12, 0x50,
+	0x0a, 0x13, 0x61, 0x75, 0x74, 0x68, 0x5f, 0x64, 0x61, 0x74, 0x61, 0x5f, 0x73, 0x69, 0x67, 0x6e,
+	0x61, 0x74, 0x75, 0x72, 0x65, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x20, 0x2e, 0x78, 0x6d,
+	0x74, 0x70, 0x2e, 0x6d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x5f, 0x63, 0x6f, 0x6e, 0x74, 0x65,
+	0x6e, 0x74, 0x73, 0x2e, 0x53, 0x69, 0x67, 0x6e, 0x61, 0x74, 0x75, 0x72, 0x65, 0x52, 0x11, 0x61,
+	0x75, 0x74, 0x68, 0x44, 0x61, 0x74, 0x61, 0x53, 0x69, 0x67, 0x6e, 0x61, 0x74, 0x75, 0x72, 0x65,
+	0x22, 0x4a, 0x0a, 0x08, 0x41, 0x75, 0x74, 0x68, 0x44, 0x61, 0x74, 0x61, 0x12, 0x1f, 0x0a, 0x0b,
+	0x77, 0x61, 0x6c, 0x6c, 0x65, 0x74, 0x5f, 0x61, 0x64, 0x64, 0x72, 0x18, 0x01, 0x20, 0x01, 0x28,
+	0x09, 0x52, 0x0a, 0x77, 0x61, 0x6c, 0x6c, 0x65, 0x74, 0x41, 0x64, 0x64, 0x72, 0x12, 0x1d, 0x0a,
+	0x0a, 0x63, 0x72, 0x65, 0x61, 0x74, 0x65, 0x64, 0x5f, 0x6e, 0x73, 0x18, 0x02, 0x20, 0x01, 0x28,
+	0x04, 0x52, 0x09, 0x63, 0x72, 0x65, 0x61, 0x74, 0x65, 0x64, 0x4e, 0x73, 0x42, 0x29, 0x5a, 0x27,
+	0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x78, 0x6d, 0x74, 0x70, 0x2f,
+	0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2f, 0x67, 0x6f, 0x2f, 0x6d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65,
+	0x5f, 0x61, 0x70, 0x69, 0x2f, 0x76, 0x31, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -476,26 +196,21 @@ func file_message_api_v1_authn_proto_rawDescGZIP() []byte {
 	return file_message_api_v1_authn_proto_rawDescData
 }
 
-var file_message_api_v1_authn_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
+var file_message_api_v1_authn_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
 var file_message_api_v1_authn_proto_goTypes = []interface{}{
-	(*Signature)(nil),                      // 0: xmtp.message_api.v1.Signature
-	(*PublicKey)(nil),                      // 1: xmtp.message_api.v1.PublicKey
-	(*Token)(nil),                          // 2: xmtp.message_api.v1.Token
-	(*AuthData)(nil),                       // 3: xmtp.message_api.v1.AuthData
-	(*Signature_ECDSACompact)(nil),         // 4: xmtp.message_api.v1.Signature.ECDSACompact
-	(*PublicKey_Secp256K1Uncompresed)(nil), // 5: xmtp.message_api.v1.PublicKey.Secp256k1Uncompresed
+	(*Token)(nil),                      // 0: xmtp.message_api.v1.Token
+	(*AuthData)(nil),                   // 1: xmtp.message_api.v1.AuthData
+	(*message_contents.PublicKey)(nil), // 2: xmtp.message_contents.PublicKey
+	(*message_contents.Signature)(nil), // 3: xmtp.message_contents.Signature
 }
 var file_message_api_v1_authn_proto_depIdxs = []int32{
-	4, // 0: xmtp.message_api.v1.Signature.ecdsa_compact:type_name -> xmtp.message_api.v1.Signature.ECDSACompact
-	0, // 1: xmtp.message_api.v1.PublicKey.signature:type_name -> xmtp.message_api.v1.Signature
-	5, // 2: xmtp.message_api.v1.PublicKey.secp256k1_uncompressed:type_name -> xmtp.message_api.v1.PublicKey.Secp256k1Uncompresed
-	1, // 3: xmtp.message_api.v1.Token.identity_key:type_name -> xmtp.message_api.v1.PublicKey
-	0, // 4: xmtp.message_api.v1.Token.auth_data_signature:type_name -> xmtp.message_api.v1.Signature
-	5, // [5:5] is the sub-list for method output_type
-	5, // [5:5] is the sub-list for method input_type
-	5, // [5:5] is the sub-list for extension type_name
-	5, // [5:5] is the sub-list for extension extendee
-	0, // [0:5] is the sub-list for field type_name
+	2, // 0: xmtp.message_api.v1.Token.identity_key:type_name -> xmtp.message_contents.PublicKey
+	3, // 1: xmtp.message_api.v1.Token.auth_data_signature:type_name -> xmtp.message_contents.Signature
+	2, // [2:2] is the sub-list for method output_type
+	2, // [2:2] is the sub-list for method input_type
+	2, // [2:2] is the sub-list for extension type_name
+	2, // [2:2] is the sub-list for extension extendee
+	0, // [0:2] is the sub-list for field type_name
 }
 
 func init() { file_message_api_v1_authn_proto_init() }
@@ -505,30 +220,6 @@ func file_message_api_v1_authn_proto_init() {
 	}
 	if !protoimpl.UnsafeEnabled {
 		file_message_api_v1_authn_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*Signature); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_message_api_v1_authn_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*PublicKey); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_message_api_v1_authn_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*Token); i {
 			case 0:
 				return &v.state
@@ -540,7 +231,7 @@ func file_message_api_v1_authn_proto_init() {
 				return nil
 			}
 		}
-		file_message_api_v1_authn_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
+		file_message_api_v1_authn_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*AuthData); i {
 			case 0:
 				return &v.state
@@ -552,36 +243,6 @@ func file_message_api_v1_authn_proto_init() {
 				return nil
 			}
 		}
-		file_message_api_v1_authn_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*Signature_ECDSACompact); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_message_api_v1_authn_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*PublicKey_Secp256K1Uncompresed); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-	}
-	file_message_api_v1_authn_proto_msgTypes[0].OneofWrappers = []interface{}{
-		(*Signature_EcdsaCompact)(nil),
-	}
-	file_message_api_v1_authn_proto_msgTypes[1].OneofWrappers = []interface{}{
-		(*PublicKey_Secp256K1Uncompressed)(nil),
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -589,7 +250,7 @@ func file_message_api_v1_authn_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_message_api_v1_authn_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   6,
+			NumMessages:   2,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

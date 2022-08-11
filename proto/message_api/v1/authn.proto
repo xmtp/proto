@@ -2,7 +2,9 @@
 syntax = "proto3";
 package xmtp.message_api.v1;
 
-option go_package = "./message_api/v1";
+import "message_contents/xmtp_envelope.proto";
+
+option go_package = "github.com/xmtp/proto/go/message_api/v1";
 
 // ----------------------------------------------------------------------------
 // These objects are copied from xmtp-js. 
@@ -10,47 +12,17 @@ option go_package = "./message_api/v1";
 // * PublicKey.signature is made non-optional
 // ----------------------------------------------------------------------------
 
-// Signature represents a generalized public key signature,
-// defined as a union to support cryptographic algorithm agility.
-message Signature {
-    oneof union {
-        ECDSACompact ecdsa_compact = 1;
-    }
-
-    // ECDSA signature in its compact format
-    message ECDSACompact {
-        bytes bytes = 1; // compact representation [ R || S ], 64 bytes
-        uint32 recovery = 2; // recovery bit
-    }
-}
-
-// PublicKey represents a generalized public key,
-// defined as a union to support cryptographic algorithm agility.
-message PublicKey {
-    uint64 timestamp = 1;
-    Signature signature = 2;  // signature is optional in the xmtp-js version
-    oneof union {
-        Secp256k1Uncompresed secp256k1_uncompressed = 3;
-    }
-
-    // Secp256k1 public key in uncompressed point format.
-    message Secp256k1Uncompresed {
-        // uncompressed point with prefix (0x04) [ P || X || Y ], 65 bytes
-        bytes bytes = 1; 
-    }
-}
-
 ///////////////////////////////////////////////////////////////////////////////
 
 // Token is used by clients to prove to the nodes
 // that they are serving a specific wallet.
 message Token {
     // identity key signed by a wallet
-    PublicKey identity_key = 1; 
+    xmtp.message_contents.PublicKey identity_key = 1; 
     // encoded bytes of AuthData
     bytes auth_data_bytes = 2;
     // identity key signature of AuthData bytes
-    Signature auth_data_signature = 3; 
+    xmtp.message_contents.Signature auth_data_signature = 3; 
 }
 
 // AuthData carries token parameters that are authenticated

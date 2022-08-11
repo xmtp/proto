@@ -5,6 +5,8 @@ package xmtp.message_contents;
 
 import "message_contents/xmtp_envelope.proto";
 
+option go_package = "github.com/xmtp/proto/go/message_contents";
+
 // Private Key Storage
 //
 // Following definitions are not used in the protocol, instead

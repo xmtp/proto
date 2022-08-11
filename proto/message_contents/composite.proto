@@ -5,6 +5,8 @@ package xmtp.message_contents;
 
 import "message_contents/xmtp_envelope.proto";
 
+option go_package = "github.com/xmtp/proto/go/message_contents";
+
 // Composite is used to implement xmtp.org/composite content type
 message Composite {
     // Part represents one section of a composite message
