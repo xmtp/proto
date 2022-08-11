@@ -6,7 +6,7 @@ set -e
   docker build -t xmtp/protoc .
 )
 
-rm -f ./ts/**/*.pb.ts
+rm -f ./ts/**/*.pb.ts || true
 
 docker run --rm -i -v${PWD}:/code xmtp/protoc \
   -I=./proto \
