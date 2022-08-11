@@ -6,14 +6,6 @@ import "message_contents/xmtp_envelope.proto";
 
 option go_package = "github.com/xmtp/proto/go/message_api/v1";
 
-// ----------------------------------------------------------------------------
-// These objects are copied from xmtp-js. 
-// Differences:
-// * PublicKey.signature is made non-optional
-// ----------------------------------------------------------------------------
-
-///////////////////////////////////////////////////////////////////////////////
-
 // Token is used by clients to prove to the nodes
 // that they are serving a specific wallet.
 message Token {
