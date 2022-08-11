@@ -98,7 +98,7 @@ message Ciphertext {
         bytes payload = 3;
     }
     oneof union {
-        Aes256gcmHkdfsha256 aes256gcm_hkdf_sha256 = 1;
+        Aes256gcmHkdfsha256 aes256_gcm_hkdf_sha256 = 1;
     }
 }
 
