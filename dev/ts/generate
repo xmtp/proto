@@ -7,5 +7,20 @@ set -e
 )
 
 rm -f ./ts/**/*.pb.ts
-docker run --rm -i -v${PWD}:/code xmtp/protoc -I=./proto --grpc-gateway-ts_out=ts message_api/v1/message_api.proto
-docker run --rm -i -v${PWD}:/code xmtp/protoc -I=./proto --plugin=/usr/local/lib/node_modules/ts-proto/protoc-gen-ts_proto --ts_proto_out=./ts --ts_proto_opt=fileSuffix=.pb --ts_proto_opt=esModuleInterop=true message_api/v1/authn.proto
+
+docker run --rm -i -v${PWD}:/code xmtp/protoc \
+  -I=./proto \
+  --grpc-gateway-ts_out=ts \
+  message_api/v1/message_api.proto
+
+docker run --rm -i -v${PWD}:/code xmtp/protoc \
+  -I=./proto \
+  --plugin=/usr/local/lib/node_modules/ts-proto/protoc-gen-ts_proto \
+  --experimental_allow_proto3_optional \
+  --ts_proto_out=./ts \
+  --ts_proto_opt=fileSuffix=.pb \
+  --ts_proto_opt=esModuleInterop=true \
+  message_api/v1/authn.proto \
+  message_contents/composite.proto \
+  message_contents/private_key.proto \
+  message_contents/xmtp_envelope.proto

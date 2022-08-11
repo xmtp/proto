@@ -1,0 +1,19 @@
+// Composite ContentType
+syntax = "proto3";
+
+package xmtp.message_contents;
+
+import "message_contents/xmtp_envelope.proto";
+
+// Composite is used to implement xmtp.org/composite content type
+message Composite {
+    // Part represents one section of a composite message
+    message Part {
+        oneof element {
+            EncodedContent part = 1;
+            Composite composite = 2;
+        }
+    }
+
+    repeated Part parts = 1;
+}

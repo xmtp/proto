@@ -1,0 +1,52 @@
+// PrivateKey 
+syntax = "proto3";
+
+package xmtp.message_contents;
+
+import "message_contents/xmtp_envelope.proto";
+
+// Private Key Storage
+//
+// Following definitions are not used in the protocol, instead
+// they provide a way for encoding private keys for storage.
+
+// PrivateKey 
+message PrivateKey {
+    // The elliptic curve bytes
+    message Secp256k1 {
+        bytes bytes = 1; // D big-endian, 32 bytes
+    }
+    uint64 timestamp = 1;
+    oneof union {
+        Secp256k1 secp256k1 = 2;
+    }
+    PublicKey public_key = 3;
+}
+
+// PrivateKeyBundleV1 wraps the identityKey and the preKeys
+// used as an XMTP identity
+message PrivateKeyBundleV1 {
+    PrivateKey identity_key = 1;
+    repeated PrivateKey pre_keys = 2;
+}
+
+// PrivateKeyBundle should only contain a oneof of PrivateKeyBundle versions
+message PrivateKeyBundle {
+    oneof version {
+        PrivateKeyBundleV1 v1 = 1;
+    }
+}
+
+// Contains an encrypted payload with the Ciphertext
+// decrypting to a PrivateKeyBundle
+message EncryptedPrivateKeyBundleV1 {
+    bytes wallet_pre_key = 1;
+    Ciphertext ciphertext = 2;
+}
+
+// Contains a oneof of PrivateKeyBundle versions
+message EncryptedPrivateKeyBundle {
+    oneof version {
+        EncryptedPrivateKeyBundleV1 v1 = 1;
+    }
+}
