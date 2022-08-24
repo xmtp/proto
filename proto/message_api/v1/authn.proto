@@ -2,7 +2,8 @@
 syntax = "proto3";
 package xmtp.message_api.v1;
 
-import "message_contents/xmtp_envelope.proto";
+import "message_contents/public_key.proto";
+import "message_contents/signature.proto";
 
 option go_package = "github.com/xmtp/proto/go/message_api/v1";
 

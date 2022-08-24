@@ -4,3 +4,6 @@ export * as authn from "./message_api/v1/authn.pb";
 export * as xmtpEnvelope from "./message_contents/xmtp_envelope.pb";
 export * as composite from "./message_contents/composite.pb";
 export * as privateKey from "./message_contents/private_key.pb";
+export * as publicKey from "./message_contents/public_key.pb";
+export * as signature from "./message_contents/signature.pb";
+export * as contact from "./message_contents/contact.pb";

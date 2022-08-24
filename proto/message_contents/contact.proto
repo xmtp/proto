@@ -1,0 +1,21 @@
+// Contact Bundle
+syntax = "proto3";
+
+package xmtp.message_contents;
+
+import "message_contents/public_key.proto";
+
+option go_package = "github.com/xmtp/proto/go/message_contents";
+
+// The PublicKeyBundle of the user on the network.
+// Used to derive shared secrets for encrypted messaging
+message ContactBundleV1 {
+    PublicKeyBundle key_bundle = 1;
+}
+
+// Contains a oneof of ContactBundle versions
+message ContactBundle {
+    oneof version {
+        ContactBundleV1 v1 = 1;
+    }
+}

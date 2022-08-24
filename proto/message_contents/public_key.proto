@@ -1,0 +1,31 @@
+// Public Key
+syntax = "proto3";
+
+package xmtp.message_contents;
+
+import "message_contents/signature.proto";
+
+option go_package = "github.com/xmtp/proto/go/message_contents";
+
+
+// PublicKey represents a generalized public key,
+// defined as a union to support cryptographic algorithm agility.
+message PublicKey {
+    // The key bytes
+    message Secp256k1Uncompressed {
+        // uncompressed point with prefix (0x04) [ P || X || Y ], 65 bytes
+        bytes bytes = 1; 
+    }
+    uint64 timestamp = 1;
+    optional Signature signature = 2;
+    oneof union {
+        Secp256k1Uncompressed secp256k1_uncompressed = 3;
+    }
+}
+
+// PublicKeyBundle packages the cryptographic keys associated with a wallet,
+// both senders and recipients are identified by their key bundles.
+message PublicKeyBundle {
+    PublicKey identity_key = 1;
+    PublicKey pre_key = 2;
+}
