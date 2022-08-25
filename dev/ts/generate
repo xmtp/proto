@@ -23,5 +23,8 @@ docker run --rm -i -v${PWD}:/code xmtp/protoc \
   --ts_proto_opt=esModuleInterop=true \
   message_api/v1/authn.proto \
   message_contents/composite.proto \
+  message_contents/signature.proto \
+  message_contents/public_key.proto \
+  message_contents/contact.proto \
   message_contents/private_key.proto \
   message_contents/xmtp_envelope.proto

@@ -1,0 +1,19 @@
+// Signature
+syntax = "proto3";
+
+package xmtp.message_contents;
+
+option go_package = "github.com/xmtp/proto/go/message_contents";
+
+// Signature represents a generalized public key signature,
+// defined as a union to support cryptographic algorithm agility.
+message Signature {
+    // The format for an ECDSA signature bytes and the recovery bit
+    message ECDSACompact {
+        bytes bytes = 1; // compact representation [ R || S ], 64 bytes
+        uint32 recovery = 2; // recovery bit
+    }
+    oneof union {
+        ECDSACompact ecdsa_compact = 1;
+    }
+}

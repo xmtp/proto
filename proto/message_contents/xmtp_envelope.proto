@@ -3,55 +3,9 @@ syntax = "proto3";
 
 package xmtp.message_contents;
 
+import "message_contents/public_key.proto";
+
 option go_package = "github.com/xmtp/proto/go/message_contents";
-
-// Signature represents a generalized public key signature,
-// defined as a union to support cryptographic algorithm agility.
-message Signature {
-    // The format for an ECDSA signature bytes and the recovery bit
-    message ECDSACompact {
-        bytes bytes = 1; // compact representation [ R || S ], 64 bytes
-        uint32 recovery = 2; // recovery bit
-    }
-    oneof union {
-        ECDSACompact ecdsa_compact = 1;
-    }
-}
-
-// PublicKey represents a generalized public key,
-// defined as a union to support cryptographic algorithm agility.
-message PublicKey {
-    // The key bytes
-    message Secp256k1Uncompressed {
-        // uncompressed point with prefix (0x04) [ P || X || Y ], 65 bytes
-        bytes bytes = 1; 
-    }
-    uint64 timestamp = 1;
-    optional Signature signature = 2;
-    oneof union {
-        Secp256k1Uncompressed secp256k1_uncompressed = 3;
-    }
-}
-
-// PublicKeyBundle packages the cryptographic keys associated with a wallet,
-// both senders and recipients are identified by their key bundles.
-message PublicKeyBundle {
-    PublicKey identity_key = 1;
-    PublicKey pre_key = 2;
-}
-
-// The PublicKeyBundle of the user on the network.
-// Used to derive shared secrets for encrypted messaging
-message ContactBundleV1 {
-    PublicKeyBundle key_bundle = 1;
-}
-
-// Contains a oneof of ContactBundle versions
-message ContactBundle {
-    oneof version {
-        ContactBundleV1 v1 = 1;
-    }
-}
 
 // ContentTypeId is used to identify the type of content stored in a Message.
 message ContentTypeId {
@@ -96,7 +50,7 @@ message Ciphertext {
     message Aes256gcmHkdfsha256 {
         bytes hkdf_salt = 1;
         bytes gcm_nonce = 2;
-        // payload MUST contain encoding of a EncodedContent message
+        // payload MUST contain encrypted encoding of EncodedContent message
         bytes payload = 3;
     }
     oneof union {
@@ -118,7 +72,7 @@ message V1Message {
     Ciphertext ciphertext = 2;
 }
 
-// The outermost wrapper for a message on the network
+// The outermost wrapper for a message in a conversation topic
 message Message {
     oneof version {
         V1Message v1 = 1;

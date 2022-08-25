@@ -8,4 +8,12 @@ import (
 )
 
 //go:generate go install google.golang.org/grpc/cmd/protoc-gen-go-grpc
-//go:generate protoc --proto_path=../proto -I=. -I=../build/tmp/vendor --go_out=paths=source_relative:. --go-grpc_out=paths=source_relative:. --grpc-gateway_out=generate_unbound_methods=true,paths=source_relative:. ../proto/message_api/v1/message_api.proto ../proto/message_api/v1/authn.proto ../proto/message_contents/xmtp_envelope.proto
+//go:generate -command compile protoc --proto_path=../proto -I=. -I=../build/tmp/vendor --go_out=paths=source_relative:. --go-grpc_out=paths=source_relative:. --grpc-gateway_out=generate_unbound_methods=true,paths=source_relative:.
+//go:generate compile ../proto/message_api/v1/message_api.proto
+//go:generate compile ../proto/message_api/v1/authn.proto
+//go:generate compile ../proto/message_contents/xmtp_envelope.proto
+//go:generate compile ../proto/message_contents/signature.proto
+//go:generate compile ../proto/message_contents/public_key.proto
+//go:generate compile ../proto/message_contents/private_key.proto
+//go:generate compile ../proto/message_contents/contact.proto
+//go:generate compile ../proto/message_contents/composite.proto
