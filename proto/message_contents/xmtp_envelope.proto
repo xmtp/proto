@@ -1,9 +1,11 @@
-// Protos for XMTP Messages and their headers
+// Messages used for transport and storage of user conversations.
 syntax = "proto3";
 
 package xmtp.message_contents;
 
+import "message_contents/ciphertext.proto";
 import "message_contents/public_key.proto";
+import "message_contents/signature.proto";
 
 option go_package = "github.com/xmtp/proto/go/message_contents";
 
@@ -23,8 +25,7 @@ enum Compression {
 }
 // protolint:enable ENUM_FIELD_NAMES_ZERO_VALUE_END_WITH
 
-// EncodedContent is the type embedded in Ciphertext.payload bytes,
-// it bundles the encoded content with metadata identifying the type of content
+// EncodedContent bundles the content with metadata identifying its type
 // and parameters required for correct decoding and presentation of the content.
 message EncodedContent {
     // content type identifier used to match the payload with
@@ -42,39 +43,57 @@ message EncodedContent {
     bytes content = 4;
 }
 
-// Ciphertext represents the payload of the message encoded and
-// encrypted for transport.
-// It is definited as a union to support cryptographic algorithm agility.
-message Ciphertext {
-    // The encrypted payload
-    message Aes256gcmHkdfsha256 {
-        bytes hkdf_salt = 1;
-        bytes gcm_nonce = 2;
-        // payload MUST contain encrypted encoding of EncodedContent message
-        bytes payload = 3;
-    }
-    oneof union {
-        Aes256gcmHkdfsha256 aes256_gcm_hkdf_sha256 = 1;
-    }
+// SignedContent attaches a signature to EncodedContent.
+message SignedContent {
+    // MUST contain EncodedContent
+    bytes payload = 1;
+    SignedPublicKeyBundle sender = 2;
+    // MUST be a signature of a concatenation of the topic name,
+    // message header bytes and the payload bytes,
+    // signed by the sender's pre-key.
+    Signature signature = 3; 
 }
 
-// MessageHeader is encoded separately as the bytes are also used
+// Message V1
+
+// Message header is encoded separately as the bytes are also used
 // as associated data for authenticated encryption
-message MessageHeader {
+message MessageHeaderV1 {
     PublicKeyBundle sender = 1;
     PublicKeyBundle recipient = 2;
     uint64 timestamp = 3;
 }
 
 // Message is the top level protocol element
-message V1Message {
-    bytes header_bytes = 1; // encapsulates the encoded MessageHeader
+message MessageV1 {
+    bytes header_bytes = 1; // encapsulates encoded MessageHeaderV1
+    // Ciphertext.payload MUST contain encrypted EncodedContent
+    Ciphertext ciphertext = 2; 
+}
+
+// Message V2
+
+// Message header carries information that is not encrypted, and is therefore
+// observable by the network. It is however authenticated as associated data
+// of the AEAD encryption used to protect the message,
+// thus providing tamper evidence.
+message MessageHeaderV2 {
+    // sender specified message creation time
+    uint64 created_ns = 1; 
+}
+
+// Message combines the encoded header with the encrypted payload.
+message MessageV2 {
+    bytes header_bytes = 1; // encapsulates encoded MessageHeaderV2
+    // Ciphertext.payload MUST contain encrypted SignedContent
     Ciphertext ciphertext = 2;
 }
 
-// The outermost wrapper for a message in a conversation topic
+
+// Versioned Message
 message Message {
     oneof version {
-        V1Message v1 = 1;
+        MessageV1 v1 = 1;
+        MessageV2 v2 = 2;
     }
 }

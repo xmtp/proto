@@ -1,0 +1,26 @@
+// Ciphertext is a generic structure for encrypted payload.
+syntax = "proto3";
+
+package xmtp.message_contents;
+
+option go_package = "github.com/xmtp/proto/go/message_contents";
+
+// Ciphertext represents encrypted payload.
+// It is definited as a union to support cryptographic algorithm agility.
+// The payload is accompanied by the cryptographic parameters
+// required by the chosen encryption scheme.
+message Ciphertext {
+    oneof union {
+        Aes256gcmHkdfsha256 aes256_gcm_hkdf_sha256 = 1;
+    }
+
+    // Supported Encryption Schemes
+
+    // Encryption: AES256-GCM
+    // Key derivation function: HKDF-SHA256
+    message Aes256gcmHkdfsha256 {
+        bytes hkdf_salt = 1; // 32 bytes
+        bytes gcm_nonce = 2; // 12 bytes
+        bytes payload = 3; // encrypted payload
+    }
+}
