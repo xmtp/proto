@@ -1,4 +1,8 @@
-// Contact Bundle
+// Contact Bundles are used to advertise user's public keys on the network.
+// They are published in well known topics so that other participants
+// can find them when they wish to communicate with the user.
+// The public keys are used to sign messages and to derive encryption keys
+// for some meta-messages, e.g. invitations.
 syntax = "proto3";
 
 package xmtp.message_contents;
@@ -7,15 +11,21 @@ import "message_contents/public_key.proto";
 
 option go_package = "github.com/xmtp/proto/go/message_contents";
 
-// The PublicKeyBundle of the user on the network.
-// Used to derive shared secrets for encrypted messaging
+// User key bundle V1 using PublicKeys.
+// The PublicKeys MUST be signed.
 message ContactBundleV1 {
     PublicKeyBundle key_bundle = 1;
 }
 
-// Contains a oneof of ContactBundle versions
+// User key bundle V2 using SignedPublicKeys.
+message ContactBundleV2 {
+    SignedPublicKeyBundle key_bundle = 1;
+}
+
+// Versioned ContactBundle
 message ContactBundle {
     oneof version {
         ContactBundleV1 v1 = 1;
+        ContactBundleV2 v2 = 2;
     }
 }

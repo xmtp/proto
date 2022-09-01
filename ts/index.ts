@@ -6,4 +6,6 @@ export * as composite from "./message_contents/composite.pb";
 export * as privateKey from "./message_contents/private_key.pb";
 export * as publicKey from "./message_contents/public_key.pb";
 export * as signature from "./message_contents/signature.pb";
+export * as ciphertext from "./message_contents/ciphertext.pb";
 export * as contact from "./message_contents/contact.pb";
+export * as invitation from "./message_contents/invitation.pb";

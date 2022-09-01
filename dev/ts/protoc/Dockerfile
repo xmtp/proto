@@ -6,7 +6,7 @@ RUN apt-get -qq update && \
 COPY protoc.sh /opt/protoc
 
 # Install some plugins.
-RUN go install github.com/grpc-ecosystem/protoc-gen-grpc-gateway-ts@latest && npm i -g ts-proto
+RUN go install github.com/grpc-ecosystem/protoc-gen-grpc-gateway-ts@latest && npm i -g ts-proto@1.122.0
 
 # Vendor some dependencies.
 RUN mkdir -p /opt/proto && \
