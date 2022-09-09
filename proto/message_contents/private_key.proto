@@ -38,10 +38,38 @@ message PrivateKeyBundleV1 {
     repeated PrivateKey pre_keys = 2;
 }
 
+// PrivateKey generalized to support different key types
+message SignedPrivateKey {
+    // time the key was created
+    uint64 created_ns = 1;
+    // private key
+    oneof union {
+        Secp256k1 secp256k1 = 2;
+    }
+    // public key for this private key
+    SignedPublicKey public_key = 3;
+
+    // Supported key types
+
+    // EC: SECP256k1
+    message Secp256k1 {
+        bytes bytes = 1; // D big-endian, 32 bytes
+    }
+}
+
+// PrivateKeyBundle wraps the identityKey and the preKeys,
+// enforces usage of signed keys.
+message PrivateKeyBundleV2 {
+    SignedPrivateKey identity_key = 1;
+    // all the known pre-keys, newer keys first,
+    repeated SignedPrivateKey pre_keys = 2;
+}
+
 // Versioned PrivateKeyBundle
 message PrivateKeyBundle {
     oneof version {
         PrivateKeyBundleV1 v1 = 1;
+        PrivateKeyBundleV2 v2 = 2;
     }
 }
 

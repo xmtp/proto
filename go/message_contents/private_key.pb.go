@@ -169,6 +169,151 @@ func (x *PrivateKeyBundleV1) GetPreKeys() []*PrivateKey {
 	return nil
 }
 
+// PrivateKey generalized to support different key types
+type SignedPrivateKey struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	// time the key was created
+	CreatedNs uint64 `protobuf:"varint,1,opt,name=created_ns,json=createdNs,proto3" json:"created_ns,omitempty"`
+	// private key
+	//
+	// Types that are assignable to Union:
+	//	*SignedPrivateKey_Secp256K1_
+	Union isSignedPrivateKey_Union `protobuf_oneof:"union"`
+	// public key for this private key
+	PublicKey *SignedPublicKey `protobuf:"bytes,3,opt,name=public_key,json=publicKey,proto3" json:"public_key,omitempty"`
+}
+
+func (x *SignedPrivateKey) Reset() {
+	*x = SignedPrivateKey{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_message_contents_private_key_proto_msgTypes[2]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *SignedPrivateKey) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SignedPrivateKey) ProtoMessage() {}
+
+func (x *SignedPrivateKey) ProtoReflect() protoreflect.Message {
+	mi := &file_message_contents_private_key_proto_msgTypes[2]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SignedPrivateKey.ProtoReflect.Descriptor instead.
+func (*SignedPrivateKey) Descriptor() ([]byte, []int) {
+	return file_message_contents_private_key_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *SignedPrivateKey) GetCreatedNs() uint64 {
+	if x != nil {
+		return x.CreatedNs
+	}
+	return 0
+}
+
+func (m *SignedPrivateKey) GetUnion() isSignedPrivateKey_Union {
+	if m != nil {
+		return m.Union
+	}
+	return nil
+}
+
+func (x *SignedPrivateKey) GetSecp256K1() *SignedPrivateKey_Secp256K1 {
+	if x, ok := x.GetUnion().(*SignedPrivateKey_Secp256K1_); ok {
+		return x.Secp256K1
+	}
+	return nil
+}
+
+func (x *SignedPrivateKey) GetPublicKey() *SignedPublicKey {
+	if x != nil {
+		return x.PublicKey
+	}
+	return nil
+}
+
+type isSignedPrivateKey_Union interface {
+	isSignedPrivateKey_Union()
+}
+
+type SignedPrivateKey_Secp256K1_ struct {
+	Secp256K1 *SignedPrivateKey_Secp256K1 `protobuf:"bytes,2,opt,name=secp256k1,proto3,oneof"`
+}
+
+func (*SignedPrivateKey_Secp256K1_) isSignedPrivateKey_Union() {}
+
+// PrivateKeyBundle wraps the identityKey and the preKeys,
+// enforces usage of signed keys.
+type PrivateKeyBundleV2 struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	IdentityKey *SignedPrivateKey `protobuf:"bytes,1,opt,name=identity_key,json=identityKey,proto3" json:"identity_key,omitempty"`
+	// all the known pre-keys, newer keys first,
+	PreKeys []*SignedPrivateKey `protobuf:"bytes,2,rep,name=pre_keys,json=preKeys,proto3" json:"pre_keys,omitempty"`
+}
+
+func (x *PrivateKeyBundleV2) Reset() {
+	*x = PrivateKeyBundleV2{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_message_contents_private_key_proto_msgTypes[3]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *PrivateKeyBundleV2) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*PrivateKeyBundleV2) ProtoMessage() {}
+
+func (x *PrivateKeyBundleV2) ProtoReflect() protoreflect.Message {
+	mi := &file_message_contents_private_key_proto_msgTypes[3]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use PrivateKeyBundleV2.ProtoReflect.Descriptor instead.
+func (*PrivateKeyBundleV2) Descriptor() ([]byte, []int) {
+	return file_message_contents_private_key_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *PrivateKeyBundleV2) GetIdentityKey() *SignedPrivateKey {
+	if x != nil {
+		return x.IdentityKey
+	}
+	return nil
+}
+
+func (x *PrivateKeyBundleV2) GetPreKeys() []*SignedPrivateKey {
+	if x != nil {
+		return x.PreKeys
+	}
+	return nil
+}
+
 // Versioned PrivateKeyBundle
 type PrivateKeyBundle struct {
 	state         protoimpl.MessageState
@@ -177,13 +322,14 @@ type PrivateKeyBundle struct {
 
 	// Types that are assignable to Version:
 	//	*PrivateKeyBundle_V1
+	//	*PrivateKeyBundle_V2
 	Version isPrivateKeyBundle_Version `protobuf_oneof:"version"`
 }
 
 func (x *PrivateKeyBundle) Reset() {
 	*x = PrivateKeyBundle{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_message_contents_private_key_proto_msgTypes[2]
+		mi := &file_message_contents_private_key_proto_msgTypes[4]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -196,7 +342,7 @@ func (x *PrivateKeyBundle) String() string {
 func (*PrivateKeyBundle) ProtoMessage() {}
 
 func (x *PrivateKeyBundle) ProtoReflect() protoreflect.Message {
-	mi := &file_message_contents_private_key_proto_msgTypes[2]
+	mi := &file_message_contents_private_key_proto_msgTypes[4]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -209,7 +355,7 @@ func (x *PrivateKeyBundle) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use PrivateKeyBundle.ProtoReflect.Descriptor instead.
 func (*PrivateKeyBundle) Descriptor() ([]byte, []int) {
-	return file_message_contents_private_key_proto_rawDescGZIP(), []int{2}
+	return file_message_contents_private_key_proto_rawDescGZIP(), []int{4}
 }
 
 func (m *PrivateKeyBundle) GetVersion() isPrivateKeyBundle_Version {
@@ -226,6 +372,13 @@ func (x *PrivateKeyBundle) GetV1() *PrivateKeyBundleV1 {
 	return nil
 }
 
+func (x *PrivateKeyBundle) GetV2() *PrivateKeyBundleV2 {
+	if x, ok := x.GetVersion().(*PrivateKeyBundle_V2); ok {
+		return x.V2
+	}
+	return nil
+}
+
 type isPrivateKeyBundle_Version interface {
 	isPrivateKeyBundle_Version()
 }
@@ -234,7 +387,13 @@ type PrivateKeyBundle_V1 struct {
 	V1 *PrivateKeyBundleV1 `protobuf:"bytes,1,opt,name=v1,proto3,oneof"`
 }
 
+type PrivateKeyBundle_V2 struct {
+	V2 *PrivateKeyBundleV2 `protobuf:"bytes,2,opt,name=v2,proto3,oneof"`
+}
+
 func (*PrivateKeyBundle_V1) isPrivateKeyBundle_Version() {}
+
+func (*PrivateKeyBundle_V2) isPrivateKeyBundle_Version() {}
 
 // PrivateKeyBundle encrypted with key material generated by
 // signing a randomly generated "pre-key" with the user's wallet,
@@ -255,7 +414,7 @@ type EncryptedPrivateKeyBundleV1 struct {
 func (x *EncryptedPrivateKeyBundleV1) Reset() {
 	*x = EncryptedPrivateKeyBundleV1{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_message_contents_private_key_proto_msgTypes[3]
+		mi := &file_message_contents_private_key_proto_msgTypes[5]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -268,7 +427,7 @@ func (x *EncryptedPrivateKeyBundleV1) String() string {
 func (*EncryptedPrivateKeyBundleV1) ProtoMessage() {}
 
 func (x *EncryptedPrivateKeyBundleV1) ProtoReflect() protoreflect.Message {
-	mi := &file_message_contents_private_key_proto_msgTypes[3]
+	mi := &file_message_contents_private_key_proto_msgTypes[5]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -281,7 +440,7 @@ func (x *EncryptedPrivateKeyBundleV1) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use EncryptedPrivateKeyBundleV1.ProtoReflect.Descriptor instead.
 func (*EncryptedPrivateKeyBundleV1) Descriptor() ([]byte, []int) {
-	return file_message_contents_private_key_proto_rawDescGZIP(), []int{3}
+	return file_message_contents_private_key_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *EncryptedPrivateKeyBundleV1) GetWalletPreKey() []byte {
@@ -312,7 +471,7 @@ type EncryptedPrivateKeyBundle struct {
 func (x *EncryptedPrivateKeyBundle) Reset() {
 	*x = EncryptedPrivateKeyBundle{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_message_contents_private_key_proto_msgTypes[4]
+		mi := &file_message_contents_private_key_proto_msgTypes[6]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -325,7 +484,7 @@ func (x *EncryptedPrivateKeyBundle) String() string {
 func (*EncryptedPrivateKeyBundle) ProtoMessage() {}
 
 func (x *EncryptedPrivateKeyBundle) ProtoReflect() protoreflect.Message {
-	mi := &file_message_contents_private_key_proto_msgTypes[4]
+	mi := &file_message_contents_private_key_proto_msgTypes[6]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -338,7 +497,7 @@ func (x *EncryptedPrivateKeyBundle) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use EncryptedPrivateKeyBundle.ProtoReflect.Descriptor instead.
 func (*EncryptedPrivateKeyBundle) Descriptor() ([]byte, []int) {
-	return file_message_contents_private_key_proto_rawDescGZIP(), []int{4}
+	return file_message_contents_private_key_proto_rawDescGZIP(), []int{6}
 }
 
 func (m *EncryptedPrivateKeyBundle) GetVersion() isEncryptedPrivateKeyBundle_Version {
@@ -377,7 +536,7 @@ type PrivateKey_Secp256K1 struct {
 func (x *PrivateKey_Secp256K1) Reset() {
 	*x = PrivateKey_Secp256K1{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_message_contents_private_key_proto_msgTypes[5]
+		mi := &file_message_contents_private_key_proto_msgTypes[7]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -390,7 +549,7 @@ func (x *PrivateKey_Secp256K1) String() string {
 func (*PrivateKey_Secp256K1) ProtoMessage() {}
 
 func (x *PrivateKey_Secp256K1) ProtoReflect() protoreflect.Message {
-	mi := &file_message_contents_private_key_proto_msgTypes[5]
+	mi := &file_message_contents_private_key_proto_msgTypes[7]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -407,6 +566,54 @@ func (*PrivateKey_Secp256K1) Descriptor() ([]byte, []int) {
 }
 
 func (x *PrivateKey_Secp256K1) GetBytes() []byte {
+	if x != nil {
+		return x.Bytes
+	}
+	return nil
+}
+
+// EC: SECP256k1
+type SignedPrivateKey_Secp256K1 struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Bytes []byte `protobuf:"bytes,1,opt,name=bytes,proto3" json:"bytes,omitempty"` // D big-endian, 32 bytes
+}
+
+func (x *SignedPrivateKey_Secp256K1) Reset() {
+	*x = SignedPrivateKey_Secp256K1{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_message_contents_private_key_proto_msgTypes[8]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *SignedPrivateKey_Secp256K1) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SignedPrivateKey_Secp256K1) ProtoMessage() {}
+
+func (x *SignedPrivateKey_Secp256K1) ProtoReflect() protoreflect.Message {
+	mi := &file_message_contents_private_key_proto_msgTypes[8]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SignedPrivateKey_Secp256K1.ProtoReflect.Descriptor instead.
+func (*SignedPrivateKey_Secp256K1) Descriptor() ([]byte, []int) {
+	return file_message_contents_private_key_proto_rawDescGZIP(), []int{2, 0}
+}
+
+func (x *SignedPrivateKey_Secp256K1) GetBytes() []byte {
 	if x != nil {
 		return x.Bytes
 	}
@@ -448,31 +655,61 @@ var file_message_contents_private_key_proto_rawDesc = []byte{
 	0x73, 0x18, 0x02, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x21, 0x2e, 0x78, 0x6d, 0x74, 0x70, 0x2e, 0x6d,
 	0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x5f, 0x63, 0x6f, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x73, 0x2e,
 	0x50, 0x72, 0x69, 0x76, 0x61, 0x74, 0x65, 0x4b, 0x65, 0x79, 0x52, 0x07, 0x70, 0x72, 0x65, 0x4b,
-	0x65, 0x79, 0x73, 0x22, 0x5a, 0x0a, 0x10, 0x50, 0x72, 0x69, 0x76, 0x61, 0x74, 0x65, 0x4b, 0x65,
-	0x79, 0x42, 0x75, 0x6e, 0x64, 0x6c, 0x65, 0x12, 0x3b, 0x0a, 0x02, 0x76, 0x31, 0x18, 0x01, 0x20,
-	0x01, 0x28, 0x0b, 0x32, 0x29, 0x2e, 0x78, 0x6d, 0x74, 0x70, 0x2e, 0x6d, 0x65, 0x73, 0x73, 0x61,
-	0x67, 0x65, 0x5f, 0x63, 0x6f, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x73, 0x2e, 0x50, 0x72, 0x69, 0x76,
-	0x61, 0x74, 0x65, 0x4b, 0x65, 0x79, 0x42, 0x75, 0x6e, 0x64, 0x6c, 0x65, 0x56, 0x31, 0x48, 0x00,
-	0x52, 0x02, 0x76, 0x31, 0x42, 0x09, 0x0a, 0x07, 0x76, 0x65, 0x72, 0x73, 0x69, 0x6f, 0x6e, 0x22,
-	0x86, 0x01, 0x0a, 0x1b, 0x45, 0x6e, 0x63, 0x72, 0x79, 0x70, 0x74, 0x65, 0x64, 0x50, 0x72, 0x69,
-	0x76, 0x61, 0x74, 0x65, 0x4b, 0x65, 0x79, 0x42, 0x75, 0x6e, 0x64, 0x6c, 0x65, 0x56, 0x31, 0x12,
-	0x24, 0x0a, 0x0e, 0x77, 0x61, 0x6c, 0x6c, 0x65, 0x74, 0x5f, 0x70, 0x72, 0x65, 0x5f, 0x6b, 0x65,
-	0x79, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0c, 0x52, 0x0c, 0x77, 0x61, 0x6c, 0x6c, 0x65, 0x74, 0x50,
-	0x72, 0x65, 0x4b, 0x65, 0x79, 0x12, 0x41, 0x0a, 0x0a, 0x63, 0x69, 0x70, 0x68, 0x65, 0x72, 0x74,
-	0x65, 0x78, 0x74, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x21, 0x2e, 0x78, 0x6d, 0x74, 0x70,
-	0x2e, 0x6d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x5f, 0x63, 0x6f, 0x6e, 0x74, 0x65, 0x6e, 0x74,
-	0x73, 0x2e, 0x43, 0x69, 0x70, 0x68, 0x65, 0x72, 0x74, 0x65, 0x78, 0x74, 0x52, 0x0a, 0x63, 0x69,
-	0x70, 0x68, 0x65, 0x72, 0x74, 0x65, 0x78, 0x74, 0x22, 0x6c, 0x0a, 0x19, 0x45, 0x6e, 0x63, 0x72,
-	0x79, 0x70, 0x74, 0x65, 0x64, 0x50, 0x72, 0x69, 0x76, 0x61, 0x74, 0x65, 0x4b, 0x65, 0x79, 0x42,
-	0x75, 0x6e, 0x64, 0x6c, 0x65, 0x12, 0x44, 0x0a, 0x02, 0x76, 0x31, 0x18, 0x01, 0x20, 0x01, 0x28,
-	0x0b, 0x32, 0x32, 0x2e, 0x78, 0x6d, 0x74, 0x70, 0x2e, 0x6d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65,
-	0x5f, 0x63, 0x6f, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x73, 0x2e, 0x45, 0x6e, 0x63, 0x72, 0x79, 0x70,
-	0x74, 0x65, 0x64, 0x50, 0x72, 0x69, 0x76, 0x61, 0x74, 0x65, 0x4b, 0x65, 0x79, 0x42, 0x75, 0x6e,
-	0x64, 0x6c, 0x65, 0x56, 0x31, 0x48, 0x00, 0x52, 0x02, 0x76, 0x31, 0x42, 0x09, 0x0a, 0x07, 0x76,
-	0x65, 0x72, 0x73, 0x69, 0x6f, 0x6e, 0x42, 0x2b, 0x5a, 0x29, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62,
-	0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x78, 0x6d, 0x74, 0x70, 0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2f,
-	0x67, 0x6f, 0x2f, 0x6d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x5f, 0x63, 0x6f, 0x6e, 0x74, 0x65,
-	0x6e, 0x74, 0x73, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x65, 0x79, 0x73, 0x22, 0xf7, 0x01, 0x0a, 0x10, 0x53, 0x69, 0x67, 0x6e, 0x65, 0x64, 0x50, 0x72,
+	0x69, 0x76, 0x61, 0x74, 0x65, 0x4b, 0x65, 0x79, 0x12, 0x1d, 0x0a, 0x0a, 0x63, 0x72, 0x65, 0x61,
+	0x74, 0x65, 0x64, 0x5f, 0x6e, 0x73, 0x18, 0x01, 0x20, 0x01, 0x28, 0x04, 0x52, 0x09, 0x63, 0x72,
+	0x65, 0x61, 0x74, 0x65, 0x64, 0x4e, 0x73, 0x12, 0x51, 0x0a, 0x09, 0x73, 0x65, 0x63, 0x70, 0x32,
+	0x35, 0x36, 0x6b, 0x31, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x31, 0x2e, 0x78, 0x6d, 0x74,
+	0x70, 0x2e, 0x6d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x5f, 0x63, 0x6f, 0x6e, 0x74, 0x65, 0x6e,
+	0x74, 0x73, 0x2e, 0x53, 0x69, 0x67, 0x6e, 0x65, 0x64, 0x50, 0x72, 0x69, 0x76, 0x61, 0x74, 0x65,
+	0x4b, 0x65, 0x79, 0x2e, 0x53, 0x65, 0x63, 0x70, 0x32, 0x35, 0x36, 0x6b, 0x31, 0x48, 0x00, 0x52,
+	0x09, 0x73, 0x65, 0x63, 0x70, 0x32, 0x35, 0x36, 0x6b, 0x31, 0x12, 0x45, 0x0a, 0x0a, 0x70, 0x75,
+	0x62, 0x6c, 0x69, 0x63, 0x5f, 0x6b, 0x65, 0x79, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x26,
+	0x2e, 0x78, 0x6d, 0x74, 0x70, 0x2e, 0x6d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x5f, 0x63, 0x6f,
+	0x6e, 0x74, 0x65, 0x6e, 0x74, 0x73, 0x2e, 0x53, 0x69, 0x67, 0x6e, 0x65, 0x64, 0x50, 0x75, 0x62,
+	0x6c, 0x69, 0x63, 0x4b, 0x65, 0x79, 0x52, 0x09, 0x70, 0x75, 0x62, 0x6c, 0x69, 0x63, 0x4b, 0x65,
+	0x79, 0x1a, 0x21, 0x0a, 0x09, 0x53, 0x65, 0x63, 0x70, 0x32, 0x35, 0x36, 0x6b, 0x31, 0x12, 0x14,
+	0x0a, 0x05, 0x62, 0x79, 0x74, 0x65, 0x73, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0c, 0x52, 0x05, 0x62,
+	0x79, 0x74, 0x65, 0x73, 0x42, 0x07, 0x0a, 0x05, 0x75, 0x6e, 0x69, 0x6f, 0x6e, 0x22, 0xa4, 0x01,
+	0x0a, 0x12, 0x50, 0x72, 0x69, 0x76, 0x61, 0x74, 0x65, 0x4b, 0x65, 0x79, 0x42, 0x75, 0x6e, 0x64,
+	0x6c, 0x65, 0x56, 0x32, 0x12, 0x4a, 0x0a, 0x0c, 0x69, 0x64, 0x65, 0x6e, 0x74, 0x69, 0x74, 0x79,
+	0x5f, 0x6b, 0x65, 0x79, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x27, 0x2e, 0x78, 0x6d, 0x74,
+	0x70, 0x2e, 0x6d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x5f, 0x63, 0x6f, 0x6e, 0x74, 0x65, 0x6e,
+	0x74, 0x73, 0x2e, 0x53, 0x69, 0x67, 0x6e, 0x65, 0x64, 0x50, 0x72, 0x69, 0x76, 0x61, 0x74, 0x65,
+	0x4b, 0x65, 0x79, 0x52, 0x0b, 0x69, 0x64, 0x65, 0x6e, 0x74, 0x69, 0x74, 0x79, 0x4b, 0x65, 0x79,
+	0x12, 0x42, 0x0a, 0x08, 0x70, 0x72, 0x65, 0x5f, 0x6b, 0x65, 0x79, 0x73, 0x18, 0x02, 0x20, 0x03,
+	0x28, 0x0b, 0x32, 0x27, 0x2e, 0x78, 0x6d, 0x74, 0x70, 0x2e, 0x6d, 0x65, 0x73, 0x73, 0x61, 0x67,
+	0x65, 0x5f, 0x63, 0x6f, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x73, 0x2e, 0x53, 0x69, 0x67, 0x6e, 0x65,
+	0x64, 0x50, 0x72, 0x69, 0x76, 0x61, 0x74, 0x65, 0x4b, 0x65, 0x79, 0x52, 0x07, 0x70, 0x72, 0x65,
+	0x4b, 0x65, 0x79, 0x73, 0x22, 0x97, 0x01, 0x0a, 0x10, 0x50, 0x72, 0x69, 0x76, 0x61, 0x74, 0x65,
+	0x4b, 0x65, 0x79, 0x42, 0x75, 0x6e, 0x64, 0x6c, 0x65, 0x12, 0x3b, 0x0a, 0x02, 0x76, 0x31, 0x18,
+	0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x29, 0x2e, 0x78, 0x6d, 0x74, 0x70, 0x2e, 0x6d, 0x65, 0x73,
+	0x73, 0x61, 0x67, 0x65, 0x5f, 0x63, 0x6f, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x73, 0x2e, 0x50, 0x72,
+	0x69, 0x76, 0x61, 0x74, 0x65, 0x4b, 0x65, 0x79, 0x42, 0x75, 0x6e, 0x64, 0x6c, 0x65, 0x56, 0x31,
+	0x48, 0x00, 0x52, 0x02, 0x76, 0x31, 0x12, 0x3b, 0x0a, 0x02, 0x76, 0x32, 0x18, 0x02, 0x20, 0x01,
+	0x28, 0x0b, 0x32, 0x29, 0x2e, 0x78, 0x6d, 0x74, 0x70, 0x2e, 0x6d, 0x65, 0x73, 0x73, 0x61, 0x67,
+	0x65, 0x5f, 0x63, 0x6f, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x73, 0x2e, 0x50, 0x72, 0x69, 0x76, 0x61,
+	0x74, 0x65, 0x4b, 0x65, 0x79, 0x42, 0x75, 0x6e, 0x64, 0x6c, 0x65, 0x56, 0x32, 0x48, 0x00, 0x52,
+	0x02, 0x76, 0x32, 0x42, 0x09, 0x0a, 0x07, 0x76, 0x65, 0x72, 0x73, 0x69, 0x6f, 0x6e, 0x22, 0x86,
+	0x01, 0x0a, 0x1b, 0x45, 0x6e, 0x63, 0x72, 0x79, 0x70, 0x74, 0x65, 0x64, 0x50, 0x72, 0x69, 0x76,
+	0x61, 0x74, 0x65, 0x4b, 0x65, 0x79, 0x42, 0x75, 0x6e, 0x64, 0x6c, 0x65, 0x56, 0x31, 0x12, 0x24,
+	0x0a, 0x0e, 0x77, 0x61, 0x6c, 0x6c, 0x65, 0x74, 0x5f, 0x70, 0x72, 0x65, 0x5f, 0x6b, 0x65, 0x79,
+	0x18, 0x01, 0x20, 0x01, 0x28, 0x0c, 0x52, 0x0c, 0x77, 0x61, 0x6c, 0x6c, 0x65, 0x74, 0x50, 0x72,
+	0x65, 0x4b, 0x65, 0x79, 0x12, 0x41, 0x0a, 0x0a, 0x63, 0x69, 0x70, 0x68, 0x65, 0x72, 0x74, 0x65,
+	0x78, 0x74, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x21, 0x2e, 0x78, 0x6d, 0x74, 0x70, 0x2e,
+	0x6d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x5f, 0x63, 0x6f, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x73,
+	0x2e, 0x43, 0x69, 0x70, 0x68, 0x65, 0x72, 0x74, 0x65, 0x78, 0x74, 0x52, 0x0a, 0x63, 0x69, 0x70,
+	0x68, 0x65, 0x72, 0x74, 0x65, 0x78, 0x74, 0x22, 0x6c, 0x0a, 0x19, 0x45, 0x6e, 0x63, 0x72, 0x79,
+	0x70, 0x74, 0x65, 0x64, 0x50, 0x72, 0x69, 0x76, 0x61, 0x74, 0x65, 0x4b, 0x65, 0x79, 0x42, 0x75,
+	0x6e, 0x64, 0x6c, 0x65, 0x12, 0x44, 0x0a, 0x02, 0x76, 0x31, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b,
+	0x32, 0x32, 0x2e, 0x78, 0x6d, 0x74, 0x70, 0x2e, 0x6d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x5f,
+	0x63, 0x6f, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x73, 0x2e, 0x45, 0x6e, 0x63, 0x72, 0x79, 0x70, 0x74,
+	0x65, 0x64, 0x50, 0x72, 0x69, 0x76, 0x61, 0x74, 0x65, 0x4b, 0x65, 0x79, 0x42, 0x75, 0x6e, 0x64,
+	0x6c, 0x65, 0x56, 0x31, 0x48, 0x00, 0x52, 0x02, 0x76, 0x31, 0x42, 0x09, 0x0a, 0x07, 0x76, 0x65,
+	0x72, 0x73, 0x69, 0x6f, 0x6e, 0x42, 0x2b, 0x5a, 0x29, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e,
+	0x63, 0x6f, 0x6d, 0x2f, 0x78, 0x6d, 0x74, 0x70, 0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2f, 0x67,
+	0x6f, 0x2f, 0x6d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x5f, 0x63, 0x6f, 0x6e, 0x74, 0x65, 0x6e,
+	0x74, 0x73, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -487,30 +724,39 @@ func file_message_contents_private_key_proto_rawDescGZIP() []byte {
 	return file_message_contents_private_key_proto_rawDescData
 }
 
-var file_message_contents_private_key_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
+var file_message_contents_private_key_proto_msgTypes = make([]protoimpl.MessageInfo, 9)
 var file_message_contents_private_key_proto_goTypes = []interface{}{
 	(*PrivateKey)(nil),                  // 0: xmtp.message_contents.PrivateKey
 	(*PrivateKeyBundleV1)(nil),          // 1: xmtp.message_contents.PrivateKeyBundleV1
-	(*PrivateKeyBundle)(nil),            // 2: xmtp.message_contents.PrivateKeyBundle
-	(*EncryptedPrivateKeyBundleV1)(nil), // 3: xmtp.message_contents.EncryptedPrivateKeyBundleV1
-	(*EncryptedPrivateKeyBundle)(nil),   // 4: xmtp.message_contents.EncryptedPrivateKeyBundle
-	(*PrivateKey_Secp256K1)(nil),        // 5: xmtp.message_contents.PrivateKey.Secp256k1
-	(*PublicKey)(nil),                   // 6: xmtp.message_contents.PublicKey
-	(*Ciphertext)(nil),                  // 7: xmtp.message_contents.Ciphertext
+	(*SignedPrivateKey)(nil),            // 2: xmtp.message_contents.SignedPrivateKey
+	(*PrivateKeyBundleV2)(nil),          // 3: xmtp.message_contents.PrivateKeyBundleV2
+	(*PrivateKeyBundle)(nil),            // 4: xmtp.message_contents.PrivateKeyBundle
+	(*EncryptedPrivateKeyBundleV1)(nil), // 5: xmtp.message_contents.EncryptedPrivateKeyBundleV1
+	(*EncryptedPrivateKeyBundle)(nil),   // 6: xmtp.message_contents.EncryptedPrivateKeyBundle
+	(*PrivateKey_Secp256K1)(nil),        // 7: xmtp.message_contents.PrivateKey.Secp256k1
+	(*SignedPrivateKey_Secp256K1)(nil),  // 8: xmtp.message_contents.SignedPrivateKey.Secp256k1
+	(*PublicKey)(nil),                   // 9: xmtp.message_contents.PublicKey
+	(*SignedPublicKey)(nil),             // 10: xmtp.message_contents.SignedPublicKey
+	(*Ciphertext)(nil),                  // 11: xmtp.message_contents.Ciphertext
 }
 var file_message_contents_private_key_proto_depIdxs = []int32{
-	5, // 0: xmtp.message_contents.PrivateKey.secp256k1:type_name -> xmtp.message_contents.PrivateKey.Secp256k1
-	6, // 1: xmtp.message_contents.PrivateKey.public_key:type_name -> xmtp.message_contents.PublicKey
-	0, // 2: xmtp.message_contents.PrivateKeyBundleV1.identity_key:type_name -> xmtp.message_contents.PrivateKey
-	0, // 3: xmtp.message_contents.PrivateKeyBundleV1.pre_keys:type_name -> xmtp.message_contents.PrivateKey
-	1, // 4: xmtp.message_contents.PrivateKeyBundle.v1:type_name -> xmtp.message_contents.PrivateKeyBundleV1
-	7, // 5: xmtp.message_contents.EncryptedPrivateKeyBundleV1.ciphertext:type_name -> xmtp.message_contents.Ciphertext
-	3, // 6: xmtp.message_contents.EncryptedPrivateKeyBundle.v1:type_name -> xmtp.message_contents.EncryptedPrivateKeyBundleV1
-	7, // [7:7] is the sub-list for method output_type
-	7, // [7:7] is the sub-list for method input_type
-	7, // [7:7] is the sub-list for extension type_name
-	7, // [7:7] is the sub-list for extension extendee
-	0, // [0:7] is the sub-list for field type_name
+	7,  // 0: xmtp.message_contents.PrivateKey.secp256k1:type_name -> xmtp.message_contents.PrivateKey.Secp256k1
+	9,  // 1: xmtp.message_contents.PrivateKey.public_key:type_name -> xmtp.message_contents.PublicKey
+	0,  // 2: xmtp.message_contents.PrivateKeyBundleV1.identity_key:type_name -> xmtp.message_contents.PrivateKey
+	0,  // 3: xmtp.message_contents.PrivateKeyBundleV1.pre_keys:type_name -> xmtp.message_contents.PrivateKey
+	8,  // 4: xmtp.message_contents.SignedPrivateKey.secp256k1:type_name -> xmtp.message_contents.SignedPrivateKey.Secp256k1
+	10, // 5: xmtp.message_contents.SignedPrivateKey.public_key:type_name -> xmtp.message_contents.SignedPublicKey
+	2,  // 6: xmtp.message_contents.PrivateKeyBundleV2.identity_key:type_name -> xmtp.message_contents.SignedPrivateKey
+	2,  // 7: xmtp.message_contents.PrivateKeyBundleV2.pre_keys:type_name -> xmtp.message_contents.SignedPrivateKey
+	1,  // 8: xmtp.message_contents.PrivateKeyBundle.v1:type_name -> xmtp.message_contents.PrivateKeyBundleV1
+	3,  // 9: xmtp.message_contents.PrivateKeyBundle.v2:type_name -> xmtp.message_contents.PrivateKeyBundleV2
+	11, // 10: xmtp.message_contents.EncryptedPrivateKeyBundleV1.ciphertext:type_name -> xmtp.message_contents.Ciphertext
+	5,  // 11: xmtp.message_contents.EncryptedPrivateKeyBundle.v1:type_name -> xmtp.message_contents.EncryptedPrivateKeyBundleV1
+	12, // [12:12] is the sub-list for method output_type
+	12, // [12:12] is the sub-list for method input_type
+	12, // [12:12] is the sub-list for extension type_name
+	12, // [12:12] is the sub-list for extension extendee
+	0,  // [0:12] is the sub-list for field type_name
 }
 
 func init() { file_message_contents_private_key_proto_init() }
@@ -546,7 +792,7 @@ func file_message_contents_private_key_proto_init() {
 			}
 		}
 		file_message_contents_private_key_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*PrivateKeyBundle); i {
+			switch v := v.(*SignedPrivateKey); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -558,7 +804,7 @@ func file_message_contents_private_key_proto_init() {
 			}
 		}
 		file_message_contents_private_key_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*EncryptedPrivateKeyBundleV1); i {
+			switch v := v.(*PrivateKeyBundleV2); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -570,7 +816,7 @@ func file_message_contents_private_key_proto_init() {
 			}
 		}
 		file_message_contents_private_key_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*EncryptedPrivateKeyBundle); i {
+			switch v := v.(*PrivateKeyBundle); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -582,7 +828,43 @@ func file_message_contents_private_key_proto_init() {
 			}
 		}
 		file_message_contents_private_key_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*EncryptedPrivateKeyBundleV1); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_message_contents_private_key_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*EncryptedPrivateKeyBundle); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_message_contents_private_key_proto_msgTypes[7].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*PrivateKey_Secp256K1); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_message_contents_private_key_proto_msgTypes[8].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*SignedPrivateKey_Secp256K1); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -598,9 +880,13 @@ func file_message_contents_private_key_proto_init() {
 		(*PrivateKey_Secp256K1_)(nil),
 	}
 	file_message_contents_private_key_proto_msgTypes[2].OneofWrappers = []interface{}{
-		(*PrivateKeyBundle_V1)(nil),
+		(*SignedPrivateKey_Secp256K1_)(nil),
 	}
 	file_message_contents_private_key_proto_msgTypes[4].OneofWrappers = []interface{}{
+		(*PrivateKeyBundle_V1)(nil),
+		(*PrivateKeyBundle_V2)(nil),
+	}
+	file_message_contents_private_key_proto_msgTypes[6].OneofWrappers = []interface{}{
 		(*EncryptedPrivateKeyBundle_V1)(nil),
 	}
 	type x struct{}
@@ -609,7 +895,7 @@ func file_message_contents_private_key_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_message_contents_private_key_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   6,
+			NumMessages:   9,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
