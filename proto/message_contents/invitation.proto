@@ -21,7 +21,7 @@ message InvitationV1 {
     // The Tag type
     message Context {
         // Expected to be a URI (ie xmtp.org/convo1)
-        string conversation_id = 1;
+        string conversation_key = 1;
         // Key value map of additional metadata that would be exposed to
         // application developers and could be used for filtering
         map<string, string> metadata = 2;
