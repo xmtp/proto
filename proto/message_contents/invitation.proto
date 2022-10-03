@@ -20,6 +20,8 @@ message InvitationV1 {
 
     // The Tag type
     message Context {
+        // Groups related conversations together
+        // Can be used to filter user conversations
         // Expected to be a URI (ie xmtp.org/convo1)
         string conversation_id = 1;
         // Key value map of additional metadata that would be exposed to
