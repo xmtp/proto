@@ -432,7 +432,7 @@ type MessageHeaderV2 struct {
 
 	// sender specified message creation time
 	CreatedNs uint64 `protobuf:"varint,1,opt,name=created_ns,json=createdNs,proto3" json:"created_ns,omitempty"`
-	// the topic that the message belongs to
+	// the topic the message belongs to
 	Topic string `protobuf:"bytes,2,opt,name=topic,proto3" json:"topic,omitempty"`
 }
 

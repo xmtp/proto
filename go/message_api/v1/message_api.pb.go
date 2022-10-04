@@ -275,10 +275,12 @@ type Envelope struct {
 	unknownFields protoimpl.UnknownFields
 
 	// The topic the message belongs to,
-	// MUST be the same as the topic embedded in the message.
+	// If the message includes the topic as well
+	// it MUST be the same as the topic in the envelope.
 	ContentTopic string `protobuf:"bytes,1,opt,name=content_topic,json=contentTopic,proto3" json:"content_topic,omitempty"`
-	// Message timestamp
-	// MUST be the same as the timestamp embedded in the message.
+	// Message creation timestamp
+	// If the message includes the timestamp as well
+	// it MUST be equivalent to the timestamp in the envelope.
 	TimestampNs uint64 `protobuf:"varint,2,opt,name=timestamp_ns,json=timestampNs,proto3" json:"timestamp_ns,omitempty"`
 	Message     []byte `protobuf:"bytes,3,opt,name=message,proto3" json:"message,omitempty"`
 }

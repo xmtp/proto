@@ -73,7 +73,7 @@ message Envelope {
     string content_topic = 1;
     // Message creation timestamp
     // If the message includes the timestamp as well
-    // it MUST be the same as the timestamp in the envelope.
+    // it MUST be equivalent to the timestamp in the envelope.
     uint64 timestamp_ns = 2;
     bytes message = 3;
 }
