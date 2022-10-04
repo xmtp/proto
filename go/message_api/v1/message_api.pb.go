@@ -274,9 +274,15 @@ type Envelope struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
+	// The topic the message belongs to,
+	// If the message includes the topic as well
+	// it MUST be the same as the topic in the envelope.
 	ContentTopic string `protobuf:"bytes,1,opt,name=content_topic,json=contentTopic,proto3" json:"content_topic,omitempty"`
-	TimestampNs  uint64 `protobuf:"varint,2,opt,name=timestamp_ns,json=timestampNs,proto3" json:"timestamp_ns,omitempty"`
-	Message      []byte `protobuf:"bytes,3,opt,name=message,proto3" json:"message,omitempty"`
+	// Message creation timestamp
+	// If the message includes the timestamp as well
+	// it MUST be equivalent to the timestamp in the envelope.
+	TimestampNs uint64 `protobuf:"varint,2,opt,name=timestamp_ns,json=timestampNs,proto3" json:"timestamp_ns,omitempty"`
+	Message     []byte `protobuf:"bytes,3,opt,name=message,proto3" json:"message,omitempty"`
 }
 
 func (x *Envelope) Reset() {
