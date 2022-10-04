@@ -68,10 +68,12 @@ message PagingInfo {
 // Envelope encapsulates a message while in transit.
 message Envelope {
     // The topic the message belongs to,
-    // MUST be the same as the topic embedded in the message.
+    // If the message includes the topic as well
+    // it MUST be the same as the topic in the envelope.
     string content_topic = 1;
-    // Message timestamp
-    // MUST be the same as the timestamp embedded in the message.
+    // Message creation timestamp
+    // If the message includes the timestamp as well
+    // it MUST be the same as the timestamp in the envelope.
     uint64 timestamp_ns = 2;
     bytes message = 3;
 }
