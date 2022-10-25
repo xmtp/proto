@@ -18,7 +18,7 @@ Messages are always associated with a `topic`. Topics are used to group related 
 
 ## Client Layer
 
-Clients connect to an arbitrary node though a GRPC based "message API" and interact with the network as a whole through this node. The message API is the interface separating the client layer from the node layer. Conversations are represented at the node layer as topics.
+Clients connect to an arbitrary node though a GRPC based [message API](https://github.com/xmtp/proto/blob/main/proto/message_api/v1/message_api.proto) and interact with the network as a whole through this node. The message API is the interface separating the client layer from the node layer. Conversations are represented at the node layer as topics.
 
 The client layer uses protobuf for encoding of all its structures. The definitions are maintained in the [xtmp/proto repository](https://github.com/xmtp/proto/blob/main/proto).
 
