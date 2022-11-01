@@ -11,33 +11,6 @@ import "message_contents/public_key.proto";
 
 option go_package = "github.com/xmtp/proto/go/message_contents";
 
-
-// PrivateKey generalized to support different key types
-message PrivateKey {
-    // time the key was created
-    uint64 timestamp = 1;
-    // private key
-    oneof union {
-        Secp256k1 secp256k1 = 2;
-    }
-    // public key for this private key
-    PublicKey public_key = 3;
-
-    // Supported key types
-
-    // EC: SECP256k1
-    message Secp256k1 {
-        bytes bytes = 1; // D big-endian, 32 bytes
-    }
-}
-
-// PrivateKeyBundleV1 wraps the identityKey and the preKeys
-message PrivateKeyBundleV1 {
-    PrivateKey identity_key = 1;
-    // all the known pre-keys, newer keys first,
-    repeated PrivateKey pre_keys = 2;
-}
-
 // PrivateKey generalized to support different key types
 message SignedPrivateKey {
     // time the key was created
@@ -64,6 +37,34 @@ message PrivateKeyBundleV2 {
     // all the known pre-keys, newer keys first,
     repeated SignedPrivateKey pre_keys = 2;
 }
+
+// LEGACY: PrivateKey generalized to support different key types
+message PrivateKey {
+    // time the key was created
+    uint64 timestamp = 1;
+    // private key
+    oneof union {
+        Secp256k1 secp256k1 = 2;
+    }
+    // public key for this private key
+    PublicKey public_key = 3;
+
+    // Supported key types
+
+    // EC: SECP256k1
+    message Secp256k1 {
+        bytes bytes = 1; // D big-endian, 32 bytes
+    }
+}
+
+// LEGACY: PrivateKeyBundleV1 wraps the identityKey and the preKeys
+message PrivateKeyBundleV1 {
+    PrivateKey identity_key = 1;
+    // all the known pre-keys, newer keys first,
+    repeated PrivateKey pre_keys = 2;
+}
+
+
 
 // Versioned PrivateKeyBundle
 message PrivateKeyBundle {
