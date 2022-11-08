@@ -56,7 +56,9 @@ The bytes of the `EncodedContent` are wrapped in [SignedContent](https://github.
 
 ## V1
 
-Previous version of the protocol (further V1) had the following differences. The network support both version of the protocol in order to allow retrieving historic conversations correctly. V1 conversations can still receive new messages, if the parties initiated them before V2 protocol rollout.
+Previous version of the protocol (further V1) had the differences described below.
+
+The networks support both versions of the protocol in order to allow retrieving historic conversations correctly. V1 conversations can still receive new messages, if the parties initiated them before V2 protocol rollout.
 
 ### Keys
 
