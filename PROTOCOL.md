@@ -2,7 +2,7 @@
 
 ## Intro
 
-The protocol allows `clients`, representing identities associated with blockchain accounts (further 'accounts'), to communicate securely with each other. The communications are represented as `conversations` between two or more clients. Conversation consists of a sequence of `messages` from a `sender` to the other `participants` of the conversation, the `recipients`.
+The protocol allows `clients`, representing identities associated with blockchain accounts (further 'accounts'), to communicate securely with each other. The communications are represented as `conversations` between two or more clients. A conversation consists of a sequence of `messages` from a `sender` to the other `participants` of the conversation, the `recipients`.
 
 The communication is mediated by a network of `nodes`. The network is responsible for ensuring that messages are delivered between clients. Since clients are not necessarily connected to the network at the same time, the network must be able to store messages while they are in transit.
 
@@ -12,21 +12,21 @@ The protocol is layered to satisfy various operational and security requirements
 
 Messages are opaque to the node (usually encrypted), i.e. nodes do not read/interpret the contents of the messages. Unencrypted message headers are readable and can be processed by the nodes.
 
-Consequently messages are just opaque `payload` to the nodes, wrapped in `envelopes` before being passed to the network by the clients. Besides the payload, envelopes also carry a `timestamp` and `topic`.
+Consequently a message is just an opaque `payload` to the nodes, wrapped in an `envelope` before being passed to the network by the clients. Besides the payload, an envelope also carries a `timestamp` and `topic`.
 
-Envelopes are always associated with a `topic`. Topics are used to group related envelopes. Topic is a required parameter of all interactions with the network layer, e.g. "add this envelope to this topic", "give me all envelopes from this topic with timestamp between X and Y", or "send me all new envelopes for this topic".
+Envelopes are always associated with a `topic`. Topics are used to group related envelopes. A topic is a required parameter of all interactions with the network layer, e.g. "add this envelope to this topic", "give me all envelopes from this topic with timestamp between X and Y", or "send me all new envelopes for this topic".
 
-Nodes employ [Waku relay protocol](https://rfc.vac.dev/spec/11/) to propagate envelopes through the network and [Waku store protocol](https://rfc.vac.dev/spec/13/) to make envelopes persist.
+Nodes employ the [Waku relay protocol](https://rfc.vac.dev/spec/11/) to propagate envelopes through the network and the [Waku store protocol](https://rfc.vac.dev/spec/13/) to make envelopes persist.
 
 ## Client Layer
 
-Clients connect to an arbitrary node though a GRPC based [message API](https://github.com/xmtp/proto/blob/main/proto/message_api/v1/message_api.proto) and interact with the network as a whole through this node. The message API is the interface separating the client layer from the network layer. Conversations are represented at the network layer as topics.
+Clients connect to an arbitrary node through a GRPC-based [message API](https://github.com/xmtp/proto/blob/main/proto/message_api/v1/message_api.proto) and interact with the network as a whole through this node. The message API is the interface separating the client layer from the network layer. Conversations are represented at the network layer as topics.
 
-The client layer uses protobuf for encoding of all its structures. The definitions are maintained in the [xtmp/proto repository](https://github.com/xmtp/proto/blob/main/proto).
+The client layer uses protobuf for encoding of all its structures. The definitions are maintained in the [xmtp/proto repository](https://github.com/xmtp/proto/blob/main/proto).
 
 ### Keys
 
-A client is associated with a blockchain account through a set of public/private keys (EC secp256k1) generated when the account is registered with the XMTP network. First there is the identity key that serves as a proxy for the account key and is signed by the account key to establish its authenticity. Then there is one or more pre-keys that are used for message encryption. The pre-keys are signed by the identity key to prove authenticity. The two level key structure is there to facilitate more frequent key rotation without requiring frequent account key signing. The key structure and naming is modelled after [Signal's X3DH protocol](https://signal.org/docs/specifications/x3dh/#the-x3dh-protocol).
+A client is associated with a blockchain account through a set of public/private keys (EC secp256k1) generated when the account is registered with the XMTP network. First there is the identity key that serves as a proxy for the account key and is signed by the account key to establish its authenticity. Then there are one or more pre-keys that are used for message encryption. The pre-keys are signed by the identity key to prove authenticity. The two-level key structure is there to facilitate more frequent key rotation without requiring frequent account key signing. The key structure and naming are modeled after [Signal's X3DH protocol](https://signal.org/docs/specifications/x3dh/#the-x3dh-protocol).
 
 The keys are maintained and stored together in a key bundle, the private keys in a [EncryptedPrivateKeyBundle](https://github.com/xmtp/proto/blob/main/proto/message_contents/private_key.proto) and public keys in a [SignedPublicKeyBundle](https://github.com/xmtp/proto/blob/main/proto/message_contents/public_key.proto).
 
