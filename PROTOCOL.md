@@ -53,3 +53,21 @@ Invitations are encrypted using a key derived from the pre-keys of the invitatio
 Message content is encoded using a content type framework represented by the [EncodedContent type](https://github.com/xmtp/proto/blob/main/proto/message_contents/xmtp_envelope.proto). Usage of the content type framework is governed by [XIP-5](https://github.com/xmtp/XIPs/blob/main/XIPs/xip-5-message-content-types.md).
 
 The bytes of the `EncodedContent` are wrapped in [SignedContent](https://github.com/xmtp/proto/blob/main/proto/message_contents/xmtp_envelope.proto), signed using the pre-key of the sender. The signature covers the bytes of the `EncodedContent` and the bytes of the [MessageHeaderV2](https://github.com/xmtp/proto/blob/main/proto/message_contents/xmtp_envelope.proto) to frustrate replay attacks. `SignedContent` is then encrypted using the key material from the invitation and wrapped in [Ciphertext](https://github.com/xmtp/proto/blob/main/proto/message_contents/ciphertext.proto). Finally [MessageV2](https://github.com/xmtp/proto/blob/main/proto/message_contents/xmtp_envelope.proto) combines the `Ciphertext` and the bytes of the message header.
+
+## V1
+
+Previous version of the protocol (further V1) had the following differences. The network support both version of the protocol in order to allow retrieving historic conversations correctly. V1 conversations can still receive new messages, if the parties initiated them before V2 protocol rollout.
+
+### Keys
+
+The protocol used a different format for keys and key bundles, see [PublicKeyBundle](https://github.com/xmtp/proto/blob/main/proto/message_contents/public_key.proto), although semantically there was very little difference. The old format had optional public key signatures, although this was never actually the case, the signatures were effectively required.
+
+### Introductions
+
+The protocol didn't use Invitations, instead it used introduction topics named `intro-<account address>`. When a sender wanted to initiate a conversation with a recipient, the client would send the first message to 3 different topics: the sender's intro topic, the recipient's intro topic and the shared conversation topic (see below). This allowed using the intro topics to reconstruct one's list of pre-existing conversations.
+
+### Messages
+
+Conversation topics were deterministically named `dm-<account address 1>-<account address 2>` with the two addresses sorted deterministically as well. Consequently there can only be one conversation between two accounts, all messages between these two accounts have to go to this one topic. This structure also allows only one to one conversations. V1 conversations do not have IDs or metadata.
+
+The messages were encrypted using a key derived from the pre-keys of the sender and recipient, a scheme that is identical to the one used for Invitations above. Consequently the sender and the recipient of a message are present in the header, outside of the encrypted payload, and visible to outside observers (i.e. nodes).
