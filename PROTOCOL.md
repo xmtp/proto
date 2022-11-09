@@ -1,5 +1,9 @@
 # The XMTP Protocol
 
+This document focuses on describing the current version of the Extensible Message Transport Protocol: XMTP V2.
+
+To learn about the previous version of the protocol, see [V1](#V1).
+
 ## Intro
 
 The protocol allows `clients`, representing identities associated with blockchain accounts (further 'accounts'), to communicate securely with each other. The communications are represented as `conversations` between two or more clients. A conversation consists of a sequence of `messages` from a `sender` to the other `participants` of the conversation, the `recipients`.
@@ -26,7 +30,7 @@ The client layer uses protobuf for encoding of all its structures. The definitio
 
 ### Keys
 
-A client is associated with a blockchain account through a set of public/private keys (EC secp256k1) generated when the account is registered with the XMTP network. First there is the identity key that serves as a proxy for the account key and is signed by the account key to establish its authenticity. Then there are one or more pre-keys that are used for message encryption. The pre-keys are signed by the identity key to prove authenticity. The two-level key structure is there to facilitate more frequent key rotation without requiring frequent account key signing. The key structure and naming are modeled after [Signal's X3DH protocol](https://signal.org/docs/specifications/x3dh/#the-x3dh-protocol).
+A client is associated with a blockchain account through a set of public/private keys (EC secp256k1) generated when the account is registered with the XMTP network. First there is the identity key that serves as a proxy for the account key and is signed by the account key to establish its authenticity. Then there are one or more pre-keys that are used for payload encryption and signing. The pre-keys are signed by the identity key to prove authenticity. The two-level key structure is there to facilitate more frequent key rotation without requiring frequent account key signing. The key structure and naming are modeled after [Signal's X3DH protocol](https://signal.org/docs/specifications/x3dh/#the-x3dh-protocol).
 
 The keys are maintained and stored together in a key bundle, the private keys in a [EncryptedPrivateKeyBundle](https://github.com/xmtp/proto/blob/main/proto/message_contents/private_key.proto) and public keys in a [SignedPublicKeyBundle](https://github.com/xmtp/proto/blob/main/proto/message_contents/public_key.proto).
 
