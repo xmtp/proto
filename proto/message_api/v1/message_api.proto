@@ -8,14 +8,14 @@ option go_package = "github.com/xmtp/proto/go/message_api/v1";
 
 // RPC
 service MessageApi {
-    // Publish a message to the network
+    // Publish messages to the network
     rpc Publish (PublishRequest) returns (PublishResponse) {
         option (google.api.http) = {
         post: "/message/v1/publish"
         body: "*"
     };
     }
-    // Subscribe to a stream of envelopers matching a predicate
+    // Subscribe to a stream of new envelopes matching a predicate
     rpc Subscribe (SubscribeRequest) returns (stream Envelope) {
         option (google.api.http) = {
         post: "/message/v1/subscribe"

@@ -1,4 +1,4 @@
-// Authn protocol
+// Client authentication protocol
 syntax = "proto3";
 package xmtp.message_api.v1;
 

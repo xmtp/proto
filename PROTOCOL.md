@@ -44,7 +44,7 @@ Only account owners SHOULD be able to publish into their contact topics. This co
 
 A conversation is initiated by a client sending an [Invitation](https://github.com/xmtp/proto/blob/main/proto/message_contents/invitation.proto) to one or more participants. The invitation contains a randomly generated name of the topic to be used for the conversation messages, and randomly generated secret key material to be used for message encryption. It also indicates the encryption algorithm to use for message encryption.
 
-Invitations are published into invite topics. Each blockchain account is automatically assigned an invite topic named `invite-<account address>`. The invite topic contains all the invitations both sent and received by the account owner. It allows the client to reconstruct the list of all past conversations and to find their corresponding message topics.
+Invitations are published into invite topics. Each blockchain account is automatically assigned an invite topic named `invite-<account address>`. It contains all the invitations both sent and received by the account owner. It allows the client to reconstruct the list of all past conversations and to find their corresponding message topics.
 
 Invitations are encrypted using a key derived from the pre-keys of the invitation sender and recipient. Consequently, the sender and the recipient of an invitation are present in the header, outside of the encrypted payload, and visible to outside observers (i.e. nodes). The encoded [`SealedInvitation`](https://github.com/xmtp/proto/blob/main/proto/message_contents/invitation.proto) is the payload of an envelope published into an invite topic.
 

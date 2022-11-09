@@ -11,7 +11,7 @@ import "message_contents/public_key.proto";
 
 option go_package = "github.com/xmtp/proto/go/message_contents";
 
-// User key bundle V1 using PublicKeys.
+// LEGACY: User key bundle V1 using PublicKeys.
 // The PublicKeys MUST be signed.
 message ContactBundleV1 {
     PublicKeyBundle key_bundle = 1;
