@@ -36,7 +36,7 @@ To start a conversation, the initiator needs the public keys of the participants
 
 Each blockchain account is automatically assigned a contact topic named `contact-<account address>`. Public key bundles are published as [ContactBundles](https://github.com/xmtp/proto/blob/main/proto/message_contents/contact.proto) which allow for versioning of the bundle format. A public key bundle MUST be republished whenever the pre-key or identity-key changes. The latest published bundle represents the current bundle that should be used for all new messages and conversations.
 
-Only account owners should be able to publish into their contact topics. When publishing a contact into a contact topic, the nodes MUST verify that the bundle being published is a valid bundle signed by the account that owns the contact topic (i.e. the address in the topic name matches the address of the account that signed the bundle). The nodes must also verify that the created_ns time of the pre-key in the bundle is newer than the created_ns time of the pre-key in the latest published bundle.
+Only account owners SHOULD be able to publish into their contact topics. This could be enforced at the API or at the node level. Specifics are out of scope in this document.
 
 ### Invitations
 
