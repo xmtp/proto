@@ -6,7 +6,7 @@ The protocol allows `clients`, representing identities associated with blockchai
 
 The communication is mediated by a network of `nodes`. The network is responsible for ensuring that messages are delivered between clients. Since clients are not necessarily connected to the network at the same time, the network must be able to store messages while they are in transit.
 
-The protocol is layered to satisfy various operational and security requirements. For example, the clients are responsible for all the encryption and authentication, and key management. The nodes generally see only encrypted content with no indication of identities involved.
+The protocol is layered to satisfy various operational and security requirements. For example, the clients are responsible for all the encryption and authentication, and key management. The nodes see only encrypted user-generated content with no indication of identities involved.
 
 ## Network Layer
 
