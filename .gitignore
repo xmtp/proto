@@ -107,3 +107,8 @@ dist
 .DS_STORE
 ts/dist
 build
+
+# Swift
+Package.resolved
+.swiftpm/xcode
+.build/
