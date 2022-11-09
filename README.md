@@ -6,7 +6,7 @@ This is the authoritative source of information about the XTMP protocol itself. 
 
 Note that the generated typescript code is not committed here, instead it is generated dynamically when publishing the [proto package to npm](https://www.npmjs.com/package/@xmtp/proto)
 
-The overview and the protobuf files together form a definition of the protocol. The overview leans heavily on the protobuf definition and also serves as a guide for finding the relevant details in them.
+The overview and the protobuf files together form the definition of the protocol. The overview leans heavily on the protobuf files and also serves as a guide for finding the relevant details in them.
 
 ## Working on this repo
 
