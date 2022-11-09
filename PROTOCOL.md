@@ -34,7 +34,9 @@ The keys are maintained and stored together in a key bundle, the private keys in
 
 To start a conversation, the initiator needs the public keys of the participants. To facilitate this step, registered clients publish their public key bundle in easily discoverable contact topics.
 
-Each blockchain account is automatically assigned a contact topic named `contact-<account address>`. Public key bundles are published as [ContactBundles](https://github.com/xmtp/proto/blob/main/proto/message_contents/contact.proto) which allow for versioning of the bundle format. A public key bundle MUST be republished whenever the pre-key or identity-key changes. The latest published bundle represents the current bundle that should be used for all new messages and conversations.
+Each blockchain account is automatically assigned a contact topic named `contact-<account address>`. Public key bundles are published as [ContactBundles](https://github.com/xmtp/proto/blob/main/proto/message_contents/contact.proto) which allow for versioning of the bundle format. The encoded `ContactBundle` is the payload of an envelope published into the contact topic.
+
+A public key bundle MUST be republished whenever the pre-key or identity-key changes. The latest published bundle represents the current bundle that should be used for all new messages and conversations.
 
 Only account owners SHOULD be able to publish into their contact topics. This could be enforced at the API or at the node level. Specifics are out of scope in this document.
 
@@ -42,9 +44,9 @@ Only account owners SHOULD be able to publish into their contact topics. This co
 
 A conversation is initiated by a client sending an [Invitation](https://github.com/xmtp/proto/blob/main/proto/message_contents/invitation.proto) to one or more participants. The invitation contains a randomly generated name of the topic to be used for the conversation messages, and randomly generated secret key material to be used for message encryption. It also indicates the encryption algorithm to use for message encryption.
 
-Invitations are published into invite topics. Each blockchain account is automatically assigned an invite topic named `invite-<account address>`. It contains all the invitations both sent and received by the account owner. It allows the client to reconstruct the list of all past conversations and to find their corresponding message topics.
+Invitations are published into invite topics. Each blockchain account is automatically assigned an invite topic named `invite-<account address>`. The invite topic contains all the invitations both sent and received by the account owner. It allows the client to reconstruct the list of all past conversations and to find their corresponding message topics.
 
-Invitations are encrypted using a key derived from the pre-keys of the invitation sender and recipient. Consequently, the sender and the recipient of an invitation are present in the header, outside of the encrypted payload, and visible to outside observers (i.e. nodes).
+Invitations are encrypted using a key derived from the pre-keys of the invitation sender and recipient. Consequently, the sender and the recipient of an invitation are present in the header, outside of the encrypted payload, and visible to outside observers (i.e. nodes). The encoded [`SealedInvitation`](https://github.com/xmtp/proto/blob/main/proto/message_contents/invitation.proto) is the payload of an envelope published into an invite topic.
 
 ### Messages
 
@@ -52,7 +54,7 @@ Invitations are encrypted using a key derived from the pre-keys of the invitatio
 
 Message content is encoded using a content type framework represented by the [EncodedContent type](https://github.com/xmtp/proto/blob/main/proto/message_contents/xmtp_envelope.proto). Usage of the content type framework is governed by [XIP-5](https://github.com/xmtp/XIPs/blob/main/XIPs/xip-5-message-content-types.md).
 
-The bytes of the `EncodedContent` are wrapped in [SignedContent](https://github.com/xmtp/proto/blob/main/proto/message_contents/xmtp_envelope.proto), signed using the pre-key of the sender. The signature covers the bytes of the `EncodedContent` and the bytes of the [MessageHeaderV2](https://github.com/xmtp/proto/blob/main/proto/message_contents/xmtp_envelope.proto) to frustrate replay attacks. `SignedContent` is then encrypted using the key material from the invitation and wrapped in [Ciphertext](https://github.com/xmtp/proto/blob/main/proto/message_contents/ciphertext.proto). Finally [MessageV2](https://github.com/xmtp/proto/blob/main/proto/message_contents/xmtp_envelope.proto) combines the `Ciphertext` and the bytes of the message header.
+The bytes of the `EncodedContent` are wrapped in [SignedContent](https://github.com/xmtp/proto/blob/main/proto/message_contents/xmtp_envelope.proto), signed using the pre-key of the sender. The signature covers the bytes of the `EncodedContent` and the bytes of the [MessageHeaderV2](https://github.com/xmtp/proto/blob/main/proto/message_contents/xmtp_envelope.proto) to frustrate replay attacks. `SignedContent` is then encrypted using the key material from the invitation and wrapped in [Ciphertext](https://github.com/xmtp/proto/blob/main/proto/message_contents/ciphertext.proto). Finally [MessageV2](https://github.com/xmtp/proto/blob/main/proto/message_contents/xmtp_envelope.proto) combines the `Ciphertext` and the bytes of the message header. The encoded `MessageV2` is the payload of an envelope published into a conversation topic.
 
 ## V1
 
