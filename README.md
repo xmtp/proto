@@ -1,8 +1,8 @@
 This is the authoritative source of information about the XTMP protocol itself. It contains
 
-* an overview of the protocol [PROTOCOL.md]()
-* the protobuf definitions of all the elements of the protocol [/proto]()
-* code generated from the protobuf definitions [go/]
+* an overview of the protocol [PROTOCOL.md](https://github.com/xmtp/xmtp-js/blob/main/PROTOCOL.md)
+* the protobuf definitions of all the elements of the protocol [/proto](https://github.com/xmtp/xmtp-js/blob/main/proto)
+* code generated from the protobuf definitions [go/](https://github.com/xmtp/xmtp-js/blob/main/go)
 
 Note that the generated typescript code is not committed here, instead it is generated dynamically when publishing the [proto package to npm](https://www.npmjs.com/package/@xmtp/proto)
 
