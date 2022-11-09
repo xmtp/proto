@@ -10,7 +10,7 @@ The protocol is layered to satisfy various operational and security requirements
 
 ## Network Layer
 
-Messages are opaque to the node (usually encrypted), i.e. nodes do not read/interpret the contents of the messages. Unencrypted message headers are readable and can be processed by the nodes.
+Messages are opaque to the node (encrypted), i.e. nodes do not read/interpret the contents of the messages. Unencrypted message headers are readable and can be processed by the nodes.
 
 Consequently, a message is just an opaque `payload` to the nodes, wrapped in an `envelope` before being passed to the network by the clients. Besides the payload, an envelope also carries a `timestamp` and `topic`.
 
