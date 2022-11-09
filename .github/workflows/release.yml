@@ -4,6 +4,21 @@ on:
     branches:
       - main
 jobs:
+  dart:
+    name: Release (dart)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: dart-lang/setup-dart@v1.3
+      - run: dart pub get
+        working-directory: ./dart
+      - run: dev/dart/generate
+      - run: dart test
+        working-directory: ./dart
+      - run: dev/dart/prepublish
+      # TODO: enable this once we have an XMTP verified publisher
+#      - run: dart pub publish
+#        working-directory: ./dart
   js:
     name: Release (JS)
     runs-on: ubuntu-latest
