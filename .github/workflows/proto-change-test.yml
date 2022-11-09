@@ -1,0 +1,19 @@
+name: proto-change Test
+# This workflow is only triggered when the protos change.
+# It lets us make sure any committed generated code is up to date.
+on:
+  pull_request:
+    paths:
+      - "proto/**"
+jobs:
+  js:
+    name: Verify dev/go/generate was run to pick up changes.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-go@v3
+        with:
+          go-version: "1.17.8"
+      - run: sudo apt-get install -y protobuf-compiler
+      - run: dev/go/generate
+      - run: git diff --exit-code
