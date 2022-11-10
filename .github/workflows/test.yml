@@ -13,3 +13,12 @@ jobs:
       - uses: actions/setup-node@v2
       - run: npm ci
       - run: npm test
+  swift:
+    name: Test (swift)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: swift-actions/setup-swift@v1
+      - uses: actions/checkout@v3
+      - run: dev/swift/generate
+      - run: swift build
+      - run: swift test
