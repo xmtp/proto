@@ -155,8 +155,7 @@ func (x *SignedPublicKey) GetSignature() *Signature {
 	return nil
 }
 
-// PublicKeyBundle packages the cryptographic keys associated with a wallet,
-// both senders and recipients are identified by their key bundles.
+// PublicKeyBundle packages the cryptographic keys associated with a wallet.
 type SignedPublicKeyBundle struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache

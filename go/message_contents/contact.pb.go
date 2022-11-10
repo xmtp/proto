@@ -26,7 +26,7 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-// User key bundle V1 using PublicKeys.
+// LEGACY: User key bundle V1 using PublicKeys.
 // The PublicKeys MUST be signed.
 type ContactBundleV1 struct {
 	state         protoimpl.MessageState
