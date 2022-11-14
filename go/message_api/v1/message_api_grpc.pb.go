@@ -26,6 +26,8 @@ type MessageApiClient interface {
 	Publish(ctx context.Context, in *PublishRequest, opts ...grpc.CallOption) (*PublishResponse, error)
 	// Subscribe to a stream of new envelopes matching a predicate
 	Subscribe(ctx context.Context, in *SubscribeRequest, opts ...grpc.CallOption) (MessageApi_SubscribeClient, error)
+	// Subscribe to a stream of all messages
+	SubscribeAll(ctx context.Context, in *SubscribeAllRequest, opts ...grpc.CallOption) (MessageApi_SubscribeAllClient, error)
 	// Query the store for messages
 	Query(ctx context.Context, in *QueryRequest, opts ...grpc.CallOption) (*QueryResponse, error)
 }
@@ -79,6 +81,38 @@ func (x *messageApiSubscribeClient) Recv() (*Envelope, error) {
 	return m, nil
 }
 
+func (c *messageApiClient) SubscribeAll(ctx context.Context, in *SubscribeAllRequest, opts ...grpc.CallOption) (MessageApi_SubscribeAllClient, error) {
+	stream, err := c.cc.NewStream(ctx, &MessageApi_ServiceDesc.Streams[1], "/xmtp.message_api.v1.MessageApi/SubscribeAll", opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &messageApiSubscribeAllClient{stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+type MessageApi_SubscribeAllClient interface {
+	Recv() (*Envelope, error)
+	grpc.ClientStream
+}
+
+type messageApiSubscribeAllClient struct {
+	grpc.ClientStream
+}
+
+func (x *messageApiSubscribeAllClient) Recv() (*Envelope, error) {
+	m := new(Envelope)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
 func (c *messageApiClient) Query(ctx context.Context, in *QueryRequest, opts ...grpc.CallOption) (*QueryResponse, error) {
 	out := new(QueryResponse)
 	err := c.cc.Invoke(ctx, "/xmtp.message_api.v1.MessageApi/Query", in, out, opts...)
@@ -96,6 +130,8 @@ type MessageApiServer interface {
 	Publish(context.Context, *PublishRequest) (*PublishResponse, error)
 	// Subscribe to a stream of new envelopes matching a predicate
 	Subscribe(*SubscribeRequest, MessageApi_SubscribeServer) error
+	// Subscribe to a stream of all messages
+	SubscribeAll(*SubscribeAllRequest, MessageApi_SubscribeAllServer) error
 	// Query the store for messages
 	Query(context.Context, *QueryRequest) (*QueryResponse, error)
 	mustEmbedUnimplementedMessageApiServer()
@@ -110,6 +146,9 @@ func (UnimplementedMessageApiServer) Publish(context.Context, *PublishRequest) (
 }
 func (UnimplementedMessageApiServer) Subscribe(*SubscribeRequest, MessageApi_SubscribeServer) error {
 	return status.Errorf(codes.Unimplemented, "method Subscribe not implemented")
+}
+func (UnimplementedMessageApiServer) SubscribeAll(*SubscribeAllRequest, MessageApi_SubscribeAllServer) error {
+	return status.Errorf(codes.Unimplemented, "method SubscribeAll not implemented")
 }
 func (UnimplementedMessageApiServer) Query(context.Context, *QueryRequest) (*QueryResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Query not implemented")
@@ -166,6 +205,27 @@ func (x *messageApiSubscribeServer) Send(m *Envelope) error {
 	return x.ServerStream.SendMsg(m)
 }
 
+func _MessageApi_SubscribeAll_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(SubscribeAllRequest)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(MessageApiServer).SubscribeAll(m, &messageApiSubscribeAllServer{stream})
+}
+
+type MessageApi_SubscribeAllServer interface {
+	Send(*Envelope) error
+	grpc.ServerStream
+}
+
+type messageApiSubscribeAllServer struct {
+	grpc.ServerStream
+}
+
+func (x *messageApiSubscribeAllServer) Send(m *Envelope) error {
+	return x.ServerStream.SendMsg(m)
+}
+
 func _MessageApi_Query_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(QueryRequest)
 	if err := dec(in); err != nil {
@@ -204,6 +264,11 @@ var MessageApi_ServiceDesc = grpc.ServiceDesc{
 		{
 			StreamName:    "Subscribe",
 			Handler:       _MessageApi_Subscribe_Handler,
+			ServerStreams: true,
+		},
+		{
+			StreamName:    "SubscribeAll",
+			Handler:       _MessageApi_SubscribeAll_Handler,
 			ServerStreams: true,
 		},
 	},

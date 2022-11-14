@@ -26,7 +26,7 @@ fileprivate struct _GeneratedWithProtocGenSwiftVersion: SwiftProtobuf.ProtobufAP
   typealias Version = _2
 }
 
-/// User key bundle V1 using PublicKeys.
+/// LEGACY: User key bundle V1 using PublicKeys.
 /// The PublicKeys MUST be signed.
 public struct Xmtp_MessageContents_ContactBundleV1 {
   // SwiftProtobuf.Message conformance is added in an extension below. See the

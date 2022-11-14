@@ -217,6 +217,17 @@ public struct Xmtp_MessageApi_V1_SubscribeRequest {
   public init() {}
 }
 
+/// SubscribeAll
+public struct Xmtp_MessageApi_V1_SubscribeAllRequest {
+  // SwiftProtobuf.Message conformance is added in an extension below. See the
+  // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+  // methods supported on all messages.
+
+  public var unknownFields = SwiftProtobuf.UnknownStorage()
+
+  public init() {}
+}
+
 /// Query
 public struct Xmtp_MessageApi_V1_QueryRequest {
   // SwiftProtobuf.Message conformance is added in an extension below. See the
@@ -279,6 +290,7 @@ extension Xmtp_MessageApi_V1_Envelope: @unchecked Sendable {}
 extension Xmtp_MessageApi_V1_PublishRequest: @unchecked Sendable {}
 extension Xmtp_MessageApi_V1_PublishResponse: @unchecked Sendable {}
 extension Xmtp_MessageApi_V1_SubscribeRequest: @unchecked Sendable {}
+extension Xmtp_MessageApi_V1_SubscribeAllRequest: @unchecked Sendable {}
 extension Xmtp_MessageApi_V1_QueryRequest: @unchecked Sendable {}
 extension Xmtp_MessageApi_V1_QueryResponse: @unchecked Sendable {}
 #endif  // swift(>=5.5) && canImport(_Concurrency)
@@ -551,6 +563,25 @@ extension Xmtp_MessageApi_V1_SubscribeRequest: SwiftProtobuf.Message, SwiftProto
 
   public static func ==(lhs: Xmtp_MessageApi_V1_SubscribeRequest, rhs: Xmtp_MessageApi_V1_SubscribeRequest) -> Bool {
     if lhs.contentTopics != rhs.contentTopics {return false}
+    if lhs.unknownFields != rhs.unknownFields {return false}
+    return true
+  }
+}
+
+extension Xmtp_MessageApi_V1_SubscribeAllRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  public static let protoMessageName: String = _protobuf_package + ".SubscribeAllRequest"
+  public static let _protobuf_nameMap = SwiftProtobuf._NameMap()
+
+  public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    while let _ = try decoder.nextFieldNumber() {
+    }
+  }
+
+  public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    try unknownFields.traverse(visitor: &visitor)
+  }
+
+  public static func ==(lhs: Xmtp_MessageApi_V1_SubscribeAllRequest, rhs: Xmtp_MessageApi_V1_SubscribeAllRequest) -> Bool {
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
   }

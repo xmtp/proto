@@ -7,7 +7,7 @@
 // For information on using the generated types, please see the documentation:
 //   https://github.com/apple/swift-protobuf/
 
-/// Authn protocol
+/// Client authentication protocol
 
 import Foundation
 import SwiftProtobuf
