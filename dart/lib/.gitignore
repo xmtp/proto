@@ -1,0 +1,3 @@
+# per https://dart.dev/tools/pub/publishing#what-files-are-published
+# We want src in the pub but not in git.
+src/
