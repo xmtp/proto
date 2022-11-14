@@ -105,8 +105,7 @@ public struct Xmtp_MessageContents_SignedPublicKey {
   fileprivate var _signature: Xmtp_MessageContents_Signature? = nil
 }
 
-/// PublicKeyBundle packages the cryptographic keys associated with a wallet,
-/// both senders and recipients are identified by their key bundles.
+/// PublicKeyBundle packages the cryptographic keys associated with a wallet.
 public struct Xmtp_MessageContents_SignedPublicKeyBundle {
   // SwiftProtobuf.Message conformance is added in an extension below. See the
   // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
