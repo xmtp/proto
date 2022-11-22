@@ -3,7 +3,7 @@ syntax = "proto3";
 
 package xmtp.message_contents;
 
-import "message_contents/xmtp_envelope.proto";
+import "message_contents/content.proto";
 
 option go_package = "github.com/xmtp/proto/go/message_contents";
 

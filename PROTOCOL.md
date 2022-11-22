@@ -54,11 +54,11 @@ Invitations are encrypted using a key derived from the pre-keys of the invitatio
 
 ### Messages
 
-[Messages](https://github.com/xmtp/proto/blob/main/proto/message_contents/xmtp_envelope.proto) are published into conversation topics indicated by the corresponding invitation. Conversation topic names follow the format `m-<base64 encoded random 32bytes>`.
+[Messages](https://github.com/xmtp/proto/blob/main/proto/message_contents/message.proto) are published into conversation topics indicated by the corresponding invitation. Conversation topic names follow the format `m-<base64 encoded random 32bytes>`.
 
-Message content is encoded using a content type framework represented by the [EncodedContent type](https://github.com/xmtp/proto/blob/main/proto/message_contents/xmtp_envelope.proto). Usage of the content type framework is governed by [XIP-5](https://github.com/xmtp/XIPs/blob/main/XIPs/xip-5-message-content-types.md).
+Message content is encoded using a content type framework represented by the [EncodedContent type](https://github.com/xmtp/proto/blob/main/proto/message_contents/content.proto). Usage of the content type framework is governed by [XIP-5](https://github.com/xmtp/XIPs/blob/main/XIPs/xip-5-message-content-types.md).
 
-The bytes of the `EncodedContent` are wrapped in [SignedContent](https://github.com/xmtp/proto/blob/main/proto/message_contents/xmtp_envelope.proto), signed using the pre-key of the sender. The signature covers the bytes of the `EncodedContent` and the bytes of the [MessageHeaderV2](https://github.com/xmtp/proto/blob/main/proto/message_contents/xmtp_envelope.proto) to frustrate replay attacks. `SignedContent` is then encrypted using the key material from the invitation and wrapped in [Ciphertext](https://github.com/xmtp/proto/blob/main/proto/message_contents/ciphertext.proto). Finally [MessageV2](https://github.com/xmtp/proto/blob/main/proto/message_contents/xmtp_envelope.proto) combines the `Ciphertext` and the bytes of the message header. The encoded `MessageV2` is the payload of an envelope published into a conversation topic.
+The bytes of the `EncodedContent` are wrapped in [SignedContent](https://github.com/xmtp/proto/blob/main/proto/message_contents/content.proto), signed using the pre-key of the sender. The signature covers the bytes of the `EncodedContent` and the bytes of the [MessageHeaderV2](https://github.com/xmtp/proto/blob/main/proto/message_contents/message.proto) to frustrate replay attacks. `SignedContent` is then encrypted using the key material from the invitation and wrapped in [Ciphertext](https://github.com/xmtp/proto/blob/main/proto/message_contents/ciphertext.proto). Finally [MessageV2](https://github.com/xmtp/proto/blob/main/proto/message_contents/message.proto) combines the `Ciphertext` and the bytes of the message header. The encoded `MessageV2` is the payload of an envelope published into a conversation topic.
 
 ## V1
 
