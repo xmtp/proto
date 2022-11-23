@@ -1,4 +1,4 @@
-module github.com/xmtp/proto
+module github.com/xmtp/proto/v3
 
 go 1.18
 
