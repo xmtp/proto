@@ -6,7 +6,7 @@ package xmtp.message_contents;
 import "message_contents/public_key.proto";
 import "message_contents/signature.proto";
 
-option go_package = "github.com/xmtp/proto/go/message_contents";
+option go_package = "github.com/xmtp/proto/v3/go/message_contents";
 
 // ContentTypeId is used to identify the type of content stored in a Message.
 message ContentTypeId {

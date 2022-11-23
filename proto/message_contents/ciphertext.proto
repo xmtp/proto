@@ -3,7 +3,7 @@ syntax = "proto3";
 
 package xmtp.message_contents;
 
-option go_package = "github.com/xmtp/proto/go/message_contents";
+option go_package = "github.com/xmtp/proto/v3/go/message_contents";
 
 // Ciphertext represents encrypted payload.
 // It is definited as a union to support cryptographic algorithm agility.
