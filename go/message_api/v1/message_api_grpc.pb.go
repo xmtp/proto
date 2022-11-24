@@ -26,6 +26,8 @@ type MessageApiClient interface {
 	Publish(ctx context.Context, in *PublishRequest, opts ...grpc.CallOption) (*PublishResponse, error)
 	// Subscribe to a stream of new envelopes matching a predicate
 	Subscribe(ctx context.Context, in *SubscribeRequest, opts ...grpc.CallOption) (MessageApi_SubscribeClient, error)
+	// UpdateSubscription allows modifying subscriptions with an ID
+	UpdateSubscription(ctx context.Context, in *UpdateSubscriptionRequest, opts ...grpc.CallOption) (*UpdateSubscriptionResponse, error)
 	// Subscribe to a stream of all messages
 	SubscribeAll(ctx context.Context, in *SubscribeAllRequest, opts ...grpc.CallOption) (MessageApi_SubscribeAllClient, error)
 	// Query the store for messages
@@ -81,6 +83,15 @@ func (x *messageApiSubscribeClient) Recv() (*Envelope, error) {
 	return m, nil
 }
 
+func (c *messageApiClient) UpdateSubscription(ctx context.Context, in *UpdateSubscriptionRequest, opts ...grpc.CallOption) (*UpdateSubscriptionResponse, error) {
+	out := new(UpdateSubscriptionResponse)
+	err := c.cc.Invoke(ctx, "/xmtp.message_api.v1.MessageApi/UpdateSubscription", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *messageApiClient) SubscribeAll(ctx context.Context, in *SubscribeAllRequest, opts ...grpc.CallOption) (MessageApi_SubscribeAllClient, error) {
 	stream, err := c.cc.NewStream(ctx, &MessageApi_ServiceDesc.Streams[1], "/xmtp.message_api.v1.MessageApi/SubscribeAll", opts...)
 	if err != nil {
@@ -130,6 +141,8 @@ type MessageApiServer interface {
 	Publish(context.Context, *PublishRequest) (*PublishResponse, error)
 	// Subscribe to a stream of new envelopes matching a predicate
 	Subscribe(*SubscribeRequest, MessageApi_SubscribeServer) error
+	// UpdateSubscription allows modifying subscriptions with an ID
+	UpdateSubscription(context.Context, *UpdateSubscriptionRequest) (*UpdateSubscriptionResponse, error)
 	// Subscribe to a stream of all messages
 	SubscribeAll(*SubscribeAllRequest, MessageApi_SubscribeAllServer) error
 	// Query the store for messages
@@ -146,6 +159,9 @@ func (UnimplementedMessageApiServer) Publish(context.Context, *PublishRequest) (
 }
 func (UnimplementedMessageApiServer) Subscribe(*SubscribeRequest, MessageApi_SubscribeServer) error {
 	return status.Errorf(codes.Unimplemented, "method Subscribe not implemented")
+}
+func (UnimplementedMessageApiServer) UpdateSubscription(context.Context, *UpdateSubscriptionRequest) (*UpdateSubscriptionResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateSubscription not implemented")
 }
 func (UnimplementedMessageApiServer) SubscribeAll(*SubscribeAllRequest, MessageApi_SubscribeAllServer) error {
 	return status.Errorf(codes.Unimplemented, "method SubscribeAll not implemented")
@@ -205,6 +221,24 @@ func (x *messageApiSubscribeServer) Send(m *Envelope) error {
 	return x.ServerStream.SendMsg(m)
 }
 
+func _MessageApi_UpdateSubscription_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateSubscriptionRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MessageApiServer).UpdateSubscription(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/xmtp.message_api.v1.MessageApi/UpdateSubscription",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MessageApiServer).UpdateSubscription(ctx, req.(*UpdateSubscriptionRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _MessageApi_SubscribeAll_Handler(srv interface{}, stream grpc.ServerStream) error {
 	m := new(SubscribeAllRequest)
 	if err := stream.RecvMsg(m); err != nil {
@@ -254,6 +288,10 @@ var MessageApi_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Publish",
 			Handler:    _MessageApi_Publish_Handler,
+		},
+		{
+			MethodName: "UpdateSubscription",
+			Handler:    _MessageApi_UpdateSubscription_Handler,
 		},
 		{
 			MethodName: "Query",

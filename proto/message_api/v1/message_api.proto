@@ -11,17 +11,25 @@ service MessageApi {
     // Publish messages to the network
     rpc Publish (PublishRequest) returns (PublishResponse) {
         option (google.api.http) = {
-        post: "/message/v1/publish"
-        body: "*"
-    };
+            post: "/message/v1/publish"
+            body: "*"
+        };
     }
     // Subscribe to a stream of new envelopes matching a predicate
     rpc Subscribe (SubscribeRequest) returns (stream Envelope) {
         option (google.api.http) = {
-        post: "/message/v1/subscribe"
-        body: "*"
-    };
+            post: "/message/v1/subscribe"
+            body: "*"
+        };
     }
+    // UpdateSubscription allows modifying subscriptions with an ID
+    rpc UpdateSubscription (UpdateSubscriptionRequest) returns (UpdateSubscriptionResponse) {
+        option (google.api.http) = {
+            post: "/message/v1/update-subscription"
+            body: "*"
+        };
+    }
+
     // Subscribe to a stream of all messages
     rpc SubscribeAll (SubscribeAllRequest) returns (stream Envelope) {
         option (google.api.http) = {
@@ -32,9 +40,9 @@ service MessageApi {
     // Query the store for messages
     rpc Query (QueryRequest) returns (QueryResponse) {
         option (google.api.http) = {
-        post: "/message/v1/query"
-        body: "*"
-    };
+            post: "/message/v1/query"
+            body: "*"
+        };
     }
 }
 
@@ -97,12 +105,28 @@ message PublishResponse{
 // Subscribe
 message SubscribeRequest {
     repeated string content_topics = 1;
+    // Optional ID that allows subsequent
+    // updates to the subscription
+    string subscription_id = 2;
 }
 
 // SubscribeAll
 message SubscribeAllRequest {
 }
 
+// Update Subscription
+message UpdateSubscriptionRequest {
+    // subscription to update
+    string subscription_id = 1;
+    // topics to subscribe
+    repeated string subscribe_topics = 2;
+    // topics to unsubscribe
+    repeated string unsubscribe_topics = 3;
+}
+
+// Empty response for subscription updates
+message UpdateSubscriptionResponse {
+}
 
 // Query
 message QueryRequest {
