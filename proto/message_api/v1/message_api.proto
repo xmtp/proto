@@ -23,7 +23,8 @@ service MessageApi {
         };
     }
     // UpdateSubscription allows modifying subscriptions with an ID
-    rpc UpdateSubscription (UpdateSubscriptionRequest) returns (UpdateSubscriptionResponse) {
+    rpc UpdateSubscription (UpdateSubscriptionRequest) 
+    returns (UpdateSubscriptionResponse) {
         option (google.api.http) = {
             post: "/message/v1/update-subscription"
             body: "*"
