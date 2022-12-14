@@ -3,7 +3,6 @@ set -e
 
 (
   cd dev/kotlin/protoc
-  chmod 0755 protoc-gen-grpc-kotlin.sh
   docker build -t xmtp/protoc-kotlin .
 )
 
@@ -12,7 +11,7 @@ rm -f ./kotlin/**/*.pb.kotlin || true
 docker run --rm -i -v${PWD}:/code xmtp/protoc-kotlin \
     -I=./proto \
     --proto_path=./proto \
-    --plugin=protoc-gen-grpckt=dev/kotlin/protoc/protoc-gen-grpc-kotlin.sh \
+    --plugin=protoc-gen-grpckt=compiler/build/install/compiler/bin/compiler \
     --grpckt_out=./kotlin\
     --java_out=./kotlin \
     --kotlin_out=./kotlin \
@@ -23,7 +22,7 @@ docker run --rm -i -v${PWD}:/code xmtp/protoc-kotlin \
   -I=./proto \
   --proto_path=./proto \
   --experimental_allow_proto3_optional \
-  --plugin=protoc-gen-grpckt=protoc-gen-grpc-kotlin.sh \
+  --plugin=protoc-gen-grpckt=compiler/build/install/compiler/bin/compiler \
   --grpckt_out=./kotlin\
   --java_out=./kotlin \
   --kotlin_out=./kotlin \
