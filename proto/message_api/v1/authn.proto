@@ -6,6 +6,7 @@ import "message_contents/public_key.proto";
 import "message_contents/signature.proto";
 
 option go_package = "github.com/xmtp/proto/v3/go/message_api/v1";
+option java_package = "org.xmtp.proto.message.api.v1";
 
 // Token is used by clients to prove to the nodes
 // that they are serving a specific wallet.

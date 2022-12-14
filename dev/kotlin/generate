@@ -3,23 +3,24 @@ set -e
 
 (
   cd dev/kotlin/protoc
-  docker build -t xmtp/protoc-kotlin .
+  docker build --platform linux/x86_64 -t xmtp/protoc-kotlin . 
 )
 
-rm -f ./kotlin/**/*.pb.kotlin || true
+mkdir -p ./kotlin
 
-docker run --rm -i -v${PWD}:/code xmtp/protoc-kotlin \
+docker run --platform linux/x86_64 --rm -i -v${PWD}:/code xmtp/protoc-kotlin \
     -I=./proto \
     --proto_path=./proto \
     --plugin=protoc-gen-grpckt=dev/kotlin/protoc/protoc-gen-grpc-kotlin.sh \
     --grpckt_out=./kotlin \
   message_api/v1/message_api.proto
 
-docker run --rm -i -v${PWD}:/code xmtp/protoc-kotlin \
+docker run --platform linux/x86_64 --rm -i -v${PWD}:/code xmtp/protoc-kotlin \
   -I=./proto \
   --proto_path=./proto \
   --experimental_allow_proto3_optional \
   --java_out=./kotlin \
+  --kotlin_out=./kotlin \
   message_api/v1/message_api.proto \
   message_api/v1/authn.proto \
   message_contents/composite.proto \
