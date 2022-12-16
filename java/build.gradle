@@ -28,7 +28,6 @@ protobuf {
   }
 }
 
-
 publishing {
   repositories {
     maven {
@@ -40,4 +39,17 @@ publishing {
       }
     }
   }
+}
+
+sourceSets {
+    test {
+        java {
+            srcDirs = ["lib/src/test"]
+        }
+    }
+}
+
+tasks.named('test') {
+    // Use JUnit Platform for unit tests.
+    useJUnitPlatform()
 }
