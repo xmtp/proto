@@ -6,6 +6,7 @@ set -e
   docker build --platform linux/x86_64 -t xmtp/protoc-kotlin . 
 )
 
+rm -rf ./kotlin
 mkdir -p ./kotlin
 
 docker run --platform linux/x86_64 --rm -i -v${PWD}:/code xmtp/protoc-kotlin \
