@@ -33,3 +33,20 @@ jobs:
       - run: dev/swift/generate
       - run: swift build
       - run: swift test
+  kotlin:
+    name: Test (Kotlin)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Validate Gradle Wrapper
+        uses: gradle/wrapper-validation-action@v1
+      - name: Set up Java
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'adopt'
+          java-version: 11
+      - name: Generate protobufs
+        run: dev/kotlin/generate
+      - name: Gradle Run Tests
+        run: ./gradlew testDebug
