@@ -115,3 +115,5 @@ Package.resolved
 
 # Ignore Gradle project-specific cache directory
 .gradle
+*.jar
+!gradle/wrapper/gradle-wrapper.jar
