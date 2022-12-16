@@ -33,6 +33,14 @@ dependencies {
     implementation 'com.google.guava:guava:31.1-jre'
 }
 
+sourceSets {
+    test {
+        java {
+            srcDirs = ["lib/src/test"]
+        }
+    }
+}
+
 tasks.named('test') {
     // Use JUnit Platform for unit tests.
     useJUnitPlatform()
