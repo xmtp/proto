@@ -49,4 +49,4 @@ jobs:
       - name: Generate protobufs
         run: dev/kotlin/generate
       - name: Gradle Run Tests
-        run: ./gradlew testDebug
+        run: ./gradlew test
