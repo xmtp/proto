@@ -7,6 +7,7 @@ package xmtp.message_contents;
 import "message_contents/signature.proto";
 
 option go_package = "github.com/xmtp/proto/v3/go/message_contents";
+option java_package = "org.xmtp.proto.message.contents";
 
 // UnsignedPublicKey represents a generalized public key,
 // defined as a union to support cryptographic algorithm agility.

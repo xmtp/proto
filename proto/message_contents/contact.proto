@@ -10,6 +10,7 @@ package xmtp.message_contents;
 import "message_contents/public_key.proto";
 
 option go_package = "github.com/xmtp/proto/v3/go/message_contents";
+option java_package = "org.xmtp.proto.message.contents";
 
 // LEGACY: User key bundle V1 using PublicKeys.
 // The PublicKeys MUST be signed.

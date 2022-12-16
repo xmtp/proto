@@ -4,6 +4,7 @@ syntax = "proto3";
 package xmtp.message_contents;
 
 option go_package = "github.com/xmtp/proto/v3/go/message_contents";
+option java_package = "org.xmtp.proto.message.contents";
 
 // Signature represents a generalized public key signature,
 // defined as a union to support cryptographic algorithm agility.

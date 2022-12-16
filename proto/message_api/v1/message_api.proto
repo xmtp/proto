@@ -5,6 +5,7 @@ package xmtp.message_api.v1;
 import "google/api/annotations.proto";
 
 option go_package = "github.com/xmtp/proto/v3/go/message_api/v1";
+option java_package = "org.xmtp.proto.message.api.v1";
 
 // RPC
 service MessageApi {
