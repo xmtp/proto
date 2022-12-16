@@ -6,22 +6,22 @@ set -e
   docker build --platform linux/x86_64 -t xmtp/protoc-java . 
 )
 
-rm -rf ./java
-mkdir -p ./java
+rm -rf ./java/lib/src/main/java
+mkdir -p ./java/lib/src/main/java
 
 docker run --platform linux/x86_64 --rm -i -v${PWD}:/code xmtp/protoc-java \
     -I=./proto \
     --proto_path=./proto \
     --plugin=protoc-gen-java_rpc=../../build/binaries/java_pluginExecutable/protoc-gen-grpc-java \
-    --grpc-java_out=./java \
-    --java_out=./java \
+    --grpc-java_out=./java/lib/src/main/java \
+    --java_out=./java/lib/src/main/java \
   message_api/v1/message_api.proto
 
 docker run --platform linux/x86_64 --rm -i -v${PWD}:/code xmtp/protoc-java \
   -I=./proto \
   --proto_path=./proto \
   --experimental_allow_proto3_optional \
-  --java_out=./java \
+  --java_out=./java/lib/src/main/java \
   message_api/v1/message_api.proto \
   message_api/v1/authn.proto \
   message_contents/composite.proto \

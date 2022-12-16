@@ -1,0 +1,43 @@
+plugins {
+    id 'com.google.protobuf' version '0.9.1'
+    id 'java-library'
+    id 'maven-publish'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation 'junit:junit:4.13.2'
+}
+
+protobuf {
+  protoc {
+    artifact = "com.google.protobuf:protoc:3.21.11"
+  }
+  plugins {
+    grpc {
+      artifact = 'io.grpc:protoc-gen-grpc-java:1.51.1'
+    }
+  }
+  generateProtoTasks {
+    all()*.plugins {
+      grpc {}
+    }
+  }
+}
+
+
+publishing {
+  repositories {
+    maven {
+      name = "XMTPProto"
+      url = "https://maven.pkg.github.com/xmtp/proto"
+      credentials {
+        username = System.getenv("GITHUB_ACTOR")
+        password = System.getenv("GITHUB_TOKEN")
+      }
+    }
+  }
+}
