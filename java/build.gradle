@@ -19,7 +19,7 @@ dependencies {
 
 protobuf {
   protoc {
-    artifact = "com.google.protobuf:protoc:3.21.11"
+    artifact = 'com.google.protobuf:protoc:3.21.11'
   }
   plugins {
     grpc {
@@ -36,7 +36,7 @@ protobuf {
 publishing {
   repositories {
     maven {
-      name = "XMTPProto"
+      name = "GitHubPackage"
       url = "https://maven.pkg.github.com/xmtp/proto"
       credentials {
         username = System.getenv("GITHUB_ACTOR")
@@ -60,6 +60,5 @@ sourceSets {
 }
 
 tasks.named('test') {
-    // Use JUnit Platform for unit tests.
     useJUnitPlatform()
 }

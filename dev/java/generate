@@ -14,7 +14,6 @@ docker run --platform linux/x86_64 --rm -i -v${PWD}:/code xmtp/protoc-java \
     --proto_path=./proto \
     --plugin=protoc-gen-java_rpc=../../build/binaries/java_pluginExecutable/protoc-gen-grpc-java \
     --grpc-java_out=./java/lib/src/main/java \
-    --java_out=./java/lib/src/main/java \
   message_api/v1/message_api.proto
 
 docker run --platform linux/x86_64 --rm -i -v${PWD}:/code xmtp/protoc-java \
