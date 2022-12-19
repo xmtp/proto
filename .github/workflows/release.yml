@@ -51,9 +51,9 @@ jobs:
     - name: Generate protobufs
       run: dev/kotlin/generate
     - name: Run build with Gradle Wrapper
-      run: ./gradlew build
+      run: ./kotlin/gradlew build
     - name: Gradle Publish
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         GITHUB_ACTOR: ${{ secrets.GITHUB_ACTOR }}
-      run: ./gradlew publish
+      run: ./kotlin/gradlew publish

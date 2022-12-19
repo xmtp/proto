@@ -46,6 +46,6 @@ jobs:
     - name: Generate protobufs
       run: dev/kotlin/generate
     - name: Run build with Gradle Wrapper
-      run: ./gradlew build
+      run: ./kotlin/gradlew build
     - name: Gradle Run Tests
-      run: ./gradlew kotlin:test
+      run: ./kotlin/gradlew kotlin:test
