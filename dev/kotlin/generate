@@ -9,6 +9,7 @@ set -e
 rm -rf ./kotlin/lib/src/main/kotlin
 mkdir -p ./kotlin/lib/src/main/kotlin
 
+# Need Plugins for both Java and Kotlin see: https://developers.google.com/protocol-buffers/docs/reference/kotlin-generated
 docker run --platform linux/x86_64 --rm -i -v${PWD}:/code xmtp/protoc-kotlin \
     -I=./proto \
     --proto_path=./proto \
