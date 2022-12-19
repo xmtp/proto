@@ -18,6 +18,7 @@
     "pretest": "npm run build",
     "prepublish": "npm run build",
     "semantic-release": "semantic-release",
+    "typescript": "^4.6.4",
     "test": "node ./ts/dist/cjs/index.js"
   },
   "publishConfig": {
@@ -55,7 +56,8 @@
     "@commitlint/config-conventional": "^17.0.3",
     "@types/node": "^18.6.4",
     "husky": "^8.0.0",
-    "semantic-release": "^19.0.3"
+    "semantic-release": "^19.0.3",
+    "typescript": "^4.6.4"
   },
   "dependencies": {
     "long": "^5.2.0",
