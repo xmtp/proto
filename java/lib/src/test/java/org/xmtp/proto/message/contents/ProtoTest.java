@@ -7,6 +7,6 @@ import static org.junit.Assert.*;
 
 public class ProtoTest {
     @Test public void versionMethodReturnsTrue() {
-        assertEqual(Compression.COMPRESSION_DEFLATE_VALUE, 0);
+        assertEquals(Compression.forNumber(0), Compression.COMPRESSION_DEFLATE_VALUE);
     }
 }

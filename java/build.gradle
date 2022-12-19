@@ -10,6 +10,11 @@ repositories {
 
 dependencies {
     testImplementation 'junit:junit:4.13.2'
+    testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.9.1'
+    runtimeOnly 'io.grpc:grpc-netty-shaded:1.51.0'
+    implementation 'io.grpc:grpc-protobuf:1.51.0'
+    implementation 'io.grpc:grpc-stub:1.51.0'
+    compileOnly 'org.apache.tomcat:annotations-api:6.0.53' 
 }
 
 protobuf {
@@ -45,6 +50,11 @@ sourceSets {
     test {
         java {
             srcDirs = ["lib/src/test"]
+        }
+    }
+    main {
+        java {
+            srcDirs = ["lib/src/main"]
         }
     }
 }
