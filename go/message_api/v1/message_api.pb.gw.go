@@ -90,6 +90,40 @@ func request_MessageApi_Subscribe_0(ctx context.Context, marshaler runtime.Marsh
 
 }
 
+func request_MessageApi_UpdateSubscription_0(ctx context.Context, marshaler runtime.Marshaler, client MessageApiClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var protoReq UpdateSubscriptionRequest
+	var metadata runtime.ServerMetadata
+
+	newReader, berr := utilities.IOReaderFactory(req.Body)
+	if berr != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", berr)
+	}
+	if err := marshaler.NewDecoder(newReader()).Decode(&protoReq); err != nil && err != io.EOF {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+
+	msg, err := client.UpdateSubscription(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
+	return msg, metadata, err
+
+}
+
+func local_request_MessageApi_UpdateSubscription_0(ctx context.Context, marshaler runtime.Marshaler, server MessageApiServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var protoReq UpdateSubscriptionRequest
+	var metadata runtime.ServerMetadata
+
+	newReader, berr := utilities.IOReaderFactory(req.Body)
+	if berr != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", berr)
+	}
+	if err := marshaler.NewDecoder(newReader()).Decode(&protoReq); err != nil && err != io.EOF {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+
+	msg, err := server.UpdateSubscription(ctx, &protoReq)
+	return msg, metadata, err
+
+}
+
 func request_MessageApi_SubscribeAll_0(ctx context.Context, marshaler runtime.Marshaler, client MessageApiClient, req *http.Request, pathParams map[string]string) (MessageApi_SubscribeAllClient, runtime.ServerMetadata, error) {
 	var protoReq SubscribeAllRequest
 	var metadata runtime.ServerMetadata
@@ -184,6 +218,30 @@ func RegisterMessageApiHandlerServer(ctx context.Context, mux *runtime.ServeMux,
 		_, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 		return
+	})
+
+	mux.Handle("POST", pattern_MessageApi_UpdateSubscription_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+		ctx, cancel := context.WithCancel(req.Context())
+		defer cancel()
+		var stream runtime.ServerTransportStream
+		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
+		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
+		var err error
+		ctx, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/xmtp.message_api.v1.MessageApi/UpdateSubscription", runtime.WithHTTPPathPattern("/message/v1/update-subscription"))
+		if err != nil {
+			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		resp, md, err := local_request_MessageApi_UpdateSubscription_0(ctx, inboundMarshaler, server, req, pathParams)
+		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
+		ctx = runtime.NewServerMetadataContext(ctx, md)
+		if err != nil {
+			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+			return
+		}
+
+		forward_MessageApi_UpdateSubscription_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+
 	})
 
 	mux.Handle("POST", pattern_MessageApi_SubscribeAll_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -300,6 +358,27 @@ func RegisterMessageApiHandlerClient(ctx context.Context, mux *runtime.ServeMux,
 
 	})
 
+	mux.Handle("POST", pattern_MessageApi_UpdateSubscription_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+		ctx, cancel := context.WithCancel(req.Context())
+		defer cancel()
+		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
+		var err error
+		ctx, err = runtime.AnnotateContext(ctx, mux, req, "/xmtp.message_api.v1.MessageApi/UpdateSubscription", runtime.WithHTTPPathPattern("/message/v1/update-subscription"))
+		if err != nil {
+			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		resp, md, err := request_MessageApi_UpdateSubscription_0(ctx, inboundMarshaler, client, req, pathParams)
+		ctx = runtime.NewServerMetadataContext(ctx, md)
+		if err != nil {
+			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+			return
+		}
+
+		forward_MessageApi_UpdateSubscription_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+
+	})
+
 	mux.Handle("POST", pattern_MessageApi_SubscribeAll_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
@@ -350,6 +429,8 @@ var (
 
 	pattern_MessageApi_Subscribe_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"message", "v1", "subscribe"}, ""))
 
+	pattern_MessageApi_UpdateSubscription_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"message", "v1", "update-subscription"}, ""))
+
 	pattern_MessageApi_SubscribeAll_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"message", "v1", "subscribe-all"}, ""))
 
 	pattern_MessageApi_Query_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"message", "v1", "query"}, ""))
@@ -359,6 +440,8 @@ var (
 	forward_MessageApi_Publish_0 = runtime.ForwardResponseMessage
 
 	forward_MessageApi_Subscribe_0 = runtime.ForwardResponseStream
+
+	forward_MessageApi_UpdateSubscription_0 = runtime.ForwardResponseMessage
 
 	forward_MessageApi_SubscribeAll_0 = runtime.ForwardResponseStream
 
