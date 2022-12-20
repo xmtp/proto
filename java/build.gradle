@@ -34,16 +34,28 @@ protobuf {
 }
 
 publishing {
-  repositories {
-    maven {
-      name = "GitHubPackage"
-      url = "https://maven.pkg.github.com/xmtp/proto"
-      credentials {
-        username = System.getenv("GITHUB_ACTOR")
-        password = System.getenv("GITHUB_TOKEN")
-      }
+    publications {
+        mavenKotlin(MavenPublication) {
+            def appVersions = new Properties()
+            def versionFile = file("../kotlin/version.properties")
+            versionFile.withReader { appVersions.load(it) }
+            
+            groupId = "org.xmtp.proto"
+            artifactId = "java"
+            version = "${appVersions.getProperty('version.major')}.${appVersions.getProperty('version.minor')}.${appVersions.getProperty('version.build')}"
+            from components.java
+        }
     }
-  }
+     repositories {
+        maven {
+            name = "XMTPJavaPackage"
+            url = uri("https://maven.pkg.github.com/xmtp/proto")
+            credentials {
+                username = System.getenv("GITHUB_ACTOR")
+                password = System.getenv("GITHUB_TOKEN")
+            }
+        }
+    }
 }
 
 sourceSets {
