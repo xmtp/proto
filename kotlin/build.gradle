@@ -1,0 +1,109 @@
+plugins {
+    id 'org.jetbrains.kotlin.jvm' version '1.7.10'
+    id 'java-library'
+    id 'maven-publish'
+    id 'com.google.protobuf' version '0.9.1'
+}
+
+repositories {
+    mavenCentral()
+}
+
+kotlin {
+    jvmToolchain {
+        languageVersion.set(JavaLanguageVersion.of("11"))
+    }
+}
+
+dependencies {
+    testImplementation 'org.jetbrains.kotlin:kotlin-test-junit5'
+    testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.9.1'
+
+    implementation 'io.grpc:grpc-kotlin-stub:1.3.0'
+    implementation 'io.grpc:grpc-protobuf:1.47.0'
+    implementation 'com.google.protobuf:protobuf-kotlin:3.21.9'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.0'
+}
+
+protobuf {
+    protoc {
+        artifact = "com.google.protobuf:protoc:3.21.9"
+    }
+    plugins {
+        grpc {
+            artifact = "io.grpc:protoc-gen-grpc-java:1.47.0"
+        }
+        grpckt {
+            artifact = "io.grpc:protoc-gen-grpc-kotlin:1.3.0:jdk8@jar"
+        }
+    }
+    generateProtoTasks {
+        all()*.plugins {
+            grpc {}
+            grpckt {}
+        }
+        all()*.builtins {
+            kotlin {}
+        }
+    }
+}
+
+sourceSets {
+    test {
+        java {
+            srcDirs = ["lib/src/test/kotlin"]
+        }
+    }
+    main {
+        java {
+            srcDirs = ["lib/src/main/kotlin"]
+        }
+    }
+}
+
+publishing {
+    publications {
+        mavenKotlin(MavenPublication) {
+            def appVersions = new Properties()
+            def versionFile = file("version.properties")
+            versionFile.withReader { appVersions.load(it) }
+            
+            groupId = "org.xmtp.proto"
+            artifactId = "kotlin"
+            version = "${appVersions.getProperty('version.major')}.${appVersions.getProperty('version.minor')}.${appVersions.getProperty('version.build')}"
+            from components.kotlin
+        }
+    }
+     repositories {
+        maven {
+            name = "XMTPKotlinPackage"
+            url = uri("https://maven.pkg.github.com/xmtp/proto")
+            credentials {
+                username = System.getenv("GITHUB_ACTOR")
+                password = System.getenv("GITHUB_TOKEN")
+            }
+        }
+    }
+}
+
+task incrementBuildVersion {
+    def appVersions = new Properties()
+    def versionFile = file("version.properties")
+    versionFile.withReader { appVersions.load(it) }
+
+    // Increment the build version and version code.
+    def buildVersion = appVersions.getProperty('version.build').toInteger() + 1
+    def versionCode = appVersions.getProperty('version.code').toInteger() + 1
+    appVersions.setProperty('version.build', buildVersion.toString())
+    appVersions.setProperty('version.code', versionCode.toString())
+
+    def majorVersion = appVersions.getProperty('version.major').toInteger()
+    def minorVersion = appVersions.getProperty('version.minor').toInteger()
+    def comment = "Version name: $majorVersion.$minorVersion.$buildVersion (major.minor.build)\n" +
+            "Version code: $versionCode"
+    versionFile.withWriter { appVersions.store(it, comment) }
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}

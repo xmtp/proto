@@ -116,7 +116,11 @@ Package.resolved
 # Ignore Gradle project-specific cache directory
 .gradle
 *.jar
+*.idea
 !gradle/wrapper/gradle-wrapper.jar
+
+# Kotlin
+kotlin/lib/src/main
 
 # Java
 java/lib/src/main
