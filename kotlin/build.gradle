@@ -63,15 +63,16 @@ sourceSets {
 
 publishing {
     publications {
-        app(MavenPublication) {
+        mavenKotlin(MavenPublication) {
             groupId = "org.xmtp.proto"
             artifactId = "kotlin"
-            version = 1.0
+            version = "1.1.1"
+            from components.kotlin
         }
     }
      repositories {
         maven {
-            name = "GitHubPackages"
+            name = "XMTPKotlinPackage"
             url = uri("https://maven.pkg.github.com/xmtp/proto")
             credentials {
                 username = System.getenv("GITHUB_ACTOR")
