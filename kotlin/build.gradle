@@ -62,6 +62,13 @@ sourceSets {
 }
 
 publishing {
+    publications {
+        app(MavenPublication) {
+            groupId = "org.xmtp.proto"
+            artifactId = "kotlin"
+            version = 1.0
+        }
+    }
      repositories {
         maven {
             name = "GitHubPackages"
