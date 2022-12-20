@@ -117,3 +117,6 @@ Package.resolved
 .gradle
 *.jar
 !gradle/wrapper/gradle-wrapper.jar
+
+# Java
+java/lib/src/main
