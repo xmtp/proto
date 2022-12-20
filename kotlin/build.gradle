@@ -79,8 +79,8 @@ publishing {
             name = "XMTPKotlinPackage"
             url = uri("https://maven.pkg.github.com/xmtp/proto")
             credentials {
-                username = System.getenv("GITHUB_ACTOR") ?: "nplasterer"
-                password = System.getenv("GITHUB_TOKEN") ?: "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"
+                username = System.getenv("GITHUB_ACTOR")
+                password = System.getenv("GITHUB_TOKEN")
             }
         }
     }
