@@ -112,3 +112,12 @@ build
 Package.resolved
 .swiftpm/xcode
 .build/
+
+# Ignore Gradle project-specific cache directory
+.gradle
+*.jar
+*.idea
+!gradle/wrapper/gradle-wrapper.jar
+
+# Kotlin
+kotlin/lib/src/main
