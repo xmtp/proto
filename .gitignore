@@ -118,3 +118,6 @@ Package.resolved
 *.jar
 *.idea
 !gradle/wrapper/gradle-wrapper.jar
+
+# Kotlin
+kotlin/lib/src/main
