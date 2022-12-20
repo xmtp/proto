@@ -64,9 +64,13 @@ sourceSets {
 publishing {
     publications {
         mavenKotlin(MavenPublication) {
+            def appVersions = new Properties()
+            def versionFile = file("version.properties")
+            versionFile.withReader { appVersions.load(it) }
+            
             groupId = "org.xmtp.proto"
             artifactId = "kotlin"
-            version = "1.1.1"
+            version = "${appVersions.getProperty('version.major')}.${appVersions.getProperty('version.minor')}.${appVersions.getProperty('version.build')}"
             from components.kotlin
         }
     }
@@ -75,11 +79,29 @@ publishing {
             name = "XMTPKotlinPackage"
             url = uri("https://maven.pkg.github.com/xmtp/proto")
             credentials {
-                username = System.getenv("GITHUB_ACTOR")
-                password = System.getenv("GITHUB_TOKEN")
+                username = System.getenv("GITHUB_ACTOR") ?: "nplasterer"
+                password = System.getenv("GITHUB_TOKEN") ?: "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"
             }
         }
     }
+}
+
+task incrementBuildVersion {
+    def appVersions = new Properties()
+    def versionFile = file("version.properties")
+    versionFile.withReader { appVersions.load(it) }
+
+    // Increment the build version and version code.
+    def buildVersion = appVersions.getProperty('version.build').toInteger() + 1
+    def versionCode = appVersions.getProperty('version.code').toInteger() + 1
+    appVersions.setProperty('version.build', buildVersion.toString())
+    appVersions.setProperty('version.code', versionCode.toString())
+
+    def majorVersion = appVersions.getProperty('version.major').toInteger()
+    def minorVersion = appVersions.getProperty('version.minor').toInteger()
+    def comment = "Version name: $majorVersion.$minorVersion.$buildVersion (major.minor.build)\n" +
+            "Version code: $versionCode"
+    versionFile.withWriter { appVersions.store(it, comment) }
 }
 
 tasks.named('test') {
