@@ -37,6 +37,13 @@ service MessageApi {
         body: "*"
     };
     }
+    // BatchQuery containing a set of queries to be processed
+    rpc BatchQuery (BatchQueryRequest) returns (BatchQueryResponse) {
+        option (google.api.http) = {
+        post: "/message/v1/batch-query"
+        body: "*"
+    };
+    }
 }
 
 // Sort direction
@@ -117,4 +124,14 @@ message QueryRequest {
 message QueryResponse{
     repeated Envelope envelopes = 1;
     PagingInfo paging_info = 2;
+}
+
+// BatchQuery
+message BatchQueryRequest {
+  repeated QueryRequest requests = 1;
+}
+
+// Response containing a list of QueryResponse messages
+message BatchQueryResponse {
+  repeated QueryResponse responses = 1;
 }
