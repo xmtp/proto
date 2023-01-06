@@ -86,24 +86,6 @@ publishing {
     }
 }
 
-task incrementBuildVersion {
-    def appVersions = new Properties()
-    def versionFile = file("version.properties")
-    versionFile.withReader { appVersions.load(it) }
-
-    // Increment the build version and version code.
-    def buildVersion = appVersions.getProperty('version.build').toInteger() + 1
-    def versionCode = appVersions.getProperty('version.code').toInteger() + 1
-    appVersions.setProperty('version.build', buildVersion.toString())
-    appVersions.setProperty('version.code', versionCode.toString())
-
-    def majorVersion = appVersions.getProperty('version.major').toInteger()
-    def minorVersion = appVersions.getProperty('version.minor').toInteger()
-    def comment = "Version name: $majorVersion.$minorVersion.$buildVersion (major.minor.build)\n" +
-            "Version code: $versionCode"
-    versionFile.withWriter { appVersions.store(it, comment) }
-}
-
 tasks.named('test') {
     useJUnitPlatform()
 }
