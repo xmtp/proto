@@ -64,13 +64,9 @@ sourceSets {
 publishing {
     publications {
         mavenKotlin(MavenPublication) {
-            def appVersions = new Properties()
-            def versionFile = file("version.properties")
-            versionFile.withReader { appVersions.load(it) }
-            
             groupId = "org.xmtp.proto"
             artifactId = "kotlin"
-            version = "${appVersions.getProperty('version.major')}.${appVersions.getProperty('version.minor')}.${appVersions.getProperty('version.build')}"
+            version = System.getenv("RELEASE_VERSION")
             from components.kotlin
         }
     }
