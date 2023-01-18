@@ -44,7 +44,8 @@ jobs:
     steps:
     - name: Checkout project sources
       uses: actions/checkout@v3
-    - run: git fetch --prune --unshallow --tags
+      with:
+        fetch-depth: 0
     - name: Setup Gradle
       uses: gradle/gradle-build-action@v2
     - name: Validate Gradle Wrapper
