@@ -53,7 +53,9 @@ jobs:
     - name: Run build with Gradle Wrapper
       run: ./gradlew build
     - name: Set Tag
-      run: echo "GIT_TAG=`echo $(git describe --tags --abbrev=0)`" >> $GITHUB_ENV
+      run: |
+        TAG=`echo $(git describe --tags --abbrev=0)`
+        echo "GIT_TAG=${TAG#v}" >> $GITHUB_ENV
     - name: Gradle Publish
       env:
         RELEASE_VERSION: ${{ env.GIT_TAG }}
