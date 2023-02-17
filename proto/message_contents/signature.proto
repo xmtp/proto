@@ -22,8 +22,16 @@ message Signature {
         bytes bytes = 1; // compact representation [ R || S ], 64 bytes
         uint32 recovery = 2; // recovery bit
     }
+    // Self-describing signature format meant for maximizing interoperability
+    message Generic {
+        bytes signature_bytes = 1; // signature bytes
+        bytes message_bytes = 2;
+        string algorithm = 3; // signature algorithm
+        string context = 4; // context the signature should be trusted for e.g. "sender_key_association"
+    }
     oneof union {
         ECDSACompact ecdsa_compact = 1;
         WalletECDSACompact wallet_ecdsa_compact = 2;
+        Generic generic_signature = 3;
     }
 }
