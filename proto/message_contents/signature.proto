@@ -23,7 +23,7 @@ message Signature {
         // The scheme used for identity_key<->prekey association
         SCHEME_ECDSA_SECP256K1_SHA256_RSV = 1;
         // The scheme used for identity_key association, encrypted store keys
-        SCHEME_ETHEREUM_PERSONAL_SIGNATURE = 2;
+        SCHEME_EIP191_RSV = 2;
     }
 
     // ECDSA signature bytes and the recovery bit

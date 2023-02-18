@@ -26,7 +26,8 @@ const (
 type Signature_Context int32
 
 const (
-	Signature_CONTEXT_UNSPECIFIED                 Signature_Context = 0
+	Signature_CONTEXT_UNSPECIFIED Signature_Context = 0
+	// Expects xmtp domain and a specific statement in message
 	Signature_CONTEXT_SIWE_SENDER_KEY_ASSOCIATION Signature_Context = 1
 )
 
@@ -74,8 +75,10 @@ func (Signature_Context) EnumDescriptor() ([]byte, []int) {
 type Signature_Scheme int32
 
 const (
-	Signature_SCHEME_UNSPECIFIED                 Signature_Scheme = 0
-	Signature_SCHEME_ECDSA_SECP256K1_SHA256_RSV  Signature_Scheme = 1
+	Signature_SCHEME_UNSPECIFIED Signature_Scheme = 0
+	// The scheme used for identity_key<->prekey association
+	Signature_SCHEME_ECDSA_SECP256K1_SHA256_RSV Signature_Scheme = 1
+	// The scheme used for identity_key association, encrypted store keys
 	Signature_SCHEME_ETHEREUM_PERSONAL_SIGNATURE Signature_Scheme = 2
 )
 
