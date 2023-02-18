@@ -11,12 +11,18 @@ option java_package = "org.xmtp.proto.message.contents";
 message Signature {
     // Add an enum of possible signature contexts
     enum Context {
-        SENDER_KEY_ASSOCIATION = 0;
+        CONTEXT_UNSPECIFIED = 0;
+        CONTEXT_SIWE_SENDER_KEY_ASSOCIATION = 1;
     }
 
+    // Describes how to interpret signature bytes and verify the
+    // signature from message bytes.
     enum Scheme {
-        ECDSA_SECP256K1_SHA256_UNCOMPRESSED_RSV = 0;
+        SCHEME_UNSPECIFIED = 0;
+        SCHEME_ECDSA_SECP256K1_SHA256_RSV = 1;
+        SCHEME_ETHEREUM_PERSONAL_SIGNATURE = 2;
     }
+
     // ECDSA signature bytes and the recovery bit
     message ECDSACompact {
         bytes bytes = 1; // compact representation [ R || S ], 64 bytes
@@ -31,19 +37,20 @@ message Signature {
         uint32 recovery = 2; // recovery bit
     }
     // Self-describing signature format meant for maximizing interoperability
-    message ContextPrefixed {
+    message SIWE {
         // Serialized signature bytes
         bytes signature_bytes = 1;
         // Message bytes before processing that appends the context
-        bytes pre_context_message_bytes = 2;
+        bytes message_bytes = 2;
         // Signature derivation scheme
         Scheme scheme = 3;
-        // Context the signature should be trusted for e.g. "sender_key_association"
+        // Here, the context maps to what we expect to see in the {domain}
+        // and {statement} fields of the SIWE message_bytes
         Context context = 4;
     }
     oneof union {
         ECDSACompact ecdsa_compact = 1;
         WalletECDSACompact wallet_ecdsa_compact = 2;
-        ContextPrefixed context_prefixed = 3;
+        SIWE siwe = 3;
     }
 }
