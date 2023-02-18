@@ -12,6 +12,7 @@ message Signature {
     // Add an enum of possible signature contexts
     enum Context {
         CONTEXT_UNSPECIFIED = 0;
+        // Expects xmtp domain and a specific statement in message
         CONTEXT_SIWE_SENDER_KEY_ASSOCIATION = 1;
     }
 
@@ -19,7 +20,9 @@ message Signature {
     // signature from message bytes.
     enum Scheme {
         SCHEME_UNSPECIFIED = 0;
+        // The scheme used for identity_key<->prekey association
         SCHEME_ECDSA_SECP256K1_SHA256_RSV = 1;
+        // The scheme used for identity_key association, encrypted store keys
         SCHEME_ETHEREUM_PERSONAL_SIGNATURE = 2;
     }
 
