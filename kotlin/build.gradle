@@ -61,6 +61,20 @@ sourceSets {
     }
 }
 
+task sourcesJar(type: Jar) {
+    classifier = "sources"
+    from sourceSets.main.allJava
+}
+
+task javadocJar(type: Jar) {
+    classifier = "javadoc"
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives javadocJar, sourcesJar
+}
+
 publishing {
     publications {
         mavenKotlin(MavenPublication) {
@@ -68,11 +82,48 @@ publishing {
             artifactId = "kotlin"
             version = System.getenv("RELEASE_VERSION")
             from components.kotlin
+            artifact sourcesJar
+            artifact javadocJar
+
+            pom {
+                name = "kotlin"
+                description = "XMTP Proto Kotlin Library"
+                url = "https://github.com/xmtp/proto"
+                packaging = "jar"
+
+                licenses {
+                    license {
+                        name = "MIT License"
+                        url = "https://github.com/xmtp/proto/blob/main/LICENSE"
+                    }
+                }
+                developers {
+                    developer {
+                        id = "xmtp"
+                        name = "xmtp"
+                        email = "naomi@xmtp.com"
+                    }
+                }
+                scm {
+                    connection = "https://github.com/xmtp/proto.git"
+                    developerConnection =  "https://github.com/xmtp/proto.git"
+                    url = "https://github.com/xmtp/proto/tree/main"
+                }
+            }
         }
     }
+    
      repositories {
         maven {
-            name = "XMTPKotlinPackage"
+            name = "XMTPKotlinOSSPackage"
+            url = "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
+            credentials {
+                username = System.getenv("MAVEN_USERNAME")
+                password = System.getenv("MAVEN_PASSWORD")
+            }
+        }
+        maven {
+            name = "XMTPKotlinGitHubPackage"
             url = uri("https://maven.pkg.github.com/xmtp/proto")
             credentials {
                 username = System.getenv("GITHUB_ACTOR")
