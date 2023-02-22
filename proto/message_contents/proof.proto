@@ -1,4 +1,3 @@
-// Signature is a generic structure for public key signatures.
 syntax = "proto3";
 
 package xmtp.message_contents;
