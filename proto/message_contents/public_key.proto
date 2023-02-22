@@ -4,8 +4,8 @@ syntax = "proto3";
 
 package xmtp.message_contents;
 
-import "message_contents/signature.proto";
 import "message_contents/proof.proto";
+import "message_contents/signature.proto";
 
 option go_package = "github.com/xmtp/proto/v3/go/message_contents";
 option java_package = "org.xmtp.proto.message.contents";

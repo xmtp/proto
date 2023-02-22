@@ -1,3 +1,4 @@
+// Proof contains signature-based bindings for different use cases.
 syntax = "proto3";
 
 package xmtp.message_contents;

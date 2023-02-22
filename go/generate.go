@@ -16,6 +16,7 @@ import (
 //go:generate compile ../proto/message_contents/signature.proto
 //go:generate compile ../proto/message_contents/public_key.proto
 //go:generate compile ../proto/message_contents/private_key.proto
+//go:generate compile ../proto/message_contents/proof.proto
 //go:generate compile ../proto/message_contents/contact.proto
 //go:generate compile ../proto/message_contents/invitation.proto
 //go:generate compile ../proto/message_contents/message.proto
