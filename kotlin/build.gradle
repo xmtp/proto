@@ -79,8 +79,8 @@ artifacts {
 publishing {
     publications {
         mavenKotlin(MavenPublication) {
-            groupId = "org.xmtp.proto"
-            artifactId = "kotlin"
+            groupId = "org.xmtp"
+            artifactId = "proto.kotlin"
             version = System.getenv("RELEASE_VERSION")
             from components.kotlin
             artifact sourcesJar
