@@ -4,6 +4,7 @@ syntax = "proto3";
 
 package xmtp.message_contents;
 
+import "message_contents/proof.proto";
 import "message_contents/signature.proto";
 
 option go_package = "github.com/xmtp/proto/v3/go/message_contents";
@@ -29,7 +30,8 @@ message UnsignedPublicKey {
 // SignedPublicKey 
 message SignedPublicKey {
     bytes key_bytes = 1;  // embeds an UnsignedPublicKey
-    Signature signature = 2; // signs key_bytes
+    Signature signature = 2; // signs key_bytes, legacy association proof
+    AssociationProof proof = 3; // proves association with a user identity
 }
 
 // PublicKeyBundle packages the cryptographic keys associated with a wallet.
