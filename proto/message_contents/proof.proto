@@ -11,23 +11,22 @@ option java_package = "org.xmtp.proto.message.contents";
 // Association Proof proves that identity key material is associated with
 // a specific individually.
 message AssociationProof {
+    // Legacy: "XMTP : Create Identity ..." Signature Payload
+    message LegacyCreateIdentityProof {
+        // Text is the identitySignaturePayload e.g. Create Identity ...
+        bytes text = 1;
+        // Signature is the same as SignedPublicKey.Signature historically
+        Signature signature = 2;
+    }
 
-  // Legacy: "XMTP : Create Identity ..." Signature Payload
-  message LegacyCreateIdentityProof {
-    // Text is the identitySignaturePayload e.g. Create Identity ...
-    bytes text = 1;
-    // Signature is the same as SignedPublicKey.Signature historically
-    Signature signature = 2;
-  }
+    // A new accepted association proof, with a different SIWE-based format.
+    message SIWEProof {
+        bytes text = 1;
+        Signature signature = 2;
+    }
 
-  // A new accepted association proof, with a different SIWE-based format.
-  message SIWEProof {
-    bytes text = 1;
-    Signature signature = 2;
-  }
-
-  oneof union {
-    LegacyCreateIdentityProof legacy_create_identity_proof = 1;
-    SIWEProof association_proof = 2;
-  }
+    oneof union {
+        LegacyCreateIdentityProof legacy_create_identity_proof = 1;
+        SIWEProof association_proof = 2;
+    }
 }
