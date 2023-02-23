@@ -62,25 +62,11 @@ sourceSets {
     }
 }
 
-task sourcesJar(type: Jar) {
-    classifier = "sources"
-    from sourceSets.main.java.srcDirs
-}
-
-task javadocJar(type: Jar, dependsOn: javadoc) {
-    classifier = "javadoc"
-    from javadoc.destinationDir
-}
-
-artifacts {
-    archives javadocJar, sourcesJar
-}
-
 publishing {
     publications {
         mavenKotlin(MavenPublication) {
-            groupId = "org.xmtp"
-            artifactId = "proto.kotlin"
+            groupId = "org.xmtp.proto"
+            artifactId = "kotlin"
             version = System.getenv("RELEASE_VERSION")
             from components.kotlin
             artifact sourcesJar
@@ -114,7 +100,7 @@ publishing {
         }
     }
     
-     repositories {
+    repositories {
         maven {
             name = "XMTPKotlinOSSPackage"
             url = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
