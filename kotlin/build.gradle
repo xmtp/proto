@@ -62,15 +62,11 @@ sourceSets {
     }
 }
 
+
 publishing {
     publications {
         mavenKotlin(MavenPublication) {
-            groupId = "org.xmtp.proto"
-            artifactId = "kotlin"
-            version = System.getenv("RELEASE_VERSION")
             from components.kotlin
-            artifact sourcesJar
-            artifact javadocJar
 
             pom {
                 name = "kotlin"
@@ -96,25 +92,6 @@ publishing {
                     developerConnection =  "https://github.com/xmtp/proto.git"
                     url = "https://github.com/xmtp/proto/tree/main"
                 }
-            }
-        }
-    }
-    
-    repositories {
-        maven {
-            name = "XMTPKotlinOSSPackage"
-            url = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
-            credentials {
-                username = System.getenv("MAVEN_USERNAME")
-                password = System.getenv("MAVEN_PASSWORD")
-            }
-        }
-        maven {
-            name = "XMTPKotlinGitHubPackage"
-            url = uri("https://maven.pkg.github.com/xmtp/proto")
-            credentials {
-                username = System.getenv("GITHUB_ACTOR")
-                password = System.getenv("GITHUB_TOKEN")
             }
         }
     }

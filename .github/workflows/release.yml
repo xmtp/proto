@@ -71,4 +71,4 @@ jobs:
         MAVEN_PASSWORD: ${{ secrets.OSSRH_TOKEN }}
         SIGN_KEY: ${{ secrets.OSSRH_GPG_SECRET_KEY }}
         SIGN_PASSWORD: ${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }}
-      run: ./gradlew publish
+      run: ./gradlew publishToSonatype closeAndReleaseSonatypeStagingRepository
