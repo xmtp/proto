@@ -79,9 +79,6 @@ artifacts {
 publishing {
     publications {
         mavenKotlin(MavenPublication) {
-            groupId = "org.xmtp.proto"
-            artifactId = "kotlin"
-            version = System.getenv("RELEASE_VERSION")
             from components.kotlin
             artifact sourcesJar
             artifact javadocJar
@@ -113,28 +110,12 @@ publishing {
             }
         }
     }
-    
-     repositories {
-        maven {
-            name = "XMTPKotlinOSSPackage"
-            url = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
-            credentials {
-                username = System.getenv("MAVEN_USERNAME")
-                password = System.getenv("MAVEN_PASSWORD")
-            }
-        }
-        maven {
-            name = "XMTPKotlinGitHubPackage"
-            url = uri("https://maven.pkg.github.com/xmtp/proto")
-            credentials {
-                username = System.getenv("GITHUB_ACTOR")
-                password = System.getenv("GITHUB_TOKEN")
-            }
-        }
-    }
 }
 
 signing {
+    def signingKey = System.getenv("SIGN_KEY")
+    def signingPassword = System.getenv("SIGN_PASSWORD")
+    useInMemoryPgpKeys(signingKey, signingPassword)
     sign publishing.publications.mavenKotlin
 }
 
