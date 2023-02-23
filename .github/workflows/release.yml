@@ -54,10 +54,6 @@ jobs:
       run: dev/kotlin/generate
     - name: Run build with Gradle Wrapper
       run: ./gradlew build
-    - name: Install gpg secret key
-      run: |
-        cat <(echo -e "${{ secrets.OSSRH_GPG_SECRET_KEY }}") | gpg --batch --import
-        gpg --list-secret-keys --keyid-format LONG
     - name: Set Tag
       run: |
         TAG=`echo $(git describe --tags --abbrev=0)`
@@ -65,8 +61,6 @@ jobs:
     - name: Gradle Publish
       env:
         RELEASE_VERSION: ${{ env.GIT_TAG }}
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        GITHUB_ACTOR: ${{ secrets.GITHUB_ACTOR }}
         MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
         MAVEN_PASSWORD: ${{ secrets.OSSRH_TOKEN }}
         SIGN_KEY: ${{ secrets.OSSRH_GPG_SECRET_KEY }}
