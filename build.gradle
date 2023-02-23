@@ -2,7 +2,7 @@ plugins {
     id 'io.github.gradle-nexus.publish-plugin' version "1.2.0"
 }
 
-group = "org.xmtp.proto.kotlin"
+group = "org.xmtp"
 version = System.getenv("RELEASE_VERSION")
 
 nexusPublishing {
