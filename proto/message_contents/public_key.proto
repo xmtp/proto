@@ -43,8 +43,9 @@ message SignedPublicKeyRevocation {
 // A bundle that represents either the provisioning or revocation of a send key
 message SignedSendKeyBundle {
     oneof union {
-        SignedPublicKeyV2 send_key = 1;
-        SignedPublicKeyRevocation revoked_send_key = 2;
+        SignedPublicKey legacy_send_key = 1;
+        SignedPublicKeyV2 send_key = 2;
+        SignedPublicKeyRevocation revoked_send_key = 3;
     }
 }
 
