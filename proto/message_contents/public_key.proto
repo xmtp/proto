@@ -5,6 +5,7 @@ syntax = "proto3";
 package xmtp.message_contents;
 
 import "message_contents/signature.proto";
+import "message_contents/proof.proto";
 
 option go_package = "github.com/xmtp/proto/v3/go/message_contents";
 option java_package = "org.xmtp.proto.message.contents";
@@ -25,6 +26,25 @@ message UnsignedPublicKey {
         bytes bytes = 1; 
     }
 }
+
+message SignedPublicKeyV2 {
+    bytes key_bytes = 1;  // embeds an UnsignedPublicKey
+    AssociationProof proof = 2; // signs key_bytes
+}
+
+message SignedPublicKeyRevocation {
+    bytes key_bytes = 1;  // embeds an UnsignedPublicKey
+    AssociationProof proof = 2; // signs key_bytes
+}
+
+message SignedSendKeyBundle {
+    oneof union {
+        SignedPublicKeyV2 send_key = 1;
+        SignedPublicKeyRevocation revoked_send_key = 2;
+    }
+}
+
+// DEPRECATION IN PROGRESS
 
 // SignedPublicKey 
 message SignedPublicKey {
