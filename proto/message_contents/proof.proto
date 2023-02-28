@@ -8,10 +8,10 @@ import "message_contents/signature.proto";
 option go_package = "github.com/xmtp/proto/v3/go/message_contents";
 option java_package = "org.xmtp.proto.message.contents";
 
-// Association Proof proves that identity key material is associated with
-// a specific individually.
+// An association proof proves a child key (and/or other data) has been
+// associated with a parent key.
 message AssociationProof {
-    // Legacy: "XMTP : Create Identity ..." Signature Payload
+    // Legacy: "XMTP : Create Identity ..." format
     message LegacyCreateIdentityProof {
         // Text is the identitySignaturePayload e.g. Create Identity ...
         bytes text = 1;
@@ -19,7 +19,7 @@ message AssociationProof {
         Signature signature = 2;
     }
 
-    // A new accepted association proof, with a different SIWE-based format.
+    // Sign-in with Ethereum format (EIP-4361)
     message SIWEProof {
         bytes text = 1;
         Signature signature = 2;
@@ -28,5 +28,19 @@ message AssociationProof {
     oneof union {
         LegacyCreateIdentityProof legacy_create_identity_proof = 1;
         SIWEProof association_proof = 2;
+    }
+}
+
+// A revocation proof proves that a child key (and/or other data) has been
+// revoked by a parent key
+message RevocationProof {
+    // A custom payload format defined in a future RFC
+    message SignedRevocationRequest {
+        bytes text = 1;
+        Signature signature = 2;
+    }
+
+    oneof union {
+        SignedRevocationRequest signed_revocation_request = 1;
     }
 }
