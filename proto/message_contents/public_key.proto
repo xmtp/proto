@@ -35,17 +35,24 @@ message SignedPublicKeyV2 {
 }
 
 // A signed revocation of a public key
-message SignedPublicKeyRevocation {
+message SignedPublicKeyRevocationV1 {
     bytes key_bytes = 1;  // embeds an UnsignedPublicKey
     RevocationProof proof = 2; // signs key_bytes
 }
 
-// A bundle that represents either the provisioning or revocation of a send key
-message SignedSendKeyBundle {
-    oneof union {
-        SignedPublicKey legacy_send_key = 1;
-        SignedPublicKeyV2 send_key = 2;
-        SignedPublicKeyRevocation revoked_send_key = 3;
+// Wrapper for send keys. There will likely be additional metadata in the future,
+// for example app/device label
+message SendKey {
+    oneof signed_public_key {
+        SignedPublicKey v1 = 1;
+        SignedPublicKeyV2 v2 = 2;
+    }
+}
+
+// Wrapper for send key revocations.
+message SendKeyRevocation {
+    oneof signed_revocation {
+        SignedPublicKeyRevocationV1 v1 = 1;
     }
 }
 
