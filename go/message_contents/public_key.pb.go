@@ -213,8 +213,8 @@ func (x *SignedPublicKeyRevocationV1) GetProof() *RevocationProof {
 	return nil
 }
 
-// Wrapper for send keys. There will likely be additional metadata in the future,
-// for example app/device label
+// Wrapper for send keys. There will likely be additional metadata in the
+// future, for example app/device label
 type SendKey struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
