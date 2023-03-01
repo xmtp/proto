@@ -40,8 +40,8 @@ message SignedPublicKeyRevocationV1 {
     RevocationProof proof = 2; // signs key_bytes
 }
 
-// Wrapper for send keys. There will likely be additional metadata in the future,
-// for example app/device label
+// Wrapper for send keys. There will likely be additional metadata in the
+// future, for example app/device label
 message SendKey {
     oneof signed_public_key {
         SignedPublicKey v1 = 1;
