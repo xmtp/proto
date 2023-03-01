@@ -12,7 +12,7 @@ option java_package = "org.xmtp.proto.message.contents";
 // associated with a parent key.
 message AssociationProof {
     // Legacy: "XMTP : Create Identity ..." format
-    message LegacyCreateIdentityProof {
+    message StaticCreateIdentityProof {
         // Text is the identitySignaturePayload e.g. Create Identity ...
         bytes text = 1;
         // Signature is the same as SignedPublicKey.Signature historically
@@ -26,8 +26,8 @@ message AssociationProof {
     }
 
     oneof union {
-        LegacyCreateIdentityProof legacy_create_identity_proof = 1;
-        SIWEProof association_proof = 2;
+        StaticCreateIdentityProof static_create_identity_proof = 1;
+        SIWEProof siwe_proof = 2;
     }
 }
 
@@ -35,12 +35,12 @@ message AssociationProof {
 // revoked by a parent key
 message RevocationProof {
     // A custom payload format defined in a future RFC
-    message SignedRevocationRequest {
+    message SignedRevocationRequestV1 {
         bytes text = 1;
         Signature signature = 2;
     }
 
     oneof union {
-        SignedRevocationRequest signed_revocation_request = 1;
+        SignedRevocationRequestV1 signed_revocation_request_v1 = 1;
     }
 }
