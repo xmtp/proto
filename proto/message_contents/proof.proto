@@ -1,0 +1,46 @@
+// Proof contains signature-based bindings for different use cases.
+syntax = "proto3";
+
+package xmtp.message_contents;
+
+import "message_contents/signature.proto";
+
+option go_package = "github.com/xmtp/proto/v3/go/message_contents";
+option java_package = "org.xmtp.proto.message.contents";
+
+// An association proof proves a child key (and/or other data) has been
+// associated with a parent key.
+message AssociationProof {
+    // Legacy: "XMTP : Create Identity ..." format
+    message StaticCreateIdentityProof {
+        // Text is the identitySignaturePayload e.g. Create Identity ...
+        bytes text = 1;
+        // Signature is the same as SignedPublicKey.Signature historically
+        Signature signature = 2;
+    }
+
+    // Sign-in with Ethereum format (EIP-4361)
+    message SIWEProof {
+        bytes text = 1;
+        Signature signature = 2;
+    }
+
+    oneof union {
+        StaticCreateIdentityProof static_create_identity_proof = 1;
+        SIWEProof siwe_proof = 2;
+    }
+}
+
+// A revocation proof proves that a child key (and/or other data) has been
+// revoked by a parent key
+message RevocationProof {
+    // A custom payload format defined in a future RFC
+    message SignedRevocationRequestV1 {
+        bytes text = 1;
+        Signature signature = 2;
+    }
+
+    oneof union {
+        SignedRevocationRequestV1 signed_revocation_request_v1 = 1;
+    }
+}
