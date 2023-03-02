@@ -43,16 +43,15 @@ message SignedPublicKeyRevocationV1 {
 // Wrapper for send keys. There will likely be additional metadata in the
 // future, for example app/device label
 message SendKey {
-    oneof signed_public_key {
-        SignedPublicKey v1 = 1;
-        SignedPublicKeyV2 v2 = 2;
+    oneof union {
+        SignedPublicKeyV2 signed_public_key = 1;
     }
 }
 
 // Wrapper for send key revocations.
 message SendKeyRevocation {
-    oneof signed_revocation {
-        SignedPublicKeyRevocationV1 v1 = 1;
+    oneof union {
+        SignedPublicKeyRevocationV1 signed_revocation = 1;
     }
 }
 
