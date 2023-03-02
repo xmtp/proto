@@ -22,6 +22,7 @@ message SignedPrivateKey {
     }
     // public key for this private key
     SignedPublicKey public_key = 3;
+    SignedPublicKeyV2 public_key_v2 = 4;
 
     // Supported key types
 

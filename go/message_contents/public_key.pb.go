@@ -657,6 +657,7 @@ func (x *UnsignedPublicKey_Secp256K1Uncompressed) GetBytes() []byte {
 	return nil
 }
 
+// V1 of send keys
 type SendKey_SendKeyV1 struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -704,6 +705,7 @@ func (x *SendKey_SendKeyV1) GetSignedPublicKey() *SignedPublicKeyV2 {
 	return nil
 }
 
+// V1 of send key revocations
 type SendKeyRevocation_SendKeyRevocationV1 struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
