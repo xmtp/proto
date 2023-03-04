@@ -20,6 +20,12 @@ message AssociationProof {
     }
 
     // Sign-in with Ethereum format (EIP-4361)
+    message SIWESendKeyProof {
+        bytes text = 1;
+        Signature signature = 2;
+    }
+
+    // Sign-in with Ethereum format (EIP-4361)
     message SIWEProof {
         bytes text = 1;
         Signature signature = 2;

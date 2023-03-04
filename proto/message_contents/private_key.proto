@@ -12,6 +12,25 @@ import "message_contents/public_key.proto";
 option go_package = "github.com/xmtp/proto/v3/go/message_contents";
 option java_package = "org.xmtp.proto.message.contents";
 
+message SignedSendKeyPrivateKey {
+    // time the key was created
+    uint64 created_ns = 1;
+    // private key
+    oneof union {
+        Secp256k1 secp256k1 = 2;
+    }
+    // public key for this private key
+    SignedSendKeyPublicKey public_key = 3;
+
+    // Supported key types
+
+    // EC: SECP256k1
+    message Secp256k1 {
+        bytes bytes = 1; // D big-endian, 32 bytes
+    }
+    
+}
+
 // PrivateKey generalized to support different key types
 message SignedPrivateKey {
     // time the key was created

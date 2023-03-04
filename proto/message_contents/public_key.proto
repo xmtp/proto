@@ -29,6 +29,13 @@ message UnsignedPublicKey {
 
 // Signed public key that uses self-describing signatures (aka
 // 'AssociationProof')
+message SignedSendKeyPublicKey {
+    bytes key_bytes = 1;  // embeds an UnsignedPublicKey
+    AssociationProof proof = 2; // signs key_bytes
+}
+
+// Signed public key that uses self-describing signatures (aka
+// 'AssociationProof')
 message SignedPublicKeyV2 {
     bytes key_bytes = 1;  // embeds an UnsignedPublicKey
     AssociationProof proof = 2; // signs key_bytes
