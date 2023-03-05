@@ -25,6 +25,7 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+// Send key private key with accompanying signed public key
 type SignedSendKeyPrivateKey struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache

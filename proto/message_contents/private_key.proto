@@ -12,6 +12,7 @@ import "message_contents/public_key.proto";
 option go_package = "github.com/xmtp/proto/v3/go/message_contents";
 option java_package = "org.xmtp.proto.message.contents";
 
+// Send key private key with accompanying signed public key
 message SignedSendKeyPrivateKey {
     // time the key was created
     uint64 created_ns = 1;
