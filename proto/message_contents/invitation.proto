@@ -51,6 +51,7 @@ message SealedInvitationHeaderV1 {
     SignedPublicKeyBundle sender = 1;
     SignedPublicKeyBundle recipient = 2;
     uint64 created_ns = 3;
+    repeated string conversation_participants = 4;
 }
 
 // Sealed Invitation V1
