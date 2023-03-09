@@ -105,6 +105,286 @@ func (*Signature_EcdsaCompact) isSignature_Union() {}
 
 func (*Signature_WalletEcdsaCompact) isSignature_Union() {}
 
+// Signature used to link an identity key to an account
+// The use-case must be validated via the signature text
+// 'XMTP : Create Identity ...'
+type StaticCreateIdentitySignature struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	// Types that are assignable to Version:
+	//
+	//	*StaticCreateIdentitySignature_V1_
+	Version isStaticCreateIdentitySignature_Version `protobuf_oneof:"version"`
+}
+
+func (x *StaticCreateIdentitySignature) Reset() {
+	*x = StaticCreateIdentitySignature{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_message_contents_signature_proto_msgTypes[1]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *StaticCreateIdentitySignature) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*StaticCreateIdentitySignature) ProtoMessage() {}
+
+func (x *StaticCreateIdentitySignature) ProtoReflect() protoreflect.Message {
+	mi := &file_message_contents_signature_proto_msgTypes[1]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use StaticCreateIdentitySignature.ProtoReflect.Descriptor instead.
+func (*StaticCreateIdentitySignature) Descriptor() ([]byte, []int) {
+	return file_message_contents_signature_proto_rawDescGZIP(), []int{1}
+}
+
+func (m *StaticCreateIdentitySignature) GetVersion() isStaticCreateIdentitySignature_Version {
+	if m != nil {
+		return m.Version
+	}
+	return nil
+}
+
+func (x *StaticCreateIdentitySignature) GetV1() *StaticCreateIdentitySignature_V1 {
+	if x, ok := x.GetVersion().(*StaticCreateIdentitySignature_V1_); ok {
+		return x.V1
+	}
+	return nil
+}
+
+type isStaticCreateIdentitySignature_Version interface {
+	isStaticCreateIdentitySignature_Version()
+}
+
+type StaticCreateIdentitySignature_V1_ struct {
+	V1 *StaticCreateIdentitySignature_V1 `protobuf:"bytes,1,opt,name=v1,proto3,oneof"`
+}
+
+func (*StaticCreateIdentitySignature_V1_) isStaticCreateIdentitySignature_Version() {}
+
+// Signature used to link a send key to an account
+// The use-case must be validated via the signature text
+// 'XMTP : Grant Send Permissions ...'
+type StaticSendKeyGrantSignature struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	// Types that are assignable to Version:
+	//
+	//	*StaticSendKeyGrantSignature_V1_
+	Version isStaticSendKeyGrantSignature_Version `protobuf_oneof:"version"`
+}
+
+func (x *StaticSendKeyGrantSignature) Reset() {
+	*x = StaticSendKeyGrantSignature{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_message_contents_signature_proto_msgTypes[2]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *StaticSendKeyGrantSignature) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*StaticSendKeyGrantSignature) ProtoMessage() {}
+
+func (x *StaticSendKeyGrantSignature) ProtoReflect() protoreflect.Message {
+	mi := &file_message_contents_signature_proto_msgTypes[2]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use StaticSendKeyGrantSignature.ProtoReflect.Descriptor instead.
+func (*StaticSendKeyGrantSignature) Descriptor() ([]byte, []int) {
+	return file_message_contents_signature_proto_rawDescGZIP(), []int{2}
+}
+
+func (m *StaticSendKeyGrantSignature) GetVersion() isStaticSendKeyGrantSignature_Version {
+	if m != nil {
+		return m.Version
+	}
+	return nil
+}
+
+func (x *StaticSendKeyGrantSignature) GetV1() *StaticSendKeyGrantSignature_V1 {
+	if x, ok := x.GetVersion().(*StaticSendKeyGrantSignature_V1_); ok {
+		return x.V1
+	}
+	return nil
+}
+
+type isStaticSendKeyGrantSignature_Version interface {
+	isStaticSendKeyGrantSignature_Version()
+}
+
+type StaticSendKeyGrantSignature_V1_ struct {
+	V1 *StaticSendKeyGrantSignature_V1 `protobuf:"bytes,1,opt,name=v1,proto3,oneof"`
+}
+
+func (*StaticSendKeyGrantSignature_V1_) isStaticSendKeyGrantSignature_Version() {}
+
+// Signature used to link a send key to an account
+// The use-case must be validated via the signature text
+// 'XMTP : Revoke Send Permissions ...'
+type StaticSendKeyRevokeSignature struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	// Types that are assignable to Version:
+	//
+	//	*StaticSendKeyRevokeSignature_V1_
+	Version isStaticSendKeyRevokeSignature_Version `protobuf_oneof:"version"`
+}
+
+func (x *StaticSendKeyRevokeSignature) Reset() {
+	*x = StaticSendKeyRevokeSignature{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_message_contents_signature_proto_msgTypes[3]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *StaticSendKeyRevokeSignature) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*StaticSendKeyRevokeSignature) ProtoMessage() {}
+
+func (x *StaticSendKeyRevokeSignature) ProtoReflect() protoreflect.Message {
+	mi := &file_message_contents_signature_proto_msgTypes[3]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use StaticSendKeyRevokeSignature.ProtoReflect.Descriptor instead.
+func (*StaticSendKeyRevokeSignature) Descriptor() ([]byte, []int) {
+	return file_message_contents_signature_proto_rawDescGZIP(), []int{3}
+}
+
+func (m *StaticSendKeyRevokeSignature) GetVersion() isStaticSendKeyRevokeSignature_Version {
+	if m != nil {
+		return m.Version
+	}
+	return nil
+}
+
+func (x *StaticSendKeyRevokeSignature) GetV1() *StaticSendKeyRevokeSignature_V1 {
+	if x, ok := x.GetVersion().(*StaticSendKeyRevokeSignature_V1_); ok {
+		return x.V1
+	}
+	return nil
+}
+
+type isStaticSendKeyRevokeSignature_Version interface {
+	isStaticSendKeyRevokeSignature_Version()
+}
+
+type StaticSendKeyRevokeSignature_V1_ struct {
+	V1 *StaticSendKeyRevokeSignature_V1 `protobuf:"bytes,1,opt,name=v1,proto3,oneof"`
+}
+
+func (*StaticSendKeyRevokeSignature_V1_) isStaticSendKeyRevokeSignature_Version() {}
+
+// Dynamic signature using sign-in with Ethereum format (EIP-4361)
+// The use-case is inferred from the signature text
+// Issue: use-case might be ambiguous
+type SIWESignature struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	// Types that are assignable to Version:
+	//
+	//	*SIWESignature_V1_
+	Version isSIWESignature_Version `protobuf_oneof:"version"`
+}
+
+func (x *SIWESignature) Reset() {
+	*x = SIWESignature{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_message_contents_signature_proto_msgTypes[4]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *SIWESignature) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SIWESignature) ProtoMessage() {}
+
+func (x *SIWESignature) ProtoReflect() protoreflect.Message {
+	mi := &file_message_contents_signature_proto_msgTypes[4]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SIWESignature.ProtoReflect.Descriptor instead.
+func (*SIWESignature) Descriptor() ([]byte, []int) {
+	return file_message_contents_signature_proto_rawDescGZIP(), []int{4}
+}
+
+func (m *SIWESignature) GetVersion() isSIWESignature_Version {
+	if m != nil {
+		return m.Version
+	}
+	return nil
+}
+
+func (x *SIWESignature) GetV1() *SIWESignature_V1 {
+	if x, ok := x.GetVersion().(*SIWESignature_V1_); ok {
+		return x.V1
+	}
+	return nil
+}
+
+type isSIWESignature_Version interface {
+	isSIWESignature_Version()
+}
+
+type SIWESignature_V1_ struct {
+	V1 *SIWESignature_V1 `protobuf:"bytes,1,opt,name=v1,proto3,oneof"`
+}
+
+func (*SIWESignature_V1_) isSIWESignature_Version() {}
+
 // ECDSA signature bytes and the recovery bit
 type Signature_ECDSACompact struct {
 	state         protoimpl.MessageState
@@ -118,7 +398,7 @@ type Signature_ECDSACompact struct {
 func (x *Signature_ECDSACompact) Reset() {
 	*x = Signature_ECDSACompact{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_message_contents_signature_proto_msgTypes[1]
+		mi := &file_message_contents_signature_proto_msgTypes[5]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -131,7 +411,7 @@ func (x *Signature_ECDSACompact) String() string {
 func (*Signature_ECDSACompact) ProtoMessage() {}
 
 func (x *Signature_ECDSACompact) ProtoReflect() protoreflect.Message {
-	mi := &file_message_contents_signature_proto_msgTypes[1]
+	mi := &file_message_contents_signature_proto_msgTypes[5]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -177,7 +457,7 @@ type Signature_WalletECDSACompact struct {
 func (x *Signature_WalletECDSACompact) Reset() {
 	*x = Signature_WalletECDSACompact{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_message_contents_signature_proto_msgTypes[2]
+		mi := &file_message_contents_signature_proto_msgTypes[6]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -190,7 +470,7 @@ func (x *Signature_WalletECDSACompact) String() string {
 func (*Signature_WalletECDSACompact) ProtoMessage() {}
 
 func (x *Signature_WalletECDSACompact) ProtoReflect() protoreflect.Message {
-	mi := &file_message_contents_signature_proto_msgTypes[2]
+	mi := &file_message_contents_signature_proto_msgTypes[6]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -218,6 +498,230 @@ func (x *Signature_WalletECDSACompact) GetRecovery() uint32 {
 		return x.Recovery
 	}
 	return 0
+}
+
+// V1
+type StaticCreateIdentitySignature_V1 struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Text      []byte     `protobuf:"bytes,1,opt,name=text,proto3" json:"text,omitempty"`
+	Signature *Signature `protobuf:"bytes,2,opt,name=signature,proto3" json:"signature,omitempty"`
+}
+
+func (x *StaticCreateIdentitySignature_V1) Reset() {
+	*x = StaticCreateIdentitySignature_V1{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_message_contents_signature_proto_msgTypes[7]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *StaticCreateIdentitySignature_V1) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*StaticCreateIdentitySignature_V1) ProtoMessage() {}
+
+func (x *StaticCreateIdentitySignature_V1) ProtoReflect() protoreflect.Message {
+	mi := &file_message_contents_signature_proto_msgTypes[7]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use StaticCreateIdentitySignature_V1.ProtoReflect.Descriptor instead.
+func (*StaticCreateIdentitySignature_V1) Descriptor() ([]byte, []int) {
+	return file_message_contents_signature_proto_rawDescGZIP(), []int{1, 0}
+}
+
+func (x *StaticCreateIdentitySignature_V1) GetText() []byte {
+	if x != nil {
+		return x.Text
+	}
+	return nil
+}
+
+func (x *StaticCreateIdentitySignature_V1) GetSignature() *Signature {
+	if x != nil {
+		return x.Signature
+	}
+	return nil
+}
+
+// V1
+type StaticSendKeyGrantSignature_V1 struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Text      []byte     `protobuf:"bytes,1,opt,name=text,proto3" json:"text,omitempty"`
+	Signature *Signature `protobuf:"bytes,2,opt,name=signature,proto3" json:"signature,omitempty"`
+}
+
+func (x *StaticSendKeyGrantSignature_V1) Reset() {
+	*x = StaticSendKeyGrantSignature_V1{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_message_contents_signature_proto_msgTypes[8]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *StaticSendKeyGrantSignature_V1) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*StaticSendKeyGrantSignature_V1) ProtoMessage() {}
+
+func (x *StaticSendKeyGrantSignature_V1) ProtoReflect() protoreflect.Message {
+	mi := &file_message_contents_signature_proto_msgTypes[8]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use StaticSendKeyGrantSignature_V1.ProtoReflect.Descriptor instead.
+func (*StaticSendKeyGrantSignature_V1) Descriptor() ([]byte, []int) {
+	return file_message_contents_signature_proto_rawDescGZIP(), []int{2, 0}
+}
+
+func (x *StaticSendKeyGrantSignature_V1) GetText() []byte {
+	if x != nil {
+		return x.Text
+	}
+	return nil
+}
+
+func (x *StaticSendKeyGrantSignature_V1) GetSignature() *Signature {
+	if x != nil {
+		return x.Signature
+	}
+	return nil
+}
+
+// V1
+type StaticSendKeyRevokeSignature_V1 struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Text      []byte     `protobuf:"bytes,1,opt,name=text,proto3" json:"text,omitempty"`
+	Signature *Signature `protobuf:"bytes,2,opt,name=signature,proto3" json:"signature,omitempty"`
+}
+
+func (x *StaticSendKeyRevokeSignature_V1) Reset() {
+	*x = StaticSendKeyRevokeSignature_V1{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_message_contents_signature_proto_msgTypes[9]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *StaticSendKeyRevokeSignature_V1) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*StaticSendKeyRevokeSignature_V1) ProtoMessage() {}
+
+func (x *StaticSendKeyRevokeSignature_V1) ProtoReflect() protoreflect.Message {
+	mi := &file_message_contents_signature_proto_msgTypes[9]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use StaticSendKeyRevokeSignature_V1.ProtoReflect.Descriptor instead.
+func (*StaticSendKeyRevokeSignature_V1) Descriptor() ([]byte, []int) {
+	return file_message_contents_signature_proto_rawDescGZIP(), []int{3, 0}
+}
+
+func (x *StaticSendKeyRevokeSignature_V1) GetText() []byte {
+	if x != nil {
+		return x.Text
+	}
+	return nil
+}
+
+func (x *StaticSendKeyRevokeSignature_V1) GetSignature() *Signature {
+	if x != nil {
+		return x.Signature
+	}
+	return nil
+}
+
+// V1
+type SIWESignature_V1 struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Text      []byte     `protobuf:"bytes,1,opt,name=text,proto3" json:"text,omitempty"`
+	Signature *Signature `protobuf:"bytes,2,opt,name=signature,proto3" json:"signature,omitempty"`
+}
+
+func (x *SIWESignature_V1) Reset() {
+	*x = SIWESignature_V1{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_message_contents_signature_proto_msgTypes[10]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *SIWESignature_V1) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SIWESignature_V1) ProtoMessage() {}
+
+func (x *SIWESignature_V1) ProtoReflect() protoreflect.Message {
+	mi := &file_message_contents_signature_proto_msgTypes[10]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SIWESignature_V1.ProtoReflect.Descriptor instead.
+func (*SIWESignature_V1) Descriptor() ([]byte, []int) {
+	return file_message_contents_signature_proto_rawDescGZIP(), []int{4, 0}
+}
+
+func (x *SIWESignature_V1) GetText() []byte {
+	if x != nil {
+		return x.Text
+	}
+	return nil
+}
+
+func (x *SIWESignature_V1) GetSignature() *Signature {
+	if x != nil {
+		return x.Signature
+	}
+	return nil
 }
 
 var File_message_contents_signature_proto protoreflect.FileDescriptor
@@ -248,13 +752,63 @@ var file_message_contents_signature_proto_rawDesc = []byte{
 	0x0a, 0x05, 0x62, 0x79, 0x74, 0x65, 0x73, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0c, 0x52, 0x05, 0x62,
 	0x79, 0x74, 0x65, 0x73, 0x12, 0x1a, 0x0a, 0x08, 0x72, 0x65, 0x63, 0x6f, 0x76, 0x65, 0x72, 0x79,
 	0x18, 0x02, 0x20, 0x01, 0x28, 0x0d, 0x52, 0x08, 0x72, 0x65, 0x63, 0x6f, 0x76, 0x65, 0x72, 0x79,
-	0x42, 0x07, 0x0a, 0x05, 0x75, 0x6e, 0x69, 0x6f, 0x6e, 0x42, 0x4f, 0x0a, 0x1f, 0x6f, 0x72, 0x67,
-	0x2e, 0x78, 0x6d, 0x74, 0x70, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2e, 0x6d, 0x65, 0x73, 0x73,
-	0x61, 0x67, 0x65, 0x2e, 0x63, 0x6f, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x73, 0x5a, 0x2c, 0x67, 0x69,
-	0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x78, 0x6d, 0x74, 0x70, 0x2f, 0x70, 0x72,
-	0x6f, 0x74, 0x6f, 0x2f, 0x76, 0x33, 0x2f, 0x67, 0x6f, 0x2f, 0x6d, 0x65, 0x73, 0x73, 0x61, 0x67,
-	0x65, 0x5f, 0x63, 0x6f, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x73, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74,
-	0x6f, 0x33,
+	0x42, 0x07, 0x0a, 0x05, 0x75, 0x6e, 0x69, 0x6f, 0x6e, 0x22, 0xcf, 0x01, 0x0a, 0x1d, 0x53, 0x74,
+	0x61, 0x74, 0x69, 0x63, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x49, 0x64, 0x65, 0x6e, 0x74, 0x69,
+	0x74, 0x79, 0x53, 0x69, 0x67, 0x6e, 0x61, 0x74, 0x75, 0x72, 0x65, 0x12, 0x49, 0x0a, 0x02, 0x76,
+	0x31, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x37, 0x2e, 0x78, 0x6d, 0x74, 0x70, 0x2e, 0x6d,
+	0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x5f, 0x63, 0x6f, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x73, 0x2e,
+	0x53, 0x74, 0x61, 0x74, 0x69, 0x63, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x49, 0x64, 0x65, 0x6e,
+	0x74, 0x69, 0x74, 0x79, 0x53, 0x69, 0x67, 0x6e, 0x61, 0x74, 0x75, 0x72, 0x65, 0x2e, 0x56, 0x31,
+	0x48, 0x00, 0x52, 0x02, 0x76, 0x31, 0x1a, 0x58, 0x0a, 0x02, 0x56, 0x31, 0x12, 0x12, 0x0a, 0x04,
+	0x74, 0x65, 0x78, 0x74, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0c, 0x52, 0x04, 0x74, 0x65, 0x78, 0x74,
+	0x12, 0x3e, 0x0a, 0x09, 0x73, 0x69, 0x67, 0x6e, 0x61, 0x74, 0x75, 0x72, 0x65, 0x18, 0x02, 0x20,
+	0x01, 0x28, 0x0b, 0x32, 0x20, 0x2e, 0x78, 0x6d, 0x74, 0x70, 0x2e, 0x6d, 0x65, 0x73, 0x73, 0x61,
+	0x67, 0x65, 0x5f, 0x63, 0x6f, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x73, 0x2e, 0x53, 0x69, 0x67, 0x6e,
+	0x61, 0x74, 0x75, 0x72, 0x65, 0x52, 0x09, 0x73, 0x69, 0x67, 0x6e, 0x61, 0x74, 0x75, 0x72, 0x65,
+	0x42, 0x09, 0x0a, 0x07, 0x76, 0x65, 0x72, 0x73, 0x69, 0x6f, 0x6e, 0x22, 0xcb, 0x01, 0x0a, 0x1b,
+	0x53, 0x74, 0x61, 0x74, 0x69, 0x63, 0x53, 0x65, 0x6e, 0x64, 0x4b, 0x65, 0x79, 0x47, 0x72, 0x61,
+	0x6e, 0x74, 0x53, 0x69, 0x67, 0x6e, 0x61, 0x74, 0x75, 0x72, 0x65, 0x12, 0x47, 0x0a, 0x02, 0x76,
+	0x31, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x35, 0x2e, 0x78, 0x6d, 0x74, 0x70, 0x2e, 0x6d,
+	0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x5f, 0x63, 0x6f, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x73, 0x2e,
+	0x53, 0x74, 0x61, 0x74, 0x69, 0x63, 0x53, 0x65, 0x6e, 0x64, 0x4b, 0x65, 0x79, 0x47, 0x72, 0x61,
+	0x6e, 0x74, 0x53, 0x69, 0x67, 0x6e, 0x61, 0x74, 0x75, 0x72, 0x65, 0x2e, 0x56, 0x31, 0x48, 0x00,
+	0x52, 0x02, 0x76, 0x31, 0x1a, 0x58, 0x0a, 0x02, 0x56, 0x31, 0x12, 0x12, 0x0a, 0x04, 0x74, 0x65,
+	0x78, 0x74, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0c, 0x52, 0x04, 0x74, 0x65, 0x78, 0x74, 0x12, 0x3e,
+	0x0a, 0x09, 0x73, 0x69, 0x67, 0x6e, 0x61, 0x74, 0x75, 0x72, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28,
+	0x0b, 0x32, 0x20, 0x2e, 0x78, 0x6d, 0x74, 0x70, 0x2e, 0x6d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65,
+	0x5f, 0x63, 0x6f, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x73, 0x2e, 0x53, 0x69, 0x67, 0x6e, 0x61, 0x74,
+	0x75, 0x72, 0x65, 0x52, 0x09, 0x73, 0x69, 0x67, 0x6e, 0x61, 0x74, 0x75, 0x72, 0x65, 0x42, 0x09,
+	0x0a, 0x07, 0x76, 0x65, 0x72, 0x73, 0x69, 0x6f, 0x6e, 0x22, 0xcd, 0x01, 0x0a, 0x1c, 0x53, 0x74,
+	0x61, 0x74, 0x69, 0x63, 0x53, 0x65, 0x6e, 0x64, 0x4b, 0x65, 0x79, 0x52, 0x65, 0x76, 0x6f, 0x6b,
+	0x65, 0x53, 0x69, 0x67, 0x6e, 0x61, 0x74, 0x75, 0x72, 0x65, 0x12, 0x48, 0x0a, 0x02, 0x76, 0x31,
+	0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x36, 0x2e, 0x78, 0x6d, 0x74, 0x70, 0x2e, 0x6d, 0x65,
+	0x73, 0x73, 0x61, 0x67, 0x65, 0x5f, 0x63, 0x6f, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x73, 0x2e, 0x53,
+	0x74, 0x61, 0x74, 0x69, 0x63, 0x53, 0x65, 0x6e, 0x64, 0x4b, 0x65, 0x79, 0x52, 0x65, 0x76, 0x6f,
+	0x6b, 0x65, 0x53, 0x69, 0x67, 0x6e, 0x61, 0x74, 0x75, 0x72, 0x65, 0x2e, 0x56, 0x31, 0x48, 0x00,
+	0x52, 0x02, 0x76, 0x31, 0x1a, 0x58, 0x0a, 0x02, 0x56, 0x31, 0x12, 0x12, 0x0a, 0x04, 0x74, 0x65,
+	0x78, 0x74, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0c, 0x52, 0x04, 0x74, 0x65, 0x78, 0x74, 0x12, 0x3e,
+	0x0a, 0x09, 0x73, 0x69, 0x67, 0x6e, 0x61, 0x74, 0x75, 0x72, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28,
+	0x0b, 0x32, 0x20, 0x2e, 0x78, 0x6d, 0x74, 0x70, 0x2e, 0x6d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65,
+	0x5f, 0x63, 0x6f, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x73, 0x2e, 0x53, 0x69, 0x67, 0x6e, 0x61, 0x74,
+	0x75, 0x72, 0x65, 0x52, 0x09, 0x73, 0x69, 0x67, 0x6e, 0x61, 0x74, 0x75, 0x72, 0x65, 0x42, 0x09,
+	0x0a, 0x07, 0x76, 0x65, 0x72, 0x73, 0x69, 0x6f, 0x6e, 0x22, 0xaf, 0x01, 0x0a, 0x0d, 0x53, 0x49,
+	0x57, 0x45, 0x53, 0x69, 0x67, 0x6e, 0x61, 0x74, 0x75, 0x72, 0x65, 0x12, 0x39, 0x0a, 0x02, 0x76,
+	0x31, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x27, 0x2e, 0x78, 0x6d, 0x74, 0x70, 0x2e, 0x6d,
+	0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x5f, 0x63, 0x6f, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x73, 0x2e,
+	0x53, 0x49, 0x57, 0x45, 0x53, 0x69, 0x67, 0x6e, 0x61, 0x74, 0x75, 0x72, 0x65, 0x2e, 0x56, 0x31,
+	0x48, 0x00, 0x52, 0x02, 0x76, 0x31, 0x1a, 0x58, 0x0a, 0x02, 0x56, 0x31, 0x12, 0x12, 0x0a, 0x04,
+	0x74, 0x65, 0x78, 0x74, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0c, 0x52, 0x04, 0x74, 0x65, 0x78, 0x74,
+	0x12, 0x3e, 0x0a, 0x09, 0x73, 0x69, 0x67, 0x6e, 0x61, 0x74, 0x75, 0x72, 0x65, 0x18, 0x02, 0x20,
+	0x01, 0x28, 0x0b, 0x32, 0x20, 0x2e, 0x78, 0x6d, 0x74, 0x70, 0x2e, 0x6d, 0x65, 0x73, 0x73, 0x61,
+	0x67, 0x65, 0x5f, 0x63, 0x6f, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x73, 0x2e, 0x53, 0x69, 0x67, 0x6e,
+	0x61, 0x74, 0x75, 0x72, 0x65, 0x52, 0x09, 0x73, 0x69, 0x67, 0x6e, 0x61, 0x74, 0x75, 0x72, 0x65,
+	0x42, 0x09, 0x0a, 0x07, 0x76, 0x65, 0x72, 0x73, 0x69, 0x6f, 0x6e, 0x42, 0x4f, 0x0a, 0x1f, 0x6f,
+	0x72, 0x67, 0x2e, 0x78, 0x6d, 0x74, 0x70, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2e, 0x6d, 0x65,
+	0x73, 0x73, 0x61, 0x67, 0x65, 0x2e, 0x63, 0x6f, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x73, 0x5a, 0x2c,
+	0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x78, 0x6d, 0x74, 0x70, 0x2f,
+	0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2f, 0x76, 0x33, 0x2f, 0x67, 0x6f, 0x2f, 0x6d, 0x65, 0x73, 0x73,
+	0x61, 0x67, 0x65, 0x5f, 0x63, 0x6f, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x73, 0x62, 0x06, 0x70, 0x72,
+	0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -269,20 +823,36 @@ func file_message_contents_signature_proto_rawDescGZIP() []byte {
 	return file_message_contents_signature_proto_rawDescData
 }
 
-var file_message_contents_signature_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
+var file_message_contents_signature_proto_msgTypes = make([]protoimpl.MessageInfo, 11)
 var file_message_contents_signature_proto_goTypes = []interface{}{
-	(*Signature)(nil),                    // 0: xmtp.message_contents.Signature
-	(*Signature_ECDSACompact)(nil),       // 1: xmtp.message_contents.Signature.ECDSACompact
-	(*Signature_WalletECDSACompact)(nil), // 2: xmtp.message_contents.Signature.WalletECDSACompact
+	(*Signature)(nil),                        // 0: xmtp.message_contents.Signature
+	(*StaticCreateIdentitySignature)(nil),    // 1: xmtp.message_contents.StaticCreateIdentitySignature
+	(*StaticSendKeyGrantSignature)(nil),      // 2: xmtp.message_contents.StaticSendKeyGrantSignature
+	(*StaticSendKeyRevokeSignature)(nil),     // 3: xmtp.message_contents.StaticSendKeyRevokeSignature
+	(*SIWESignature)(nil),                    // 4: xmtp.message_contents.SIWESignature
+	(*Signature_ECDSACompact)(nil),           // 5: xmtp.message_contents.Signature.ECDSACompact
+	(*Signature_WalletECDSACompact)(nil),     // 6: xmtp.message_contents.Signature.WalletECDSACompact
+	(*StaticCreateIdentitySignature_V1)(nil), // 7: xmtp.message_contents.StaticCreateIdentitySignature.V1
+	(*StaticSendKeyGrantSignature_V1)(nil),   // 8: xmtp.message_contents.StaticSendKeyGrantSignature.V1
+	(*StaticSendKeyRevokeSignature_V1)(nil),  // 9: xmtp.message_contents.StaticSendKeyRevokeSignature.V1
+	(*SIWESignature_V1)(nil),                 // 10: xmtp.message_contents.SIWESignature.V1
 }
 var file_message_contents_signature_proto_depIdxs = []int32{
-	1, // 0: xmtp.message_contents.Signature.ecdsa_compact:type_name -> xmtp.message_contents.Signature.ECDSACompact
-	2, // 1: xmtp.message_contents.Signature.wallet_ecdsa_compact:type_name -> xmtp.message_contents.Signature.WalletECDSACompact
-	2, // [2:2] is the sub-list for method output_type
-	2, // [2:2] is the sub-list for method input_type
-	2, // [2:2] is the sub-list for extension type_name
-	2, // [2:2] is the sub-list for extension extendee
-	0, // [0:2] is the sub-list for field type_name
+	5,  // 0: xmtp.message_contents.Signature.ecdsa_compact:type_name -> xmtp.message_contents.Signature.ECDSACompact
+	6,  // 1: xmtp.message_contents.Signature.wallet_ecdsa_compact:type_name -> xmtp.message_contents.Signature.WalletECDSACompact
+	7,  // 2: xmtp.message_contents.StaticCreateIdentitySignature.v1:type_name -> xmtp.message_contents.StaticCreateIdentitySignature.V1
+	8,  // 3: xmtp.message_contents.StaticSendKeyGrantSignature.v1:type_name -> xmtp.message_contents.StaticSendKeyGrantSignature.V1
+	9,  // 4: xmtp.message_contents.StaticSendKeyRevokeSignature.v1:type_name -> xmtp.message_contents.StaticSendKeyRevokeSignature.V1
+	10, // 5: xmtp.message_contents.SIWESignature.v1:type_name -> xmtp.message_contents.SIWESignature.V1
+	0,  // 6: xmtp.message_contents.StaticCreateIdentitySignature.V1.signature:type_name -> xmtp.message_contents.Signature
+	0,  // 7: xmtp.message_contents.StaticSendKeyGrantSignature.V1.signature:type_name -> xmtp.message_contents.Signature
+	0,  // 8: xmtp.message_contents.StaticSendKeyRevokeSignature.V1.signature:type_name -> xmtp.message_contents.Signature
+	0,  // 9: xmtp.message_contents.SIWESignature.V1.signature:type_name -> xmtp.message_contents.Signature
+	10, // [10:10] is the sub-list for method output_type
+	10, // [10:10] is the sub-list for method input_type
+	10, // [10:10] is the sub-list for extension type_name
+	10, // [10:10] is the sub-list for extension extendee
+	0,  // [0:10] is the sub-list for field type_name
 }
 
 func init() { file_message_contents_signature_proto_init() }
@@ -304,7 +874,7 @@ func file_message_contents_signature_proto_init() {
 			}
 		}
 		file_message_contents_signature_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*Signature_ECDSACompact); i {
+			switch v := v.(*StaticCreateIdentitySignature); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -316,7 +886,103 @@ func file_message_contents_signature_proto_init() {
 			}
 		}
 		file_message_contents_signature_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*StaticSendKeyGrantSignature); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_message_contents_signature_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*StaticSendKeyRevokeSignature); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_message_contents_signature_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*SIWESignature); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_message_contents_signature_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*Signature_ECDSACompact); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_message_contents_signature_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*Signature_WalletECDSACompact); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_message_contents_signature_proto_msgTypes[7].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*StaticCreateIdentitySignature_V1); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_message_contents_signature_proto_msgTypes[8].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*StaticSendKeyGrantSignature_V1); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_message_contents_signature_proto_msgTypes[9].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*StaticSendKeyRevokeSignature_V1); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_message_contents_signature_proto_msgTypes[10].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*SIWESignature_V1); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -332,13 +998,25 @@ func file_message_contents_signature_proto_init() {
 		(*Signature_EcdsaCompact)(nil),
 		(*Signature_WalletEcdsaCompact)(nil),
 	}
+	file_message_contents_signature_proto_msgTypes[1].OneofWrappers = []interface{}{
+		(*StaticCreateIdentitySignature_V1_)(nil),
+	}
+	file_message_contents_signature_proto_msgTypes[2].OneofWrappers = []interface{}{
+		(*StaticSendKeyGrantSignature_V1_)(nil),
+	}
+	file_message_contents_signature_proto_msgTypes[3].OneofWrappers = []interface{}{
+		(*StaticSendKeyRevokeSignature_V1_)(nil),
+	}
+	file_message_contents_signature_proto_msgTypes[4].OneofWrappers = []interface{}{
+		(*SIWESignature_V1_)(nil),
+	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_message_contents_signature_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   3,
+			NumMessages:   11,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

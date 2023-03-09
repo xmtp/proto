@@ -1,0 +1,33 @@
+// Structure for representing send key grants and revocations.
+syntax = "proto3";
+
+package xmtp.message_contents;
+
+import "message_contents/public_key.proto";
+
+option go_package = "github.com/xmtp/proto/v3/go/message_contents";
+option java_package = "org.xmtp.proto.message.contents";
+
+// Wrapper for send key grants. There may be additional metadata in the
+// future, for example the app/device this was granted for
+message SendKeyGrant {
+    // V1
+    message V1 {
+        SignedPublicKeyBundleV2 key_bundle = 1;
+    }
+    oneof union {
+        V1 v1 = 1;
+    }
+}
+
+// Wrapper for send key revocations. There may be additional metadata in
+// the future, for example the app/device that performed the revocation
+message SendKeyRevocation {
+    // V1
+    message V1 {
+        AccountRevokedPublicKey account_revoked_public_key = 1;
+    }
+    oneof union {
+        V1 v1 = 1;
+    }
+}

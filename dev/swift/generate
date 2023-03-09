@@ -31,4 +31,4 @@ docker run --rm -i -v${PWD}:/code xmtp/protoc-swift \
   message_contents/private_key.proto \
   message_contents/message.proto \
   message_contents/content.proto \
-  message_contents/proof.proto
+  message_contents/send_key.proto
