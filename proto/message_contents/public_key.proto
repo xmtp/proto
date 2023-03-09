@@ -34,9 +34,8 @@ message AccountLinkedPublicKey {
         bytes key_bytes = 1;  // embeds an UnsignedPublicKey
 
         oneof proof {
-            StaticCreateIdentitySignature static_create_identity_signature = 2;
-            StaticSendKeyGrantSignature static_send_key_grant_signature = 3;
-            SIWESignature siwe_signature = 4;
+            AccountLinkedStaticSignature static_signature = 2;
+            AccountLinkedSIWESignature siwe_signature = 3;
         }
     }
 
@@ -53,7 +52,7 @@ message AccountRevokedPublicKey {
         bytes key_bytes = 1;  // embeds an UnsignedPublicKey
         
         oneof proof {
-            StaticSendKeyRevokeSignature static_send_key_revoke_signature = 2;
+            AccountRevokedStaticSignature static_signature = 2;
         }
     }
 

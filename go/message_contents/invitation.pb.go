@@ -126,6 +126,9 @@ type InvitationV2_Aes256GcmHkdfSha256 struct {
 
 func (*InvitationV2_Aes256GcmHkdfSha256) isInvitationV2_Encryption() {}
 
+// Header carries information that is unencrypted, thus readable by the network
+// it is however authenticated as associated data with the AEAD scheme used
+// to encrypt the invitation body, thus providing tamper evidence.
 type SealedInvitationHeaderV2 struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache

@@ -47,6 +47,9 @@ message InvitationV2 {
     string recipient_address_untrusted = 4;
 }
 
+// Header carries information that is unencrypted, thus readable by the network
+// it is however authenticated as associated data with the AEAD scheme used
+// to encrypt the invitation body, thus providing tamper evidence.
 message SealedInvitationHeaderV2 {
     SignedPublicKeyBundleV2 send_key_bundle = 1;
     SignedPublicKeyBundleV2 inbox_key_bundle = 2;

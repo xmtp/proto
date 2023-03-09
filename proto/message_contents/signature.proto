@@ -31,38 +31,36 @@ message Signature {
     }
 }
 
-// Signature used to link an identity key to an account
-// The use-case must be validated via the signature text
-// 'XMTP : Create Identity ...'
-message StaticCreateIdentitySignature {
-    // V1
-    message V1 {
-        bytes text = 1;
-        Signature signature = 2;
-    }
-    oneof version {
-        V1 v1 = 1;
-    }
+// The purpose of the key being linked to an account
+enum AccountLinkedRole {
+    ACCOUNT_LINKED_ROLE_UNSPECIFIED = 0;
+    ACCOUNT_LINKED_ROLE_INBOX_KEY = 1;
+    ACCOUNT_LINKED_ROLE_SEND_KEY = 2;
 }
 
-// Signature used to link a send key to an account
-// The use-case must be validated via the signature text
+// A signature used to link a key to an account with a
+// static text format, e.g.
 // 'XMTP : Grant Send Permissions ...'
-message StaticSendKeyGrantSignature {
+// The key_bytes and role must be validated against the
+// signature text
+message AccountLinkedStaticSignature {
     // V1
     message V1 {
-        bytes text = 1;
-        Signature signature = 2;
+        AccountLinkedRole role = 1;
+        bytes text = 2;
+        Signature signature = 3;
     }
     oneof version {
         V1 v1 = 1;
     }
 }
 
-// Signature used to link a send key to an account
-// The use-case must be validated via the signature text
+// A signature used to revoke a key from an account
+// with a static text format, e.g.
 // 'XMTP : Revoke Send Permissions ...'
-message StaticSendKeyRevokeSignature {
+// The key_bytes and revocation action must be validated
+// against the signature text
+message AccountRevokedStaticSignature {
     // V1
     message V1 {
         bytes text = 1;
@@ -73,14 +71,16 @@ message StaticSendKeyRevokeSignature {
     }
 }
 
-// Dynamic signature using sign-in with Ethereum format (EIP-4361)
-// The use-case is inferred from the signature text
-// Issue: use-case might be ambiguous
-message SIWESignature {
+// A signature used to link a key to an account, with
+// sign-in with Ethereum format (EIP-4361).
+// The key_bytes and role must be validated
+// against the signature text
+message AccountLinkedSIWESignature {
     // V1
     message V1 {
-        bytes text = 1;
-        Signature signature = 2;
+        AccountLinkedRole role = 1;
+        bytes text = 2;
+        Signature signature = 3;
     }
     oneof version {
         V1 v1 = 1;
