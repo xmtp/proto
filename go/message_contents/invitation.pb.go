@@ -42,9 +42,9 @@ type InvitationV2 struct {
 	//
 	//	*InvitationV2_Aes256GcmHkdfSha256
 	Encryption isInvitationV2_Encryption `protobuf_oneof:"encryption"`
-	// The address of the counterparty to the conversation. This
+	// The address of the person being invited to the conversation. This
 	// field must only be used if the send_key_bundle attached
-	// to the invitation header is linked to your own account.
+	// to the invitation header originates from your own account.
 	RecipientAddressUntrusted string `protobuf:"bytes,4,opt,name=recipient_address_untrusted,json=recipientAddressUntrusted,proto3" json:"recipient_address_untrusted,omitempty"`
 }
 
