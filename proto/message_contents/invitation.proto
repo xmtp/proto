@@ -41,9 +41,9 @@ message InvitationV2 {
         Aes256gcmHkdfsha256 aes256_gcm_hkdf_sha256 = 3;
     }
 
-    // The address of the counterparty to the conversation. This
+    // The address of the person being invited to the conversation. This
     // field must only be used if the send_key_bundle attached
-    // to the invitation header is linked to your own account.
+    // to the invitation header originates from your own account.
     string recipient_address_untrusted = 4;
 }
 
