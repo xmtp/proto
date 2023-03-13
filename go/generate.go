@@ -19,4 +19,5 @@ import (
 //go:generate compile ../proto/message_contents/contact.proto
 //go:generate compile ../proto/message_contents/invitation.proto
 //go:generate compile ../proto/message_contents/message.proto
+//go:generate compile ../proto/message_contents/send_key.proto
 //go:generate compile ../proto/message_contents/composite.proto
