@@ -345,7 +345,8 @@ func (*Message_V1) isMessage_Version() {}
 func (*Message_V2) isMessage_Version() {}
 
 // DecodedMessage represents the decrypted message contents.
-// DecodedMessage instances are not stored on the network, but may be serialized and stored by clients
+// DecodedMessage instances are not stored on the network, but
+// may be serialized and stored by clients
 type DecodedMessage struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache

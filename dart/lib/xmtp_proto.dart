@@ -1,5 +1,6 @@
 library xmtp_proto;
 
+export 'src/keystore_api/v1/keystore.pb.dart'
 export 'src/message_api/v1/message_api.pbgrpc.dart';
 export 'src/message_api/v1/authn.pb.dart';
 export 'src/message_contents/message.pb.dart';
