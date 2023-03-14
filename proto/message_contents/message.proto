@@ -5,6 +5,7 @@ package xmtp.message_contents;
 
 import "message_contents/ciphertext.proto";
 import "message_contents/public_key.proto";
+import "keystore_api/v1/keystore.proto";
 
 option go_package = "github.com/xmtp/proto/v3/go/message_contents";
 option java_package = "org.xmtp.proto.message.contents";
@@ -53,4 +54,17 @@ message Message {
         MessageV1 v1 = 1;
         MessageV2 v2 = 2;
     }
+}
+
+// DecodedMessage represents the decrypted message contents.
+// DecodedMessage instances are not stored on the network, but may be serialized and stored by clients
+message DecodedMessage {
+    string id = 1;
+    string messageVersion = 2;
+    string senderAddress = 3;
+    optional string recipientAddress = 4;
+    uint64 sent_ns = 5;
+    string content_topic = 6;
+    xmtp.keystore_api.v1.ConversationReference conversation = 7;
+    bytes content_bytes = 8; // encapsulates EncodedContent
 }
