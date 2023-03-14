@@ -57,7 +57,8 @@ message Message {
 }
 
 // DecodedMessage represents the decrypted message contents.
-// DecodedMessage instances are not stored on the network, but may be serialized and stored by clients
+// DecodedMessage instances are not stored on the network, but
+// may be serialized and stored by clients
 message DecodedMessage {
     string id = 1;
     string message_version = 2;
