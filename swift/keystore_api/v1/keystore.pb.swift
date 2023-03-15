@@ -632,15 +632,15 @@ public struct Xmtp_KeystoreApi_V1_CreateAuthTokenRequest {
   fileprivate var _timestampNs: UInt64? = nil
 }
 
-/// SignRequest is used to sign a digest with either the identity key or a prekey
-public struct Xmtp_KeystoreApi_V1_SignRequest {
+/// SignDigestRequest is used to sign a digest with either the identity key or a prekey
+public struct Xmtp_KeystoreApi_V1_SignDigestRequest {
   // SwiftProtobuf.Message conformance is added in an extension below. See the
   // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
   // methods supported on all messages.
 
   public var digest: Data = Data()
 
-  public var signer: Xmtp_KeystoreApi_V1_SignRequest.OneOf_Signer? = nil
+  public var signer: Xmtp_KeystoreApi_V1_SignDigestRequest.OneOf_Signer? = nil
 
   public var identityKey: Bool {
     get {
@@ -665,7 +665,7 @@ public struct Xmtp_KeystoreApi_V1_SignRequest {
     case prekeyIndex(UInt32)
 
   #if !swift(>=4.1)
-    public static func ==(lhs: Xmtp_KeystoreApi_V1_SignRequest.OneOf_Signer, rhs: Xmtp_KeystoreApi_V1_SignRequest.OneOf_Signer) -> Bool {
+    public static func ==(lhs: Xmtp_KeystoreApi_V1_SignDigestRequest.OneOf_Signer, rhs: Xmtp_KeystoreApi_V1_SignDigestRequest.OneOf_Signer) -> Bool {
       // The use of inline closures is to circumvent an issue where the compiler
       // allocates stack space for every case branch when no optimizations are
       // enabled. https://github.com/apple/swift-protobuf/issues/1034
@@ -755,8 +755,8 @@ extension Xmtp_KeystoreApi_V1_SaveInvitesResponse.Response: @unchecked Sendable 
 extension Xmtp_KeystoreApi_V1_SaveInvitesResponse.Response.OneOf_Response: @unchecked Sendable {}
 extension Xmtp_KeystoreApi_V1_SaveInvitesResponse.Response.Success: @unchecked Sendable {}
 extension Xmtp_KeystoreApi_V1_CreateAuthTokenRequest: @unchecked Sendable {}
-extension Xmtp_KeystoreApi_V1_SignRequest: @unchecked Sendable {}
-extension Xmtp_KeystoreApi_V1_SignRequest.OneOf_Signer: @unchecked Sendable {}
+extension Xmtp_KeystoreApi_V1_SignDigestRequest: @unchecked Sendable {}
+extension Xmtp_KeystoreApi_V1_SignDigestRequest.OneOf_Signer: @unchecked Sendable {}
 extension Xmtp_KeystoreApi_V1_TopicMap: @unchecked Sendable {}
 extension Xmtp_KeystoreApi_V1_TopicMap.TopicData: @unchecked Sendable {}
 #endif  // swift(>=5.5) && canImport(_Concurrency)
@@ -1799,8 +1799,8 @@ extension Xmtp_KeystoreApi_V1_CreateAuthTokenRequest: SwiftProtobuf.Message, Swi
   }
 }
 
-extension Xmtp_KeystoreApi_V1_SignRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
-  public static let protoMessageName: String = _protobuf_package + ".SignRequest"
+extension Xmtp_KeystoreApi_V1_SignDigestRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  public static let protoMessageName: String = _protobuf_package + ".SignDigestRequest"
   public static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .same(proto: "digest"),
     2: .standard(proto: "identity_key"),
@@ -1857,7 +1857,7 @@ extension Xmtp_KeystoreApi_V1_SignRequest: SwiftProtobuf.Message, SwiftProtobuf.
     try unknownFields.traverse(visitor: &visitor)
   }
 
-  public static func ==(lhs: Xmtp_KeystoreApi_V1_SignRequest, rhs: Xmtp_KeystoreApi_V1_SignRequest) -> Bool {
+  public static func ==(lhs: Xmtp_KeystoreApi_V1_SignDigestRequest, rhs: Xmtp_KeystoreApi_V1_SignDigestRequest) -> Bool {
     if lhs.digest != rhs.digest {return false}
     if lhs.signer != rhs.signer {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
