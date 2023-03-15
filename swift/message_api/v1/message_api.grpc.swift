@@ -54,6 +54,11 @@ public protocol Xmtp_MessageApi_V1_MessageApiClientProtocol: GRPCClient {
     _ request: Xmtp_MessageApi_V1_QueryRequest,
     callOptions: CallOptions?
   ) -> UnaryCall<Xmtp_MessageApi_V1_QueryRequest, Xmtp_MessageApi_V1_QueryResponse>
+
+  func batchQuery(
+    _ request: Xmtp_MessageApi_V1_BatchQueryRequest,
+    callOptions: CallOptions?
+  ) -> UnaryCall<Xmtp_MessageApi_V1_BatchQueryRequest, Xmtp_MessageApi_V1_BatchQueryResponse>
 }
 
 extension Xmtp_MessageApi_V1_MessageApiClientProtocol {
@@ -136,6 +141,24 @@ extension Xmtp_MessageApi_V1_MessageApiClientProtocol {
       request: request,
       callOptions: callOptions ?? self.defaultCallOptions,
       interceptors: self.interceptors?.makeQueryInterceptors() ?? []
+    )
+  }
+
+  /// BatchQuery containing a set of queries to be processed
+  ///
+  /// - Parameters:
+  ///   - request: Request to send to BatchQuery.
+  ///   - callOptions: Call options.
+  /// - Returns: A `UnaryCall` with futures for the metadata, status and response.
+  public func batchQuery(
+    _ request: Xmtp_MessageApi_V1_BatchQueryRequest,
+    callOptions: CallOptions? = nil
+  ) -> UnaryCall<Xmtp_MessageApi_V1_BatchQueryRequest, Xmtp_MessageApi_V1_BatchQueryResponse> {
+    return self.makeUnaryCall(
+      path: Xmtp_MessageApi_V1_MessageApiClientMetadata.Methods.batchQuery.path,
+      request: request,
+      callOptions: callOptions ?? self.defaultCallOptions,
+      interceptors: self.interceptors?.makeBatchQueryInterceptors() ?? []
     )
   }
 }
@@ -225,6 +248,11 @@ public protocol Xmtp_MessageApi_V1_MessageApiAsyncClientProtocol: GRPCClient {
     _ request: Xmtp_MessageApi_V1_QueryRequest,
     callOptions: CallOptions?
   ) -> GRPCAsyncUnaryCall<Xmtp_MessageApi_V1_QueryRequest, Xmtp_MessageApi_V1_QueryResponse>
+
+  func makeBatchQueryCall(
+    _ request: Xmtp_MessageApi_V1_BatchQueryRequest,
+    callOptions: CallOptions?
+  ) -> GRPCAsyncUnaryCall<Xmtp_MessageApi_V1_BatchQueryRequest, Xmtp_MessageApi_V1_BatchQueryResponse>
 }
 
 @available(macOS 10.15, iOS 13, tvOS 13, watchOS 6, *)
@@ -284,6 +312,18 @@ extension Xmtp_MessageApi_V1_MessageApiAsyncClientProtocol {
       interceptors: self.interceptors?.makeQueryInterceptors() ?? []
     )
   }
+
+  public func makeBatchQueryCall(
+    _ request: Xmtp_MessageApi_V1_BatchQueryRequest,
+    callOptions: CallOptions? = nil
+  ) -> GRPCAsyncUnaryCall<Xmtp_MessageApi_V1_BatchQueryRequest, Xmtp_MessageApi_V1_BatchQueryResponse> {
+    return self.makeAsyncUnaryCall(
+      path: Xmtp_MessageApi_V1_MessageApiClientMetadata.Methods.batchQuery.path,
+      request: request,
+      callOptions: callOptions ?? self.defaultCallOptions,
+      interceptors: self.interceptors?.makeBatchQueryInterceptors() ?? []
+    )
+  }
 }
 
 @available(macOS 10.15, iOS 13, tvOS 13, watchOS 6, *)
@@ -335,6 +375,18 @@ extension Xmtp_MessageApi_V1_MessageApiAsyncClientProtocol {
       interceptors: self.interceptors?.makeQueryInterceptors() ?? []
     )
   }
+
+  public func batchQuery(
+    _ request: Xmtp_MessageApi_V1_BatchQueryRequest,
+    callOptions: CallOptions? = nil
+  ) async throws -> Xmtp_MessageApi_V1_BatchQueryResponse {
+    return try await self.performAsyncUnaryCall(
+      path: Xmtp_MessageApi_V1_MessageApiClientMetadata.Methods.batchQuery.path,
+      request: request,
+      callOptions: callOptions ?? self.defaultCallOptions,
+      interceptors: self.interceptors?.makeBatchQueryInterceptors() ?? []
+    )
+  }
 }
 
 @available(macOS 10.15, iOS 13, tvOS 13, watchOS 6, *)
@@ -369,6 +421,9 @@ public protocol Xmtp_MessageApi_V1_MessageApiClientInterceptorFactoryProtocol: G
 
   /// - Returns: Interceptors to use when invoking 'query'.
   func makeQueryInterceptors() -> [ClientInterceptor<Xmtp_MessageApi_V1_QueryRequest, Xmtp_MessageApi_V1_QueryResponse>]
+
+  /// - Returns: Interceptors to use when invoking 'batchQuery'.
+  func makeBatchQueryInterceptors() -> [ClientInterceptor<Xmtp_MessageApi_V1_BatchQueryRequest, Xmtp_MessageApi_V1_BatchQueryResponse>]
 }
 
 public enum Xmtp_MessageApi_V1_MessageApiClientMetadata {
@@ -380,6 +435,7 @@ public enum Xmtp_MessageApi_V1_MessageApiClientMetadata {
       Xmtp_MessageApi_V1_MessageApiClientMetadata.Methods.subscribe,
       Xmtp_MessageApi_V1_MessageApiClientMetadata.Methods.subscribeAll,
       Xmtp_MessageApi_V1_MessageApiClientMetadata.Methods.query,
+      Xmtp_MessageApi_V1_MessageApiClientMetadata.Methods.batchQuery,
     ]
   )
 
@@ -407,6 +463,12 @@ public enum Xmtp_MessageApi_V1_MessageApiClientMetadata {
       path: "/xmtp.message_api.v1.MessageApi/Query",
       type: GRPCCallType.unary
     )
+
+    public static let batchQuery = GRPCMethodDescriptor(
+      name: "BatchQuery",
+      path: "/xmtp.message_api.v1.MessageApi/BatchQuery",
+      type: GRPCCallType.unary
+    )
   }
 }
 
@@ -427,6 +489,9 @@ public protocol Xmtp_MessageApi_V1_MessageApiProvider: CallHandlerProvider {
 
   /// Query the store for messages
   func query(request: Xmtp_MessageApi_V1_QueryRequest, context: StatusOnlyCallContext) -> EventLoopFuture<Xmtp_MessageApi_V1_QueryResponse>
+
+  /// BatchQuery containing a set of queries to be processed
+  func batchQuery(request: Xmtp_MessageApi_V1_BatchQueryRequest, context: StatusOnlyCallContext) -> EventLoopFuture<Xmtp_MessageApi_V1_BatchQueryResponse>
 }
 
 extension Xmtp_MessageApi_V1_MessageApiProvider {
@@ -477,6 +542,15 @@ extension Xmtp_MessageApi_V1_MessageApiProvider {
         userFunction: self.query(request:context:)
       )
 
+    case "BatchQuery":
+      return UnaryServerHandler(
+        context: context,
+        requestDeserializer: ProtobufDeserializer<Xmtp_MessageApi_V1_BatchQueryRequest>(),
+        responseSerializer: ProtobufSerializer<Xmtp_MessageApi_V1_BatchQueryResponse>(),
+        interceptors: self.interceptors?.makeBatchQueryInterceptors() ?? [],
+        userFunction: self.batchQuery(request:context:)
+      )
+
     default:
       return nil
     }
@@ -518,6 +592,12 @@ public protocol Xmtp_MessageApi_V1_MessageApiAsyncProvider: CallHandlerProvider 
     request: Xmtp_MessageApi_V1_QueryRequest,
     context: GRPCAsyncServerCallContext
   ) async throws -> Xmtp_MessageApi_V1_QueryResponse
+
+  /// BatchQuery containing a set of queries to be processed
+  @Sendable func batchQuery(
+    request: Xmtp_MessageApi_V1_BatchQueryRequest,
+    context: GRPCAsyncServerCallContext
+  ) async throws -> Xmtp_MessageApi_V1_BatchQueryResponse
 }
 
 @available(macOS 10.15, iOS 13, tvOS 13, watchOS 6, *)
@@ -575,6 +655,15 @@ extension Xmtp_MessageApi_V1_MessageApiAsyncProvider {
         wrapping: self.query(request:context:)
       )
 
+    case "BatchQuery":
+      return GRPCAsyncServerHandler(
+        context: context,
+        requestDeserializer: ProtobufDeserializer<Xmtp_MessageApi_V1_BatchQueryRequest>(),
+        responseSerializer: ProtobufSerializer<Xmtp_MessageApi_V1_BatchQueryResponse>(),
+        interceptors: self.interceptors?.makeBatchQueryInterceptors() ?? [],
+        wrapping: self.batchQuery(request:context:)
+      )
+
     default:
       return nil
     }
@@ -600,6 +689,10 @@ public protocol Xmtp_MessageApi_V1_MessageApiServerInterceptorFactoryProtocol {
   /// - Returns: Interceptors to use when handling 'query'.
   ///   Defaults to calling `self.makeInterceptors()`.
   func makeQueryInterceptors() -> [ServerInterceptor<Xmtp_MessageApi_V1_QueryRequest, Xmtp_MessageApi_V1_QueryResponse>]
+
+  /// - Returns: Interceptors to use when handling 'batchQuery'.
+  ///   Defaults to calling `self.makeInterceptors()`.
+  func makeBatchQueryInterceptors() -> [ServerInterceptor<Xmtp_MessageApi_V1_BatchQueryRequest, Xmtp_MessageApi_V1_BatchQueryResponse>]
 }
 
 public enum Xmtp_MessageApi_V1_MessageApiServerMetadata {
@@ -611,6 +704,7 @@ public enum Xmtp_MessageApi_V1_MessageApiServerMetadata {
       Xmtp_MessageApi_V1_MessageApiServerMetadata.Methods.subscribe,
       Xmtp_MessageApi_V1_MessageApiServerMetadata.Methods.subscribeAll,
       Xmtp_MessageApi_V1_MessageApiServerMetadata.Methods.query,
+      Xmtp_MessageApi_V1_MessageApiServerMetadata.Methods.batchQuery,
     ]
   )
 
@@ -636,6 +730,12 @@ public enum Xmtp_MessageApi_V1_MessageApiServerMetadata {
     public static let query = GRPCMethodDescriptor(
       name: "Query",
       path: "/xmtp.message_api.v1.MessageApi/Query",
+      type: GRPCCallType.unary
+    )
+
+    public static let batchQuery = GRPCMethodDescriptor(
+      name: "BatchQuery",
+      path: "/xmtp.message_api.v1.MessageApi/BatchQuery",
       type: GRPCCallType.unary
     )
   }

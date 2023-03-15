@@ -25,6 +25,7 @@ docker run --platform linux/x86_64 --rm -i -v${PWD}:/code xmtp/protoc-kotlin \
   --experimental_allow_proto3_optional \
   --java_out=./kotlin/lib/src/main/kotlin \
   --kotlin_out=./kotlin/lib/src/main/kotlin \
+  keystore_api/v1/keystore.proto \
   message_api/v1/message_api.proto \
   message_api/v1/authn.proto \
   message_contents/composite.proto \
