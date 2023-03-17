@@ -100,7 +100,7 @@ type SignedEciesCiphertext struct {
 
 	// serialized Ecies message
 	EciesBytes []byte `protobuf:"bytes,1,opt,name=ecies_bytes,json=eciesBytes,proto3" json:"ecies_bytes,omitempty"`
-	// signature of the ecies_bytes
+	// signature of sha256(ecies_bytes) signed with the IdentityKey
 	Signature *Signature `protobuf:"bytes,2,opt,name=signature,proto3" json:"signature,omitempty"`
 }
 

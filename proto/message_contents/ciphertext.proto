@@ -40,6 +40,6 @@ message SignedEciesCiphertext {
 
     // serialized Ecies message
     bytes ecies_bytes = 1;
-    // signature of the ecies_bytes
+    // signature of sha256(ecies_bytes) signed with the IdentityKey
     xmtp.message_contents.Signature signature = 2;
 }

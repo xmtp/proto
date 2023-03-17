@@ -94,7 +94,7 @@ public struct Xmtp_MessageContents_SignedEciesCiphertext {
   /// serialized Ecies message
   public var eciesBytes: Data = Data()
 
-  /// signature of the ecies_bytes
+  /// signature of sha256(ecies_bytes) signed with the IdentityKey
   public var signature: Xmtp_MessageContents_Signature {
     get {return _signature ?? Xmtp_MessageContents_Signature()}
     set {_signature = newValue}
