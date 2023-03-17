@@ -632,7 +632,8 @@ public struct Xmtp_KeystoreApi_V1_CreateAuthTokenRequest {
   fileprivate var _timestampNs: UInt64? = nil
 }
 
-/// SignDigestRequest is used to sign a digest with either the identity key or a prekey
+/// SignDigestRequest is used to sign a digest with either the identity key
+/// or a prekey
 public struct Xmtp_KeystoreApi_V1_SignDigestRequest {
   // SwiftProtobuf.Message conformance is added in an extension below. See the
   // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
