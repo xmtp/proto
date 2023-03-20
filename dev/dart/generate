@@ -19,6 +19,7 @@ docker run --rm -i -v${PWD}:/code xmtp-dart/protoc \
   -I=./proto \
   --experimental_allow_proto3_optional \
   --dart_out=dart/lib/src \
+  keystore_api/v1/keystore.proto \
   message_api/v1/authn.proto \
   message_contents/composite.proto \
   message_contents/signature.proto \

@@ -280,6 +280,32 @@ public struct Xmtp_MessageApi_V1_QueryResponse {
   fileprivate var _pagingInfo: Xmtp_MessageApi_V1_PagingInfo? = nil
 }
 
+/// BatchQuery
+public struct Xmtp_MessageApi_V1_BatchQueryRequest {
+  // SwiftProtobuf.Message conformance is added in an extension below. See the
+  // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+  // methods supported on all messages.
+
+  public var requests: [Xmtp_MessageApi_V1_QueryRequest] = []
+
+  public var unknownFields = SwiftProtobuf.UnknownStorage()
+
+  public init() {}
+}
+
+/// Response containing a list of QueryResponse messages
+public struct Xmtp_MessageApi_V1_BatchQueryResponse {
+  // SwiftProtobuf.Message conformance is added in an extension below. See the
+  // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+  // methods supported on all messages.
+
+  public var responses: [Xmtp_MessageApi_V1_QueryResponse] = []
+
+  public var unknownFields = SwiftProtobuf.UnknownStorage()
+
+  public init() {}
+}
+
 #if swift(>=5.5) && canImport(_Concurrency)
 extension Xmtp_MessageApi_V1_SortDirection: @unchecked Sendable {}
 extension Xmtp_MessageApi_V1_IndexCursor: @unchecked Sendable {}
@@ -293,6 +319,8 @@ extension Xmtp_MessageApi_V1_SubscribeRequest: @unchecked Sendable {}
 extension Xmtp_MessageApi_V1_SubscribeAllRequest: @unchecked Sendable {}
 extension Xmtp_MessageApi_V1_QueryRequest: @unchecked Sendable {}
 extension Xmtp_MessageApi_V1_QueryResponse: @unchecked Sendable {}
+extension Xmtp_MessageApi_V1_BatchQueryRequest: @unchecked Sendable {}
+extension Xmtp_MessageApi_V1_BatchQueryResponse: @unchecked Sendable {}
 #endif  // swift(>=5.5) && canImport(_Concurrency)
 
 // MARK: - Code below here is support for the SwiftProtobuf runtime.
@@ -678,6 +706,70 @@ extension Xmtp_MessageApi_V1_QueryResponse: SwiftProtobuf.Message, SwiftProtobuf
   public static func ==(lhs: Xmtp_MessageApi_V1_QueryResponse, rhs: Xmtp_MessageApi_V1_QueryResponse) -> Bool {
     if lhs.envelopes != rhs.envelopes {return false}
     if lhs._pagingInfo != rhs._pagingInfo {return false}
+    if lhs.unknownFields != rhs.unknownFields {return false}
+    return true
+  }
+}
+
+extension Xmtp_MessageApi_V1_BatchQueryRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  public static let protoMessageName: String = _protobuf_package + ".BatchQueryRequest"
+  public static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+    1: .same(proto: "requests"),
+  ]
+
+  public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    while let fieldNumber = try decoder.nextFieldNumber() {
+      // The use of inline closures is to circumvent an issue where the compiler
+      // allocates stack space for every case branch when no optimizations are
+      // enabled. https://github.com/apple/swift-protobuf/issues/1034
+      switch fieldNumber {
+      case 1: try { try decoder.decodeRepeatedMessageField(value: &self.requests) }()
+      default: break
+      }
+    }
+  }
+
+  public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    if !self.requests.isEmpty {
+      try visitor.visitRepeatedMessageField(value: self.requests, fieldNumber: 1)
+    }
+    try unknownFields.traverse(visitor: &visitor)
+  }
+
+  public static func ==(lhs: Xmtp_MessageApi_V1_BatchQueryRequest, rhs: Xmtp_MessageApi_V1_BatchQueryRequest) -> Bool {
+    if lhs.requests != rhs.requests {return false}
+    if lhs.unknownFields != rhs.unknownFields {return false}
+    return true
+  }
+}
+
+extension Xmtp_MessageApi_V1_BatchQueryResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  public static let protoMessageName: String = _protobuf_package + ".BatchQueryResponse"
+  public static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+    1: .same(proto: "responses"),
+  ]
+
+  public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    while let fieldNumber = try decoder.nextFieldNumber() {
+      // The use of inline closures is to circumvent an issue where the compiler
+      // allocates stack space for every case branch when no optimizations are
+      // enabled. https://github.com/apple/swift-protobuf/issues/1034
+      switch fieldNumber {
+      case 1: try { try decoder.decodeRepeatedMessageField(value: &self.responses) }()
+      default: break
+      }
+    }
+  }
+
+  public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    if !self.responses.isEmpty {
+      try visitor.visitRepeatedMessageField(value: self.responses, fieldNumber: 1)
+    }
+    try unknownFields.traverse(visitor: &visitor)
+  }
+
+  public static func ==(lhs: Xmtp_MessageApi_V1_BatchQueryResponse, rhs: Xmtp_MessageApi_V1_BatchQueryResponse) -> Bool {
+    if lhs.responses != rhs.responses {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
   }

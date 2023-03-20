@@ -20,6 +20,7 @@ docker run --rm -i -v${PWD}:/code xmtp/protoc-swift \
   --swift_out=./swift \
   --swift_opt=Visibility=Public \
   --proto_path=./proto \
+  keystore_api/v1/keystore.proto \
   message_api/v1/message_api.proto \
   message_api/v1/authn.proto \
   message_contents/composite.proto \
