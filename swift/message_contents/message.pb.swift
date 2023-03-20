@@ -184,6 +184,53 @@ public struct Xmtp_MessageContents_Message {
   public init() {}
 }
 
+/// DecodedMessage represents the decrypted message contents.
+/// DecodedMessage instances are not stored on the network, but
+/// may be serialized and stored by clients
+public struct Xmtp_MessageContents_DecodedMessage {
+  // SwiftProtobuf.Message conformance is added in an extension below. See the
+  // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+  // methods supported on all messages.
+
+  public var id: String = String()
+
+  public var messageVersion: String = String()
+
+  public var senderAddress: String = String()
+
+  public var recipientAddress: String {
+    get {return _recipientAddress ?? String()}
+    set {_recipientAddress = newValue}
+  }
+  /// Returns true if `recipientAddress` has been explicitly set.
+  public var hasRecipientAddress: Bool {return self._recipientAddress != nil}
+  /// Clears the value of `recipientAddress`. Subsequent reads from it will return its default value.
+  public mutating func clearRecipientAddress() {self._recipientAddress = nil}
+
+  public var sentNs: UInt64 = 0
+
+  public var contentTopic: String = String()
+
+  public var conversation: Xmtp_KeystoreApi_V1_ConversationReference {
+    get {return _conversation ?? Xmtp_KeystoreApi_V1_ConversationReference()}
+    set {_conversation = newValue}
+  }
+  /// Returns true if `conversation` has been explicitly set.
+  public var hasConversation: Bool {return self._conversation != nil}
+  /// Clears the value of `conversation`. Subsequent reads from it will return its default value.
+  public mutating func clearConversation() {self._conversation = nil}
+
+  /// encapsulates EncodedContent
+  public var contentBytes: Data = Data()
+
+  public var unknownFields = SwiftProtobuf.UnknownStorage()
+
+  public init() {}
+
+  fileprivate var _recipientAddress: String? = nil
+  fileprivate var _conversation: Xmtp_KeystoreApi_V1_ConversationReference? = nil
+}
+
 #if swift(>=5.5) && canImport(_Concurrency)
 extension Xmtp_MessageContents_MessageHeaderV1: @unchecked Sendable {}
 extension Xmtp_MessageContents_MessageV1: @unchecked Sendable {}
@@ -191,6 +238,7 @@ extension Xmtp_MessageContents_MessageHeaderV2: @unchecked Sendable {}
 extension Xmtp_MessageContents_MessageV2: @unchecked Sendable {}
 extension Xmtp_MessageContents_Message: @unchecked Sendable {}
 extension Xmtp_MessageContents_Message.OneOf_Version: @unchecked Sendable {}
+extension Xmtp_MessageContents_DecodedMessage: @unchecked Sendable {}
 #endif  // swift(>=5.5) && canImport(_Concurrency)
 
 // MARK: - Code below here is support for the SwiftProtobuf runtime.
@@ -468,6 +516,84 @@ extension Xmtp_MessageContents_Message: SwiftProtobuf.Message, SwiftProtobuf._Me
 
   public static func ==(lhs: Xmtp_MessageContents_Message, rhs: Xmtp_MessageContents_Message) -> Bool {
     if lhs.version != rhs.version {return false}
+    if lhs.unknownFields != rhs.unknownFields {return false}
+    return true
+  }
+}
+
+extension Xmtp_MessageContents_DecodedMessage: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  public static let protoMessageName: String = _protobuf_package + ".DecodedMessage"
+  public static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+    1: .same(proto: "id"),
+    2: .standard(proto: "message_version"),
+    3: .standard(proto: "sender_address"),
+    4: .standard(proto: "recipient_address"),
+    5: .standard(proto: "sent_ns"),
+    6: .standard(proto: "content_topic"),
+    7: .same(proto: "conversation"),
+    8: .standard(proto: "content_bytes"),
+  ]
+
+  public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    while let fieldNumber = try decoder.nextFieldNumber() {
+      // The use of inline closures is to circumvent an issue where the compiler
+      // allocates stack space for every case branch when no optimizations are
+      // enabled. https://github.com/apple/swift-protobuf/issues/1034
+      switch fieldNumber {
+      case 1: try { try decoder.decodeSingularStringField(value: &self.id) }()
+      case 2: try { try decoder.decodeSingularStringField(value: &self.messageVersion) }()
+      case 3: try { try decoder.decodeSingularStringField(value: &self.senderAddress) }()
+      case 4: try { try decoder.decodeSingularStringField(value: &self._recipientAddress) }()
+      case 5: try { try decoder.decodeSingularUInt64Field(value: &self.sentNs) }()
+      case 6: try { try decoder.decodeSingularStringField(value: &self.contentTopic) }()
+      case 7: try { try decoder.decodeSingularMessageField(value: &self._conversation) }()
+      case 8: try { try decoder.decodeSingularBytesField(value: &self.contentBytes) }()
+      default: break
+      }
+    }
+  }
+
+  public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    // The use of inline closures is to circumvent an issue where the compiler
+    // allocates stack space for every if/case branch local when no optimizations
+    // are enabled. https://github.com/apple/swift-protobuf/issues/1034 and
+    // https://github.com/apple/swift-protobuf/issues/1182
+    if !self.id.isEmpty {
+      try visitor.visitSingularStringField(value: self.id, fieldNumber: 1)
+    }
+    if !self.messageVersion.isEmpty {
+      try visitor.visitSingularStringField(value: self.messageVersion, fieldNumber: 2)
+    }
+    if !self.senderAddress.isEmpty {
+      try visitor.visitSingularStringField(value: self.senderAddress, fieldNumber: 3)
+    }
+    try { if let v = self._recipientAddress {
+      try visitor.visitSingularStringField(value: v, fieldNumber: 4)
+    } }()
+    if self.sentNs != 0 {
+      try visitor.visitSingularUInt64Field(value: self.sentNs, fieldNumber: 5)
+    }
+    if !self.contentTopic.isEmpty {
+      try visitor.visitSingularStringField(value: self.contentTopic, fieldNumber: 6)
+    }
+    try { if let v = self._conversation {
+      try visitor.visitSingularMessageField(value: v, fieldNumber: 7)
+    } }()
+    if !self.contentBytes.isEmpty {
+      try visitor.visitSingularBytesField(value: self.contentBytes, fieldNumber: 8)
+    }
+    try unknownFields.traverse(visitor: &visitor)
+  }
+
+  public static func ==(lhs: Xmtp_MessageContents_DecodedMessage, rhs: Xmtp_MessageContents_DecodedMessage) -> Bool {
+    if lhs.id != rhs.id {return false}
+    if lhs.messageVersion != rhs.messageVersion {return false}
+    if lhs.senderAddress != rhs.senderAddress {return false}
+    if lhs._recipientAddress != rhs._recipientAddress {return false}
+    if lhs.sentNs != rhs.sentNs {return false}
+    if lhs.contentTopic != rhs.contentTopic {return false}
+    if lhs._conversation != rhs._conversation {return false}
+    if lhs.contentBytes != rhs.contentBytes {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
   }
