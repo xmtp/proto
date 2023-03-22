@@ -8,6 +8,7 @@ protoc \
   proto/message_contents/composite.proto \
   proto/message_contents/signature.proto \
   proto/message_contents/ciphertext.proto \
+  proto/message_contents/proof.proto \
   proto/message_contents/public_key.proto \
   proto/message_contents/contact.proto \
   proto/message_contents/invitation.proto \
