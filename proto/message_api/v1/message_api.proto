@@ -114,7 +114,7 @@ message SubscribeAllRequest {
 
 // Query
 message QueryRequest {
-    repeated string content_topics = 1;
+    string content_topic = 1;
     uint64 start_time_ns = 2;
     uint64 end_time_ns = 3;
     PagingInfo paging_info = 4;
