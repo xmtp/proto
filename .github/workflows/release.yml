@@ -5,22 +5,6 @@ on:
       - main
       - beta
 jobs:
-  dart:
-    if: ${{ github.ref_name == 'main' }}
-    name: Release (dart)
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: dart-lang/setup-dart@v1.3
-      - run: dart pub get
-        working-directory: ./dart
-      - run: dev/dart/generate
-      - run: dart test
-        working-directory: ./dart
-      - run: dev/dart/prepublish
-      # TODO: enable this once we have an XMTP verified publisher
-  #      - run: dart pub publish
-  #        working-directory: ./dart
   js:
     name: Release (JS)
     runs-on: ubuntu-latest
@@ -40,6 +24,23 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: npm run semantic-release
+  dart:
+    if: ${{ github.ref_name == 'main' }}
+    # https://dart.dev/tools/pub/automated-publishing
+    name: Release (dart)
+    permissions:
+      id-token: write # This is required for authentication using GitHub OIDC
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: dart-lang/setup-dart@v1.3
+      - run: dart pub get
+        working-directory: ./dart
+      - run: dev/dart/generate
+      - run: dart test
+        working-directory: ./dart
+      - run: dev/dart/prepublish
+      - run: dart pub publish --force
   kotlin:
     if: ${{ github.ref_name == 'main' }}
     name: Release (Kotlin)
