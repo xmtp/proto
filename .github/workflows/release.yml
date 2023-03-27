@@ -32,7 +32,10 @@ jobs:
       id-token: write # This is required for authentication using GitHub OIDC
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout project sources
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
       - uses: dart-lang/setup-dart@v1.3
       - run: dart pub get
         working-directory: ./dart
