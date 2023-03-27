@@ -50,7 +50,10 @@ jobs:
         env:
           RELEASE_VERSION: ${{ env.GIT_TAG }}
         run: dev/dart/prepublish
-      - run: dart pub publish --force
+      - name: Verify pubspec
+        run: cat ./dart/pubspec.yaml
+      - name: Publish
+        run: dart pub publish --force
         working-directory: ./dart
   kotlin:
     if: ${{ github.ref_name == 'main' }}
