@@ -12,3 +12,7 @@ cp ./README.md ./dart/README.md
 cp ./LICENSE ./dart/LICENSE
 # TODO: include changelog if/when we have one
 #cp ./CHANGELOG.md ./dart/CHANGELOG.md
+
+# Update pubspec.yaml version to use tagged version
+# See https://dart.dev/tools/pub/automated-publishing#triggering-automated-publishing-from-github-actions
+sed "s/version: 0.0.0/version: $RELEASE_VERSION/" ./dart/pubspec.yaml

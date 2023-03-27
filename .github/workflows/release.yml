@@ -39,8 +39,16 @@ jobs:
       - run: dev/dart/generate
       - run: dart test
         working-directory: ./dart
-      - run: dev/dart/prepublish
+      - name: Set Tag
+        run: |
+          TAG=`echo $(git describe --tags --abbrev=0)`
+          echo "GIT_TAG=${TAG#v}" >> $GITHUB_ENV
+      - name: Prepublish
+        env:
+          RELEASE_VERSION: ${{ env.GIT_TAG }}
+        run: dev/dart/prepublish
       - run: dart pub publish --force
+        working-directory: ./dart
   kotlin:
     if: ${{ github.ref_name == 'main' }}
     name: Release (Kotlin)
