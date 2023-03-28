@@ -1,0 +1,36 @@
+name: Dart dry run
+on:
+  push:
+    branches:
+      - ea/upgrade-setup-dart
+jobs:
+  dart:
+    # https://dart.dev/tools/pub/automated-publishing
+    name: Dry run (dart)
+    permissions:
+      id-token: write # This is required for authentication using GitHub OIDC
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout project sources
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - uses: dart-lang/setup-dart@v1.5.0
+      - run: dart pub get
+        working-directory: ./dart
+      - run: dev/dart/generate
+      - run: dart test
+        working-directory: ./dart
+      - name: Set Tag
+        run: |
+          TAG=`echo $(git describe --tags --abbrev=0)`
+          echo "GIT_TAG=${TAG#v}" >> $GITHUB_ENV
+      - name: Prepublish
+        env:
+          RELEASE_VERSION: ${{ env.GIT_TAG }}
+        run: dev/dart/prepublish
+      - name: Verify pubspec
+        run: cat ./dart/pubspec.yaml
+      - name: Publish
+        run: dart pub publish --dry-run
+        working-directory: ./dart
