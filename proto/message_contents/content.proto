@@ -41,6 +41,8 @@ message EncodedContent {
     optional Compression compression = 5;
     // encoded content itself
     bytes content = 4;
+    // optional ID of a message that this message is referencing
+    optional string referencing_message_id = 6;
 }
 
 // SignedContent attaches a signature to EncodedContent.
