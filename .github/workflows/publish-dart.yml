@@ -22,7 +22,9 @@ jobs:
       - run: dart test
         working-directory: ./dart
       - name: Set Tag
-        run: echo "GIT_TAG=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+        run: |
+          TAG=`echo ${GITHUB_REF#refs/*/}`
+          echo "GIT_TAG=${TAG#v}" >> $GITHUB_ENV
       - name: Prepublish
         env:
           RELEASE_VERSION: ${{ env.GIT_TAG }}
