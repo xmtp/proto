@@ -9,9 +9,11 @@ import (
 
 //go:generate go install google.golang.org/grpc/cmd/protoc-gen-go-grpc
 //go:generate -command compile protoc --proto_path=../proto -I=. -I=../build/tmp/vendor --go_out=paths=source_relative:. --go-grpc_out=paths=source_relative:. --grpc-gateway_out=generate_unbound_methods=true,paths=source_relative:.
+//go:generate compile ../proto/keystore_api/v1/keystore.proto
 //go:generate compile ../proto/message_api/v1/message_api.proto
 //go:generate compile ../proto/message_api/v1/authn.proto
 //go:generate compile ../proto/message_contents/content.proto
+//go:generate compile ../proto/message_contents/conversation_reference.proto
 //go:generate compile ../proto/message_contents/ciphertext.proto
 //go:generate compile ../proto/message_contents/signature.proto
 //go:generate compile ../proto/message_contents/public_key.proto
