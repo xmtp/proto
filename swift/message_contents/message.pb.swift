@@ -211,8 +211,8 @@ public struct Xmtp_MessageContents_DecodedMessage {
 
   public var contentTopic: String = String()
 
-  public var conversation: Xmtp_KeystoreApi_V1_ConversationReference {
-    get {return _conversation ?? Xmtp_KeystoreApi_V1_ConversationReference()}
+  public var conversation: Xmtp_MessageContents_ConversationReference {
+    get {return _conversation ?? Xmtp_MessageContents_ConversationReference()}
     set {_conversation = newValue}
   }
   /// Returns true if `conversation` has been explicitly set.
@@ -228,7 +228,7 @@ public struct Xmtp_MessageContents_DecodedMessage {
   public init() {}
 
   fileprivate var _recipientAddress: String? = nil
-  fileprivate var _conversation: Xmtp_KeystoreApi_V1_ConversationReference? = nil
+  fileprivate var _conversation: Xmtp_MessageContents_ConversationReference? = nil
 }
 
 #if swift(>=5.5) && canImport(_Concurrency)
