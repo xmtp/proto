@@ -177,20 +177,11 @@ public struct Xmtp_MessageApi_V1_Envelope {
 
   /// Ephemeral messages are published to subscribed clients
   /// but are not persisted to the network.
-  public var ephemeral: Bool {
-    get {return _ephemeral ?? false}
-    set {_ephemeral = newValue}
-  }
-  /// Returns true if `ephemeral` has been explicitly set.
-  public var hasEphemeral: Bool {return self._ephemeral != nil}
-  /// Clears the value of `ephemeral`. Subsequent reads from it will return its default value.
-  public mutating func clearEphemeral() {self._ephemeral = nil}
+  public var ephemeral: Bool = false
 
   public var unknownFields = SwiftProtobuf.UnknownStorage()
 
   public init() {}
-
-  fileprivate var _ephemeral: Bool? = nil
 }
 
 /// Publish
@@ -500,17 +491,13 @@ extension Xmtp_MessageApi_V1_Envelope: SwiftProtobuf.Message, SwiftProtobuf._Mes
       case 1: try { try decoder.decodeSingularStringField(value: &self.contentTopic) }()
       case 2: try { try decoder.decodeSingularUInt64Field(value: &self.timestampNs) }()
       case 3: try { try decoder.decodeSingularBytesField(value: &self.message) }()
-      case 4: try { try decoder.decodeSingularBoolField(value: &self._ephemeral) }()
+      case 4: try { try decoder.decodeSingularBoolField(value: &self.ephemeral) }()
       default: break
       }
     }
   }
 
   public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
-    // The use of inline closures is to circumvent an issue where the compiler
-    // allocates stack space for every if/case branch local when no optimizations
-    // are enabled. https://github.com/apple/swift-protobuf/issues/1034 and
-    // https://github.com/apple/swift-protobuf/issues/1182
     if !self.contentTopic.isEmpty {
       try visitor.visitSingularStringField(value: self.contentTopic, fieldNumber: 1)
     }
@@ -520,9 +507,9 @@ extension Xmtp_MessageApi_V1_Envelope: SwiftProtobuf.Message, SwiftProtobuf._Mes
     if !self.message.isEmpty {
       try visitor.visitSingularBytesField(value: self.message, fieldNumber: 3)
     }
-    try { if let v = self._ephemeral {
-      try visitor.visitSingularBoolField(value: v, fieldNumber: 4)
-    } }()
+    if self.ephemeral != false {
+      try visitor.visitSingularBoolField(value: self.ephemeral, fieldNumber: 4)
+    }
     try unknownFields.traverse(visitor: &visitor)
   }
 
@@ -530,7 +517,7 @@ extension Xmtp_MessageApi_V1_Envelope: SwiftProtobuf.Message, SwiftProtobuf._Mes
     if lhs.contentTopic != rhs.contentTopic {return false}
     if lhs.timestampNs != rhs.timestampNs {return false}
     if lhs.message != rhs.message {return false}
-    if lhs._ephemeral != rhs._ephemeral {return false}
+    if lhs.ephemeral != rhs.ephemeral {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
   }
