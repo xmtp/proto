@@ -11,7 +11,6 @@ mkdir -p dart/lib/src
 # Generate the API using the dart:grpc plugin.
 docker run --rm -i -v${PWD}:/code xmtp-dart/protoc \
   -I=./proto \
-  --experimental_allow_proto3_optional \
   --dart_out=grpc:dart/lib/src \
   message_api/v1/message_api.proto
 

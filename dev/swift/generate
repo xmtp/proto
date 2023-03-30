@@ -9,7 +9,6 @@ set -e
 rm -f ./swift/**/*.pb.swift || true
 
 docker run --rm -i -v${PWD}:/code xmtp/protoc-swift \
-    --experimental_allow_proto3_optional \
     --proto_path=./proto \
     --plugin=/usr/local/bin/protoc-gen-grpc-swift \
     --grpc-swift_opt=Visibility=Public \

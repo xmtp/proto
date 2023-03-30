@@ -94,7 +94,7 @@ message Envelope {
 
     // Ephemeral messages are published to subscribed clients
     // but are not persisted to the network.
-    optional bool ephemeral = 4;
+    bool ephemeral = 4;
 }
 
 // Publish
