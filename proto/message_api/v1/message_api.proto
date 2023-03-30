@@ -91,6 +91,10 @@ message Envelope {
     // it MUST be equivalent to the timestamp in the envelope.
     uint64 timestamp_ns = 2;
     bytes message = 3;
+
+    // Ephemeral messages are published to subscribed clients
+    // but are not persisted to the network.
+    optional bool ephemeral = 4;
 }
 
 // Publish
