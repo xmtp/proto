@@ -1,6 +1,7 @@
 name: xmtp_proto
 description: Protobuf client and generated classes for GRPC API
-version: 0.0.0-development
+# Version replaced at runtime in dev/dart/prepublish
+version: 0.0.0
 repository: 'https://github.com/xmtp/proto'
 
 environment:

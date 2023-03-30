@@ -82,34 +82,6 @@ public struct Xmtp_KeystoreApi_V1_KeystoreError {
   public init() {}
 }
 
-/// A light pointer for a conversation that contains no decryption keys
-public struct Xmtp_KeystoreApi_V1_ConversationReference {
-  // SwiftProtobuf.Message conformance is added in an extension below. See the
-  // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
-  // methods supported on all messages.
-
-  public var topic: String = String()
-
-  public var peerAddress: String = String()
-
-  public var createdNs: UInt64 = 0
-
-  public var context: Xmtp_MessageContents_InvitationV1.Context {
-    get {return _context ?? Xmtp_MessageContents_InvitationV1.Context()}
-    set {_context = newValue}
-  }
-  /// Returns true if `context` has been explicitly set.
-  public var hasContext: Bool {return self._context != nil}
-  /// Clears the value of `context`. Subsequent reads from it will return its default value.
-  public mutating func clearContext() {self._context = nil}
-
-  public var unknownFields = SwiftProtobuf.UnknownStorage()
-
-  public init() {}
-
-  fileprivate var _context: Xmtp_MessageContents_InvitationV1.Context? = nil
-}
-
 /// Decrypt a batch of messages using X3DH key agreement
 public struct Xmtp_KeystoreApi_V1_DecryptV1Request {
   // SwiftProtobuf.Message conformance is added in an extension below. See the
@@ -474,8 +446,8 @@ public struct Xmtp_KeystoreApi_V1_CreateInviteResponse {
   // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
   // methods supported on all messages.
 
-  public var conversation: Xmtp_KeystoreApi_V1_ConversationReference {
-    get {return _conversation ?? Xmtp_KeystoreApi_V1_ConversationReference()}
+  public var conversation: Xmtp_MessageContents_ConversationReference {
+    get {return _conversation ?? Xmtp_MessageContents_ConversationReference()}
     set {_conversation = newValue}
   }
   /// Returns true if `conversation` has been explicitly set.
@@ -489,7 +461,7 @@ public struct Xmtp_KeystoreApi_V1_CreateInviteResponse {
 
   public init() {}
 
-  fileprivate var _conversation: Xmtp_KeystoreApi_V1_ConversationReference? = nil
+  fileprivate var _conversation: Xmtp_MessageContents_ConversationReference? = nil
 }
 
 /// Request to save a batch of invite messages to the Keystore
@@ -588,8 +560,8 @@ public struct Xmtp_KeystoreApi_V1_SaveInvitesResponse {
       // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
       // methods supported on all messages.
 
-      public var conversation: Xmtp_KeystoreApi_V1_ConversationReference {
-        get {return _conversation ?? Xmtp_KeystoreApi_V1_ConversationReference()}
+      public var conversation: Xmtp_MessageContents_ConversationReference {
+        get {return _conversation ?? Xmtp_MessageContents_ConversationReference()}
         set {_conversation = newValue}
       }
       /// Returns true if `conversation` has been explicitly set.
@@ -601,7 +573,7 @@ public struct Xmtp_KeystoreApi_V1_SaveInvitesResponse {
 
       public init() {}
 
-      fileprivate var _conversation: Xmtp_KeystoreApi_V1_ConversationReference? = nil
+      fileprivate var _conversation: Xmtp_MessageContents_ConversationReference? = nil
     }
 
     public init() {}
@@ -730,7 +702,6 @@ public struct Xmtp_KeystoreApi_V1_TopicMap {
 #if swift(>=5.5) && canImport(_Concurrency)
 extension Xmtp_KeystoreApi_V1_ErrorCode: @unchecked Sendable {}
 extension Xmtp_KeystoreApi_V1_KeystoreError: @unchecked Sendable {}
-extension Xmtp_KeystoreApi_V1_ConversationReference: @unchecked Sendable {}
 extension Xmtp_KeystoreApi_V1_DecryptV1Request: @unchecked Sendable {}
 extension Xmtp_KeystoreApi_V1_DecryptV1Request.Request: @unchecked Sendable {}
 extension Xmtp_KeystoreApi_V1_DecryptResponse: @unchecked Sendable {}
@@ -807,60 +778,6 @@ extension Xmtp_KeystoreApi_V1_KeystoreError: SwiftProtobuf.Message, SwiftProtobu
   public static func ==(lhs: Xmtp_KeystoreApi_V1_KeystoreError, rhs: Xmtp_KeystoreApi_V1_KeystoreError) -> Bool {
     if lhs.message != rhs.message {return false}
     if lhs.code != rhs.code {return false}
-    if lhs.unknownFields != rhs.unknownFields {return false}
-    return true
-  }
-}
-
-extension Xmtp_KeystoreApi_V1_ConversationReference: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
-  public static let protoMessageName: String = _protobuf_package + ".ConversationReference"
-  public static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .same(proto: "topic"),
-    2: .standard(proto: "peer_address"),
-    3: .standard(proto: "created_ns"),
-    4: .same(proto: "context"),
-  ]
-
-  public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
-    while let fieldNumber = try decoder.nextFieldNumber() {
-      // The use of inline closures is to circumvent an issue where the compiler
-      // allocates stack space for every case branch when no optimizations are
-      // enabled. https://github.com/apple/swift-protobuf/issues/1034
-      switch fieldNumber {
-      case 1: try { try decoder.decodeSingularStringField(value: &self.topic) }()
-      case 2: try { try decoder.decodeSingularStringField(value: &self.peerAddress) }()
-      case 3: try { try decoder.decodeSingularUInt64Field(value: &self.createdNs) }()
-      case 4: try { try decoder.decodeSingularMessageField(value: &self._context) }()
-      default: break
-      }
-    }
-  }
-
-  public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
-    // The use of inline closures is to circumvent an issue where the compiler
-    // allocates stack space for every if/case branch local when no optimizations
-    // are enabled. https://github.com/apple/swift-protobuf/issues/1034 and
-    // https://github.com/apple/swift-protobuf/issues/1182
-    if !self.topic.isEmpty {
-      try visitor.visitSingularStringField(value: self.topic, fieldNumber: 1)
-    }
-    if !self.peerAddress.isEmpty {
-      try visitor.visitSingularStringField(value: self.peerAddress, fieldNumber: 2)
-    }
-    if self.createdNs != 0 {
-      try visitor.visitSingularUInt64Field(value: self.createdNs, fieldNumber: 3)
-    }
-    try { if let v = self._context {
-      try visitor.visitSingularMessageField(value: v, fieldNumber: 4)
-    } }()
-    try unknownFields.traverse(visitor: &visitor)
-  }
-
-  public static func ==(lhs: Xmtp_KeystoreApi_V1_ConversationReference, rhs: Xmtp_KeystoreApi_V1_ConversationReference) -> Bool {
-    if lhs.topic != rhs.topic {return false}
-    if lhs.peerAddress != rhs.peerAddress {return false}
-    if lhs.createdNs != rhs.createdNs {return false}
-    if lhs._context != rhs._context {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
   }

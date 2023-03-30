@@ -24,6 +24,7 @@ docker run --rm -i -v${PWD}:/code xmtp/protoc-swift \
   message_api/v1/message_api.proto \
   message_api/v1/authn.proto \
   message_contents/composite.proto \
+  message_contents/conversation_reference.proto \
   message_contents/signature.proto \
   message_contents/ciphertext.proto \
   message_contents/public_key.proto \
