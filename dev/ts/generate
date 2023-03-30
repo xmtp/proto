@@ -10,6 +10,7 @@ rm -f ./ts/**/*.pb.ts || true
 
 docker run --rm -i -v${PWD}:/code xmtp/protoc \
   -I=./proto \
+  --experimental_allow_proto3_optional \
   --grpc-gateway-ts_out=ts \
   message_api/v1/message_api.proto
 
