@@ -197,7 +197,11 @@ func (x *VoodooDeviceLinkedKey) GetKey() *VoodooUnsignedPublicKey {
 	return nil
 }
 
-// A bundle of one time keys uploaded by a client
+// A bundle of one time keys uploaded by a client, to be used as
+// input to (X)3DH exchanges with it. The server is expected to serve
+// and delete one prekey to anyone who requests one.
+// In our initial prototype we will not actually use one-time prekeys,
+// defaulting to fallback keys.
 type VoodooOneTimeKeyTopupBundle struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -253,7 +257,11 @@ func (x *VoodooOneTimeKeyTopupBundle) GetOneTimeKeys() []*VoodooDeviceLinkedKey 
 	return nil
 }
 
-// A fallback key uploaded by a client
+// A fallback key uploaded by a client, which replaces any existing
+// fallback key. The server is expected to serve this prekey when
+// all one-time prekeys have been exhausted.
+// In our initial prototype we will always use the fallback key in place
+// of any one-time prekeys.
 type VoodooFallbackKeyRotation struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -702,6 +710,8 @@ func (x *PublicKeyBundle) GetPreKey() *PublicKey {
 }
 
 // A Vodozemac curve25519 key serialized via serde
+// (https://github.com/matrix-org/vodozemac/blob/
+// 929bbaf325686435bdd0ed0d0cc45b0cbad3430d/src/types/curve25519.rs#L100)
 type VoodooUnsignedPublicKey_VodozemacCurve25519 struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
