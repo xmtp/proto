@@ -32,4 +32,5 @@ docker run --rm -i -v${PWD}:/code xmtp/protoc \
   message_contents/private_key.proto \
   message_contents/content.proto \
   message_contents/message.proto \
-  keystore_api/v1/keystore.proto
+  keystore_api/v1/keystore.proto \
+  message_contents/send_key.proto

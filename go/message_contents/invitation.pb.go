@@ -115,22 +115,24 @@ type InvitationV1_Aes256GcmHkdfSha256 struct {
 
 func (*InvitationV1_Aes256GcmHkdfSha256) isInvitationV1_Encryption() {}
 
-// Sealed Invitation V1 Header
 // Header carries information that is unencrypted, thus readable by the network
 // it is however authenticated as associated data with the AEAD scheme used
 // to encrypt the invitation body, thus providing tamper evidence.
-type SealedInvitationHeaderV1 struct {
+// The inbox_key_bundle MUST be linked to the address of the recipient.
+type SealedInvitationHeaderV2 struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Sender    *SignedPublicKeyBundle `protobuf:"bytes,1,opt,name=sender,proto3" json:"sender,omitempty"`
-	Recipient *SignedPublicKeyBundle `protobuf:"bytes,2,opt,name=recipient,proto3" json:"recipient,omitempty"`
-	CreatedNs uint64                 `protobuf:"varint,3,opt,name=created_ns,json=createdNs,proto3" json:"created_ns,omitempty"`
+	// Types that are assignable to Header:
+	//
+	//	*SealedInvitationHeaderV2_PeerHeader
+	//	*SealedInvitationHeaderV2_SelfHeader
+	Header isSealedInvitationHeaderV2_Header `protobuf_oneof:"header"`
 }
 
-func (x *SealedInvitationHeaderV1) Reset() {
-	*x = SealedInvitationHeaderV1{}
+func (x *SealedInvitationHeaderV2) Reset() {
+	*x = SealedInvitationHeaderV2{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_message_contents_invitation_proto_msgTypes[1]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -138,13 +140,13 @@ func (x *SealedInvitationHeaderV1) Reset() {
 	}
 }
 
-func (x *SealedInvitationHeaderV1) String() string {
+func (x *SealedInvitationHeaderV2) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*SealedInvitationHeaderV1) ProtoMessage() {}
+func (*SealedInvitationHeaderV2) ProtoMessage() {}
 
-func (x *SealedInvitationHeaderV1) ProtoReflect() protoreflect.Message {
+func (x *SealedInvitationHeaderV2) ProtoReflect() protoreflect.Message {
 	mi := &file_message_contents_invitation_proto_msgTypes[1]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -156,49 +158,65 @@ func (x *SealedInvitationHeaderV1) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use SealedInvitationHeaderV1.ProtoReflect.Descriptor instead.
-func (*SealedInvitationHeaderV1) Descriptor() ([]byte, []int) {
+// Deprecated: Use SealedInvitationHeaderV2.ProtoReflect.Descriptor instead.
+func (*SealedInvitationHeaderV2) Descriptor() ([]byte, []int) {
 	return file_message_contents_invitation_proto_rawDescGZIP(), []int{1}
 }
 
-func (x *SealedInvitationHeaderV1) GetSender() *SignedPublicKeyBundle {
-	if x != nil {
-		return x.Sender
+func (m *SealedInvitationHeaderV2) GetHeader() isSealedInvitationHeaderV2_Header {
+	if m != nil {
+		return m.Header
 	}
 	return nil
 }
 
-func (x *SealedInvitationHeaderV1) GetRecipient() *SignedPublicKeyBundle {
-	if x != nil {
-		return x.Recipient
+func (x *SealedInvitationHeaderV2) GetPeerHeader() *SealedInvitationHeaderV2_PeerInvitationHeader {
+	if x, ok := x.GetHeader().(*SealedInvitationHeaderV2_PeerHeader); ok {
+		return x.PeerHeader
 	}
 	return nil
 }
 
-func (x *SealedInvitationHeaderV1) GetCreatedNs() uint64 {
-	if x != nil {
-		return x.CreatedNs
+func (x *SealedInvitationHeaderV2) GetSelfHeader() *SealedInvitationHeaderV2_SelfInvitationHeader {
+	if x, ok := x.GetHeader().(*SealedInvitationHeaderV2_SelfHeader); ok {
+		return x.SelfHeader
 	}
-	return 0
+	return nil
 }
 
-// Sealed Invitation V1
+type isSealedInvitationHeaderV2_Header interface {
+	isSealedInvitationHeaderV2_Header()
+}
+
+type SealedInvitationHeaderV2_PeerHeader struct {
+	PeerHeader *SealedInvitationHeaderV2_PeerInvitationHeader `protobuf:"bytes,1,opt,name=peer_header,json=peerHeader,proto3,oneof"`
+}
+
+type SealedInvitationHeaderV2_SelfHeader struct {
+	SelfHeader *SealedInvitationHeaderV2_SelfInvitationHeader `protobuf:"bytes,2,opt,name=self_header,json=selfHeader,proto3,oneof"`
+}
+
+func (*SealedInvitationHeaderV2_PeerHeader) isSealedInvitationHeaderV2_Header() {}
+
+func (*SealedInvitationHeaderV2_SelfHeader) isSealedInvitationHeaderV2_Header() {}
+
+// Sealed Invitation V2
 // Invitation encrypted with key material derived from the sender's and
 // recipient's public key bundles using simplified X3DH where
 // the sender's ephemeral key is replaced with sender's pre-key.
-type SealedInvitationV1 struct {
+type SealedInvitationV2 struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	// encoded SealedInvitationHeaderV1 used as associated data for Ciphertext
+	// encoded SealedInvitationHeaderV2 used as associated data for Ciphertext
 	HeaderBytes []byte `protobuf:"bytes,1,opt,name=header_bytes,json=headerBytes,proto3" json:"header_bytes,omitempty"`
 	// Ciphertext.payload MUST contain encrypted InvitationV1.
 	Ciphertext *Ciphertext `protobuf:"bytes,2,opt,name=ciphertext,proto3" json:"ciphertext,omitempty"`
 }
 
-func (x *SealedInvitationV1) Reset() {
-	*x = SealedInvitationV1{}
+func (x *SealedInvitationV2) Reset() {
+	*x = SealedInvitationV2{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_message_contents_invitation_proto_msgTypes[2]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -206,13 +224,13 @@ func (x *SealedInvitationV1) Reset() {
 	}
 }
 
-func (x *SealedInvitationV1) String() string {
+func (x *SealedInvitationV2) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*SealedInvitationV1) ProtoMessage() {}
+func (*SealedInvitationV2) ProtoMessage() {}
 
-func (x *SealedInvitationV1) ProtoReflect() protoreflect.Message {
+func (x *SealedInvitationV2) ProtoReflect() protoreflect.Message {
 	mi := &file_message_contents_invitation_proto_msgTypes[2]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -224,19 +242,19 @@ func (x *SealedInvitationV1) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use SealedInvitationV1.ProtoReflect.Descriptor instead.
-func (*SealedInvitationV1) Descriptor() ([]byte, []int) {
+// Deprecated: Use SealedInvitationV2.ProtoReflect.Descriptor instead.
+func (*SealedInvitationV2) Descriptor() ([]byte, []int) {
 	return file_message_contents_invitation_proto_rawDescGZIP(), []int{2}
 }
 
-func (x *SealedInvitationV1) GetHeaderBytes() []byte {
+func (x *SealedInvitationV2) GetHeaderBytes() []byte {
 	if x != nil {
 		return x.HeaderBytes
 	}
 	return nil
 }
 
-func (x *SealedInvitationV1) GetCiphertext() *Ciphertext {
+func (x *SealedInvitationV2) GetCiphertext() *Ciphertext {
 	if x != nil {
 		return x.Ciphertext
 	}
@@ -252,6 +270,7 @@ type SealedInvitation struct {
 	// Types that are assignable to Version:
 	//
 	//	*SealedInvitation_V1
+	//	*SealedInvitation_V2
 	Version isSealedInvitation_Version `protobuf_oneof:"version"`
 }
 
@@ -301,6 +320,13 @@ func (x *SealedInvitation) GetV1() *SealedInvitationV1 {
 	return nil
 }
 
+func (x *SealedInvitation) GetV2() *SealedInvitationV2 {
+	if x, ok := x.GetVersion().(*SealedInvitation_V2); ok {
+		return x.V2
+	}
+	return nil
+}
+
 type isSealedInvitation_Version interface {
 	isSealedInvitation_Version()
 }
@@ -309,7 +335,141 @@ type SealedInvitation_V1 struct {
 	V1 *SealedInvitationV1 `protobuf:"bytes,1,opt,name=v1,proto3,oneof"`
 }
 
+type SealedInvitation_V2 struct {
+	V2 *SealedInvitationV2 `protobuf:"bytes,2,opt,name=v2,proto3,oneof"`
+}
+
 func (*SealedInvitation_V1) isSealedInvitation_Version() {}
+
+func (*SealedInvitation_V2) isSealedInvitation_Version() {}
+
+// Sealed Invitation V1 Header
+// Header carries information that is unencrypted, thus readable by the network
+// it is however authenticated as associated data with the AEAD scheme used
+// to encrypt the invitation body, thus providing tamper evidence.
+type SealedInvitationHeaderV1 struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Sender    *SignedPublicKeyBundle `protobuf:"bytes,1,opt,name=sender,proto3" json:"sender,omitempty"`
+	Recipient *SignedPublicKeyBundle `protobuf:"bytes,2,opt,name=recipient,proto3" json:"recipient,omitempty"`
+	CreatedNs uint64                 `protobuf:"varint,3,opt,name=created_ns,json=createdNs,proto3" json:"created_ns,omitempty"`
+}
+
+func (x *SealedInvitationHeaderV1) Reset() {
+	*x = SealedInvitationHeaderV1{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_message_contents_invitation_proto_msgTypes[4]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *SealedInvitationHeaderV1) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SealedInvitationHeaderV1) ProtoMessage() {}
+
+func (x *SealedInvitationHeaderV1) ProtoReflect() protoreflect.Message {
+	mi := &file_message_contents_invitation_proto_msgTypes[4]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SealedInvitationHeaderV1.ProtoReflect.Descriptor instead.
+func (*SealedInvitationHeaderV1) Descriptor() ([]byte, []int) {
+	return file_message_contents_invitation_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *SealedInvitationHeaderV1) GetSender() *SignedPublicKeyBundle {
+	if x != nil {
+		return x.Sender
+	}
+	return nil
+}
+
+func (x *SealedInvitationHeaderV1) GetRecipient() *SignedPublicKeyBundle {
+	if x != nil {
+		return x.Recipient
+	}
+	return nil
+}
+
+func (x *SealedInvitationHeaderV1) GetCreatedNs() uint64 {
+	if x != nil {
+		return x.CreatedNs
+	}
+	return 0
+}
+
+// Sealed Invitation V1
+// Invitation encrypted with key material derived from the sender's and
+// recipient's public key bundles using simplified X3DH where
+// the sender's ephemeral key is replaced with sender's pre-key.
+type SealedInvitationV1 struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	// encoded SealedInvitationHeaderV1 used as associated data for Ciphertext
+	HeaderBytes []byte `protobuf:"bytes,1,opt,name=header_bytes,json=headerBytes,proto3" json:"header_bytes,omitempty"`
+	// Ciphertext.payload MUST contain encrypted InvitationV1.
+	Ciphertext *Ciphertext `protobuf:"bytes,2,opt,name=ciphertext,proto3" json:"ciphertext,omitempty"`
+}
+
+func (x *SealedInvitationV1) Reset() {
+	*x = SealedInvitationV1{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_message_contents_invitation_proto_msgTypes[5]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *SealedInvitationV1) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SealedInvitationV1) ProtoMessage() {}
+
+func (x *SealedInvitationV1) ProtoReflect() protoreflect.Message {
+	mi := &file_message_contents_invitation_proto_msgTypes[5]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SealedInvitationV1.ProtoReflect.Descriptor instead.
+func (*SealedInvitationV1) Descriptor() ([]byte, []int) {
+	return file_message_contents_invitation_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *SealedInvitationV1) GetHeaderBytes() []byte {
+	if x != nil {
+		return x.HeaderBytes
+	}
+	return nil
+}
+
+func (x *SealedInvitationV1) GetCiphertext() *Ciphertext {
+	if x != nil {
+		return x.Ciphertext
+	}
+	return nil
+}
 
 // Supported encryption schemes
 // AES256-GCM-HKDF-SHA256
@@ -324,7 +484,7 @@ type InvitationV1_Aes256GcmHkdfsha256 struct {
 func (x *InvitationV1_Aes256GcmHkdfsha256) Reset() {
 	*x = InvitationV1_Aes256GcmHkdfsha256{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_message_contents_invitation_proto_msgTypes[4]
+		mi := &file_message_contents_invitation_proto_msgTypes[6]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -337,7 +497,7 @@ func (x *InvitationV1_Aes256GcmHkdfsha256) String() string {
 func (*InvitationV1_Aes256GcmHkdfsha256) ProtoMessage() {}
 
 func (x *InvitationV1_Aes256GcmHkdfsha256) ProtoReflect() protoreflect.Message {
-	mi := &file_message_contents_invitation_proto_msgTypes[4]
+	mi := &file_message_contents_invitation_proto_msgTypes[6]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -376,7 +536,7 @@ type InvitationV1_Context struct {
 func (x *InvitationV1_Context) Reset() {
 	*x = InvitationV1_Context{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_message_contents_invitation_proto_msgTypes[5]
+		mi := &file_message_contents_invitation_proto_msgTypes[7]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -389,7 +549,7 @@ func (x *InvitationV1_Context) String() string {
 func (*InvitationV1_Context) ProtoMessage() {}
 
 func (x *InvitationV1_Context) ProtoReflect() protoreflect.Message {
-	mi := &file_message_contents_invitation_proto_msgTypes[5]
+	mi := &file_message_contents_invitation_proto_msgTypes[7]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -417,6 +577,146 @@ func (x *InvitationV1_Context) GetMetadata() map[string]string {
 		return x.Metadata
 	}
 	return nil
+}
+
+// PeerInvitationHeader MUST be used when the account address linked to the
+// send_key_bundle is different from the address linked to the
+// inbox_key_bundle
+type SealedInvitationHeaderV2_PeerInvitationHeader struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	SendKeyBundle  *SignedPublicKeyBundleV2 `protobuf:"bytes,1,opt,name=send_key_bundle,json=sendKeyBundle,proto3" json:"send_key_bundle,omitempty"`
+	InboxKeyBundle *SignedPublicKeyBundleV2 `protobuf:"bytes,2,opt,name=inbox_key_bundle,json=inboxKeyBundle,proto3" json:"inbox_key_bundle,omitempty"`
+	CreatedNs      uint64                   `protobuf:"varint,3,opt,name=created_ns,json=createdNs,proto3" json:"created_ns,omitempty"`
+}
+
+func (x *SealedInvitationHeaderV2_PeerInvitationHeader) Reset() {
+	*x = SealedInvitationHeaderV2_PeerInvitationHeader{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_message_contents_invitation_proto_msgTypes[9]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *SealedInvitationHeaderV2_PeerInvitationHeader) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SealedInvitationHeaderV2_PeerInvitationHeader) ProtoMessage() {}
+
+func (x *SealedInvitationHeaderV2_PeerInvitationHeader) ProtoReflect() protoreflect.Message {
+	mi := &file_message_contents_invitation_proto_msgTypes[9]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SealedInvitationHeaderV2_PeerInvitationHeader.ProtoReflect.Descriptor instead.
+func (*SealedInvitationHeaderV2_PeerInvitationHeader) Descriptor() ([]byte, []int) {
+	return file_message_contents_invitation_proto_rawDescGZIP(), []int{1, 0}
+}
+
+func (x *SealedInvitationHeaderV2_PeerInvitationHeader) GetSendKeyBundle() *SignedPublicKeyBundleV2 {
+	if x != nil {
+		return x.SendKeyBundle
+	}
+	return nil
+}
+
+func (x *SealedInvitationHeaderV2_PeerInvitationHeader) GetInboxKeyBundle() *SignedPublicKeyBundleV2 {
+	if x != nil {
+		return x.InboxKeyBundle
+	}
+	return nil
+}
+
+func (x *SealedInvitationHeaderV2_PeerInvitationHeader) GetCreatedNs() uint64 {
+	if x != nil {
+		return x.CreatedNs
+	}
+	return 0
+}
+
+// When receiving this header, the send_key_bundle MUST have an
+// AccountLinkedPublicKey that is linked to the user's account
+type SealedInvitationHeaderV2_SelfInvitationHeader struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	SendKeyBundle  *SignedPublicKeyBundleV2 `protobuf:"bytes,1,opt,name=send_key_bundle,json=sendKeyBundle,proto3" json:"send_key_bundle,omitempty"`
+	InboxKeyBundle *SignedPublicKeyBundleV2 `protobuf:"bytes,2,opt,name=inbox_key_bundle,json=inboxKeyBundle,proto3" json:"inbox_key_bundle,omitempty"`
+	CreatedNs      uint64                   `protobuf:"varint,3,opt,name=created_ns,json=createdNs,proto3" json:"created_ns,omitempty"`
+	// The address of the person being invited to the conversation
+	RecipientAddress string `protobuf:"bytes,4,opt,name=recipient_address,json=recipientAddress,proto3" json:"recipient_address,omitempty"`
+}
+
+func (x *SealedInvitationHeaderV2_SelfInvitationHeader) Reset() {
+	*x = SealedInvitationHeaderV2_SelfInvitationHeader{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_message_contents_invitation_proto_msgTypes[10]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *SealedInvitationHeaderV2_SelfInvitationHeader) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SealedInvitationHeaderV2_SelfInvitationHeader) ProtoMessage() {}
+
+func (x *SealedInvitationHeaderV2_SelfInvitationHeader) ProtoReflect() protoreflect.Message {
+	mi := &file_message_contents_invitation_proto_msgTypes[10]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SealedInvitationHeaderV2_SelfInvitationHeader.ProtoReflect.Descriptor instead.
+func (*SealedInvitationHeaderV2_SelfInvitationHeader) Descriptor() ([]byte, []int) {
+	return file_message_contents_invitation_proto_rawDescGZIP(), []int{1, 1}
+}
+
+func (x *SealedInvitationHeaderV2_SelfInvitationHeader) GetSendKeyBundle() *SignedPublicKeyBundleV2 {
+	if x != nil {
+		return x.SendKeyBundle
+	}
+	return nil
+}
+
+func (x *SealedInvitationHeaderV2_SelfInvitationHeader) GetInboxKeyBundle() *SignedPublicKeyBundleV2 {
+	if x != nil {
+		return x.InboxKeyBundle
+	}
+	return nil
+}
+
+func (x *SealedInvitationHeaderV2_SelfInvitationHeader) GetCreatedNs() uint64 {
+	if x != nil {
+		return x.CreatedNs
+	}
+	return 0
+}
+
+func (x *SealedInvitationHeaderV2_SelfInvitationHeader) GetRecipientAddress() string {
+	if x != nil {
+		return x.RecipientAddress
+	}
+	return ""
 }
 
 var File_message_contents_invitation_proto protoreflect.FileDescriptor
@@ -461,6 +761,71 @@ var file_message_contents_invitation_proto_rawDesc = []byte{
 	0x28, 0x09, 0x52, 0x03, 0x6b, 0x65, 0x79, 0x12, 0x14, 0x0a, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65,
 	0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x3a, 0x02, 0x38,
 	0x01, 0x42, 0x0c, 0x0a, 0x0a, 0x65, 0x6e, 0x63, 0x72, 0x79, 0x70, 0x74, 0x69, 0x6f, 0x6e, 0x22,
+	0xf7, 0x05, 0x0a, 0x18, 0x53, 0x65, 0x61, 0x6c, 0x65, 0x64, 0x49, 0x6e, 0x76, 0x69, 0x74, 0x61,
+	0x74, 0x69, 0x6f, 0x6e, 0x48, 0x65, 0x61, 0x64, 0x65, 0x72, 0x56, 0x32, 0x12, 0x67, 0x0a, 0x0b,
+	0x70, 0x65, 0x65, 0x72, 0x5f, 0x68, 0x65, 0x61, 0x64, 0x65, 0x72, 0x18, 0x01, 0x20, 0x01, 0x28,
+	0x0b, 0x32, 0x44, 0x2e, 0x78, 0x6d, 0x74, 0x70, 0x2e, 0x6d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65,
+	0x5f, 0x63, 0x6f, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x73, 0x2e, 0x53, 0x65, 0x61, 0x6c, 0x65, 0x64,
+	0x49, 0x6e, 0x76, 0x69, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x48, 0x65, 0x61, 0x64, 0x65, 0x72,
+	0x56, 0x32, 0x2e, 0x50, 0x65, 0x65, 0x72, 0x49, 0x6e, 0x76, 0x69, 0x74, 0x61, 0x74, 0x69, 0x6f,
+	0x6e, 0x48, 0x65, 0x61, 0x64, 0x65, 0x72, 0x48, 0x00, 0x52, 0x0a, 0x70, 0x65, 0x65, 0x72, 0x48,
+	0x65, 0x61, 0x64, 0x65, 0x72, 0x12, 0x67, 0x0a, 0x0b, 0x73, 0x65, 0x6c, 0x66, 0x5f, 0x68, 0x65,
+	0x61, 0x64, 0x65, 0x72, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x44, 0x2e, 0x78, 0x6d, 0x74,
+	0x70, 0x2e, 0x6d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x5f, 0x63, 0x6f, 0x6e, 0x74, 0x65, 0x6e,
+	0x74, 0x73, 0x2e, 0x53, 0x65, 0x61, 0x6c, 0x65, 0x64, 0x49, 0x6e, 0x76, 0x69, 0x74, 0x61, 0x74,
+	0x69, 0x6f, 0x6e, 0x48, 0x65, 0x61, 0x64, 0x65, 0x72, 0x56, 0x32, 0x2e, 0x53, 0x65, 0x6c, 0x66,
+	0x49, 0x6e, 0x76, 0x69, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x48, 0x65, 0x61, 0x64, 0x65, 0x72,
+	0x48, 0x00, 0x52, 0x0a, 0x73, 0x65, 0x6c, 0x66, 0x48, 0x65, 0x61, 0x64, 0x65, 0x72, 0x1a, 0xe7,
+	0x01, 0x0a, 0x14, 0x50, 0x65, 0x65, 0x72, 0x49, 0x6e, 0x76, 0x69, 0x74, 0x61, 0x74, 0x69, 0x6f,
+	0x6e, 0x48, 0x65, 0x61, 0x64, 0x65, 0x72, 0x12, 0x56, 0x0a, 0x0f, 0x73, 0x65, 0x6e, 0x64, 0x5f,
+	0x6b, 0x65, 0x79, 0x5f, 0x62, 0x75, 0x6e, 0x64, 0x6c, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b,
+	0x32, 0x2e, 0x2e, 0x78, 0x6d, 0x74, 0x70, 0x2e, 0x6d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x5f,
+	0x63, 0x6f, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x73, 0x2e, 0x53, 0x69, 0x67, 0x6e, 0x65, 0x64, 0x50,
+	0x75, 0x62, 0x6c, 0x69, 0x63, 0x4b, 0x65, 0x79, 0x42, 0x75, 0x6e, 0x64, 0x6c, 0x65, 0x56, 0x32,
+	0x52, 0x0d, 0x73, 0x65, 0x6e, 0x64, 0x4b, 0x65, 0x79, 0x42, 0x75, 0x6e, 0x64, 0x6c, 0x65, 0x12,
+	0x58, 0x0a, 0x10, 0x69, 0x6e, 0x62, 0x6f, 0x78, 0x5f, 0x6b, 0x65, 0x79, 0x5f, 0x62, 0x75, 0x6e,
+	0x64, 0x6c, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x2e, 0x2e, 0x78, 0x6d, 0x74, 0x70,
+	0x2e, 0x6d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x5f, 0x63, 0x6f, 0x6e, 0x74, 0x65, 0x6e, 0x74,
+	0x73, 0x2e, 0x53, 0x69, 0x67, 0x6e, 0x65, 0x64, 0x50, 0x75, 0x62, 0x6c, 0x69, 0x63, 0x4b, 0x65,
+	0x79, 0x42, 0x75, 0x6e, 0x64, 0x6c, 0x65, 0x56, 0x32, 0x52, 0x0e, 0x69, 0x6e, 0x62, 0x6f, 0x78,
+	0x4b, 0x65, 0x79, 0x42, 0x75, 0x6e, 0x64, 0x6c, 0x65, 0x12, 0x1d, 0x0a, 0x0a, 0x63, 0x72, 0x65,
+	0x61, 0x74, 0x65, 0x64, 0x5f, 0x6e, 0x73, 0x18, 0x03, 0x20, 0x01, 0x28, 0x04, 0x52, 0x09, 0x63,
+	0x72, 0x65, 0x61, 0x74, 0x65, 0x64, 0x4e, 0x73, 0x1a, 0x94, 0x02, 0x0a, 0x14, 0x53, 0x65, 0x6c,
+	0x66, 0x49, 0x6e, 0x76, 0x69, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x48, 0x65, 0x61, 0x64, 0x65,
+	0x72, 0x12, 0x56, 0x0a, 0x0f, 0x73, 0x65, 0x6e, 0x64, 0x5f, 0x6b, 0x65, 0x79, 0x5f, 0x62, 0x75,
+	0x6e, 0x64, 0x6c, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x2e, 0x2e, 0x78, 0x6d, 0x74,
+	0x70, 0x2e, 0x6d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x5f, 0x63, 0x6f, 0x6e, 0x74, 0x65, 0x6e,
+	0x74, 0x73, 0x2e, 0x53, 0x69, 0x67, 0x6e, 0x65, 0x64, 0x50, 0x75, 0x62, 0x6c, 0x69, 0x63, 0x4b,
+	0x65, 0x79, 0x42, 0x75, 0x6e, 0x64, 0x6c, 0x65, 0x56, 0x32, 0x52, 0x0d, 0x73, 0x65, 0x6e, 0x64,
+	0x4b, 0x65, 0x79, 0x42, 0x75, 0x6e, 0x64, 0x6c, 0x65, 0x12, 0x58, 0x0a, 0x10, 0x69, 0x6e, 0x62,
+	0x6f, 0x78, 0x5f, 0x6b, 0x65, 0x79, 0x5f, 0x62, 0x75, 0x6e, 0x64, 0x6c, 0x65, 0x18, 0x02, 0x20,
+	0x01, 0x28, 0x0b, 0x32, 0x2e, 0x2e, 0x78, 0x6d, 0x74, 0x70, 0x2e, 0x6d, 0x65, 0x73, 0x73, 0x61,
+	0x67, 0x65, 0x5f, 0x63, 0x6f, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x73, 0x2e, 0x53, 0x69, 0x67, 0x6e,
+	0x65, 0x64, 0x50, 0x75, 0x62, 0x6c, 0x69, 0x63, 0x4b, 0x65, 0x79, 0x42, 0x75, 0x6e, 0x64, 0x6c,
+	0x65, 0x56, 0x32, 0x52, 0x0e, 0x69, 0x6e, 0x62, 0x6f, 0x78, 0x4b, 0x65, 0x79, 0x42, 0x75, 0x6e,
+	0x64, 0x6c, 0x65, 0x12, 0x1d, 0x0a, 0x0a, 0x63, 0x72, 0x65, 0x61, 0x74, 0x65, 0x64, 0x5f, 0x6e,
+	0x73, 0x18, 0x03, 0x20, 0x01, 0x28, 0x04, 0x52, 0x09, 0x63, 0x72, 0x65, 0x61, 0x74, 0x65, 0x64,
+	0x4e, 0x73, 0x12, 0x2b, 0x0a, 0x11, 0x72, 0x65, 0x63, 0x69, 0x70, 0x69, 0x65, 0x6e, 0x74, 0x5f,
+	0x61, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x18, 0x04, 0x20, 0x01, 0x28, 0x09, 0x52, 0x10, 0x72,
+	0x65, 0x63, 0x69, 0x70, 0x69, 0x65, 0x6e, 0x74, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x42,
+	0x08, 0x0a, 0x06, 0x68, 0x65, 0x61, 0x64, 0x65, 0x72, 0x22, 0x7a, 0x0a, 0x12, 0x53, 0x65, 0x61,
+	0x6c, 0x65, 0x64, 0x49, 0x6e, 0x76, 0x69, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x56, 0x32, 0x12,
+	0x21, 0x0a, 0x0c, 0x68, 0x65, 0x61, 0x64, 0x65, 0x72, 0x5f, 0x62, 0x79, 0x74, 0x65, 0x73, 0x18,
+	0x01, 0x20, 0x01, 0x28, 0x0c, 0x52, 0x0b, 0x68, 0x65, 0x61, 0x64, 0x65, 0x72, 0x42, 0x79, 0x74,
+	0x65, 0x73, 0x12, 0x41, 0x0a, 0x0a, 0x63, 0x69, 0x70, 0x68, 0x65, 0x72, 0x74, 0x65, 0x78, 0x74,
+	0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x21, 0x2e, 0x78, 0x6d, 0x74, 0x70, 0x2e, 0x6d, 0x65,
+	0x73, 0x73, 0x61, 0x67, 0x65, 0x5f, 0x63, 0x6f, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x73, 0x2e, 0x43,
+	0x69, 0x70, 0x68, 0x65, 0x72, 0x74, 0x65, 0x78, 0x74, 0x52, 0x0a, 0x63, 0x69, 0x70, 0x68, 0x65,
+	0x72, 0x74, 0x65, 0x78, 0x74, 0x22, 0x97, 0x01, 0x0a, 0x10, 0x53, 0x65, 0x61, 0x6c, 0x65, 0x64,
+	0x49, 0x6e, 0x76, 0x69, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x3b, 0x0a, 0x02, 0x76, 0x31,
+	0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x29, 0x2e, 0x78, 0x6d, 0x74, 0x70, 0x2e, 0x6d, 0x65,
+	0x73, 0x73, 0x61, 0x67, 0x65, 0x5f, 0x63, 0x6f, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x73, 0x2e, 0x53,
+	0x65, 0x61, 0x6c, 0x65, 0x64, 0x49, 0x6e, 0x76, 0x69, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x56,
+	0x31, 0x48, 0x00, 0x52, 0x02, 0x76, 0x31, 0x12, 0x3b, 0x0a, 0x02, 0x76, 0x32, 0x18, 0x02, 0x20,
+	0x01, 0x28, 0x0b, 0x32, 0x29, 0x2e, 0x78, 0x6d, 0x74, 0x70, 0x2e, 0x6d, 0x65, 0x73, 0x73, 0x61,
+	0x67, 0x65, 0x5f, 0x63, 0x6f, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x73, 0x2e, 0x53, 0x65, 0x61, 0x6c,
+	0x65, 0x64, 0x49, 0x6e, 0x76, 0x69, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x56, 0x32, 0x48, 0x00,
+	0x52, 0x02, 0x76, 0x32, 0x42, 0x09, 0x0a, 0x07, 0x76, 0x65, 0x72, 0x73, 0x69, 0x6f, 0x6e, 0x22,
 	0xcb, 0x01, 0x0a, 0x18, 0x53, 0x65, 0x61, 0x6c, 0x65, 0x64, 0x49, 0x6e, 0x76, 0x69, 0x74, 0x61,
 	0x74, 0x69, 0x6f, 0x6e, 0x48, 0x65, 0x61, 0x64, 0x65, 0x72, 0x56, 0x31, 0x12, 0x44, 0x0a, 0x06,
 	0x73, 0x65, 0x6e, 0x64, 0x65, 0x72, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x2c, 0x2e, 0x78,
@@ -481,18 +846,13 @@ var file_message_contents_invitation_proto_rawDesc = []byte{
 	0x74, 0x65, 0x78, 0x74, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x21, 0x2e, 0x78, 0x6d, 0x74,
 	0x70, 0x2e, 0x6d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x5f, 0x63, 0x6f, 0x6e, 0x74, 0x65, 0x6e,
 	0x74, 0x73, 0x2e, 0x43, 0x69, 0x70, 0x68, 0x65, 0x72, 0x74, 0x65, 0x78, 0x74, 0x52, 0x0a, 0x63,
-	0x69, 0x70, 0x68, 0x65, 0x72, 0x74, 0x65, 0x78, 0x74, 0x22, 0x5a, 0x0a, 0x10, 0x53, 0x65, 0x61,
-	0x6c, 0x65, 0x64, 0x49, 0x6e, 0x76, 0x69, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x3b, 0x0a,
-	0x02, 0x76, 0x31, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x29, 0x2e, 0x78, 0x6d, 0x74, 0x70,
-	0x2e, 0x6d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x5f, 0x63, 0x6f, 0x6e, 0x74, 0x65, 0x6e, 0x74,
-	0x73, 0x2e, 0x53, 0x65, 0x61, 0x6c, 0x65, 0x64, 0x49, 0x6e, 0x76, 0x69, 0x74, 0x61, 0x74, 0x69,
-	0x6f, 0x6e, 0x56, 0x31, 0x48, 0x00, 0x52, 0x02, 0x76, 0x31, 0x42, 0x09, 0x0a, 0x07, 0x76, 0x65,
-	0x72, 0x73, 0x69, 0x6f, 0x6e, 0x42, 0x4f, 0x0a, 0x1f, 0x6f, 0x72, 0x67, 0x2e, 0x78, 0x6d, 0x74,
-	0x70, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2e, 0x6d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x2e,
-	0x63, 0x6f, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x73, 0x5a, 0x2c, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62,
-	0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x78, 0x6d, 0x74, 0x70, 0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2f,
-	0x76, 0x33, 0x2f, 0x67, 0x6f, 0x2f, 0x6d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x5f, 0x63, 0x6f,
-	0x6e, 0x74, 0x65, 0x6e, 0x74, 0x73, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x69, 0x70, 0x68, 0x65, 0x72, 0x74, 0x65, 0x78, 0x74, 0x42, 0x4f, 0x0a, 0x1f, 0x6f, 0x72, 0x67,
+	0x2e, 0x78, 0x6d, 0x74, 0x70, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2e, 0x6d, 0x65, 0x73, 0x73,
+	0x61, 0x67, 0x65, 0x2e, 0x63, 0x6f, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x73, 0x5a, 0x2c, 0x67, 0x69,
+	0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x78, 0x6d, 0x74, 0x70, 0x2f, 0x70, 0x72,
+	0x6f, 0x74, 0x6f, 0x2f, 0x76, 0x33, 0x2f, 0x67, 0x6f, 0x2f, 0x6d, 0x65, 0x73, 0x73, 0x61, 0x67,
+	0x65, 0x5f, 0x63, 0x6f, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x73, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74,
+	0x6f, 0x33,
 }
 
 var (
@@ -507,31 +867,44 @@ func file_message_contents_invitation_proto_rawDescGZIP() []byte {
 	return file_message_contents_invitation_proto_rawDescData
 }
 
-var file_message_contents_invitation_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
+var file_message_contents_invitation_proto_msgTypes = make([]protoimpl.MessageInfo, 11)
 var file_message_contents_invitation_proto_goTypes = []interface{}{
-	(*InvitationV1)(nil),                     // 0: xmtp.message_contents.InvitationV1
-	(*SealedInvitationHeaderV1)(nil),         // 1: xmtp.message_contents.SealedInvitationHeaderV1
-	(*SealedInvitationV1)(nil),               // 2: xmtp.message_contents.SealedInvitationV1
-	(*SealedInvitation)(nil),                 // 3: xmtp.message_contents.SealedInvitation
-	(*InvitationV1_Aes256GcmHkdfsha256)(nil), // 4: xmtp.message_contents.InvitationV1.Aes256gcmHkdfsha256
-	(*InvitationV1_Context)(nil),             // 5: xmtp.message_contents.InvitationV1.Context
-	nil,                                      // 6: xmtp.message_contents.InvitationV1.Context.MetadataEntry
-	(*SignedPublicKeyBundle)(nil),            // 7: xmtp.message_contents.SignedPublicKeyBundle
-	(*Ciphertext)(nil),                       // 8: xmtp.message_contents.Ciphertext
+	(*InvitationV1)(nil),                                  // 0: xmtp.message_contents.InvitationV1
+	(*SealedInvitationHeaderV2)(nil),                      // 1: xmtp.message_contents.SealedInvitationHeaderV2
+	(*SealedInvitationV2)(nil),                            // 2: xmtp.message_contents.SealedInvitationV2
+	(*SealedInvitation)(nil),                              // 3: xmtp.message_contents.SealedInvitation
+	(*SealedInvitationHeaderV1)(nil),                      // 4: xmtp.message_contents.SealedInvitationHeaderV1
+	(*SealedInvitationV1)(nil),                            // 5: xmtp.message_contents.SealedInvitationV1
+	(*InvitationV1_Aes256GcmHkdfsha256)(nil),              // 6: xmtp.message_contents.InvitationV1.Aes256gcmHkdfsha256
+	(*InvitationV1_Context)(nil),                          // 7: xmtp.message_contents.InvitationV1.Context
+	nil,                                                   // 8: xmtp.message_contents.InvitationV1.Context.MetadataEntry
+	(*SealedInvitationHeaderV2_PeerInvitationHeader)(nil), // 9: xmtp.message_contents.SealedInvitationHeaderV2.PeerInvitationHeader
+	(*SealedInvitationHeaderV2_SelfInvitationHeader)(nil), // 10: xmtp.message_contents.SealedInvitationHeaderV2.SelfInvitationHeader
+	(*Ciphertext)(nil),                                    // 11: xmtp.message_contents.Ciphertext
+	(*SignedPublicKeyBundle)(nil),                         // 12: xmtp.message_contents.SignedPublicKeyBundle
+	(*SignedPublicKeyBundleV2)(nil),                       // 13: xmtp.message_contents.SignedPublicKeyBundleV2
 }
 var file_message_contents_invitation_proto_depIdxs = []int32{
-	5, // 0: xmtp.message_contents.InvitationV1.context:type_name -> xmtp.message_contents.InvitationV1.Context
-	4, // 1: xmtp.message_contents.InvitationV1.aes256_gcm_hkdf_sha256:type_name -> xmtp.message_contents.InvitationV1.Aes256gcmHkdfsha256
-	7, // 2: xmtp.message_contents.SealedInvitationHeaderV1.sender:type_name -> xmtp.message_contents.SignedPublicKeyBundle
-	7, // 3: xmtp.message_contents.SealedInvitationHeaderV1.recipient:type_name -> xmtp.message_contents.SignedPublicKeyBundle
-	8, // 4: xmtp.message_contents.SealedInvitationV1.ciphertext:type_name -> xmtp.message_contents.Ciphertext
-	2, // 5: xmtp.message_contents.SealedInvitation.v1:type_name -> xmtp.message_contents.SealedInvitationV1
-	6, // 6: xmtp.message_contents.InvitationV1.Context.metadata:type_name -> xmtp.message_contents.InvitationV1.Context.MetadataEntry
-	7, // [7:7] is the sub-list for method output_type
-	7, // [7:7] is the sub-list for method input_type
-	7, // [7:7] is the sub-list for extension type_name
-	7, // [7:7] is the sub-list for extension extendee
-	0, // [0:7] is the sub-list for field type_name
+	7,  // 0: xmtp.message_contents.InvitationV1.context:type_name -> xmtp.message_contents.InvitationV1.Context
+	6,  // 1: xmtp.message_contents.InvitationV1.aes256_gcm_hkdf_sha256:type_name -> xmtp.message_contents.InvitationV1.Aes256gcmHkdfsha256
+	9,  // 2: xmtp.message_contents.SealedInvitationHeaderV2.peer_header:type_name -> xmtp.message_contents.SealedInvitationHeaderV2.PeerInvitationHeader
+	10, // 3: xmtp.message_contents.SealedInvitationHeaderV2.self_header:type_name -> xmtp.message_contents.SealedInvitationHeaderV2.SelfInvitationHeader
+	11, // 4: xmtp.message_contents.SealedInvitationV2.ciphertext:type_name -> xmtp.message_contents.Ciphertext
+	5,  // 5: xmtp.message_contents.SealedInvitation.v1:type_name -> xmtp.message_contents.SealedInvitationV1
+	2,  // 6: xmtp.message_contents.SealedInvitation.v2:type_name -> xmtp.message_contents.SealedInvitationV2
+	12, // 7: xmtp.message_contents.SealedInvitationHeaderV1.sender:type_name -> xmtp.message_contents.SignedPublicKeyBundle
+	12, // 8: xmtp.message_contents.SealedInvitationHeaderV1.recipient:type_name -> xmtp.message_contents.SignedPublicKeyBundle
+	11, // 9: xmtp.message_contents.SealedInvitationV1.ciphertext:type_name -> xmtp.message_contents.Ciphertext
+	8,  // 10: xmtp.message_contents.InvitationV1.Context.metadata:type_name -> xmtp.message_contents.InvitationV1.Context.MetadataEntry
+	13, // 11: xmtp.message_contents.SealedInvitationHeaderV2.PeerInvitationHeader.send_key_bundle:type_name -> xmtp.message_contents.SignedPublicKeyBundleV2
+	13, // 12: xmtp.message_contents.SealedInvitationHeaderV2.PeerInvitationHeader.inbox_key_bundle:type_name -> xmtp.message_contents.SignedPublicKeyBundleV2
+	13, // 13: xmtp.message_contents.SealedInvitationHeaderV2.SelfInvitationHeader.send_key_bundle:type_name -> xmtp.message_contents.SignedPublicKeyBundleV2
+	13, // 14: xmtp.message_contents.SealedInvitationHeaderV2.SelfInvitationHeader.inbox_key_bundle:type_name -> xmtp.message_contents.SignedPublicKeyBundleV2
+	15, // [15:15] is the sub-list for method output_type
+	15, // [15:15] is the sub-list for method input_type
+	15, // [15:15] is the sub-list for extension type_name
+	15, // [15:15] is the sub-list for extension extendee
+	0,  // [0:15] is the sub-list for field type_name
 }
 
 func init() { file_message_contents_invitation_proto_init() }
@@ -555,7 +928,7 @@ func file_message_contents_invitation_proto_init() {
 			}
 		}
 		file_message_contents_invitation_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*SealedInvitationHeaderV1); i {
+			switch v := v.(*SealedInvitationHeaderV2); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -567,7 +940,7 @@ func file_message_contents_invitation_proto_init() {
 			}
 		}
 		file_message_contents_invitation_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*SealedInvitationV1); i {
+			switch v := v.(*SealedInvitationV2); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -591,7 +964,7 @@ func file_message_contents_invitation_proto_init() {
 			}
 		}
 		file_message_contents_invitation_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*InvitationV1_Aes256GcmHkdfsha256); i {
+			switch v := v.(*SealedInvitationHeaderV1); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -603,7 +976,55 @@ func file_message_contents_invitation_proto_init() {
 			}
 		}
 		file_message_contents_invitation_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*SealedInvitationV1); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_message_contents_invitation_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*InvitationV1_Aes256GcmHkdfsha256); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_message_contents_invitation_proto_msgTypes[7].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*InvitationV1_Context); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_message_contents_invitation_proto_msgTypes[9].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*SealedInvitationHeaderV2_PeerInvitationHeader); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_message_contents_invitation_proto_msgTypes[10].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*SealedInvitationHeaderV2_SelfInvitationHeader); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -618,8 +1039,13 @@ func file_message_contents_invitation_proto_init() {
 	file_message_contents_invitation_proto_msgTypes[0].OneofWrappers = []interface{}{
 		(*InvitationV1_Aes256GcmHkdfSha256)(nil),
 	}
+	file_message_contents_invitation_proto_msgTypes[1].OneofWrappers = []interface{}{
+		(*SealedInvitationHeaderV2_PeerHeader)(nil),
+		(*SealedInvitationHeaderV2_SelfHeader)(nil),
+	}
 	file_message_contents_invitation_proto_msgTypes[3].OneofWrappers = []interface{}{
 		(*SealedInvitation_V1)(nil),
+		(*SealedInvitation_V2)(nil),
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -627,7 +1053,7 @@ func file_message_contents_invitation_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_message_contents_invitation_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   7,
+			NumMessages:   11,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

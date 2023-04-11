@@ -42,6 +42,57 @@ message InvitationV1 {
     }
 }
 
+// Header carries information that is unencrypted, thus readable by the network
+// it is however authenticated as associated data with the AEAD scheme used
+// to encrypt the invitation body, thus providing tamper evidence.
+// The inbox_key_bundle MUST be linked to the address of the recipient.
+message SealedInvitationHeaderV2 {
+    // PeerInvitationHeader MUST be used when the account address linked to the
+    // send_key_bundle is different from the address linked to the
+    // inbox_key_bundle
+    message PeerInvitationHeader {
+        SignedPublicKeyBundleV2 send_key_bundle = 1;
+        SignedPublicKeyBundleV2 inbox_key_bundle = 2;
+        uint64 created_ns = 3;
+    }
+
+    // When receiving this header, the send_key_bundle MUST have an
+    // AccountLinkedPublicKey that is linked to the user's account
+    message SelfInvitationHeader {
+        SignedPublicKeyBundleV2 send_key_bundle = 1;
+        SignedPublicKeyBundleV2 inbox_key_bundle = 2;
+        uint64 created_ns = 3;
+        // The address of the person being invited to the conversation
+        string recipient_address = 4;
+    }
+
+    oneof header {
+        PeerInvitationHeader peer_header = 1;
+        SelfInvitationHeader self_header = 2;
+    }
+}
+
+// Sealed Invitation V2
+// Invitation encrypted with key material derived from the sender's and
+// recipient's public key bundles using simplified X3DH where
+// the sender's ephemeral key is replaced with sender's pre-key.
+message SealedInvitationV2 {
+    // encoded SealedInvitationHeaderV2 used as associated data for Ciphertext
+    bytes header_bytes = 1; 
+    // Ciphertext.payload MUST contain encrypted InvitationV1.
+    Ciphertext ciphertext = 2; 
+}
+
+// Versioned Sealed Invitation
+message SealedInvitation {
+    oneof version {
+        SealedInvitationV1 v1 = 1;
+        SealedInvitationV2 v2 = 2;
+    };
+}
+
+
+// DEPRECATION IN PROGRESS
 
 // Sealed Invitation V1 Header
 // Header carries information that is unencrypted, thus readable by the network
@@ -62,11 +113,4 @@ message SealedInvitationV1 {
     bytes header_bytes = 1; 
     // Ciphertext.payload MUST contain encrypted InvitationV1.
     Ciphertext ciphertext = 2; 
-}
-
-// Versioned Sealed Invitation
-message SealedInvitation {
-    oneof version {
-        SealedInvitationV1 v1 = 1;
-    };
 }

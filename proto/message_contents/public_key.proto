@@ -83,11 +83,56 @@ message UnsignedPublicKey {
     }
 }
 
-// SignedPublicKey 
+// A public key that is provably linked to a user account, for example
+// signed by a wallet
+message AccountLinkedPublicKey {
+    // V1
+    message V1 {
+        bytes key_bytes = 1;  // embeds an UnsignedPublicKey
+
+        oneof proof {
+            AccountLinkedStaticSignature static_signature = 2;
+            AccountLinkedSIWESignature siwe_signature = 3;
+        }
+    }
+
+    oneof version {
+        V1 v1 = 1;
+    }
+}
+
+// A public key that has been provably unlinked from a user account, for example
+// revoked by a wallet signature
+message AccountRevokedPublicKey {
+    // V1
+    message V1 {
+        bytes key_bytes = 1;  // embeds an UnsignedPublicKey
+        
+        oneof proof {
+            AccountRevokedStaticSignature static_signature = 2;
+        }
+    }
+
+    oneof version {
+        V1 v1 = 1;
+    }
+}
+
+// A key that has been signed by an AccountLinkedPrivateKey, for example
+// a pre-key 
 message SignedPublicKey {
     bytes key_bytes = 1;  // embeds an UnsignedPublicKey
     Signature signature = 2; // signs key_bytes
 }
+
+// A bundle of keys representing one side of an X3DH exchange. This could be
+// a send key bundle or an inbox key bundle.
+message SignedPublicKeyBundleV2 {
+    AccountLinkedPublicKey account_linked_key = 1;
+    SignedPublicKey pre_key = 2;
+}
+
+// DEPRECATION IN PROGRESS
 
 // PublicKeyBundle packages the cryptographic keys associated with a wallet.
 message SignedPublicKeyBundle {

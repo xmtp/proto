@@ -14,6 +14,8 @@ message Signature {
         bytes bytes = 1; // compact representation [ R || S ], 64 bytes
         uint32 recovery = 2; // recovery bit
     }
+
+    // DEPRECATION IN PROGRESS
     // ECDSA signature bytes and the recovery bit
     // produced by xmtp-js::PublicKey.signWithWallet function, i.e.
     // EIP-191 signature of a "Create Identity" message with the key embedded.
@@ -25,5 +27,52 @@ message Signature {
     oneof union {
         ECDSACompact ecdsa_compact = 1;
         WalletECDSACompact wallet_ecdsa_compact = 2;
+    }
+}
+
+// A signature used to link a key to an account with a
+// static text format, e.g.
+// 'XMTP : Grant Send Permissions ...'
+// The key bytes and role of the key must be validated against the
+// signature text
+message AccountLinkedStaticSignature {
+    // V1
+    message V1 {
+        bytes text = 1;
+        Signature signature = 2;
+    }
+    oneof version {
+        V1 v1 = 1;
+    }
+}
+
+// A signature used to revoke a key from an account
+// with a static text format, e.g.
+// 'XMTP : Revoke Send Permissions ...'
+// The key bytes and revocation action must be validated
+// against the signature text
+message AccountRevokedStaticSignature {
+    // V1
+    message V1 {
+        bytes text = 1;
+        Signature signature = 2;
+    }
+    oneof version {
+        V1 v1 = 1;
+    }
+}
+
+// A signature used to link a key to an account, with
+// sign-in with Ethereum format (EIP-4361).
+// The key bytes and role of the key must be validated
+// against the signature text
+message AccountLinkedSIWESignature {
+    // V1
+    message V1 {
+        bytes text = 1;
+        Signature signature = 2;
+    }
+    oneof version {
+        V1 v1 = 1;
     }
 }
