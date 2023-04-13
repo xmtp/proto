@@ -9,20 +9,11 @@ set -e
 rm -f ./swift/**/*.pb.swift || true
 
 docker run --rm -i -v${PWD}:/code xmtp/protoc-swift \
-    --proto_path=./proto \
-    --plugin=/usr/local/bin/protoc-gen-grpc-swift \
-    --grpc-swift_opt=Visibility=Public \
-    --grpc-swift_out=./swift \
-  message_api/v1/message_api.proto
-
-docker run --rm -i -v${PWD}:/code xmtp/protoc-swift \
   --experimental_allow_proto3_optional \
   --swift_out=./swift \
   --swift_opt=Visibility=Public \
   --proto_path=./proto \
   keystore_api/v1/keystore.proto \
-  message_api/v1/message_api.proto \
-  message_api/v1/authn.proto \
   message_contents/composite.proto \
   message_contents/conversation_reference.proto \
   message_contents/signature.proto \
