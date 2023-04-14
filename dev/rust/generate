@@ -1,5 +1,9 @@
 mkdir -p rust_out
 
+# Need to install
+# - cargo install protobuf-codegen
+# - cargo install grpc-compiler
+
 # Requires cloning https://github.com/googleapis/googleapis and sticking
 # it at the same directory level as xmtp/proto (this repo)
 
@@ -7,6 +11,7 @@ protoc \
   -I=../googleapis \
   -I=./proto \
   --rust_out=./rust_out/ \
+  --rust-grpc_out=./rust_grpc_out/ \
   proto/message_contents/composite.proto \
   proto/message_contents/signature.proto \
   proto/message_contents/ciphertext.proto \
