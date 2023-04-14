@@ -1,6 +1,10 @@
 mkdir -p rust_out
 
+# Requires cloning https://github.com/googleapis/googleapis and sticking
+# it at the same directory level as xmtp/proto (this repo)
+
 protoc \
+  -I=../googleapis \
   -I=./proto \
   --rust_out=./rust_out/ \
   proto/message_contents/composite.proto \
@@ -12,4 +16,6 @@ protoc \
   proto/message_contents/private_key.proto \
   proto/message_contents/message.proto \
   proto/message_contents/content.proto \
+  proto/message_api/v1/authn.proto \
+  proto/message_api/v1/message_api.proto \
   proto/keystore_api/v1/keystore.proto
