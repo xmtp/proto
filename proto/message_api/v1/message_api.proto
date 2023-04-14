@@ -2,49 +2,8 @@
 syntax = "proto3";
 package xmtp.message_api.v1;
 
-import "google/api/annotations.proto";
-
 option go_package = "github.com/xmtp/proto/v3/go/message_api/v1";
 option java_package = "org.xmtp.proto.message.api.v1";
-
-// RPC
-service MessageApi {
-    // Publish messages to the network
-    rpc Publish (PublishRequest) returns (PublishResponse) {
-        option (google.api.http) = {
-        post: "/message/v1/publish"
-        body: "*"
-    };
-    }
-    // Subscribe to a stream of new envelopes matching a predicate
-    rpc Subscribe (SubscribeRequest) returns (stream Envelope) {
-        option (google.api.http) = {
-        post: "/message/v1/subscribe"
-        body: "*"
-    };
-    }
-    // Subscribe to a stream of all messages
-    rpc SubscribeAll (SubscribeAllRequest) returns (stream Envelope) {
-        option (google.api.http) = {
-            post: "/message/v1/subscribe-all"
-            body: "*"
-        };
-    }
-    // Query the store for messages
-    rpc Query (QueryRequest) returns (QueryResponse) {
-        option (google.api.http) = {
-        post: "/message/v1/query"
-        body: "*"
-    };
-    }
-    // BatchQuery containing a set of queries to be processed
-    rpc BatchQuery (BatchQueryRequest) returns (BatchQueryResponse) {
-        option (google.api.http) = {
-        post: "/message/v1/batch-query"
-        body: "*"
-    };
-    }
-}
 
 // Sort direction
 enum SortDirection {
