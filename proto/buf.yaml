@@ -8,3 +8,14 @@ breaking:
 lint:
   use:
     - DEFAULT
+  ignore_only:
+    ENUM_ZERO_VALUE_SUFFIX:
+      - message_contents/content.proto
+    RPC_REQUEST_RESPONSE_UNIQUE:
+      - message_api/v1/message_api.proto
+    RPC_RESPONSE_STANDARD_NAME:
+      - message_api/v1/message_api.proto
+  except:
+    - PACKAGE_DIRECTORY_MATCH
+    - PACKAGE_VERSION_SUFFIX
+    - SERVICE_SUFFIX
