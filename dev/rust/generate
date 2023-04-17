@@ -1,0 +1,15 @@
+mkdir -p rust_out
+
+protoc \
+  -I=./proto \
+  --rust_out=./rust_out/ \
+  proto/message_contents/composite.proto \
+  proto/message_contents/signature.proto \
+  proto/message_contents/ciphertext.proto \
+  proto/message_contents/public_key.proto \
+  proto/message_contents/contact.proto \
+  proto/message_contents/invitation.proto \
+  proto/message_contents/private_key.proto \
+  proto/message_contents/message.proto \
+  proto/message_contents/content.proto \
+  proto/keystore_api/v1/keystore.proto
