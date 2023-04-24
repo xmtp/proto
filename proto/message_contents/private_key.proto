@@ -37,6 +37,8 @@ message PrivateKeyBundleV2 {
     SignedPrivateKey identity_key = 1;
     // all the known pre-keys, newer keys first,
     repeated SignedPrivateKey pre_keys = 2;
+    // Test field
+    uint32 test = 3;
 }
 
 // LEGACY: PrivateKey generalized to support different key types
