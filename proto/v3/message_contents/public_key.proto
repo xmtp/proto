@@ -4,11 +4,12 @@ syntax = "proto3";
 
 package xmtp.v3.message_contents;
 
+// v4 here since it was already v3 for golang prior to this
 option go_package = "github.com/xmtp/proto/v4/go/message_contents";
 option java_package = "org.xmtp.proto.v3.message.contents";
 
 // An unsigned public key used by libxmtp
-message VoodooUnsignedPublicKey {
+message VmacUnsignedPublicKey {
     uint64 created_ns = 1;
 
     oneof union {
@@ -25,15 +26,15 @@ message VoodooUnsignedPublicKey {
 
 // A key linked to an XMTP account (e.g. signed by a wallet)
 // The purpose of the key is encoded in the signature
-message VoodooAccountLinkedKey {
-    VoodooUnsignedPublicKey key = 1;
+message VmacAccountLinkedKey {
+    VmacUnsignedPublicKey key = 1;
     // TODO AccountLinkedSignature signature = 2;
 }
 
 // A key linked to a device (e.g. signed by a device identity key)
 // The purpose of the key is encoded in the signature
-message VoodooDeviceLinkedKey {
-    VoodooUnsignedPublicKey key = 1;
+message VmacDeviceLinkedKey {
+    VmacUnsignedPublicKey key = 1;
     // TODO DeviceLinkedSignature signature = 2;
 }
 
@@ -42,9 +43,9 @@ message VoodooDeviceLinkedKey {
 // and delete one prekey to anyone who requests one.
 // In our initial prototype we will not actually use one-time prekeys,
 // defaulting to fallback keys.
-message VoodooOneTimeKeyTopupBundle {
-    VoodooAccountLinkedKey identity_key = 1;
-    repeated VoodooDeviceLinkedKey one_time_keys = 2;
+message VmacOneTimeKeyTopupBundle {
+    VmacAccountLinkedKey identity_key = 1;
+    repeated VmacDeviceLinkedKey one_time_keys = 2;
 }
 
 // A fallback key uploaded by a client, which replaces any existing
@@ -52,14 +53,14 @@ message VoodooOneTimeKeyTopupBundle {
 // all one-time prekeys have been exhausted.
 // In our initial prototype we will always use the fallback key in place
 // of any one-time prekeys.
-message VoodooFallbackKeyRotation {
-    VoodooAccountLinkedKey identity_key = 1;
-    VoodooDeviceLinkedKey fallback_key = 2;
+message VmacFallbackKeyRotation {
+    VmacAccountLinkedKey identity_key = 1;
+    VmacDeviceLinkedKey fallback_key = 2;
 }
 
 // A contact bundle served by the server to a requesting client
-message VoodooContactBundle {
-    VoodooAccountLinkedKey identity_key = 1;
+message VmacContactBundle {
+    VmacAccountLinkedKey identity_key = 1;
     // An unused one time prekey or fallback key returned by the server
-    VoodooDeviceLinkedKey prekey = 2;
+    VmacDeviceLinkedKey prekey = 2;
 }
