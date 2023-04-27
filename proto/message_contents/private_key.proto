@@ -27,7 +27,7 @@ message SignedPrivateKey {
 
     // EC: SECP256k1
     message Secp256k1 {
-        bytes bytes = 1; // D big-endian, 32 bytes
+        bytes bytes = 1;  // D big-endian, 32 bytes
     }
 }
 
@@ -54,7 +54,7 @@ message PrivateKey {
 
     // EC: SECP256k1
     message Secp256k1 {
-        bytes bytes = 1; // D big-endian, 32 bytes
+        bytes bytes = 1;  // D big-endian, 32 bytes
     }
 }
 
@@ -65,10 +65,9 @@ message PrivateKeyBundleV1 {
     repeated PrivateKey pre_keys = 2;
 }
 
-
-
 // Versioned PrivateKeyBundle
 message PrivateKeyBundle {
+    reserved 3;
     oneof version {
         PrivateKeyBundleV1 v1 = 1;
         PrivateKeyBundleV2 v2 = 2;
@@ -81,8 +80,8 @@ message PrivateKeyBundle {
 // the pre-key embedded in it.
 // (see xmtp-js::PrivateKeyBundle.toEncryptedBytes for details)
 message EncryptedPrivateKeyBundleV1 {
-    // randomly generated pre-key 
-    bytes wallet_pre_key = 1; // 32 bytes
+    // randomly generated pre-key
+    bytes wallet_pre_key = 1;  // 32 bytes
     // MUST contain encrypted PrivateKeyBundle
     Ciphertext ciphertext = 2;
 }
