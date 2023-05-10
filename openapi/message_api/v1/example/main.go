@@ -9,8 +9,14 @@ import (
 
 func main() {
 	http.HandleFunc("/swagger.json", func(w http.ResponseWriter, r *http.Request) {
-		w.Write(messagev1openapi.JSON)
+		_, err := w.Write(messagev1openapi.JSON)
+		if err != nil {
+			panic(err)
+		}
 	})
 	http.Handle("/", v3.NewHandler("API", "/swagger.json", "/"))
-	http.ListenAndServe(":8080", nil)
+	err := http.ListenAndServe(":8080", nil)
+	if err != nil {
+		panic(err)
+	}
 }

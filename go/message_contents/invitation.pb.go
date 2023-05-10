@@ -39,7 +39,6 @@ type InvitationV1 struct {
 	// message encryption scheme and keys for this conversation.
 	//
 	// Types that are assignable to Encryption:
-	//
 	//	*InvitationV1_Aes256GcmHkdfSha256
 	Encryption isInvitationV1_Encryption `protobuf_oneof:"encryption"`
 }
@@ -250,7 +249,6 @@ type SealedInvitation struct {
 	unknownFields protoimpl.UnknownFields
 
 	// Types that are assignable to Version:
-	//
 	//	*SealedInvitation_V1
 	Version isSealedInvitation_Version `protobuf_oneof:"version"`
 }

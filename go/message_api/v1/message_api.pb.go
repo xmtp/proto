@@ -143,7 +143,6 @@ type Cursor struct {
 	// This way we can handle both methods
 	//
 	// Types that are assignable to Cursor:
-	//
 	//	*Cursor_Index
 	Cursor isCursor_Cursor `protobuf_oneof:"cursor"`
 }

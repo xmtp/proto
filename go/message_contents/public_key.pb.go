@@ -32,7 +32,6 @@ type UnsignedPublicKey struct {
 
 	CreatedNs uint64 `protobuf:"varint,1,opt,name=created_ns,json=createdNs,proto3" json:"created_ns,omitempty"`
 	// Types that are assignable to Union:
-	//
 	//	*UnsignedPublicKey_Secp256K1Uncompressed_
 	Union isUnsignedPublicKey_Union `protobuf_oneof:"union"`
 }
@@ -224,7 +223,6 @@ type PublicKey struct {
 	Timestamp uint64     `protobuf:"varint,1,opt,name=timestamp,proto3" json:"timestamp,omitempty"`
 	Signature *Signature `protobuf:"bytes,2,opt,name=signature,proto3,oneof" json:"signature,omitempty"`
 	// Types that are assignable to Union:
-	//
 	//	*PublicKey_Secp256K1Uncompressed_
 	Union isPublicKey_Union `protobuf_oneof:"union"`
 }
