@@ -14,6 +14,12 @@ RUN mkdir -p /opt/proto && \
     mv googleapis/google proto/ && \
     rm -rf googleapis
 
+RUN mkdir -p /opt/proto && \
+    cd /opt && \
+    git clone --depth 1 https://github.com/grpc-ecosystem/grpc-gateway.git && \
+    mv grpc-gateway/protoc-gen-openapiv2 proto/ && \
+    rm -rf grpc-gateway
+
 WORKDIR /code
 
 ENTRYPOINT ["/opt/protoc"]
