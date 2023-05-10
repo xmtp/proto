@@ -3,7 +3,10 @@ set -e
 
 dev/go/vendor-proto
 
-rm -f ./go/**/*.pb.go
-rm -f ./go/**/*.pb.gw.go
-
+rm -f ./go/**/*/*.pb.go
+rm -f ./go/**/*/*.pb.gw.go
 go generate ./...
+
+mkdir -p openapi
+rm openapi/**/*/*.swagger.json
+protoc proto/message_api/v1/message_api.proto --proto_path=./proto -I=./build/tmp/vendor --openapiv2_out=openapi
