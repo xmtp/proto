@@ -1,5 +1,12 @@
 package api
 
+import (
+	_ "github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-grpc-gateway" //nolint
+	_ "github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-openapiv2"    //nolint
+	_ "google.golang.org/grpc/cmd/protoc-gen-go-grpc"                     //nolint
+	_ "google.golang.org/protobuf/cmd/protoc-gen-go"                      //nolint
+)
+
 //go:generate go install google.golang.org/protobuf/cmd/protoc-gen-go@v1.28.1
 //go:generate go install github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-grpc-gateway
 //go:generate go install github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-openapiv2

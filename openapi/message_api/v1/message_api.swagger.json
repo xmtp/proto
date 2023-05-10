@@ -1,8 +1,8 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "message_api/v1/message_api.proto",
-    "version": "version not set"
+    "title": "MessageApi",
+    "version": "1.0"
   },
   "tags": [
     {
@@ -223,6 +223,7 @@
         "details": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/protobufAny"
           }
         }
@@ -234,6 +235,7 @@
         "requests": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/v1QueryRequest"
           }
         }
@@ -246,6 +248,7 @@
         "responses": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/v1QueryResponse"
           }
         }
@@ -317,6 +320,7 @@
         "envelopes": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/v1Envelope"
           }
         }
@@ -356,6 +360,7 @@
         "envelopes": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/v1Envelope"
           }
         },
