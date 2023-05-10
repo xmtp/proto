@@ -2,6 +2,8 @@
 set -e
 
 dev/go/vendor-proto
+
 rm -f ./go/**/*.pb.go
 rm -f ./go/**/*.pb.gw.go
+
 go generate ./...

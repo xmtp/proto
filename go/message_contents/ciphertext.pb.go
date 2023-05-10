@@ -32,6 +32,7 @@ type Ciphertext struct {
 	unknownFields protoimpl.UnknownFields
 
 	// Types that are assignable to Union:
+	//
 	//	*Ciphertext_Aes256GcmHkdfSha256
 	Union isCiphertext_Union `protobuf_oneof:"union"`
 }
