@@ -7,8 +7,13 @@ import (
 	_ "google.golang.org/protobuf/cmd/protoc-gen-go"                      //nolint
 )
 
+//go:generate go install google.golang.org/protobuf/cmd/protoc-gen-go@v1.28.1
+//go:generate go install github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-grpc-gateway
+//go:generate go install github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-openapiv2
 //go:generate go install google.golang.org/grpc/cmd/protoc-gen-go-grpc
+
 //go:generate -command compile protoc --proto_path=../proto -I=. -I=../build/tmp/vendor --go_out=paths=source_relative:. --go-grpc_out=paths=source_relative:. --grpc-gateway_out=generate_unbound_methods=true,paths=source_relative:.
+
 //go:generate compile ../proto/keystore_api/v1/keystore.proto
 //go:generate compile ../proto/message_api/v1/message_api.proto
 //go:generate compile ../proto/message_api/v1/authn.proto
