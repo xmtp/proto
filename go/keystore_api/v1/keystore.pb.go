@@ -481,7 +481,8 @@ func (x *CreateInviteRequest) GetCreatedNs() uint64 {
 	return 0
 }
 
-// Request to create an invite payload from an existing topic, and store the topic keys in the Keystore
+// Request to create an invite payload from an existing topic, and store the
+// topic keys in the Keystore
 type CreateInviteFromTopicRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
