@@ -20,7 +20,7 @@ message Eip191Association {
 }
 
 // RecoverableEcdsaSignature
-message RecoverableEcdaSignature {
+message RecoverableEcdsaSignature {
     // Includes recovery id as the last byte
     bytes bytes = 1;
 }
