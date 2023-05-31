@@ -4,8 +4,9 @@ syntax = "proto3";
 
 package xmtp.v3.message_contents;
 
-// v4 here since it was already v3 for golang prior to this
-option go_package = "github.com/xmtp/proto/v4/go/message_contents";
+import "v3/message_contents/association.proto";
+
+option go_package = "github.com/xmtp/proto/v3/go/v3/message_contents";
 option java_package = "org.xmtp.proto.v3.message.contents";
 
 // An unsigned public key used by libxmtp
@@ -28,14 +29,15 @@ message VmacUnsignedPublicKey {
 // The purpose of the key is encoded in the signature
 message VmacAccountLinkedKey {
     VmacUnsignedPublicKey key = 1;
-    // TODO AccountLinkedSignature signature = 2;
+    oneof association {
+        Eip191Association eip_191 = 2;
+    }
 }
 
-// A key linked to a device (e.g. signed by a device identity key)
+// A key linked to an installation (e.g. signed by an installation identity key)
 // The purpose of the key is encoded in the signature
-message VmacDeviceLinkedKey {
+message VmacInstallationLinkedKey {
     VmacUnsignedPublicKey key = 1;
-    // TODO DeviceLinkedSignature signature = 2;
 }
 
 // A bundle of one time keys uploaded by a client, to be used as
@@ -45,7 +47,7 @@ message VmacDeviceLinkedKey {
 // defaulting to fallback keys.
 message VmacOneTimeKeyTopupBundle {
     VmacAccountLinkedKey identity_key = 1;
-    repeated VmacDeviceLinkedKey one_time_keys = 2;
+    repeated VmacInstallationLinkedKey one_time_keys = 2;
 }
 
 // A fallback key uploaded by a client, which replaces any existing
@@ -55,12 +57,19 @@ message VmacOneTimeKeyTopupBundle {
 // of any one-time prekeys.
 message VmacFallbackKeyRotation {
     VmacAccountLinkedKey identity_key = 1;
-    VmacDeviceLinkedKey fallback_key = 2;
+    VmacInstallationLinkedKey fallback_key = 2;
 }
 
 // A contact bundle served by the server to a requesting client
-message VmacContactBundle {
+message VmacInstallationPublicKeyBundleV1 {
     VmacAccountLinkedKey identity_key = 1;
-    // An unused one time prekey or fallback key returned by the server
-    VmacDeviceLinkedKey prekey = 2;
+    VmacInstallationLinkedKey fallback_key = 2;
+}
+
+// A wrapper for versions of the installation contact bundle to allow
+// upgradeability
+message InstallationContactBundle {
+    oneof version {
+        VmacInstallationPublicKeyBundleV1 v1 = 1;
+    }
 }
