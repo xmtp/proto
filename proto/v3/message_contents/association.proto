@@ -16,7 +16,7 @@ enum AssociationTextVersion {
 // EIP191Association is used for all EIP 191 compliant wallet signatures
 message Eip191Association {
     AssociationTextVersion association_text_version = 1;
-    RecoverableEcdaSignature signature = 2;
+    RecoverableEcdsaSignature signature = 2;
 }
 
 // RecoverableEcdsaSignature
