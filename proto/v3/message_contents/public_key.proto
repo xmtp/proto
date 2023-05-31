@@ -32,12 +32,10 @@ message VmacAccountLinkedKey {
     Eip191Association association = 2;
 }
 
-// A key linked to a device (e.g. signed by a device identity key)
+// A key linked to an installation (e.g. signed by an installation identity key)
 // The purpose of the key is encoded in the signature
-message VmacDeviceLinkedKey {
+message VmacInstallationLinkedKey {
     VmacUnsignedPublicKey key = 1;
-    // TODO: Define signature format for device linked keys
-    // TODO DeviceLinkedSignature signature = 2;
 }
 
 // A bundle of one time keys uploaded by a client, to be used as
@@ -47,7 +45,7 @@ message VmacDeviceLinkedKey {
 // defaulting to fallback keys.
 message VmacOneTimeKeyTopupBundle {
     VmacAccountLinkedKey identity_key = 1;
-    repeated VmacDeviceLinkedKey one_time_keys = 2;
+    repeated VmacInstallationLinkedKey one_time_keys = 2;
 }
 
 // A fallback key uploaded by a client, which replaces any existing
@@ -57,13 +55,13 @@ message VmacOneTimeKeyTopupBundle {
 // of any one-time prekeys.
 message VmacFallbackKeyRotation {
     VmacAccountLinkedKey identity_key = 1;
-    VmacDeviceLinkedKey fallback_key = 2;
+    VmacInstallationLinkedKey fallback_key = 2;
 }
 
 // A contact bundle served by the server to a requesting client
 message VmacInstallationPublicKeyBundleV1 {
     VmacAccountLinkedKey identity_key = 1;
-    VmacDeviceLinkedKey fallback_key = 2;
+    VmacInstallationLinkedKey fallback_key = 2;
 }
 
 // A wrapper for versions of the installation contact bundle to allow
