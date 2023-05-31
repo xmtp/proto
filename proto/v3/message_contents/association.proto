@@ -6,10 +6,16 @@ package xmtp.v3.message_contents;
 option go_package = "github.com/xmtp/proto/v3/go/v3/message_contents";
 option java_package = "org.xmtp.proto.v3.message.contents";
 
+// Allows for us to update the format of the association text without
+// incrementing the entire proto
+enum AssociationTextVersion {
+    ASSOCIATION_TEXT_VERSION_UNSPECIFIED = 0;
+    ASSOCIATION_TEXT_VERSION_1 = 1;
+}
+
 // EIP191Association is used for all EIP 191 compliant wallet signatures
 message Eip191Association {
-    // The text that was signed, not including the prefix '\0x19Ethereum....'
-    string text = 1;
+    AssociationTextVersion association_text_version = 1;
     RecoverableEcdaSignature signature = 2;
 }
 
