@@ -29,7 +29,9 @@ message VmacUnsignedPublicKey {
 // The purpose of the key is encoded in the signature
 message VmacAccountLinkedKey {
     VmacUnsignedPublicKey key = 1;
-    Eip191Association association = 2;
+    oneof association {
+        Eip191Association eip_191 = 2;
+    }
 }
 
 // A key linked to an installation (e.g. signed by an installation identity key)
