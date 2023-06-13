@@ -13,9 +13,9 @@ option java_package = "org.xmtp.proto.v3.message.contents";
 // provided inviter `InstallationContactBundle`
 message InvitationV1 {
     // The inviter_wallet_address must match the address derived from the
-    // signature in the inviter contact bundle Either the
+    // signature in the inviter contact bundle. Either the
     // `inviter_wallet_address` or the `recipient_wallet_address` MUST match the
-    // wallet address of the account used to decrypt
+    // wallet address of the account receiving this invite
     string inviter_wallet_address = 1;
     string recipient_wallet_address = 2;
     string conversation_unique_id = 3;
