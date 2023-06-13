@@ -22,9 +22,9 @@ message InvitationV1 {
     // TODO: Decide whether we need a Context field
 }
 
-// SealedInvitationV1 is the encrypted invitation message and the contact of the
-// sender
-message SealedInvitationV1 {
+// InvitationEnvelopeV1 is the encrypted invitation message and the contact of
+// the sender
+message InvitationEnvelopeV1 {
     // This contains the public key that will be used to decrypt the ciphertext
     InstallationContactBundle inviter = 1;
     // Corresponds to an InvitationV1 message
@@ -32,8 +32,8 @@ message SealedInvitationV1 {
 }
 
 // Wrapper message type
-message SealedInvitation {
+message InvitationEnvelope {
     oneof version {
-        SealedInvitationV1 v1 = 1;
+        InvitationEnvelopeV1 v1 = 1;
     }
 }
