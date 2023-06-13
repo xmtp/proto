@@ -1,0 +1,39 @@
+// V3 invite message structure
+syntax = "proto3";
+
+package xmtp.v3.message_contents;
+
+import "v3/message_contents/public_key.proto";
+
+option go_package = "github.com/xmtp/proto/v3/go/v3/message_contents";
+option java_package = "org.xmtp.proto.v3.message.contents";
+
+// InvitationV1 is the encrypted invitation message meant to be encrypted as
+// ciphertext in SealedInvitationV1 and decrypted by the recipient using the
+// provided inviter `InstallationContactBundle`
+message InvitationV1 {
+    // The inviter_wallet_address must match the address derived from the
+    // signature in the inviter contact bundle Either the
+    // `inviter_wallet_address` or the `recipient_wallet_address` MUST match the
+    // wallet address of the account used to decrypt
+    string inviter_wallet_address = 1;
+    string recipient_wallet_address = 2;
+    string conversation_unique_id = 3;
+    // TODO: Decide whether we need a Context field
+}
+
+// SealedInvitationV1 is the encrypted invitation message and the contact of the
+// sender
+message SealedInvitationV1 {
+    // This contains the public key that will be used to decrypt the ciphertext
+    InstallationContactBundle inviter = 1;
+    // Corresponds to an InvitationV1 message
+    bytes ciphertext = 2;
+}
+
+// Wrapper message type
+message SealedInvitation {
+    oneof version {
+        SealedInvitationV1 v1 = 1;
+    }
+}
