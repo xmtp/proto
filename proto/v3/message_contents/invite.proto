@@ -12,13 +12,11 @@ option java_package = "org.xmtp.proto.v3.message.contents";
 // ciphertext in SealedInvitationV1 and decrypted by the recipient using the
 // provided inviter `InstallationContactBundle`
 message InvitationV1 {
-    // The inviter_wallet_address must match the address derived from the
-    // signature in the inviter contact bundle. Either the
-    // `inviter_wallet_address` or the `recipient_wallet_address` MUST match the
-    // wallet address of the account receiving this invite
-    string inviter_wallet_address = 1;
-    string recipient_wallet_address = 2;
-    string conversation_unique_id = 3;
+    // If the inviter contact bundle has the same wallet address as the current
+    // user, the invitee is the other wallet address in the conversation. If the
+    // inviter contact bundle has a different wallet address, the invitee wallet
+    // address MUST be the wallet address of the recipient of the invite.
+    string invitee_wallet_address = 1;
     // TODO: Decide whether we need a Context field
 }
 
