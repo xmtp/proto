@@ -8,8 +8,8 @@ import "v3/message_contents/public_key.proto";
 option go_package = "github.com/xmtp/proto/v3/go/v3/message_contents";
 option java_package = "org.xmtp.proto.v3.message.contents";
 
-// InvitationV1 is the encrypted invitation message meant to be encrypted as
-// ciphertext in SealedInvitationV1 and decrypted by the recipient using the
+// InvitationV1 is the invitation message meant to be encrypted as
+// ciphertext in InvitationEnvelopeV1 and decrypted by the recipient using the
 // provided inviter `InstallationContactBundle`
 message InvitationV1 {
     // The inviter_wallet_address must match the address derived from the
