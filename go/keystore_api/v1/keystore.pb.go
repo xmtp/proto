@@ -73,6 +73,56 @@ func (ErrorCode) EnumDescriptor() ([]byte, []int) {
 	return file_keystore_api_v1_keystore_proto_rawDescGZIP(), []int{0}
 }
 
+// Status of the Keystore for the specified wallet address
+type GetKeystoreStatusResponse_KeystoreStatus int32
+
+const (
+	GetKeystoreStatusResponse_KEYSTORE_STATUS_UNSPECIFIED   GetKeystoreStatusResponse_KeystoreStatus = 0
+	GetKeystoreStatusResponse_KEYSTORE_STATUS_UNINITIALIZED GetKeystoreStatusResponse_KeystoreStatus = 1
+	GetKeystoreStatusResponse_KEYSTORE_STATUS_INITIALIZED   GetKeystoreStatusResponse_KeystoreStatus = 2
+)
+
+// Enum value maps for GetKeystoreStatusResponse_KeystoreStatus.
+var (
+	GetKeystoreStatusResponse_KeystoreStatus_name = map[int32]string{
+		0: "KEYSTORE_STATUS_UNSPECIFIED",
+		1: "KEYSTORE_STATUS_UNINITIALIZED",
+		2: "KEYSTORE_STATUS_INITIALIZED",
+	}
+	GetKeystoreStatusResponse_KeystoreStatus_value = map[string]int32{
+		"KEYSTORE_STATUS_UNSPECIFIED":   0,
+		"KEYSTORE_STATUS_UNINITIALIZED": 1,
+		"KEYSTORE_STATUS_INITIALIZED":   2,
+	}
+)
+
+func (x GetKeystoreStatusResponse_KeystoreStatus) Enum() *GetKeystoreStatusResponse_KeystoreStatus {
+	p := new(GetKeystoreStatusResponse_KeystoreStatus)
+	*p = x
+	return p
+}
+
+func (x GetKeystoreStatusResponse_KeystoreStatus) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (GetKeystoreStatusResponse_KeystoreStatus) Descriptor() protoreflect.EnumDescriptor {
+	return file_keystore_api_v1_keystore_proto_enumTypes[1].Descriptor()
+}
+
+func (GetKeystoreStatusResponse_KeystoreStatus) Type() protoreflect.EnumType {
+	return &file_keystore_api_v1_keystore_proto_enumTypes[1]
+}
+
+func (x GetKeystoreStatusResponse_KeystoreStatus) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use GetKeystoreStatusResponse_KeystoreStatus.Descriptor instead.
+func (GetKeystoreStatusResponse_KeystoreStatus) EnumDescriptor() ([]byte, []int) {
+	return file_keystore_api_v1_keystore_proto_rawDescGZIP(), []int{17, 0}
+}
+
 // Wrapper class for errors from the Keystore API
 type KeystoreError struct {
 	state         protoimpl.MessageState
@@ -906,6 +956,103 @@ func (x *GetV2ConversationsResponse) GetConversations() []*message_contents.Conv
 	return nil
 }
 
+// Used to check if the Keystore implementation has been setup for the given
+// wallet address Only used for MM Snap Keystore currently
+type GetKeystoreStatusRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	WalletAddress string `protobuf:"bytes,1,opt,name=wallet_address,json=walletAddress,proto3" json:"wallet_address,omitempty"`
+}
+
+func (x *GetKeystoreStatusRequest) Reset() {
+	*x = GetKeystoreStatusRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_keystore_api_v1_keystore_proto_msgTypes[16]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetKeystoreStatusRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetKeystoreStatusRequest) ProtoMessage() {}
+
+func (x *GetKeystoreStatusRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_keystore_api_v1_keystore_proto_msgTypes[16]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetKeystoreStatusRequest.ProtoReflect.Descriptor instead.
+func (*GetKeystoreStatusRequest) Descriptor() ([]byte, []int) {
+	return file_keystore_api_v1_keystore_proto_rawDescGZIP(), []int{16}
+}
+
+func (x *GetKeystoreStatusRequest) GetWalletAddress() string {
+	if x != nil {
+		return x.WalletAddress
+	}
+	return ""
+}
+
+// Response to GetKeystoreStatusRequest
+type GetKeystoreStatusResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Status GetKeystoreStatusResponse_KeystoreStatus `protobuf:"varint,1,opt,name=status,proto3,enum=xmtp.keystore_api.v1.GetKeystoreStatusResponse_KeystoreStatus" json:"status,omitempty"`
+}
+
+func (x *GetKeystoreStatusResponse) Reset() {
+	*x = GetKeystoreStatusResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_keystore_api_v1_keystore_proto_msgTypes[17]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetKeystoreStatusResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetKeystoreStatusResponse) ProtoMessage() {}
+
+func (x *GetKeystoreStatusResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_keystore_api_v1_keystore_proto_msgTypes[17]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetKeystoreStatusResponse.ProtoReflect.Descriptor instead.
+func (*GetKeystoreStatusResponse) Descriptor() ([]byte, []int) {
+	return file_keystore_api_v1_keystore_proto_rawDescGZIP(), []int{17}
+}
+
+func (x *GetKeystoreStatusResponse) GetStatus() GetKeystoreStatusResponse_KeystoreStatus {
+	if x != nil {
+		return x.Status
+	}
+	return GetKeystoreStatusResponse_KEYSTORE_STATUS_UNSPECIFIED
+}
+
 // Used to initialize the Keystore with a private key bundle retrieved from the
 // client
 type InitKeystoreRequest struct {
@@ -922,7 +1069,7 @@ type InitKeystoreRequest struct {
 func (x *InitKeystoreRequest) Reset() {
 	*x = InitKeystoreRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_keystore_api_v1_keystore_proto_msgTypes[16]
+		mi := &file_keystore_api_v1_keystore_proto_msgTypes[18]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -935,7 +1082,7 @@ func (x *InitKeystoreRequest) String() string {
 func (*InitKeystoreRequest) ProtoMessage() {}
 
 func (x *InitKeystoreRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_keystore_api_v1_keystore_proto_msgTypes[16]
+	mi := &file_keystore_api_v1_keystore_proto_msgTypes[18]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -948,7 +1095,7 @@ func (x *InitKeystoreRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use InitKeystoreRequest.ProtoReflect.Descriptor instead.
 func (*InitKeystoreRequest) Descriptor() ([]byte, []int) {
-	return file_keystore_api_v1_keystore_proto_rawDescGZIP(), []int{16}
+	return file_keystore_api_v1_keystore_proto_rawDescGZIP(), []int{18}
 }
 
 func (m *InitKeystoreRequest) GetBundle() isInitKeystoreRequest_Bundle {
@@ -987,7 +1134,7 @@ type InitKeystoreResponse struct {
 func (x *InitKeystoreResponse) Reset() {
 	*x = InitKeystoreResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_keystore_api_v1_keystore_proto_msgTypes[17]
+		mi := &file_keystore_api_v1_keystore_proto_msgTypes[19]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1000,7 +1147,7 @@ func (x *InitKeystoreResponse) String() string {
 func (*InitKeystoreResponse) ProtoMessage() {}
 
 func (x *InitKeystoreResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_keystore_api_v1_keystore_proto_msgTypes[17]
+	mi := &file_keystore_api_v1_keystore_proto_msgTypes[19]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1013,7 +1160,7 @@ func (x *InitKeystoreResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use InitKeystoreResponse.ProtoReflect.Descriptor instead.
 func (*InitKeystoreResponse) Descriptor() ([]byte, []int) {
-	return file_keystore_api_v1_keystore_proto_rawDescGZIP(), []int{17}
+	return file_keystore_api_v1_keystore_proto_rawDescGZIP(), []int{19}
 }
 
 func (x *InitKeystoreResponse) GetError() *KeystoreError {
@@ -1041,7 +1188,7 @@ type SignDigestRequest struct {
 func (x *SignDigestRequest) Reset() {
 	*x = SignDigestRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_keystore_api_v1_keystore_proto_msgTypes[18]
+		mi := &file_keystore_api_v1_keystore_proto_msgTypes[20]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1054,7 +1201,7 @@ func (x *SignDigestRequest) String() string {
 func (*SignDigestRequest) ProtoMessage() {}
 
 func (x *SignDigestRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_keystore_api_v1_keystore_proto_msgTypes[18]
+	mi := &file_keystore_api_v1_keystore_proto_msgTypes[20]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1067,7 +1214,7 @@ func (x *SignDigestRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SignDigestRequest.ProtoReflect.Descriptor instead.
 func (*SignDigestRequest) Descriptor() ([]byte, []int) {
-	return file_keystore_api_v1_keystore_proto_rawDescGZIP(), []int{18}
+	return file_keystore_api_v1_keystore_proto_rawDescGZIP(), []int{20}
 }
 
 func (x *SignDigestRequest) GetDigest() []byte {
@@ -1126,7 +1273,7 @@ type TopicMap struct {
 func (x *TopicMap) Reset() {
 	*x = TopicMap{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_keystore_api_v1_keystore_proto_msgTypes[19]
+		mi := &file_keystore_api_v1_keystore_proto_msgTypes[21]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1139,7 +1286,7 @@ func (x *TopicMap) String() string {
 func (*TopicMap) ProtoMessage() {}
 
 func (x *TopicMap) ProtoReflect() protoreflect.Message {
-	mi := &file_keystore_api_v1_keystore_proto_msgTypes[19]
+	mi := &file_keystore_api_v1_keystore_proto_msgTypes[21]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1152,7 +1299,7 @@ func (x *TopicMap) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use TopicMap.ProtoReflect.Descriptor instead.
 func (*TopicMap) Descriptor() ([]byte, []int) {
-	return file_keystore_api_v1_keystore_proto_rawDescGZIP(), []int{19}
+	return file_keystore_api_v1_keystore_proto_rawDescGZIP(), []int{21}
 }
 
 func (x *TopicMap) GetTopics() map[string]*TopicMap_TopicData {
@@ -1177,7 +1324,7 @@ type DecryptV1Request_Request struct {
 func (x *DecryptV1Request_Request) Reset() {
 	*x = DecryptV1Request_Request{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_keystore_api_v1_keystore_proto_msgTypes[20]
+		mi := &file_keystore_api_v1_keystore_proto_msgTypes[22]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1190,7 +1337,7 @@ func (x *DecryptV1Request_Request) String() string {
 func (*DecryptV1Request_Request) ProtoMessage() {}
 
 func (x *DecryptV1Request_Request) ProtoReflect() protoreflect.Message {
-	mi := &file_keystore_api_v1_keystore_proto_msgTypes[20]
+	mi := &file_keystore_api_v1_keystore_proto_msgTypes[22]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1250,7 +1397,7 @@ type DecryptResponse_Response struct {
 func (x *DecryptResponse_Response) Reset() {
 	*x = DecryptResponse_Response{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_keystore_api_v1_keystore_proto_msgTypes[21]
+		mi := &file_keystore_api_v1_keystore_proto_msgTypes[23]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1263,7 +1410,7 @@ func (x *DecryptResponse_Response) String() string {
 func (*DecryptResponse_Response) ProtoMessage() {}
 
 func (x *DecryptResponse_Response) ProtoReflect() protoreflect.Message {
-	mi := &file_keystore_api_v1_keystore_proto_msgTypes[21]
+	mi := &file_keystore_api_v1_keystore_proto_msgTypes[23]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1328,7 +1475,7 @@ type DecryptResponse_Response_Success struct {
 func (x *DecryptResponse_Response_Success) Reset() {
 	*x = DecryptResponse_Response_Success{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_keystore_api_v1_keystore_proto_msgTypes[22]
+		mi := &file_keystore_api_v1_keystore_proto_msgTypes[24]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1341,7 +1488,7 @@ func (x *DecryptResponse_Response_Success) String() string {
 func (*DecryptResponse_Response_Success) ProtoMessage() {}
 
 func (x *DecryptResponse_Response_Success) ProtoReflect() protoreflect.Message {
-	mi := &file_keystore_api_v1_keystore_proto_msgTypes[22]
+	mi := &file_keystore_api_v1_keystore_proto_msgTypes[24]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1378,7 +1525,7 @@ type DecryptV2Request_Request struct {
 func (x *DecryptV2Request_Request) Reset() {
 	*x = DecryptV2Request_Request{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_keystore_api_v1_keystore_proto_msgTypes[23]
+		mi := &file_keystore_api_v1_keystore_proto_msgTypes[25]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1391,7 +1538,7 @@ func (x *DecryptV2Request_Request) String() string {
 func (*DecryptV2Request_Request) ProtoMessage() {}
 
 func (x *DecryptV2Request_Request) ProtoReflect() protoreflect.Message {
-	mi := &file_keystore_api_v1_keystore_proto_msgTypes[23]
+	mi := &file_keystore_api_v1_keystore_proto_msgTypes[25]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1442,7 +1589,7 @@ type EncryptV1Request_Request struct {
 func (x *EncryptV1Request_Request) Reset() {
 	*x = EncryptV1Request_Request{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_keystore_api_v1_keystore_proto_msgTypes[24]
+		mi := &file_keystore_api_v1_keystore_proto_msgTypes[26]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1455,7 +1602,7 @@ func (x *EncryptV1Request_Request) String() string {
 func (*EncryptV1Request_Request) ProtoMessage() {}
 
 func (x *EncryptV1Request_Request) ProtoReflect() protoreflect.Message {
-	mi := &file_keystore_api_v1_keystore_proto_msgTypes[24]
+	mi := &file_keystore_api_v1_keystore_proto_msgTypes[26]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1508,7 +1655,7 @@ type EncryptResponse_Response struct {
 func (x *EncryptResponse_Response) Reset() {
 	*x = EncryptResponse_Response{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_keystore_api_v1_keystore_proto_msgTypes[25]
+		mi := &file_keystore_api_v1_keystore_proto_msgTypes[27]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1521,7 +1668,7 @@ func (x *EncryptResponse_Response) String() string {
 func (*EncryptResponse_Response) ProtoMessage() {}
 
 func (x *EncryptResponse_Response) ProtoReflect() protoreflect.Message {
-	mi := &file_keystore_api_v1_keystore_proto_msgTypes[25]
+	mi := &file_keystore_api_v1_keystore_proto_msgTypes[27]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1586,7 +1733,7 @@ type EncryptResponse_Response_Success struct {
 func (x *EncryptResponse_Response_Success) Reset() {
 	*x = EncryptResponse_Response_Success{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_keystore_api_v1_keystore_proto_msgTypes[26]
+		mi := &file_keystore_api_v1_keystore_proto_msgTypes[28]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1599,7 +1746,7 @@ func (x *EncryptResponse_Response_Success) String() string {
 func (*EncryptResponse_Response_Success) ProtoMessage() {}
 
 func (x *EncryptResponse_Response_Success) ProtoReflect() protoreflect.Message {
-	mi := &file_keystore_api_v1_keystore_proto_msgTypes[26]
+	mi := &file_keystore_api_v1_keystore_proto_msgTypes[28]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1636,7 +1783,7 @@ type EncryptV2Request_Request struct {
 func (x *EncryptV2Request_Request) Reset() {
 	*x = EncryptV2Request_Request{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_keystore_api_v1_keystore_proto_msgTypes[27]
+		mi := &file_keystore_api_v1_keystore_proto_msgTypes[29]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1649,7 +1796,7 @@ func (x *EncryptV2Request_Request) String() string {
 func (*EncryptV2Request_Request) ProtoMessage() {}
 
 func (x *EncryptV2Request_Request) ProtoReflect() protoreflect.Message {
-	mi := &file_keystore_api_v1_keystore_proto_msgTypes[27]
+	mi := &file_keystore_api_v1_keystore_proto_msgTypes[29]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1700,7 +1847,7 @@ type SaveInvitesRequest_Request struct {
 func (x *SaveInvitesRequest_Request) Reset() {
 	*x = SaveInvitesRequest_Request{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_keystore_api_v1_keystore_proto_msgTypes[28]
+		mi := &file_keystore_api_v1_keystore_proto_msgTypes[30]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1713,7 +1860,7 @@ func (x *SaveInvitesRequest_Request) String() string {
 func (*SaveInvitesRequest_Request) ProtoMessage() {}
 
 func (x *SaveInvitesRequest_Request) ProtoReflect() protoreflect.Message {
-	mi := &file_keystore_api_v1_keystore_proto_msgTypes[28]
+	mi := &file_keystore_api_v1_keystore_proto_msgTypes[30]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1766,7 +1913,7 @@ type SaveInvitesResponse_Response struct {
 func (x *SaveInvitesResponse_Response) Reset() {
 	*x = SaveInvitesResponse_Response{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_keystore_api_v1_keystore_proto_msgTypes[29]
+		mi := &file_keystore_api_v1_keystore_proto_msgTypes[31]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1779,7 +1926,7 @@ func (x *SaveInvitesResponse_Response) String() string {
 func (*SaveInvitesResponse_Response) ProtoMessage() {}
 
 func (x *SaveInvitesResponse_Response) ProtoReflect() protoreflect.Message {
-	mi := &file_keystore_api_v1_keystore_proto_msgTypes[29]
+	mi := &file_keystore_api_v1_keystore_proto_msgTypes[31]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1844,7 +1991,7 @@ type SaveInvitesResponse_Response_Success struct {
 func (x *SaveInvitesResponse_Response_Success) Reset() {
 	*x = SaveInvitesResponse_Response_Success{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_keystore_api_v1_keystore_proto_msgTypes[30]
+		mi := &file_keystore_api_v1_keystore_proto_msgTypes[32]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1857,7 +2004,7 @@ func (x *SaveInvitesResponse_Response_Success) String() string {
 func (*SaveInvitesResponse_Response_Success) ProtoMessage() {}
 
 func (x *SaveInvitesResponse_Response_Success) ProtoReflect() protoreflect.Message {
-	mi := &file_keystore_api_v1_keystore_proto_msgTypes[30]
+	mi := &file_keystore_api_v1_keystore_proto_msgTypes[32]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1894,7 +2041,7 @@ type TopicMap_TopicData struct {
 func (x *TopicMap_TopicData) Reset() {
 	*x = TopicMap_TopicData{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_keystore_api_v1_keystore_proto_msgTypes[31]
+		mi := &file_keystore_api_v1_keystore_proto_msgTypes[33]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1907,7 +2054,7 @@ func (x *TopicMap_TopicData) String() string {
 func (*TopicMap_TopicData) ProtoMessage() {}
 
 func (x *TopicMap_TopicData) ProtoReflect() protoreflect.Message {
-	mi := &file_keystore_api_v1_keystore_proto_msgTypes[31]
+	mi := &file_keystore_api_v1_keystore_proto_msgTypes[33]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1920,7 +2067,7 @@ func (x *TopicMap_TopicData) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use TopicMap_TopicData.ProtoReflect.Descriptor instead.
 func (*TopicMap_TopicData) Descriptor() ([]byte, []int) {
-	return file_keystore_api_v1_keystore_proto_rawDescGZIP(), []int{19, 0}
+	return file_keystore_api_v1_keystore_proto_rawDescGZIP(), []int{21, 0}
 }
 
 func (x *TopicMap_TopicData) GetCreatedNs() uint64 {
@@ -2170,7 +2317,26 @@ var file_keystore_api_v1_keystore_proto_rawDesc = []byte{
 	0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x5f, 0x63, 0x6f, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x73, 0x2e,
 	0x43, 0x6f, 0x6e, 0x76, 0x65, 0x72, 0x73, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x66, 0x65,
 	0x72, 0x65, 0x6e, 0x63, 0x65, 0x52, 0x0d, 0x63, 0x6f, 0x6e, 0x76, 0x65, 0x72, 0x73, 0x61, 0x74,
-	0x69, 0x6f, 0x6e, 0x73, 0x22, 0x5c, 0x0a, 0x13, 0x49, 0x6e, 0x69, 0x74, 0x4b, 0x65, 0x79, 0x73,
+	0x69, 0x6f, 0x6e, 0x73, 0x22, 0x41, 0x0a, 0x18, 0x47, 0x65, 0x74, 0x4b, 0x65, 0x79, 0x73, 0x74,
+	0x6f, 0x72, 0x65, 0x53, 0x74, 0x61, 0x74, 0x75, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74,
+	0x12, 0x25, 0x0a, 0x0e, 0x77, 0x61, 0x6c, 0x6c, 0x65, 0x74, 0x5f, 0x61, 0x64, 0x64, 0x72, 0x65,
+	0x73, 0x73, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0d, 0x77, 0x61, 0x6c, 0x6c, 0x65, 0x74,
+	0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x22, 0xea, 0x01, 0x0a, 0x19, 0x47, 0x65, 0x74, 0x4b,
+	0x65, 0x79, 0x73, 0x74, 0x6f, 0x72, 0x65, 0x53, 0x74, 0x61, 0x74, 0x75, 0x73, 0x52, 0x65, 0x73,
+	0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x56, 0x0a, 0x06, 0x73, 0x74, 0x61, 0x74, 0x75, 0x73, 0x18,
+	0x01, 0x20, 0x01, 0x28, 0x0e, 0x32, 0x3e, 0x2e, 0x78, 0x6d, 0x74, 0x70, 0x2e, 0x6b, 0x65, 0x79,
+	0x73, 0x74, 0x6f, 0x72, 0x65, 0x5f, 0x61, 0x70, 0x69, 0x2e, 0x76, 0x31, 0x2e, 0x47, 0x65, 0x74,
+	0x4b, 0x65, 0x79, 0x73, 0x74, 0x6f, 0x72, 0x65, 0x53, 0x74, 0x61, 0x74, 0x75, 0x73, 0x52, 0x65,
+	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x2e, 0x4b, 0x65, 0x79, 0x73, 0x74, 0x6f, 0x72, 0x65, 0x53,
+	0x74, 0x61, 0x74, 0x75, 0x73, 0x52, 0x06, 0x73, 0x74, 0x61, 0x74, 0x75, 0x73, 0x22, 0x75, 0x0a,
+	0x0e, 0x4b, 0x65, 0x79, 0x73, 0x74, 0x6f, 0x72, 0x65, 0x53, 0x74, 0x61, 0x74, 0x75, 0x73, 0x12,
+	0x1f, 0x0a, 0x1b, 0x4b, 0x45, 0x59, 0x53, 0x54, 0x4f, 0x52, 0x45, 0x5f, 0x53, 0x54, 0x41, 0x54,
+	0x55, 0x53, 0x5f, 0x55, 0x4e, 0x53, 0x50, 0x45, 0x43, 0x49, 0x46, 0x49, 0x45, 0x44, 0x10, 0x00,
+	0x12, 0x21, 0x0a, 0x1d, 0x4b, 0x45, 0x59, 0x53, 0x54, 0x4f, 0x52, 0x45, 0x5f, 0x53, 0x54, 0x41,
+	0x54, 0x55, 0x53, 0x5f, 0x55, 0x4e, 0x49, 0x4e, 0x49, 0x54, 0x49, 0x41, 0x4c, 0x49, 0x5a, 0x45,
+	0x44, 0x10, 0x01, 0x12, 0x1f, 0x0a, 0x1b, 0x4b, 0x45, 0x59, 0x53, 0x54, 0x4f, 0x52, 0x45, 0x5f,
+	0x53, 0x54, 0x41, 0x54, 0x55, 0x53, 0x5f, 0x49, 0x4e, 0x49, 0x54, 0x49, 0x41, 0x4c, 0x49, 0x5a,
+	0x45, 0x44, 0x10, 0x02, 0x22, 0x5c, 0x0a, 0x13, 0x49, 0x6e, 0x69, 0x74, 0x4b, 0x65, 0x79, 0x73,
 	0x74, 0x6f, 0x72, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x3b, 0x0a, 0x02, 0x76,
 	0x31, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x29, 0x2e, 0x78, 0x6d, 0x74, 0x70, 0x2e, 0x6d,
 	0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x5f, 0x63, 0x6f, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x73, 0x2e,
@@ -2237,91 +2403,95 @@ func file_keystore_api_v1_keystore_proto_rawDescGZIP() []byte {
 	return file_keystore_api_v1_keystore_proto_rawDescData
 }
 
-var file_keystore_api_v1_keystore_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_keystore_api_v1_keystore_proto_msgTypes = make([]protoimpl.MessageInfo, 33)
+var file_keystore_api_v1_keystore_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
+var file_keystore_api_v1_keystore_proto_msgTypes = make([]protoimpl.MessageInfo, 35)
 var file_keystore_api_v1_keystore_proto_goTypes = []interface{}{
-	(ErrorCode)(0),                                 // 0: xmtp.keystore_api.v1.ErrorCode
-	(*KeystoreError)(nil),                          // 1: xmtp.keystore_api.v1.KeystoreError
-	(*DecryptV1Request)(nil),                       // 2: xmtp.keystore_api.v1.DecryptV1Request
-	(*DecryptResponse)(nil),                        // 3: xmtp.keystore_api.v1.DecryptResponse
-	(*DecryptV2Request)(nil),                       // 4: xmtp.keystore_api.v1.DecryptV2Request
-	(*EncryptV1Request)(nil),                       // 5: xmtp.keystore_api.v1.EncryptV1Request
-	(*EncryptResponse)(nil),                        // 6: xmtp.keystore_api.v1.EncryptResponse
-	(*EncryptV2Request)(nil),                       // 7: xmtp.keystore_api.v1.EncryptV2Request
-	(*CreateInviteRequest)(nil),                    // 8: xmtp.keystore_api.v1.CreateInviteRequest
-	(*CreateInviteFromTopicRequest)(nil),           // 9: xmtp.keystore_api.v1.CreateInviteFromTopicRequest
-	(*CreateInvitesRequest)(nil),                   // 10: xmtp.keystore_api.v1.CreateInvitesRequest
-	(*CreateInviteResponse)(nil),                   // 11: xmtp.keystore_api.v1.CreateInviteResponse
-	(*CreateInvitesResponse)(nil),                  // 12: xmtp.keystore_api.v1.CreateInvitesResponse
-	(*SaveInvitesRequest)(nil),                     // 13: xmtp.keystore_api.v1.SaveInvitesRequest
-	(*SaveInvitesResponse)(nil),                    // 14: xmtp.keystore_api.v1.SaveInvitesResponse
-	(*CreateAuthTokenRequest)(nil),                 // 15: xmtp.keystore_api.v1.CreateAuthTokenRequest
-	(*GetV2ConversationsResponse)(nil),             // 16: xmtp.keystore_api.v1.GetV2ConversationsResponse
-	(*InitKeystoreRequest)(nil),                    // 17: xmtp.keystore_api.v1.InitKeystoreRequest
-	(*InitKeystoreResponse)(nil),                   // 18: xmtp.keystore_api.v1.InitKeystoreResponse
-	(*SignDigestRequest)(nil),                      // 19: xmtp.keystore_api.v1.SignDigestRequest
-	(*TopicMap)(nil),                               // 20: xmtp.keystore_api.v1.TopicMap
-	(*DecryptV1Request_Request)(nil),               // 21: xmtp.keystore_api.v1.DecryptV1Request.Request
-	(*DecryptResponse_Response)(nil),               // 22: xmtp.keystore_api.v1.DecryptResponse.Response
-	(*DecryptResponse_Response_Success)(nil),       // 23: xmtp.keystore_api.v1.DecryptResponse.Response.Success
-	(*DecryptV2Request_Request)(nil),               // 24: xmtp.keystore_api.v1.DecryptV2Request.Request
-	(*EncryptV1Request_Request)(nil),               // 25: xmtp.keystore_api.v1.EncryptV1Request.Request
-	(*EncryptResponse_Response)(nil),               // 26: xmtp.keystore_api.v1.EncryptResponse.Response
-	(*EncryptResponse_Response_Success)(nil),       // 27: xmtp.keystore_api.v1.EncryptResponse.Response.Success
-	(*EncryptV2Request_Request)(nil),               // 28: xmtp.keystore_api.v1.EncryptV2Request.Request
-	(*SaveInvitesRequest_Request)(nil),             // 29: xmtp.keystore_api.v1.SaveInvitesRequest.Request
-	(*SaveInvitesResponse_Response)(nil),           // 30: xmtp.keystore_api.v1.SaveInvitesResponse.Response
-	(*SaveInvitesResponse_Response_Success)(nil),   // 31: xmtp.keystore_api.v1.SaveInvitesResponse.Response.Success
-	(*TopicMap_TopicData)(nil),                     // 32: xmtp.keystore_api.v1.TopicMap.TopicData
-	nil,                                            // 33: xmtp.keystore_api.v1.TopicMap.TopicsEntry
-	(*message_contents.InvitationV1_Context)(nil),  // 34: xmtp.message_contents.InvitationV1.Context
-	(*message_contents.SignedPublicKeyBundle)(nil), // 35: xmtp.message_contents.SignedPublicKeyBundle
-	(*message_contents.ConversationReference)(nil), // 36: xmtp.message_contents.ConversationReference
-	(*message_contents.PrivateKeyBundleV1)(nil),    // 37: xmtp.message_contents.PrivateKeyBundleV1
-	(*message_contents.Ciphertext)(nil),            // 38: xmtp.message_contents.Ciphertext
-	(*message_contents.PublicKeyBundle)(nil),       // 39: xmtp.message_contents.PublicKeyBundle
-	(*message_contents.InvitationV1)(nil),          // 40: xmtp.message_contents.InvitationV1
+	(ErrorCode)(0), // 0: xmtp.keystore_api.v1.ErrorCode
+	(GetKeystoreStatusResponse_KeystoreStatus)(0),  // 1: xmtp.keystore_api.v1.GetKeystoreStatusResponse.KeystoreStatus
+	(*KeystoreError)(nil),                          // 2: xmtp.keystore_api.v1.KeystoreError
+	(*DecryptV1Request)(nil),                       // 3: xmtp.keystore_api.v1.DecryptV1Request
+	(*DecryptResponse)(nil),                        // 4: xmtp.keystore_api.v1.DecryptResponse
+	(*DecryptV2Request)(nil),                       // 5: xmtp.keystore_api.v1.DecryptV2Request
+	(*EncryptV1Request)(nil),                       // 6: xmtp.keystore_api.v1.EncryptV1Request
+	(*EncryptResponse)(nil),                        // 7: xmtp.keystore_api.v1.EncryptResponse
+	(*EncryptV2Request)(nil),                       // 8: xmtp.keystore_api.v1.EncryptV2Request
+	(*CreateInviteRequest)(nil),                    // 9: xmtp.keystore_api.v1.CreateInviteRequest
+	(*CreateInviteFromTopicRequest)(nil),           // 10: xmtp.keystore_api.v1.CreateInviteFromTopicRequest
+	(*CreateInvitesRequest)(nil),                   // 11: xmtp.keystore_api.v1.CreateInvitesRequest
+	(*CreateInviteResponse)(nil),                   // 12: xmtp.keystore_api.v1.CreateInviteResponse
+	(*CreateInvitesResponse)(nil),                  // 13: xmtp.keystore_api.v1.CreateInvitesResponse
+	(*SaveInvitesRequest)(nil),                     // 14: xmtp.keystore_api.v1.SaveInvitesRequest
+	(*SaveInvitesResponse)(nil),                    // 15: xmtp.keystore_api.v1.SaveInvitesResponse
+	(*CreateAuthTokenRequest)(nil),                 // 16: xmtp.keystore_api.v1.CreateAuthTokenRequest
+	(*GetV2ConversationsResponse)(nil),             // 17: xmtp.keystore_api.v1.GetV2ConversationsResponse
+	(*GetKeystoreStatusRequest)(nil),               // 18: xmtp.keystore_api.v1.GetKeystoreStatusRequest
+	(*GetKeystoreStatusResponse)(nil),              // 19: xmtp.keystore_api.v1.GetKeystoreStatusResponse
+	(*InitKeystoreRequest)(nil),                    // 20: xmtp.keystore_api.v1.InitKeystoreRequest
+	(*InitKeystoreResponse)(nil),                   // 21: xmtp.keystore_api.v1.InitKeystoreResponse
+	(*SignDigestRequest)(nil),                      // 22: xmtp.keystore_api.v1.SignDigestRequest
+	(*TopicMap)(nil),                               // 23: xmtp.keystore_api.v1.TopicMap
+	(*DecryptV1Request_Request)(nil),               // 24: xmtp.keystore_api.v1.DecryptV1Request.Request
+	(*DecryptResponse_Response)(nil),               // 25: xmtp.keystore_api.v1.DecryptResponse.Response
+	(*DecryptResponse_Response_Success)(nil),       // 26: xmtp.keystore_api.v1.DecryptResponse.Response.Success
+	(*DecryptV2Request_Request)(nil),               // 27: xmtp.keystore_api.v1.DecryptV2Request.Request
+	(*EncryptV1Request_Request)(nil),               // 28: xmtp.keystore_api.v1.EncryptV1Request.Request
+	(*EncryptResponse_Response)(nil),               // 29: xmtp.keystore_api.v1.EncryptResponse.Response
+	(*EncryptResponse_Response_Success)(nil),       // 30: xmtp.keystore_api.v1.EncryptResponse.Response.Success
+	(*EncryptV2Request_Request)(nil),               // 31: xmtp.keystore_api.v1.EncryptV2Request.Request
+	(*SaveInvitesRequest_Request)(nil),             // 32: xmtp.keystore_api.v1.SaveInvitesRequest.Request
+	(*SaveInvitesResponse_Response)(nil),           // 33: xmtp.keystore_api.v1.SaveInvitesResponse.Response
+	(*SaveInvitesResponse_Response_Success)(nil),   // 34: xmtp.keystore_api.v1.SaveInvitesResponse.Response.Success
+	(*TopicMap_TopicData)(nil),                     // 35: xmtp.keystore_api.v1.TopicMap.TopicData
+	nil,                                            // 36: xmtp.keystore_api.v1.TopicMap.TopicsEntry
+	(*message_contents.InvitationV1_Context)(nil),  // 37: xmtp.message_contents.InvitationV1.Context
+	(*message_contents.SignedPublicKeyBundle)(nil), // 38: xmtp.message_contents.SignedPublicKeyBundle
+	(*message_contents.ConversationReference)(nil), // 39: xmtp.message_contents.ConversationReference
+	(*message_contents.PrivateKeyBundleV1)(nil),    // 40: xmtp.message_contents.PrivateKeyBundleV1
+	(*message_contents.Ciphertext)(nil),            // 41: xmtp.message_contents.Ciphertext
+	(*message_contents.PublicKeyBundle)(nil),       // 42: xmtp.message_contents.PublicKeyBundle
+	(*message_contents.InvitationV1)(nil),          // 43: xmtp.message_contents.InvitationV1
 }
 var file_keystore_api_v1_keystore_proto_depIdxs = []int32{
 	0,  // 0: xmtp.keystore_api.v1.KeystoreError.code:type_name -> xmtp.keystore_api.v1.ErrorCode
-	21, // 1: xmtp.keystore_api.v1.DecryptV1Request.requests:type_name -> xmtp.keystore_api.v1.DecryptV1Request.Request
-	22, // 2: xmtp.keystore_api.v1.DecryptResponse.responses:type_name -> xmtp.keystore_api.v1.DecryptResponse.Response
-	24, // 3: xmtp.keystore_api.v1.DecryptV2Request.requests:type_name -> xmtp.keystore_api.v1.DecryptV2Request.Request
-	25, // 4: xmtp.keystore_api.v1.EncryptV1Request.requests:type_name -> xmtp.keystore_api.v1.EncryptV1Request.Request
-	26, // 5: xmtp.keystore_api.v1.EncryptResponse.responses:type_name -> xmtp.keystore_api.v1.EncryptResponse.Response
-	28, // 6: xmtp.keystore_api.v1.EncryptV2Request.requests:type_name -> xmtp.keystore_api.v1.EncryptV2Request.Request
-	34, // 7: xmtp.keystore_api.v1.CreateInviteRequest.context:type_name -> xmtp.message_contents.InvitationV1.Context
-	35, // 8: xmtp.keystore_api.v1.CreateInviteRequest.recipient:type_name -> xmtp.message_contents.SignedPublicKeyBundle
-	35, // 9: xmtp.keystore_api.v1.CreateInviteFromTopicRequest.recipient:type_name -> xmtp.message_contents.SignedPublicKeyBundle
-	34, // 10: xmtp.keystore_api.v1.CreateInvitesRequest.context:type_name -> xmtp.message_contents.InvitationV1.Context
-	35, // 11: xmtp.keystore_api.v1.CreateInvitesRequest.recipients:type_name -> xmtp.message_contents.SignedPublicKeyBundle
-	36, // 12: xmtp.keystore_api.v1.CreateInviteResponse.conversation:type_name -> xmtp.message_contents.ConversationReference
-	11, // 13: xmtp.keystore_api.v1.CreateInvitesResponse.responses:type_name -> xmtp.keystore_api.v1.CreateInviteResponse
-	29, // 14: xmtp.keystore_api.v1.SaveInvitesRequest.requests:type_name -> xmtp.keystore_api.v1.SaveInvitesRequest.Request
-	30, // 15: xmtp.keystore_api.v1.SaveInvitesResponse.responses:type_name -> xmtp.keystore_api.v1.SaveInvitesResponse.Response
-	36, // 16: xmtp.keystore_api.v1.GetV2ConversationsResponse.conversations:type_name -> xmtp.message_contents.ConversationReference
-	37, // 17: xmtp.keystore_api.v1.InitKeystoreRequest.v1:type_name -> xmtp.message_contents.PrivateKeyBundleV1
-	1,  // 18: xmtp.keystore_api.v1.InitKeystoreResponse.error:type_name -> xmtp.keystore_api.v1.KeystoreError
-	33, // 19: xmtp.keystore_api.v1.TopicMap.topics:type_name -> xmtp.keystore_api.v1.TopicMap.TopicsEntry
-	38, // 20: xmtp.keystore_api.v1.DecryptV1Request.Request.payload:type_name -> xmtp.message_contents.Ciphertext
-	39, // 21: xmtp.keystore_api.v1.DecryptV1Request.Request.peer_keys:type_name -> xmtp.message_contents.PublicKeyBundle
-	23, // 22: xmtp.keystore_api.v1.DecryptResponse.Response.result:type_name -> xmtp.keystore_api.v1.DecryptResponse.Response.Success
-	1,  // 23: xmtp.keystore_api.v1.DecryptResponse.Response.error:type_name -> xmtp.keystore_api.v1.KeystoreError
-	38, // 24: xmtp.keystore_api.v1.DecryptV2Request.Request.payload:type_name -> xmtp.message_contents.Ciphertext
-	39, // 25: xmtp.keystore_api.v1.EncryptV1Request.Request.recipient:type_name -> xmtp.message_contents.PublicKeyBundle
-	27, // 26: xmtp.keystore_api.v1.EncryptResponse.Response.result:type_name -> xmtp.keystore_api.v1.EncryptResponse.Response.Success
-	1,  // 27: xmtp.keystore_api.v1.EncryptResponse.Response.error:type_name -> xmtp.keystore_api.v1.KeystoreError
-	38, // 28: xmtp.keystore_api.v1.EncryptResponse.Response.Success.encrypted:type_name -> xmtp.message_contents.Ciphertext
-	31, // 29: xmtp.keystore_api.v1.SaveInvitesResponse.Response.result:type_name -> xmtp.keystore_api.v1.SaveInvitesResponse.Response.Success
-	1,  // 30: xmtp.keystore_api.v1.SaveInvitesResponse.Response.error:type_name -> xmtp.keystore_api.v1.KeystoreError
-	36, // 31: xmtp.keystore_api.v1.SaveInvitesResponse.Response.Success.conversation:type_name -> xmtp.message_contents.ConversationReference
-	40, // 32: xmtp.keystore_api.v1.TopicMap.TopicData.invitation:type_name -> xmtp.message_contents.InvitationV1
-	32, // 33: xmtp.keystore_api.v1.TopicMap.TopicsEntry.value:type_name -> xmtp.keystore_api.v1.TopicMap.TopicData
-	34, // [34:34] is the sub-list for method output_type
-	34, // [34:34] is the sub-list for method input_type
-	34, // [34:34] is the sub-list for extension type_name
-	34, // [34:34] is the sub-list for extension extendee
-	0,  // [0:34] is the sub-list for field type_name
+	24, // 1: xmtp.keystore_api.v1.DecryptV1Request.requests:type_name -> xmtp.keystore_api.v1.DecryptV1Request.Request
+	25, // 2: xmtp.keystore_api.v1.DecryptResponse.responses:type_name -> xmtp.keystore_api.v1.DecryptResponse.Response
+	27, // 3: xmtp.keystore_api.v1.DecryptV2Request.requests:type_name -> xmtp.keystore_api.v1.DecryptV2Request.Request
+	28, // 4: xmtp.keystore_api.v1.EncryptV1Request.requests:type_name -> xmtp.keystore_api.v1.EncryptV1Request.Request
+	29, // 5: xmtp.keystore_api.v1.EncryptResponse.responses:type_name -> xmtp.keystore_api.v1.EncryptResponse.Response
+	31, // 6: xmtp.keystore_api.v1.EncryptV2Request.requests:type_name -> xmtp.keystore_api.v1.EncryptV2Request.Request
+	37, // 7: xmtp.keystore_api.v1.CreateInviteRequest.context:type_name -> xmtp.message_contents.InvitationV1.Context
+	38, // 8: xmtp.keystore_api.v1.CreateInviteRequest.recipient:type_name -> xmtp.message_contents.SignedPublicKeyBundle
+	38, // 9: xmtp.keystore_api.v1.CreateInviteFromTopicRequest.recipient:type_name -> xmtp.message_contents.SignedPublicKeyBundle
+	37, // 10: xmtp.keystore_api.v1.CreateInvitesRequest.context:type_name -> xmtp.message_contents.InvitationV1.Context
+	38, // 11: xmtp.keystore_api.v1.CreateInvitesRequest.recipients:type_name -> xmtp.message_contents.SignedPublicKeyBundle
+	39, // 12: xmtp.keystore_api.v1.CreateInviteResponse.conversation:type_name -> xmtp.message_contents.ConversationReference
+	12, // 13: xmtp.keystore_api.v1.CreateInvitesResponse.responses:type_name -> xmtp.keystore_api.v1.CreateInviteResponse
+	32, // 14: xmtp.keystore_api.v1.SaveInvitesRequest.requests:type_name -> xmtp.keystore_api.v1.SaveInvitesRequest.Request
+	33, // 15: xmtp.keystore_api.v1.SaveInvitesResponse.responses:type_name -> xmtp.keystore_api.v1.SaveInvitesResponse.Response
+	39, // 16: xmtp.keystore_api.v1.GetV2ConversationsResponse.conversations:type_name -> xmtp.message_contents.ConversationReference
+	1,  // 17: xmtp.keystore_api.v1.GetKeystoreStatusResponse.status:type_name -> xmtp.keystore_api.v1.GetKeystoreStatusResponse.KeystoreStatus
+	40, // 18: xmtp.keystore_api.v1.InitKeystoreRequest.v1:type_name -> xmtp.message_contents.PrivateKeyBundleV1
+	2,  // 19: xmtp.keystore_api.v1.InitKeystoreResponse.error:type_name -> xmtp.keystore_api.v1.KeystoreError
+	36, // 20: xmtp.keystore_api.v1.TopicMap.topics:type_name -> xmtp.keystore_api.v1.TopicMap.TopicsEntry
+	41, // 21: xmtp.keystore_api.v1.DecryptV1Request.Request.payload:type_name -> xmtp.message_contents.Ciphertext
+	42, // 22: xmtp.keystore_api.v1.DecryptV1Request.Request.peer_keys:type_name -> xmtp.message_contents.PublicKeyBundle
+	26, // 23: xmtp.keystore_api.v1.DecryptResponse.Response.result:type_name -> xmtp.keystore_api.v1.DecryptResponse.Response.Success
+	2,  // 24: xmtp.keystore_api.v1.DecryptResponse.Response.error:type_name -> xmtp.keystore_api.v1.KeystoreError
+	41, // 25: xmtp.keystore_api.v1.DecryptV2Request.Request.payload:type_name -> xmtp.message_contents.Ciphertext
+	42, // 26: xmtp.keystore_api.v1.EncryptV1Request.Request.recipient:type_name -> xmtp.message_contents.PublicKeyBundle
+	30, // 27: xmtp.keystore_api.v1.EncryptResponse.Response.result:type_name -> xmtp.keystore_api.v1.EncryptResponse.Response.Success
+	2,  // 28: xmtp.keystore_api.v1.EncryptResponse.Response.error:type_name -> xmtp.keystore_api.v1.KeystoreError
+	41, // 29: xmtp.keystore_api.v1.EncryptResponse.Response.Success.encrypted:type_name -> xmtp.message_contents.Ciphertext
+	34, // 30: xmtp.keystore_api.v1.SaveInvitesResponse.Response.result:type_name -> xmtp.keystore_api.v1.SaveInvitesResponse.Response.Success
+	2,  // 31: xmtp.keystore_api.v1.SaveInvitesResponse.Response.error:type_name -> xmtp.keystore_api.v1.KeystoreError
+	39, // 32: xmtp.keystore_api.v1.SaveInvitesResponse.Response.Success.conversation:type_name -> xmtp.message_contents.ConversationReference
+	43, // 33: xmtp.keystore_api.v1.TopicMap.TopicData.invitation:type_name -> xmtp.message_contents.InvitationV1
+	35, // 34: xmtp.keystore_api.v1.TopicMap.TopicsEntry.value:type_name -> xmtp.keystore_api.v1.TopicMap.TopicData
+	35, // [35:35] is the sub-list for method output_type
+	35, // [35:35] is the sub-list for method input_type
+	35, // [35:35] is the sub-list for extension type_name
+	35, // [35:35] is the sub-list for extension extendee
+	0,  // [0:35] is the sub-list for field type_name
 }
 
 func init() { file_keystore_api_v1_keystore_proto_init() }
@@ -2523,7 +2693,7 @@ func file_keystore_api_v1_keystore_proto_init() {
 			}
 		}
 		file_keystore_api_v1_keystore_proto_msgTypes[16].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*InitKeystoreRequest); i {
+			switch v := v.(*GetKeystoreStatusRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2535,7 +2705,7 @@ func file_keystore_api_v1_keystore_proto_init() {
 			}
 		}
 		file_keystore_api_v1_keystore_proto_msgTypes[17].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*InitKeystoreResponse); i {
+			switch v := v.(*GetKeystoreStatusResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2547,7 +2717,7 @@ func file_keystore_api_v1_keystore_proto_init() {
 			}
 		}
 		file_keystore_api_v1_keystore_proto_msgTypes[18].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*SignDigestRequest); i {
+			switch v := v.(*InitKeystoreRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2559,7 +2729,7 @@ func file_keystore_api_v1_keystore_proto_init() {
 			}
 		}
 		file_keystore_api_v1_keystore_proto_msgTypes[19].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*TopicMap); i {
+			switch v := v.(*InitKeystoreResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2571,7 +2741,7 @@ func file_keystore_api_v1_keystore_proto_init() {
 			}
 		}
 		file_keystore_api_v1_keystore_proto_msgTypes[20].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*DecryptV1Request_Request); i {
+			switch v := v.(*SignDigestRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2583,7 +2753,7 @@ func file_keystore_api_v1_keystore_proto_init() {
 			}
 		}
 		file_keystore_api_v1_keystore_proto_msgTypes[21].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*DecryptResponse_Response); i {
+			switch v := v.(*TopicMap); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2595,7 +2765,7 @@ func file_keystore_api_v1_keystore_proto_init() {
 			}
 		}
 		file_keystore_api_v1_keystore_proto_msgTypes[22].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*DecryptResponse_Response_Success); i {
+			switch v := v.(*DecryptV1Request_Request); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2607,7 +2777,7 @@ func file_keystore_api_v1_keystore_proto_init() {
 			}
 		}
 		file_keystore_api_v1_keystore_proto_msgTypes[23].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*DecryptV2Request_Request); i {
+			switch v := v.(*DecryptResponse_Response); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2619,7 +2789,7 @@ func file_keystore_api_v1_keystore_proto_init() {
 			}
 		}
 		file_keystore_api_v1_keystore_proto_msgTypes[24].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*EncryptV1Request_Request); i {
+			switch v := v.(*DecryptResponse_Response_Success); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2631,7 +2801,7 @@ func file_keystore_api_v1_keystore_proto_init() {
 			}
 		}
 		file_keystore_api_v1_keystore_proto_msgTypes[25].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*EncryptResponse_Response); i {
+			switch v := v.(*DecryptV2Request_Request); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2643,7 +2813,7 @@ func file_keystore_api_v1_keystore_proto_init() {
 			}
 		}
 		file_keystore_api_v1_keystore_proto_msgTypes[26].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*EncryptResponse_Response_Success); i {
+			switch v := v.(*EncryptV1Request_Request); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2655,7 +2825,7 @@ func file_keystore_api_v1_keystore_proto_init() {
 			}
 		}
 		file_keystore_api_v1_keystore_proto_msgTypes[27].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*EncryptV2Request_Request); i {
+			switch v := v.(*EncryptResponse_Response); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2667,7 +2837,7 @@ func file_keystore_api_v1_keystore_proto_init() {
 			}
 		}
 		file_keystore_api_v1_keystore_proto_msgTypes[28].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*SaveInvitesRequest_Request); i {
+			switch v := v.(*EncryptResponse_Response_Success); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2679,7 +2849,7 @@ func file_keystore_api_v1_keystore_proto_init() {
 			}
 		}
 		file_keystore_api_v1_keystore_proto_msgTypes[29].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*SaveInvitesResponse_Response); i {
+			switch v := v.(*EncryptV2Request_Request); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2691,7 +2861,7 @@ func file_keystore_api_v1_keystore_proto_init() {
 			}
 		}
 		file_keystore_api_v1_keystore_proto_msgTypes[30].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*SaveInvitesResponse_Response_Success); i {
+			switch v := v.(*SaveInvitesRequest_Request); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2703,6 +2873,30 @@ func file_keystore_api_v1_keystore_proto_init() {
 			}
 		}
 		file_keystore_api_v1_keystore_proto_msgTypes[31].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*SaveInvitesResponse_Response); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_keystore_api_v1_keystore_proto_msgTypes[32].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*SaveInvitesResponse_Response_Success); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_keystore_api_v1_keystore_proto_msgTypes[33].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*TopicMap_TopicData); i {
 			case 0:
 				return &v.state
@@ -2716,22 +2910,22 @@ func file_keystore_api_v1_keystore_proto_init() {
 		}
 	}
 	file_keystore_api_v1_keystore_proto_msgTypes[14].OneofWrappers = []interface{}{}
-	file_keystore_api_v1_keystore_proto_msgTypes[16].OneofWrappers = []interface{}{
+	file_keystore_api_v1_keystore_proto_msgTypes[18].OneofWrappers = []interface{}{
 		(*InitKeystoreRequest_V1)(nil),
 	}
-	file_keystore_api_v1_keystore_proto_msgTypes[18].OneofWrappers = []interface{}{
+	file_keystore_api_v1_keystore_proto_msgTypes[20].OneofWrappers = []interface{}{
 		(*SignDigestRequest_IdentityKey)(nil),
 		(*SignDigestRequest_PrekeyIndex)(nil),
 	}
-	file_keystore_api_v1_keystore_proto_msgTypes[21].OneofWrappers = []interface{}{
+	file_keystore_api_v1_keystore_proto_msgTypes[23].OneofWrappers = []interface{}{
 		(*DecryptResponse_Response_Result)(nil),
 		(*DecryptResponse_Response_Error)(nil),
 	}
-	file_keystore_api_v1_keystore_proto_msgTypes[25].OneofWrappers = []interface{}{
+	file_keystore_api_v1_keystore_proto_msgTypes[27].OneofWrappers = []interface{}{
 		(*EncryptResponse_Response_Result)(nil),
 		(*EncryptResponse_Response_Error)(nil),
 	}
-	file_keystore_api_v1_keystore_proto_msgTypes[29].OneofWrappers = []interface{}{
+	file_keystore_api_v1_keystore_proto_msgTypes[31].OneofWrappers = []interface{}{
 		(*SaveInvitesResponse_Response_Result)(nil),
 		(*SaveInvitesResponse_Response_Error)(nil),
 	}
@@ -2740,8 +2934,8 @@ func file_keystore_api_v1_keystore_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_keystore_api_v1_keystore_proto_rawDesc,
-			NumEnums:      1,
-			NumMessages:   33,
+			NumEnums:      2,
+			NumMessages:   35,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
