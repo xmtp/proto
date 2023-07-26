@@ -449,6 +449,204 @@ func (x *DecodedMessage) GetContentBytes() []byte {
 	return nil
 }
 
+// Plaintext header included with messages, visible to all
+type PadlockMessageHeader struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	SentNs uint64 `protobuf:"varint,1,opt,name=sent_ns,json=sentNs,proto3" json:"sent_ns,omitempty"`
+	// The session_id is derived via SHA256. Any other identifier will leak the
+	// sender of the message.
+	SessionId string `protobuf:"bytes,2,opt,name=session_id,json=sessionId,proto3" json:"session_id,omitempty"`
+}
+
+func (x *PadlockMessageHeader) Reset() {
+	*x = PadlockMessageHeader{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_message_contents_message_proto_msgTypes[6]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *PadlockMessageHeader) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*PadlockMessageHeader) ProtoMessage() {}
+
+func (x *PadlockMessageHeader) ProtoReflect() protoreflect.Message {
+	mi := &file_message_contents_message_proto_msgTypes[6]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use PadlockMessageHeader.ProtoReflect.Descriptor instead.
+func (*PadlockMessageHeader) Descriptor() ([]byte, []int) {
+	return file_message_contents_message_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *PadlockMessageHeader) GetSentNs() uint64 {
+	if x != nil {
+		return x.SentNs
+	}
+	return 0
+}
+
+func (x *PadlockMessageHeader) GetSessionId() string {
+	if x != nil {
+		return x.SessionId
+	}
+	return ""
+}
+
+// Encrypted body included with messages, only visible to recipients
+// - For safety, the sender_account_id and sender_installation_id MUST be
+//   derived from the session_id in the header by each installation receiving
+//   the message
+// - The recipient is unnecessary to include here - the recipient at the session
+//   level is the receiving installation, and the recipient at the conversation
+//   level is whoever is in the conversation referred to by convo_id (multiple
+//   people in the case of groups)
+// - The recipient installation MUST cross-check that the sender_account_id is a
+//   valid participant of the conversation referred to by convo_id
+// - The recipient installation MUST validate that the MessageHeader hashes to
+//   the header_hash.
+//   TODO is that sufficient to replace the AssociatedData in v2?
+type PadlockMessagePayload struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	MessageVersion uint32 `protobuf:"varint,1,opt,name=message_version,json=messageVersion,proto3" json:"message_version,omitempty"`
+	HeaderHash     []byte `protobuf:"bytes,2,opt,name=header_hash,json=headerHash,proto3" json:"header_hash,omitempty"` // PadlockMessageHeader
+	ConvoId        string `protobuf:"bytes,3,opt,name=convo_id,json=convoId,proto3" json:"convo_id,omitempty"`
+	ContentBytes   []byte `protobuf:"bytes,4,opt,name=content_bytes,json=contentBytes,proto3" json:"content_bytes,omitempty"` // EncodedContent
+}
+
+func (x *PadlockMessagePayload) Reset() {
+	*x = PadlockMessagePayload{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_message_contents_message_proto_msgTypes[7]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *PadlockMessagePayload) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*PadlockMessagePayload) ProtoMessage() {}
+
+func (x *PadlockMessagePayload) ProtoReflect() protoreflect.Message {
+	mi := &file_message_contents_message_proto_msgTypes[7]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use PadlockMessagePayload.ProtoReflect.Descriptor instead.
+func (*PadlockMessagePayload) Descriptor() ([]byte, []int) {
+	return file_message_contents_message_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *PadlockMessagePayload) GetMessageVersion() uint32 {
+	if x != nil {
+		return x.MessageVersion
+	}
+	return 0
+}
+
+func (x *PadlockMessagePayload) GetHeaderHash() []byte {
+	if x != nil {
+		return x.HeaderHash
+	}
+	return nil
+}
+
+func (x *PadlockMessagePayload) GetConvoId() string {
+	if x != nil {
+		return x.ConvoId
+	}
+	return ""
+}
+
+func (x *PadlockMessagePayload) GetContentBytes() []byte {
+	if x != nil {
+		return x.ContentBytes
+	}
+	return nil
+}
+
+// Combines the plaintext header with the encrypted payload
+type PadlockMessageEnvelope struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	HeaderBytes []byte `protobuf:"bytes,1,opt,name=header_bytes,json=headerBytes,proto3" json:"header_bytes,omitempty"` // PadlockMessageHeader
+	Ciphertext  []byte `protobuf:"bytes,2,opt,name=ciphertext,proto3" json:"ciphertext,omitempty"`                      // Encrypted PadlockMessagePayload
+}
+
+func (x *PadlockMessageEnvelope) Reset() {
+	*x = PadlockMessageEnvelope{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_message_contents_message_proto_msgTypes[8]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *PadlockMessageEnvelope) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*PadlockMessageEnvelope) ProtoMessage() {}
+
+func (x *PadlockMessageEnvelope) ProtoReflect() protoreflect.Message {
+	mi := &file_message_contents_message_proto_msgTypes[8]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use PadlockMessageEnvelope.ProtoReflect.Descriptor instead.
+func (*PadlockMessageEnvelope) Descriptor() ([]byte, []int) {
+	return file_message_contents_message_proto_rawDescGZIP(), []int{8}
+}
+
+func (x *PadlockMessageEnvelope) GetHeaderBytes() []byte {
+	if x != nil {
+		return x.HeaderBytes
+	}
+	return nil
+}
+
+func (x *PadlockMessageEnvelope) GetCiphertext() []byte {
+	if x != nil {
+		return x.Ciphertext
+	}
+	return nil
+}
+
 var File_message_contents_message_proto protoreflect.FileDescriptor
 
 var file_message_contents_message_proto_rawDesc = []byte{
@@ -524,12 +722,33 @@ var file_message_contents_message_proto_rawDesc = []byte{
 	0x5f, 0x62, 0x79, 0x74, 0x65, 0x73, 0x18, 0x08, 0x20, 0x01, 0x28, 0x0c, 0x52, 0x0c, 0x63, 0x6f,
 	0x6e, 0x74, 0x65, 0x6e, 0x74, 0x42, 0x79, 0x74, 0x65, 0x73, 0x42, 0x14, 0x0a, 0x12, 0x5f, 0x72,
 	0x65, 0x63, 0x69, 0x70, 0x69, 0x65, 0x6e, 0x74, 0x5f, 0x61, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73,
-	0x42, 0x4f, 0x0a, 0x1f, 0x6f, 0x72, 0x67, 0x2e, 0x78, 0x6d, 0x74, 0x70, 0x2e, 0x70, 0x72, 0x6f,
-	0x74, 0x6f, 0x2e, 0x6d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x2e, 0x63, 0x6f, 0x6e, 0x74, 0x65,
-	0x6e, 0x74, 0x73, 0x5a, 0x2c, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f,
-	0x78, 0x6d, 0x74, 0x70, 0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2f, 0x76, 0x33, 0x2f, 0x67, 0x6f,
-	0x2f, 0x6d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x5f, 0x63, 0x6f, 0x6e, 0x74, 0x65, 0x6e, 0x74,
-	0x73, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x22, 0x4e, 0x0a, 0x14, 0x50, 0x61, 0x64, 0x6c, 0x6f, 0x63, 0x6b, 0x4d, 0x65, 0x73, 0x73, 0x61,
+	0x67, 0x65, 0x48, 0x65, 0x61, 0x64, 0x65, 0x72, 0x12, 0x17, 0x0a, 0x07, 0x73, 0x65, 0x6e, 0x74,
+	0x5f, 0x6e, 0x73, 0x18, 0x01, 0x20, 0x01, 0x28, 0x04, 0x52, 0x06, 0x73, 0x65, 0x6e, 0x74, 0x4e,
+	0x73, 0x12, 0x1d, 0x0a, 0x0a, 0x73, 0x65, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x5f, 0x69, 0x64, 0x18,
+	0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x09, 0x73, 0x65, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x49, 0x64,
+	0x22, 0xa1, 0x01, 0x0a, 0x15, 0x50, 0x61, 0x64, 0x6c, 0x6f, 0x63, 0x6b, 0x4d, 0x65, 0x73, 0x73,
+	0x61, 0x67, 0x65, 0x50, 0x61, 0x79, 0x6c, 0x6f, 0x61, 0x64, 0x12, 0x27, 0x0a, 0x0f, 0x6d, 0x65,
+	0x73, 0x73, 0x61, 0x67, 0x65, 0x5f, 0x76, 0x65, 0x72, 0x73, 0x69, 0x6f, 0x6e, 0x18, 0x01, 0x20,
+	0x01, 0x28, 0x0d, 0x52, 0x0e, 0x6d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x56, 0x65, 0x72, 0x73,
+	0x69, 0x6f, 0x6e, 0x12, 0x1f, 0x0a, 0x0b, 0x68, 0x65, 0x61, 0x64, 0x65, 0x72, 0x5f, 0x68, 0x61,
+	0x73, 0x68, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0c, 0x52, 0x0a, 0x68, 0x65, 0x61, 0x64, 0x65, 0x72,
+	0x48, 0x61, 0x73, 0x68, 0x12, 0x19, 0x0a, 0x08, 0x63, 0x6f, 0x6e, 0x76, 0x6f, 0x5f, 0x69, 0x64,
+	0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x63, 0x6f, 0x6e, 0x76, 0x6f, 0x49, 0x64, 0x12,
+	0x23, 0x0a, 0x0d, 0x63, 0x6f, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x5f, 0x62, 0x79, 0x74, 0x65, 0x73,
+	0x18, 0x04, 0x20, 0x01, 0x28, 0x0c, 0x52, 0x0c, 0x63, 0x6f, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x42,
+	0x79, 0x74, 0x65, 0x73, 0x22, 0x5b, 0x0a, 0x16, 0x50, 0x61, 0x64, 0x6c, 0x6f, 0x63, 0x6b, 0x4d,
+	0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x45, 0x6e, 0x76, 0x65, 0x6c, 0x6f, 0x70, 0x65, 0x12, 0x21,
+	0x0a, 0x0c, 0x68, 0x65, 0x61, 0x64, 0x65, 0x72, 0x5f, 0x62, 0x79, 0x74, 0x65, 0x73, 0x18, 0x01,
+	0x20, 0x01, 0x28, 0x0c, 0x52, 0x0b, 0x68, 0x65, 0x61, 0x64, 0x65, 0x72, 0x42, 0x79, 0x74, 0x65,
+	0x73, 0x12, 0x1e, 0x0a, 0x0a, 0x63, 0x69, 0x70, 0x68, 0x65, 0x72, 0x74, 0x65, 0x78, 0x74, 0x18,
+	0x02, 0x20, 0x01, 0x28, 0x0c, 0x52, 0x0a, 0x63, 0x69, 0x70, 0x68, 0x65, 0x72, 0x74, 0x65, 0x78,
+	0x74, 0x42, 0x4f, 0x0a, 0x1f, 0x6f, 0x72, 0x67, 0x2e, 0x78, 0x6d, 0x74, 0x70, 0x2e, 0x70, 0x72,
+	0x6f, 0x74, 0x6f, 0x2e, 0x6d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x2e, 0x63, 0x6f, 0x6e, 0x74,
+	0x65, 0x6e, 0x74, 0x73, 0x5a, 0x2c, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d,
+	0x2f, 0x78, 0x6d, 0x74, 0x70, 0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2f, 0x76, 0x33, 0x2f, 0x67,
+	0x6f, 0x2f, 0x6d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x5f, 0x63, 0x6f, 0x6e, 0x74, 0x65, 0x6e,
+	0x74, 0x73, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -544,31 +763,34 @@ func file_message_contents_message_proto_rawDescGZIP() []byte {
 	return file_message_contents_message_proto_rawDescData
 }
 
-var file_message_contents_message_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
+var file_message_contents_message_proto_msgTypes = make([]protoimpl.MessageInfo, 9)
 var file_message_contents_message_proto_goTypes = []interface{}{
-	(*MessageHeaderV1)(nil),       // 0: xmtp.message_contents.MessageHeaderV1
-	(*MessageV1)(nil),             // 1: xmtp.message_contents.MessageV1
-	(*MessageHeaderV2)(nil),       // 2: xmtp.message_contents.MessageHeaderV2
-	(*MessageV2)(nil),             // 3: xmtp.message_contents.MessageV2
-	(*Message)(nil),               // 4: xmtp.message_contents.Message
-	(*DecodedMessage)(nil),        // 5: xmtp.message_contents.DecodedMessage
-	(*PublicKeyBundle)(nil),       // 6: xmtp.message_contents.PublicKeyBundle
-	(*Ciphertext)(nil),            // 7: xmtp.message_contents.Ciphertext
-	(*ConversationReference)(nil), // 8: xmtp.message_contents.ConversationReference
+	(*MessageHeaderV1)(nil),        // 0: xmtp.message_contents.MessageHeaderV1
+	(*MessageV1)(nil),              // 1: xmtp.message_contents.MessageV1
+	(*MessageHeaderV2)(nil),        // 2: xmtp.message_contents.MessageHeaderV2
+	(*MessageV2)(nil),              // 3: xmtp.message_contents.MessageV2
+	(*Message)(nil),                // 4: xmtp.message_contents.Message
+	(*DecodedMessage)(nil),         // 5: xmtp.message_contents.DecodedMessage
+	(*PadlockMessageHeader)(nil),   // 6: xmtp.message_contents.PadlockMessageHeader
+	(*PadlockMessagePayload)(nil),  // 7: xmtp.message_contents.PadlockMessagePayload
+	(*PadlockMessageEnvelope)(nil), // 8: xmtp.message_contents.PadlockMessageEnvelope
+	(*PublicKeyBundle)(nil),        // 9: xmtp.message_contents.PublicKeyBundle
+	(*Ciphertext)(nil),             // 10: xmtp.message_contents.Ciphertext
+	(*ConversationReference)(nil),  // 11: xmtp.message_contents.ConversationReference
 }
 var file_message_contents_message_proto_depIdxs = []int32{
-	6, // 0: xmtp.message_contents.MessageHeaderV1.sender:type_name -> xmtp.message_contents.PublicKeyBundle
-	6, // 1: xmtp.message_contents.MessageHeaderV1.recipient:type_name -> xmtp.message_contents.PublicKeyBundle
-	7, // 2: xmtp.message_contents.MessageV1.ciphertext:type_name -> xmtp.message_contents.Ciphertext
-	7, // 3: xmtp.message_contents.MessageV2.ciphertext:type_name -> xmtp.message_contents.Ciphertext
-	1, // 4: xmtp.message_contents.Message.v1:type_name -> xmtp.message_contents.MessageV1
-	3, // 5: xmtp.message_contents.Message.v2:type_name -> xmtp.message_contents.MessageV2
-	8, // 6: xmtp.message_contents.DecodedMessage.conversation:type_name -> xmtp.message_contents.ConversationReference
-	7, // [7:7] is the sub-list for method output_type
-	7, // [7:7] is the sub-list for method input_type
-	7, // [7:7] is the sub-list for extension type_name
-	7, // [7:7] is the sub-list for extension extendee
-	0, // [0:7] is the sub-list for field type_name
+	9,  // 0: xmtp.message_contents.MessageHeaderV1.sender:type_name -> xmtp.message_contents.PublicKeyBundle
+	9,  // 1: xmtp.message_contents.MessageHeaderV1.recipient:type_name -> xmtp.message_contents.PublicKeyBundle
+	10, // 2: xmtp.message_contents.MessageV1.ciphertext:type_name -> xmtp.message_contents.Ciphertext
+	10, // 3: xmtp.message_contents.MessageV2.ciphertext:type_name -> xmtp.message_contents.Ciphertext
+	1,  // 4: xmtp.message_contents.Message.v1:type_name -> xmtp.message_contents.MessageV1
+	3,  // 5: xmtp.message_contents.Message.v2:type_name -> xmtp.message_contents.MessageV2
+	11, // 6: xmtp.message_contents.DecodedMessage.conversation:type_name -> xmtp.message_contents.ConversationReference
+	7,  // [7:7] is the sub-list for method output_type
+	7,  // [7:7] is the sub-list for method input_type
+	7,  // [7:7] is the sub-list for extension type_name
+	7,  // [7:7] is the sub-list for extension extendee
+	0,  // [0:7] is the sub-list for field type_name
 }
 
 func init() { file_message_contents_message_proto_init() }
@@ -652,6 +874,42 @@ func file_message_contents_message_proto_init() {
 				return nil
 			}
 		}
+		file_message_contents_message_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*PadlockMessageHeader); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_message_contents_message_proto_msgTypes[7].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*PadlockMessagePayload); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_message_contents_message_proto_msgTypes[8].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*PadlockMessageEnvelope); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	file_message_contents_message_proto_msgTypes[4].OneofWrappers = []interface{}{
 		(*Message_V1)(nil),
@@ -664,7 +922,7 @@ func file_message_contents_message_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_message_contents_message_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   6,
+			NumMessages:   9,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

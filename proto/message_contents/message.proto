@@ -68,3 +68,37 @@ message DecodedMessage {
     ConversationReference conversation = 7;
     bytes content_bytes = 8;  // encapsulates EncodedContent
 }
+
+// Plaintext header included with messages, visible to all
+message PadlockMessageHeader {
+    uint64 sent_ns = 1;
+    // The session_id is derived via SHA256. Any other identifier will leak the
+    // sender of the message.
+    string session_id = 2;
+}
+
+// Encrypted body included with messages, only visible to recipients
+// - For safety, the sender_account_id and sender_installation_id MUST be
+//   derived from the session_id in the header by each installation receiving
+//   the message
+// - The recipient is unnecessary to include here - the recipient at the session
+//   level is the receiving installation, and the recipient at the conversation
+//   level is whoever is in the conversation referred to by convo_id (multiple
+//   people in the case of groups)
+// - The recipient installation MUST cross-check that the sender_account_id is a
+//   valid participant of the conversation referred to by convo_id
+// - The recipient installation MUST validate that the MessageHeader hashes to
+//   the header_hash.
+//   TODO is that sufficient to replace the AssociatedData in v2?
+message PadlockMessagePayload {
+    uint32 message_version = 1;
+    bytes header_hash = 2;      // PadlockMessageHeader 
+    string convo_id = 3;
+    bytes content_bytes = 4;    // EncodedContent
+}
+
+// Combines the plaintext header with the encrypted payload
+message PadlockMessageEnvelope {
+    bytes header_bytes = 1;     // PadlockMessageHeader
+    bytes ciphertext = 2;       // Encrypted PadlockMessagePayload
+}

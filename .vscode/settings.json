@@ -4,5 +4,7 @@
         "options": [
             "--proto_path=build/tmp/vendor",
         ]
-    }
+    },
+    // protolint complains if lines are longer than length 80, display a ruler
+    "editor.rulers": [80]
 }
