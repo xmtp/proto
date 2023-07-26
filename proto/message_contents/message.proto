@@ -87,6 +87,11 @@ message PadlockMessageHeader {
     bytes sealed_metadata = 2;  // PadlockMessageSealedMetadata
 }
 
+// The version used for the decrypted padlock message payload
+enum PadlockMessagePayloadVersion {
+    PADLOCK_MESSAGE_PAYLOAD_VERSION_ZERO = 0;
+}
+
 // Encrypted body included with messages, only visible to recipients
 // When receiving a message:
 // 1. Decrypt the sealed metadata in the header via SealedSender
@@ -103,7 +108,7 @@ message PadlockMessageHeader {
 // 6. Verify that both the sender_user and recipient_user are partipants of the
 //    conversation referenced by convo_id
 message PadlockMessagePayload {
-    uint32 message_version = 1;
+    PadlockMessagePayloadVersion message_version = 1;
     bytes header_signature = 2; // Signature for PadlockMessageHeader 
     string convo_id = 3;
     bytes content_bytes = 4;    // EncodedContent
