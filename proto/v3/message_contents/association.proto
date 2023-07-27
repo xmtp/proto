@@ -28,5 +28,5 @@ message RecoverableEcdsaSignature {
 
 // EdDSA signature bytes matching RFC 8032
 message EdDsaSignature {
-    bytes byte = 1;
+    bytes bytes = 1;
 }
