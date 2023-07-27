@@ -5,7 +5,7 @@ RUN apt-get update && \
 
 COPY protoc.sh /opt/protoc
 
-RUN dart pub global activate protoc_plugin
+RUN dart pub global activate protoc_plugin 20.0.1
 ENV PATH ${PATH}:/root/.pub-cache/bin
 
 RUN mkdir -p /opt/proto && \
