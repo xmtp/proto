@@ -41,17 +41,16 @@ enum PadlockMessagePayloadVersion {
 // 2. Find the relevant session using the sender_user_address and
 //    sender_installation_id in the unsealed metadata
 // 3. Use the session to decrypt the payload
-// 4. Verify that the header_signature in the decrypted payload matches the
-//    header bytes
-// 5. Verify that the signer of the header_signature matches the
+// 4. Verify that the header_signature in the decrypted payload was produced by
+//    signing the header_bytes with the ed25519 key matching the
 //    sender_installation_id
-// 6. Verify that both the sender_user and recipient_user are partipants of the
+// 5. Verify that both the sender_user and recipient_user are partipants of the
 //    conversation referenced by convo_id
 message PadlockMessagePayload {
     PadlockMessagePayloadVersion message_version = 1;
-    RecoverableEcdsaSignature header_signature = 2; // Sign PadlockMessageHeader
+    EdDsaSignature header_signature = 2;    // Signs PadlockMessageHeader
     string convo_id = 3;
-    bytes content_bytes = 4;    // EncodedContent
+    bytes content_bytes = 4;                // EncodedContent
 }
 
 // Combines the plaintext header with the encrypted payload

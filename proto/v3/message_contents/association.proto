@@ -25,3 +25,8 @@ message RecoverableEcdsaSignature {
     // Includes recovery id as the last byte
     bytes bytes = 1;
 }
+
+// EdDSA signature bytes matching RFC 8032
+message EdDsaSignature {
+    bytes byte = 1;
+}
