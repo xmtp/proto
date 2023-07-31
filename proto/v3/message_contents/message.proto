@@ -16,6 +16,7 @@ message PadlockMessageSealedMetadata {
     string sender_installation_id = 2;
     string recipient_user_address = 3;
     string recipient_installation_id = 4;
+    bool is_prekey_message = 5;
 }
 
 // Plaintext header included with messages, visible to all
