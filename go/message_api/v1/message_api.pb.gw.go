@@ -90,9 +90,9 @@ func request_MessageApi_Subscribe_0(ctx context.Context, marshaler runtime.Marsh
 
 }
 
-func request_MessageApi_SubscribeV2_0(ctx context.Context, marshaler runtime.Marshaler, client MessageApiClient, req *http.Request, pathParams map[string]string) (MessageApi_SubscribeV2Client, runtime.ServerMetadata, error) {
+func request_MessageApi_Subscribe2_0(ctx context.Context, marshaler runtime.Marshaler, client MessageApiClient, req *http.Request, pathParams map[string]string) (MessageApi_Subscribe2Client, runtime.ServerMetadata, error) {
 	var metadata runtime.ServerMetadata
-	stream, err := client.SubscribeV2(ctx)
+	stream, err := client.Subscribe2(ctx)
 	if err != nil {
 		grpclog.Infof("Failed to start streaming: %v", err)
 		return nil, metadata, err
@@ -264,7 +264,7 @@ func RegisterMessageApiHandlerServer(ctx context.Context, mux *runtime.ServeMux,
 		return
 	})
 
-	mux.Handle("POST", pattern_MessageApi_SubscribeV2_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("POST", pattern_MessageApi_Subscribe2_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		err := status.Error(codes.Unimplemented, "streaming calls are not yet supported in the in-process transport")
 		_, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
@@ -413,25 +413,25 @@ func RegisterMessageApiHandlerClient(ctx context.Context, mux *runtime.ServeMux,
 
 	})
 
-	mux.Handle("POST", pattern_MessageApi_SubscribeV2_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("POST", pattern_MessageApi_Subscribe2_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/xmtp.message_api.v1.MessageApi/SubscribeV2", runtime.WithHTTPPathPattern("/xmtp.message_api.v1.MessageApi/SubscribeV2"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/xmtp.message_api.v1.MessageApi/Subscribe2", runtime.WithHTTPPathPattern("/xmtp.message_api.v1.MessageApi/Subscribe2"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := request_MessageApi_SubscribeV2_0(annotatedContext, inboundMarshaler, client, req, pathParams)
+		resp, md, err := request_MessageApi_Subscribe2_0(annotatedContext, inboundMarshaler, client, req, pathParams)
 		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
 		if err != nil {
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
 
-		forward_MessageApi_SubscribeV2_0(annotatedContext, mux, outboundMarshaler, w, req, func() (proto.Message, error) { return resp.Recv() }, mux.GetForwardResponseOptions()...)
+		forward_MessageApi_Subscribe2_0(annotatedContext, mux, outboundMarshaler, w, req, func() (proto.Message, error) { return resp.Recv() }, mux.GetForwardResponseOptions()...)
 
 	})
 
@@ -509,7 +509,7 @@ var (
 
 	pattern_MessageApi_Subscribe_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"message", "v1", "subscribe"}, ""))
 
-	pattern_MessageApi_SubscribeV2_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"xmtp.message_api.v1.MessageApi", "SubscribeV2"}, ""))
+	pattern_MessageApi_Subscribe2_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"xmtp.message_api.v1.MessageApi", "Subscribe2"}, ""))
 
 	pattern_MessageApi_SubscribeAll_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"message", "v1", "subscribe-all"}, ""))
 
@@ -523,7 +523,7 @@ var (
 
 	forward_MessageApi_Subscribe_0 = runtime.ForwardResponseStream
 
-	forward_MessageApi_SubscribeV2_0 = runtime.ForwardResponseStream
+	forward_MessageApi_Subscribe2_0 = runtime.ForwardResponseStream
 
 	forward_MessageApi_SubscribeAll_0 = runtime.ForwardResponseStream
 

@@ -34,7 +34,7 @@ service MessageApi {
     // Subscribe to a stream of new envelopes and your subscription using
     // bidirectional streaming
     // protolint:disable:next RPC_REQUEST_STANDARD_NAME
-    rpc SubscribeV2(stream SubscribeRequest) returns (stream Envelope) {}
+    rpc Subscribe2(stream SubscribeRequest) returns (stream Envelope) {}
     // Subscribe to a stream of all messages
     rpc SubscribeAll(SubscribeAllRequest) returns (stream Envelope) {
         option (google.api.http) = {
