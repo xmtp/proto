@@ -23,6 +23,7 @@ const _ = grpc.SupportPackageIsVersion7
 const (
 	MessageApi_Publish_FullMethodName      = "/xmtp.message_api.v1.MessageApi/Publish"
 	MessageApi_Subscribe_FullMethodName    = "/xmtp.message_api.v1.MessageApi/Subscribe"
+	MessageApi_SubscribeV2_FullMethodName  = "/xmtp.message_api.v1.MessageApi/SubscribeV2"
 	MessageApi_SubscribeAll_FullMethodName = "/xmtp.message_api.v1.MessageApi/SubscribeAll"
 	MessageApi_Query_FullMethodName        = "/xmtp.message_api.v1.MessageApi/Query"
 	MessageApi_BatchQuery_FullMethodName   = "/xmtp.message_api.v1.MessageApi/BatchQuery"
@@ -36,6 +37,10 @@ type MessageApiClient interface {
 	Publish(ctx context.Context, in *PublishRequest, opts ...grpc.CallOption) (*PublishResponse, error)
 	// Subscribe to a stream of new envelopes matching a predicate
 	Subscribe(ctx context.Context, in *SubscribeRequest, opts ...grpc.CallOption) (MessageApi_SubscribeClient, error)
+	// Subscribe to a stream of new envelopes and your subscription using
+	// bidirectional streaming
+	// protolint:disable:next RPC_REQUEST_STANDARD_NAME
+	SubscribeV2(ctx context.Context, opts ...grpc.CallOption) (MessageApi_SubscribeV2Client, error)
 	// Subscribe to a stream of all messages
 	SubscribeAll(ctx context.Context, in *SubscribeAllRequest, opts ...grpc.CallOption) (MessageApi_SubscribeAllClient, error)
 	// Query the store for messages
@@ -93,8 +98,39 @@ func (x *messageApiSubscribeClient) Recv() (*Envelope, error) {
 	return m, nil
 }
 
+func (c *messageApiClient) SubscribeV2(ctx context.Context, opts ...grpc.CallOption) (MessageApi_SubscribeV2Client, error) {
+	stream, err := c.cc.NewStream(ctx, &MessageApi_ServiceDesc.Streams[1], MessageApi_SubscribeV2_FullMethodName, opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &messageApiSubscribeV2Client{stream}
+	return x, nil
+}
+
+type MessageApi_SubscribeV2Client interface {
+	Send(*SubscribeRequest) error
+	Recv() (*Envelope, error)
+	grpc.ClientStream
+}
+
+type messageApiSubscribeV2Client struct {
+	grpc.ClientStream
+}
+
+func (x *messageApiSubscribeV2Client) Send(m *SubscribeRequest) error {
+	return x.ClientStream.SendMsg(m)
+}
+
+func (x *messageApiSubscribeV2Client) Recv() (*Envelope, error) {
+	m := new(Envelope)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
 func (c *messageApiClient) SubscribeAll(ctx context.Context, in *SubscribeAllRequest, opts ...grpc.CallOption) (MessageApi_SubscribeAllClient, error) {
-	stream, err := c.cc.NewStream(ctx, &MessageApi_ServiceDesc.Streams[1], MessageApi_SubscribeAll_FullMethodName, opts...)
+	stream, err := c.cc.NewStream(ctx, &MessageApi_ServiceDesc.Streams[2], MessageApi_SubscribeAll_FullMethodName, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -151,6 +187,10 @@ type MessageApiServer interface {
 	Publish(context.Context, *PublishRequest) (*PublishResponse, error)
 	// Subscribe to a stream of new envelopes matching a predicate
 	Subscribe(*SubscribeRequest, MessageApi_SubscribeServer) error
+	// Subscribe to a stream of new envelopes and your subscription using
+	// bidirectional streaming
+	// protolint:disable:next RPC_REQUEST_STANDARD_NAME
+	SubscribeV2(MessageApi_SubscribeV2Server) error
 	// Subscribe to a stream of all messages
 	SubscribeAll(*SubscribeAllRequest, MessageApi_SubscribeAllServer) error
 	// Query the store for messages
@@ -169,6 +209,9 @@ func (UnimplementedMessageApiServer) Publish(context.Context, *PublishRequest) (
 }
 func (UnimplementedMessageApiServer) Subscribe(*SubscribeRequest, MessageApi_SubscribeServer) error {
 	return status.Errorf(codes.Unimplemented, "method Subscribe not implemented")
+}
+func (UnimplementedMessageApiServer) SubscribeV2(MessageApi_SubscribeV2Server) error {
+	return status.Errorf(codes.Unimplemented, "method SubscribeV2 not implemented")
 }
 func (UnimplementedMessageApiServer) SubscribeAll(*SubscribeAllRequest, MessageApi_SubscribeAllServer) error {
 	return status.Errorf(codes.Unimplemented, "method SubscribeAll not implemented")
@@ -229,6 +272,32 @@ type messageApiSubscribeServer struct {
 
 func (x *messageApiSubscribeServer) Send(m *Envelope) error {
 	return x.ServerStream.SendMsg(m)
+}
+
+func _MessageApi_SubscribeV2_Handler(srv interface{}, stream grpc.ServerStream) error {
+	return srv.(MessageApiServer).SubscribeV2(&messageApiSubscribeV2Server{stream})
+}
+
+type MessageApi_SubscribeV2Server interface {
+	Send(*Envelope) error
+	Recv() (*SubscribeRequest, error)
+	grpc.ServerStream
+}
+
+type messageApiSubscribeV2Server struct {
+	grpc.ServerStream
+}
+
+func (x *messageApiSubscribeV2Server) Send(m *Envelope) error {
+	return x.ServerStream.SendMsg(m)
+}
+
+func (x *messageApiSubscribeV2Server) Recv() (*SubscribeRequest, error) {
+	m := new(SubscribeRequest)
+	if err := x.ServerStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
 }
 
 func _MessageApi_SubscribeAll_Handler(srv interface{}, stream grpc.ServerStream) error {
@@ -313,6 +382,12 @@ var MessageApi_ServiceDesc = grpc.ServiceDesc{
 			StreamName:    "Subscribe",
 			Handler:       _MessageApi_Subscribe_Handler,
 			ServerStreams: true,
+		},
+		{
+			StreamName:    "SubscribeV2",
+			Handler:       _MessageApi_SubscribeV2_Handler,
+			ServerStreams: true,
+			ClientStreams: true,
 		},
 		{
 			StreamName:    "SubscribeAll",
