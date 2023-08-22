@@ -8,8 +8,8 @@ import "protoc-gen-openapiv2/options/annotations.proto";
 option go_package = "github.com/xmtp/proto/v3/go/message_api/v1";
 option java_package = "org.xmtp.proto.message.api.v1";
 option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
-    info : {title : "MessageApi";
-version : "1.0";
+    info: { title: "MessageApi";
+version: "1.0";
 }
 ;
 }
@@ -20,15 +20,15 @@ service MessageApi {
     // Publish messages to the network
     rpc Publish(PublishRequest) returns (PublishResponse) {
         option (google.api.http) = {
-            post : "/message/v1/publish"
-            body : "*"
+            post: "/message/v1/publish"
+            body: "*"
         };
     }
     // Subscribe to a stream of new envelopes matching a predicate
     rpc Subscribe(SubscribeRequest) returns (stream Envelope) {
         option (google.api.http) = {
-            post : "/message/v1/subscribe"
-            body : "*"
+            post: "/message/v1/subscribe"
+            body: "*"
         };
     }
     // Subscribe to a stream of new envelopes and your subscription using
@@ -38,22 +38,22 @@ service MessageApi {
     // Subscribe to a stream of all messages
     rpc SubscribeAll(SubscribeAllRequest) returns (stream Envelope) {
         option (google.api.http) = {
-            post : "/message/v1/subscribe-all"
-            body : "*"
+            post: "/message/v1/subscribe-all"
+            body: "*"
         };
     }
     // Query the store for messages
     rpc Query(QueryRequest) returns (QueryResponse) {
         option (google.api.http) = {
-            post : "/message/v1/query"
-            body : "*"
+            post: "/message/v1/query"
+            body: "*"
         };
     }
     // BatchQuery containing a set of queries to be processed
     rpc BatchQuery(BatchQueryRequest) returns (BatchQueryResponse) {
         option (google.api.http) = {
-            post : "/message/v1/batch-query"
-            body : "*"
+            post: "/message/v1/batch-query"
+            body: "*"
         };
     }
 }
@@ -78,7 +78,9 @@ message Cursor {
     // Making the cursor a one-of type, as I would like to change the way we
     // handle pagination to use a precomputed sort field.
     // This way we can handle both methods
-    oneof cursor { IndexCursor index = 1; }
+    oneof cursor {
+        IndexCursor index = 1;
+    }
 }
 
 // This is based off of the go-waku PagingInfo struct, but with the direction
@@ -104,13 +106,17 @@ message Envelope {
 }
 
 // Publish
-message PublishRequest { repeated Envelope envelopes = 1; }
+message PublishRequest {
+    repeated Envelope envelopes = 1;
+}
 
 // Empty message as a response for Publish
 message PublishResponse {}
 
 // Subscribe
-message SubscribeRequest { repeated string content_topics = 1; }
+message SubscribeRequest {
+    repeated string content_topics = 1;
+}
 
 // SubscribeAll
 message SubscribeAllRequest {}
@@ -130,7 +136,11 @@ message QueryResponse {
 }
 
 // BatchQuery
-message BatchQueryRequest { repeated QueryRequest requests = 1; }
+message BatchQueryRequest {
+    repeated QueryRequest requests = 1;
+}
 
 // Response containing a list of QueryResponse messages
-message BatchQueryResponse { repeated QueryResponse responses = 1; }
+message BatchQueryResponse {
+    repeated QueryResponse responses = 1;
+}
