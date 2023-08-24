@@ -36,7 +36,6 @@ type SignedPrivateKey struct {
 	// private key
 	//
 	// Types that are assignable to Union:
-	//
 	//	*SignedPrivateKey_Secp256K1_
 	Union isSignedPrivateKey_Union `protobuf_oneof:"union"`
 	// public key for this private key
@@ -182,7 +181,6 @@ type PrivateKey struct {
 	// private key
 	//
 	// Types that are assignable to Union:
-	//
 	//	*PrivateKey_Secp256K1_
 	Union isPrivateKey_Union `protobuf_oneof:"union"`
 	// public key for this private key
@@ -323,7 +321,6 @@ type PrivateKeyBundle struct {
 	unknownFields protoimpl.UnknownFields
 
 	// Types that are assignable to Version:
-	//
 	//	*PrivateKeyBundle_V1
 	//	*PrivateKeyBundle_V2
 	Version isPrivateKeyBundle_Version `protobuf_oneof:"version"`
@@ -467,7 +464,6 @@ type EncryptedPrivateKeyBundle struct {
 	unknownFields protoimpl.UnknownFields
 
 	// Types that are assignable to Version:
-	//
 	//	*EncryptedPrivateKeyBundle_V1
 	Version isEncryptedPrivateKeyBundle_Version `protobuf_oneof:"version"`
 }

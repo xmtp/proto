@@ -77,7 +77,6 @@ type Composite_Part struct {
 	unknownFields protoimpl.UnknownFields
 
 	// Types that are assignable to Element:
-	//
 	//	*Composite_Part_Part
 	//	*Composite_Part_Composite
 	Element isComposite_Part_Element `protobuf_oneof:"element"`
