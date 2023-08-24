@@ -73,6 +73,56 @@ func (ErrorCode) EnumDescriptor() ([]byte, []int) {
 	return file_keystore_api_v1_keystore_proto_rawDescGZIP(), []int{0}
 }
 
+// JobType is used to specify the type of job the caller would like info on
+type JobType int32
+
+const (
+	JobType_JOB_TYPE_UNSPECIFIED JobType = 0
+	JobType_JOB_TYPE_REFRESH_V1  JobType = 1
+	JobType_JOB_TYPE_REFRESH_V2  JobType = 2
+)
+
+// Enum value maps for JobType.
+var (
+	JobType_name = map[int32]string{
+		0: "JOB_TYPE_UNSPECIFIED",
+		1: "JOB_TYPE_REFRESH_V1",
+		2: "JOB_TYPE_REFRESH_V2",
+	}
+	JobType_value = map[string]int32{
+		"JOB_TYPE_UNSPECIFIED": 0,
+		"JOB_TYPE_REFRESH_V1":  1,
+		"JOB_TYPE_REFRESH_V2":  2,
+	}
+)
+
+func (x JobType) Enum() *JobType {
+	p := new(JobType)
+	*p = x
+	return p
+}
+
+func (x JobType) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (JobType) Descriptor() protoreflect.EnumDescriptor {
+	return file_keystore_api_v1_keystore_proto_enumTypes[1].Descriptor()
+}
+
+func (JobType) Type() protoreflect.EnumType {
+	return &file_keystore_api_v1_keystore_proto_enumTypes[1]
+}
+
+func (x JobType) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use JobType.Descriptor instead.
+func (JobType) EnumDescriptor() ([]byte, []int) {
+	return file_keystore_api_v1_keystore_proto_rawDescGZIP(), []int{1}
+}
+
 // Status of the Keystore for the specified wallet address
 type GetKeystoreStatusResponse_KeystoreStatus int32
 
@@ -107,11 +157,11 @@ func (x GetKeystoreStatusResponse_KeystoreStatus) String() string {
 }
 
 func (GetKeystoreStatusResponse_KeystoreStatus) Descriptor() protoreflect.EnumDescriptor {
-	return file_keystore_api_v1_keystore_proto_enumTypes[1].Descriptor()
+	return file_keystore_api_v1_keystore_proto_enumTypes[2].Descriptor()
 }
 
 func (GetKeystoreStatusResponse_KeystoreStatus) Type() protoreflect.EnumType {
-	return &file_keystore_api_v1_keystore_proto_enumTypes[1]
+	return &file_keystore_api_v1_keystore_proto_enumTypes[2]
 }
 
 func (x GetKeystoreStatusResponse_KeystoreStatus) Number() protoreflect.EnumNumber {
@@ -120,7 +170,7 @@ func (x GetKeystoreStatusResponse_KeystoreStatus) Number() protoreflect.EnumNumb
 
 // Deprecated: Use GetKeystoreStatusResponse_KeystoreStatus.Descriptor instead.
 func (GetKeystoreStatusResponse_KeystoreStatus) EnumDescriptor() ([]byte, []int) {
-	return file_keystore_api_v1_keystore_proto_rawDescGZIP(), []int{17, 0}
+	return file_keystore_api_v1_keystore_proto_rawDescGZIP(), []int{16, 0}
 }
 
 // Wrapper class for errors from the Keystore API
@@ -531,135 +581,6 @@ func (x *CreateInviteRequest) GetCreatedNs() uint64 {
 	return 0
 }
 
-// Request to create an invite payload from an existing topic, and store the
-// topic keys in the Keystore
-type CreateInviteFromTopicRequest struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	Recipient    *message_contents.SignedPublicKeyBundle `protobuf:"bytes,1,opt,name=recipient,proto3" json:"recipient,omitempty"`
-	ContentTopic string                                  `protobuf:"bytes,2,opt,name=content_topic,json=contentTopic,proto3" json:"content_topic,omitempty"`
-	CreatedNs    uint64                                  `protobuf:"varint,3,opt,name=created_ns,json=createdNs,proto3" json:"created_ns,omitempty"`
-}
-
-func (x *CreateInviteFromTopicRequest) Reset() {
-	*x = CreateInviteFromTopicRequest{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_keystore_api_v1_keystore_proto_msgTypes[8]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *CreateInviteFromTopicRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*CreateInviteFromTopicRequest) ProtoMessage() {}
-
-func (x *CreateInviteFromTopicRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_keystore_api_v1_keystore_proto_msgTypes[8]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use CreateInviteFromTopicRequest.ProtoReflect.Descriptor instead.
-func (*CreateInviteFromTopicRequest) Descriptor() ([]byte, []int) {
-	return file_keystore_api_v1_keystore_proto_rawDescGZIP(), []int{8}
-}
-
-func (x *CreateInviteFromTopicRequest) GetRecipient() *message_contents.SignedPublicKeyBundle {
-	if x != nil {
-		return x.Recipient
-	}
-	return nil
-}
-
-func (x *CreateInviteFromTopicRequest) GetContentTopic() string {
-	if x != nil {
-		return x.ContentTopic
-	}
-	return ""
-}
-
-func (x *CreateInviteFromTopicRequest) GetCreatedNs() uint64 {
-	if x != nil {
-		return x.CreatedNs
-	}
-	return 0
-}
-
-// Request to create an invite payload, and store the topic keys in the Keystore
-type CreateInvitesRequest struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	Context    *message_contents.InvitationV1_Context    `protobuf:"bytes,1,opt,name=context,proto3" json:"context,omitempty"`
-	Recipients []*message_contents.SignedPublicKeyBundle `protobuf:"bytes,2,rep,name=recipients,proto3" json:"recipients,omitempty"`
-	CreatedNs  uint64                                    `protobuf:"varint,3,opt,name=created_ns,json=createdNs,proto3" json:"created_ns,omitempty"`
-}
-
-func (x *CreateInvitesRequest) Reset() {
-	*x = CreateInvitesRequest{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_keystore_api_v1_keystore_proto_msgTypes[9]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *CreateInvitesRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*CreateInvitesRequest) ProtoMessage() {}
-
-func (x *CreateInvitesRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_keystore_api_v1_keystore_proto_msgTypes[9]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use CreateInvitesRequest.ProtoReflect.Descriptor instead.
-func (*CreateInvitesRequest) Descriptor() ([]byte, []int) {
-	return file_keystore_api_v1_keystore_proto_rawDescGZIP(), []int{9}
-}
-
-func (x *CreateInvitesRequest) GetContext() *message_contents.InvitationV1_Context {
-	if x != nil {
-		return x.Context
-	}
-	return nil
-}
-
-func (x *CreateInvitesRequest) GetRecipients() []*message_contents.SignedPublicKeyBundle {
-	if x != nil {
-		return x.Recipients
-	}
-	return nil
-}
-
-func (x *CreateInvitesRequest) GetCreatedNs() uint64 {
-	if x != nil {
-		return x.CreatedNs
-	}
-	return 0
-}
-
 // Response to a CreateInviteRequest
 type CreateInviteResponse struct {
 	state         protoimpl.MessageState
@@ -673,7 +594,7 @@ type CreateInviteResponse struct {
 func (x *CreateInviteResponse) Reset() {
 	*x = CreateInviteResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_keystore_api_v1_keystore_proto_msgTypes[10]
+		mi := &file_keystore_api_v1_keystore_proto_msgTypes[8]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -686,7 +607,7 @@ func (x *CreateInviteResponse) String() string {
 func (*CreateInviteResponse) ProtoMessage() {}
 
 func (x *CreateInviteResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_keystore_api_v1_keystore_proto_msgTypes[10]
+	mi := &file_keystore_api_v1_keystore_proto_msgTypes[8]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -699,7 +620,7 @@ func (x *CreateInviteResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateInviteResponse.ProtoReflect.Descriptor instead.
 func (*CreateInviteResponse) Descriptor() ([]byte, []int) {
-	return file_keystore_api_v1_keystore_proto_rawDescGZIP(), []int{10}
+	return file_keystore_api_v1_keystore_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *CreateInviteResponse) GetConversation() *message_contents.ConversationReference {
@@ -716,54 +637,6 @@ func (x *CreateInviteResponse) GetPayload() []byte {
 	return nil
 }
 
-// Response to a CreateInvitesRequest
-type CreateInvitesResponse struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	Responses []*CreateInviteResponse `protobuf:"bytes,1,rep,name=responses,proto3" json:"responses,omitempty"`
-}
-
-func (x *CreateInvitesResponse) Reset() {
-	*x = CreateInvitesResponse{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_keystore_api_v1_keystore_proto_msgTypes[11]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *CreateInvitesResponse) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*CreateInvitesResponse) ProtoMessage() {}
-
-func (x *CreateInvitesResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_keystore_api_v1_keystore_proto_msgTypes[11]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use CreateInvitesResponse.ProtoReflect.Descriptor instead.
-func (*CreateInvitesResponse) Descriptor() ([]byte, []int) {
-	return file_keystore_api_v1_keystore_proto_rawDescGZIP(), []int{11}
-}
-
-func (x *CreateInvitesResponse) GetResponses() []*CreateInviteResponse {
-	if x != nil {
-		return x.Responses
-	}
-	return nil
-}
-
 // Request to save a batch of invite messages to the Keystore
 type SaveInvitesRequest struct {
 	state         protoimpl.MessageState
@@ -776,7 +649,7 @@ type SaveInvitesRequest struct {
 func (x *SaveInvitesRequest) Reset() {
 	*x = SaveInvitesRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_keystore_api_v1_keystore_proto_msgTypes[12]
+		mi := &file_keystore_api_v1_keystore_proto_msgTypes[9]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -789,7 +662,7 @@ func (x *SaveInvitesRequest) String() string {
 func (*SaveInvitesRequest) ProtoMessage() {}
 
 func (x *SaveInvitesRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_keystore_api_v1_keystore_proto_msgTypes[12]
+	mi := &file_keystore_api_v1_keystore_proto_msgTypes[9]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -802,7 +675,7 @@ func (x *SaveInvitesRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SaveInvitesRequest.ProtoReflect.Descriptor instead.
 func (*SaveInvitesRequest) Descriptor() ([]byte, []int) {
-	return file_keystore_api_v1_keystore_proto_rawDescGZIP(), []int{12}
+	return file_keystore_api_v1_keystore_proto_rawDescGZIP(), []int{9}
 }
 
 func (x *SaveInvitesRequest) GetRequests() []*SaveInvitesRequest_Request {
@@ -824,7 +697,7 @@ type SaveInvitesResponse struct {
 func (x *SaveInvitesResponse) Reset() {
 	*x = SaveInvitesResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_keystore_api_v1_keystore_proto_msgTypes[13]
+		mi := &file_keystore_api_v1_keystore_proto_msgTypes[10]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -837,7 +710,7 @@ func (x *SaveInvitesResponse) String() string {
 func (*SaveInvitesResponse) ProtoMessage() {}
 
 func (x *SaveInvitesResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_keystore_api_v1_keystore_proto_msgTypes[13]
+	mi := &file_keystore_api_v1_keystore_proto_msgTypes[10]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -850,7 +723,7 @@ func (x *SaveInvitesResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SaveInvitesResponse.ProtoReflect.Descriptor instead.
 func (*SaveInvitesResponse) Descriptor() ([]byte, []int) {
-	return file_keystore_api_v1_keystore_proto_rawDescGZIP(), []int{13}
+	return file_keystore_api_v1_keystore_proto_rawDescGZIP(), []int{10}
 }
 
 func (x *SaveInvitesResponse) GetResponses() []*SaveInvitesResponse_Response {
@@ -872,7 +745,7 @@ type CreateAuthTokenRequest struct {
 func (x *CreateAuthTokenRequest) Reset() {
 	*x = CreateAuthTokenRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_keystore_api_v1_keystore_proto_msgTypes[14]
+		mi := &file_keystore_api_v1_keystore_proto_msgTypes[11]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -885,7 +758,7 @@ func (x *CreateAuthTokenRequest) String() string {
 func (*CreateAuthTokenRequest) ProtoMessage() {}
 
 func (x *CreateAuthTokenRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_keystore_api_v1_keystore_proto_msgTypes[14]
+	mi := &file_keystore_api_v1_keystore_proto_msgTypes[11]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -898,7 +771,7 @@ func (x *CreateAuthTokenRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateAuthTokenRequest.ProtoReflect.Descriptor instead.
 func (*CreateAuthTokenRequest) Descriptor() ([]byte, []int) {
-	return file_keystore_api_v1_keystore_proto_rawDescGZIP(), []int{14}
+	return file_keystore_api_v1_keystore_proto_rawDescGZIP(), []int{11}
 }
 
 func (x *CreateAuthTokenRequest) GetTimestampNs() uint64 {
@@ -908,8 +781,9 @@ func (x *CreateAuthTokenRequest) GetTimestampNs() uint64 {
 	return 0
 }
 
-// Response for GetV2Conversations
-type GetV2ConversationsResponse struct {
+// SaveV1ConversationsRequest is used to save a batch of conversations to the
+// built in persistence
+type SaveV1ConversationsRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
@@ -917,23 +791,23 @@ type GetV2ConversationsResponse struct {
 	Conversations []*message_contents.ConversationReference `protobuf:"bytes,1,rep,name=conversations,proto3" json:"conversations,omitempty"`
 }
 
-func (x *GetV2ConversationsResponse) Reset() {
-	*x = GetV2ConversationsResponse{}
+func (x *SaveV1ConversationsRequest) Reset() {
+	*x = SaveV1ConversationsRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_keystore_api_v1_keystore_proto_msgTypes[15]
+		mi := &file_keystore_api_v1_keystore_proto_msgTypes[12]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
 }
 
-func (x *GetV2ConversationsResponse) String() string {
+func (x *SaveV1ConversationsRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*GetV2ConversationsResponse) ProtoMessage() {}
+func (*SaveV1ConversationsRequest) ProtoMessage() {}
 
-func (x *GetV2ConversationsResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_keystore_api_v1_keystore_proto_msgTypes[15]
+func (x *SaveV1ConversationsRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_keystore_api_v1_keystore_proto_msgTypes[12]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -944,12 +818,99 @@ func (x *GetV2ConversationsResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use GetV2ConversationsResponse.ProtoReflect.Descriptor instead.
-func (*GetV2ConversationsResponse) Descriptor() ([]byte, []int) {
-	return file_keystore_api_v1_keystore_proto_rawDescGZIP(), []int{15}
+// Deprecated: Use SaveV1ConversationsRequest.ProtoReflect.Descriptor instead.
+func (*SaveV1ConversationsRequest) Descriptor() ([]byte, []int) {
+	return file_keystore_api_v1_keystore_proto_rawDescGZIP(), []int{12}
 }
 
-func (x *GetV2ConversationsResponse) GetConversations() []*message_contents.ConversationReference {
+func (x *SaveV1ConversationsRequest) GetConversations() []*message_contents.ConversationReference {
+	if x != nil {
+		return x.Conversations
+	}
+	return nil
+}
+
+// Placeholder response type for SaveV1Conversations
+type SaveV1ConversationsResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+}
+
+func (x *SaveV1ConversationsResponse) Reset() {
+	*x = SaveV1ConversationsResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_keystore_api_v1_keystore_proto_msgTypes[13]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *SaveV1ConversationsResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SaveV1ConversationsResponse) ProtoMessage() {}
+
+func (x *SaveV1ConversationsResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_keystore_api_v1_keystore_proto_msgTypes[13]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SaveV1ConversationsResponse.ProtoReflect.Descriptor instead.
+func (*SaveV1ConversationsResponse) Descriptor() ([]byte, []int) {
+	return file_keystore_api_v1_keystore_proto_rawDescGZIP(), []int{13}
+}
+
+// Response for GetV2Conversations
+type GetConversationsResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Conversations []*message_contents.ConversationReference `protobuf:"bytes,1,rep,name=conversations,proto3" json:"conversations,omitempty"`
+}
+
+func (x *GetConversationsResponse) Reset() {
+	*x = GetConversationsResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_keystore_api_v1_keystore_proto_msgTypes[14]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetConversationsResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetConversationsResponse) ProtoMessage() {}
+
+func (x *GetConversationsResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_keystore_api_v1_keystore_proto_msgTypes[14]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetConversationsResponse.ProtoReflect.Descriptor instead.
+func (*GetConversationsResponse) Descriptor() ([]byte, []int) {
+	return file_keystore_api_v1_keystore_proto_rawDescGZIP(), []int{14}
+}
+
+func (x *GetConversationsResponse) GetConversations() []*message_contents.ConversationReference {
 	if x != nil {
 		return x.Conversations
 	}
@@ -969,7 +930,7 @@ type GetKeystoreStatusRequest struct {
 func (x *GetKeystoreStatusRequest) Reset() {
 	*x = GetKeystoreStatusRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_keystore_api_v1_keystore_proto_msgTypes[16]
+		mi := &file_keystore_api_v1_keystore_proto_msgTypes[15]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -982,7 +943,7 @@ func (x *GetKeystoreStatusRequest) String() string {
 func (*GetKeystoreStatusRequest) ProtoMessage() {}
 
 func (x *GetKeystoreStatusRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_keystore_api_v1_keystore_proto_msgTypes[16]
+	mi := &file_keystore_api_v1_keystore_proto_msgTypes[15]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -995,7 +956,7 @@ func (x *GetKeystoreStatusRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetKeystoreStatusRequest.ProtoReflect.Descriptor instead.
 func (*GetKeystoreStatusRequest) Descriptor() ([]byte, []int) {
-	return file_keystore_api_v1_keystore_proto_rawDescGZIP(), []int{16}
+	return file_keystore_api_v1_keystore_proto_rawDescGZIP(), []int{15}
 }
 
 func (x *GetKeystoreStatusRequest) GetWalletAddress() string {
@@ -1017,7 +978,7 @@ type GetKeystoreStatusResponse struct {
 func (x *GetKeystoreStatusResponse) Reset() {
 	*x = GetKeystoreStatusResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_keystore_api_v1_keystore_proto_msgTypes[17]
+		mi := &file_keystore_api_v1_keystore_proto_msgTypes[16]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1030,7 +991,7 @@ func (x *GetKeystoreStatusResponse) String() string {
 func (*GetKeystoreStatusResponse) ProtoMessage() {}
 
 func (x *GetKeystoreStatusResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_keystore_api_v1_keystore_proto_msgTypes[17]
+	mi := &file_keystore_api_v1_keystore_proto_msgTypes[16]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1043,7 +1004,7 @@ func (x *GetKeystoreStatusResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetKeystoreStatusResponse.ProtoReflect.Descriptor instead.
 func (*GetKeystoreStatusResponse) Descriptor() ([]byte, []int) {
-	return file_keystore_api_v1_keystore_proto_rawDescGZIP(), []int{17}
+	return file_keystore_api_v1_keystore_proto_rawDescGZIP(), []int{16}
 }
 
 func (x *GetKeystoreStatusResponse) GetStatus() GetKeystoreStatusResponse_KeystoreStatus {
@@ -1061,7 +1022,6 @@ type InitKeystoreRequest struct {
 	unknownFields protoimpl.UnknownFields
 
 	// Types that are assignable to Bundle:
-	//
 	//	*InitKeystoreRequest_V1
 	Bundle isInitKeystoreRequest_Bundle `protobuf_oneof:"bundle"`
 }
@@ -1069,7 +1029,7 @@ type InitKeystoreRequest struct {
 func (x *InitKeystoreRequest) Reset() {
 	*x = InitKeystoreRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_keystore_api_v1_keystore_proto_msgTypes[18]
+		mi := &file_keystore_api_v1_keystore_proto_msgTypes[17]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1082,7 +1042,7 @@ func (x *InitKeystoreRequest) String() string {
 func (*InitKeystoreRequest) ProtoMessage() {}
 
 func (x *InitKeystoreRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_keystore_api_v1_keystore_proto_msgTypes[18]
+	mi := &file_keystore_api_v1_keystore_proto_msgTypes[17]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1095,7 +1055,7 @@ func (x *InitKeystoreRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use InitKeystoreRequest.ProtoReflect.Descriptor instead.
 func (*InitKeystoreRequest) Descriptor() ([]byte, []int) {
-	return file_keystore_api_v1_keystore_proto_rawDescGZIP(), []int{18}
+	return file_keystore_api_v1_keystore_proto_rawDescGZIP(), []int{17}
 }
 
 func (m *InitKeystoreRequest) GetBundle() isInitKeystoreRequest_Bundle {
@@ -1134,7 +1094,7 @@ type InitKeystoreResponse struct {
 func (x *InitKeystoreResponse) Reset() {
 	*x = InitKeystoreResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_keystore_api_v1_keystore_proto_msgTypes[19]
+		mi := &file_keystore_api_v1_keystore_proto_msgTypes[18]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1147,7 +1107,7 @@ func (x *InitKeystoreResponse) String() string {
 func (*InitKeystoreResponse) ProtoMessage() {}
 
 func (x *InitKeystoreResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_keystore_api_v1_keystore_proto_msgTypes[19]
+	mi := &file_keystore_api_v1_keystore_proto_msgTypes[18]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1160,7 +1120,7 @@ func (x *InitKeystoreResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use InitKeystoreResponse.ProtoReflect.Descriptor instead.
 func (*InitKeystoreResponse) Descriptor() ([]byte, []int) {
-	return file_keystore_api_v1_keystore_proto_rawDescGZIP(), []int{19}
+	return file_keystore_api_v1_keystore_proto_rawDescGZIP(), []int{18}
 }
 
 func (x *InitKeystoreResponse) GetError() *KeystoreError {
@@ -1179,7 +1139,6 @@ type SignDigestRequest struct {
 
 	Digest []byte `protobuf:"bytes,1,opt,name=digest,proto3" json:"digest,omitempty"`
 	// Types that are assignable to Signer:
-	//
 	//	*SignDigestRequest_IdentityKey
 	//	*SignDigestRequest_PrekeyIndex
 	Signer isSignDigestRequest_Signer `protobuf_oneof:"signer"`
@@ -1188,7 +1147,7 @@ type SignDigestRequest struct {
 func (x *SignDigestRequest) Reset() {
 	*x = SignDigestRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_keystore_api_v1_keystore_proto_msgTypes[20]
+		mi := &file_keystore_api_v1_keystore_proto_msgTypes[19]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1201,7 +1160,7 @@ func (x *SignDigestRequest) String() string {
 func (*SignDigestRequest) ProtoMessage() {}
 
 func (x *SignDigestRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_keystore_api_v1_keystore_proto_msgTypes[20]
+	mi := &file_keystore_api_v1_keystore_proto_msgTypes[19]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1214,7 +1173,7 @@ func (x *SignDigestRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SignDigestRequest.ProtoReflect.Descriptor instead.
 func (*SignDigestRequest) Descriptor() ([]byte, []int) {
-	return file_keystore_api_v1_keystore_proto_rawDescGZIP(), []int{20}
+	return file_keystore_api_v1_keystore_proto_rawDescGZIP(), []int{19}
 }
 
 func (x *SignDigestRequest) GetDigest() []byte {
@@ -1261,6 +1220,197 @@ func (*SignDigestRequest_IdentityKey) isSignDigestRequest_Signer() {}
 
 func (*SignDigestRequest_PrekeyIndex) isSignDigestRequest_Signer() {}
 
+// GetRefreshJobRequest is used to get the last run time of a refresh job
+type GetRefreshJobRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	JobType JobType `protobuf:"varint,1,opt,name=job_type,json=jobType,proto3,enum=xmtp.keystore_api.v1.JobType" json:"job_type,omitempty"`
+}
+
+func (x *GetRefreshJobRequest) Reset() {
+	*x = GetRefreshJobRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_keystore_api_v1_keystore_proto_msgTypes[20]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetRefreshJobRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetRefreshJobRequest) ProtoMessage() {}
+
+func (x *GetRefreshJobRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_keystore_api_v1_keystore_proto_msgTypes[20]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetRefreshJobRequest.ProtoReflect.Descriptor instead.
+func (*GetRefreshJobRequest) Descriptor() ([]byte, []int) {
+	return file_keystore_api_v1_keystore_proto_rawDescGZIP(), []int{20}
+}
+
+func (x *GetRefreshJobRequest) GetJobType() JobType {
+	if x != nil {
+		return x.JobType
+	}
+	return JobType_JOB_TYPE_UNSPECIFIED
+}
+
+// GetRefreshJobResponse is used to return the last run time of a refresh job
+type GetRefreshJobResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	LastRunNs int64 `protobuf:"varint,1,opt,name=last_run_ns,json=lastRunNs,proto3" json:"last_run_ns,omitempty"`
+}
+
+func (x *GetRefreshJobResponse) Reset() {
+	*x = GetRefreshJobResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_keystore_api_v1_keystore_proto_msgTypes[21]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetRefreshJobResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetRefreshJobResponse) ProtoMessage() {}
+
+func (x *GetRefreshJobResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_keystore_api_v1_keystore_proto_msgTypes[21]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetRefreshJobResponse.ProtoReflect.Descriptor instead.
+func (*GetRefreshJobResponse) Descriptor() ([]byte, []int) {
+	return file_keystore_api_v1_keystore_proto_rawDescGZIP(), []int{21}
+}
+
+func (x *GetRefreshJobResponse) GetLastRunNs() int64 {
+	if x != nil {
+		return x.LastRunNs
+	}
+	return 0
+}
+
+// SetRefreshJobRequest is used to set the last run time of a refresh job
+type SetRefeshJobRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	JobType   JobType `protobuf:"varint,1,opt,name=job_type,json=jobType,proto3,enum=xmtp.keystore_api.v1.JobType" json:"job_type,omitempty"`
+	LastRunNs int64   `protobuf:"varint,2,opt,name=last_run_ns,json=lastRunNs,proto3" json:"last_run_ns,omitempty"`
+}
+
+func (x *SetRefeshJobRequest) Reset() {
+	*x = SetRefeshJobRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_keystore_api_v1_keystore_proto_msgTypes[22]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *SetRefeshJobRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SetRefeshJobRequest) ProtoMessage() {}
+
+func (x *SetRefeshJobRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_keystore_api_v1_keystore_proto_msgTypes[22]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SetRefeshJobRequest.ProtoReflect.Descriptor instead.
+func (*SetRefeshJobRequest) Descriptor() ([]byte, []int) {
+	return file_keystore_api_v1_keystore_proto_rawDescGZIP(), []int{22}
+}
+
+func (x *SetRefeshJobRequest) GetJobType() JobType {
+	if x != nil {
+		return x.JobType
+	}
+	return JobType_JOB_TYPE_UNSPECIFIED
+}
+
+func (x *SetRefeshJobRequest) GetLastRunNs() int64 {
+	if x != nil {
+		return x.LastRunNs
+	}
+	return 0
+}
+
+// SetRefreshJobResponse is an empty response type
+type SetRefreshJobResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+}
+
+func (x *SetRefreshJobResponse) Reset() {
+	*x = SetRefreshJobResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_keystore_api_v1_keystore_proto_msgTypes[23]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *SetRefreshJobResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SetRefreshJobResponse) ProtoMessage() {}
+
+func (x *SetRefreshJobResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_keystore_api_v1_keystore_proto_msgTypes[23]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SetRefreshJobResponse.ProtoReflect.Descriptor instead.
+func (*SetRefreshJobResponse) Descriptor() ([]byte, []int) {
+	return file_keystore_api_v1_keystore_proto_rawDescGZIP(), []int{23}
+}
+
 // A mapping of topics to their decrypted invitations
 type TopicMap struct {
 	state         protoimpl.MessageState
@@ -1273,7 +1423,7 @@ type TopicMap struct {
 func (x *TopicMap) Reset() {
 	*x = TopicMap{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_keystore_api_v1_keystore_proto_msgTypes[21]
+		mi := &file_keystore_api_v1_keystore_proto_msgTypes[24]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1286,7 +1436,7 @@ func (x *TopicMap) String() string {
 func (*TopicMap) ProtoMessage() {}
 
 func (x *TopicMap) ProtoReflect() protoreflect.Message {
-	mi := &file_keystore_api_v1_keystore_proto_msgTypes[21]
+	mi := &file_keystore_api_v1_keystore_proto_msgTypes[24]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1299,7 +1449,7 @@ func (x *TopicMap) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use TopicMap.ProtoReflect.Descriptor instead.
 func (*TopicMap) Descriptor() ([]byte, []int) {
-	return file_keystore_api_v1_keystore_proto_rawDescGZIP(), []int{21}
+	return file_keystore_api_v1_keystore_proto_rawDescGZIP(), []int{24}
 }
 
 func (x *TopicMap) GetTopics() map[string]*TopicMap_TopicData {
@@ -1324,7 +1474,7 @@ type DecryptV1Request_Request struct {
 func (x *DecryptV1Request_Request) Reset() {
 	*x = DecryptV1Request_Request{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_keystore_api_v1_keystore_proto_msgTypes[22]
+		mi := &file_keystore_api_v1_keystore_proto_msgTypes[25]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1337,7 +1487,7 @@ func (x *DecryptV1Request_Request) String() string {
 func (*DecryptV1Request_Request) ProtoMessage() {}
 
 func (x *DecryptV1Request_Request) ProtoReflect() protoreflect.Message {
-	mi := &file_keystore_api_v1_keystore_proto_msgTypes[22]
+	mi := &file_keystore_api_v1_keystore_proto_msgTypes[25]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1388,7 +1538,6 @@ type DecryptResponse_Response struct {
 	unknownFields protoimpl.UnknownFields
 
 	// Types that are assignable to Response:
-	//
 	//	*DecryptResponse_Response_Result
 	//	*DecryptResponse_Response_Error
 	Response isDecryptResponse_Response_Response `protobuf_oneof:"response"`
@@ -1397,7 +1546,7 @@ type DecryptResponse_Response struct {
 func (x *DecryptResponse_Response) Reset() {
 	*x = DecryptResponse_Response{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_keystore_api_v1_keystore_proto_msgTypes[23]
+		mi := &file_keystore_api_v1_keystore_proto_msgTypes[26]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1410,7 +1559,7 @@ func (x *DecryptResponse_Response) String() string {
 func (*DecryptResponse_Response) ProtoMessage() {}
 
 func (x *DecryptResponse_Response) ProtoReflect() protoreflect.Message {
-	mi := &file_keystore_api_v1_keystore_proto_msgTypes[23]
+	mi := &file_keystore_api_v1_keystore_proto_msgTypes[26]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1475,7 +1624,7 @@ type DecryptResponse_Response_Success struct {
 func (x *DecryptResponse_Response_Success) Reset() {
 	*x = DecryptResponse_Response_Success{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_keystore_api_v1_keystore_proto_msgTypes[24]
+		mi := &file_keystore_api_v1_keystore_proto_msgTypes[27]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1488,7 +1637,7 @@ func (x *DecryptResponse_Response_Success) String() string {
 func (*DecryptResponse_Response_Success) ProtoMessage() {}
 
 func (x *DecryptResponse_Response_Success) ProtoReflect() protoreflect.Message {
-	mi := &file_keystore_api_v1_keystore_proto_msgTypes[24]
+	mi := &file_keystore_api_v1_keystore_proto_msgTypes[27]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1525,7 +1674,7 @@ type DecryptV2Request_Request struct {
 func (x *DecryptV2Request_Request) Reset() {
 	*x = DecryptV2Request_Request{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_keystore_api_v1_keystore_proto_msgTypes[25]
+		mi := &file_keystore_api_v1_keystore_proto_msgTypes[28]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1538,7 +1687,7 @@ func (x *DecryptV2Request_Request) String() string {
 func (*DecryptV2Request_Request) ProtoMessage() {}
 
 func (x *DecryptV2Request_Request) ProtoReflect() protoreflect.Message {
-	mi := &file_keystore_api_v1_keystore_proto_msgTypes[25]
+	mi := &file_keystore_api_v1_keystore_proto_msgTypes[28]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1589,7 +1738,7 @@ type EncryptV1Request_Request struct {
 func (x *EncryptV1Request_Request) Reset() {
 	*x = EncryptV1Request_Request{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_keystore_api_v1_keystore_proto_msgTypes[26]
+		mi := &file_keystore_api_v1_keystore_proto_msgTypes[29]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1602,7 +1751,7 @@ func (x *EncryptV1Request_Request) String() string {
 func (*EncryptV1Request_Request) ProtoMessage() {}
 
 func (x *EncryptV1Request_Request) ProtoReflect() protoreflect.Message {
-	mi := &file_keystore_api_v1_keystore_proto_msgTypes[26]
+	mi := &file_keystore_api_v1_keystore_proto_msgTypes[29]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1646,7 +1795,6 @@ type EncryptResponse_Response struct {
 	unknownFields protoimpl.UnknownFields
 
 	// Types that are assignable to Response:
-	//
 	//	*EncryptResponse_Response_Result
 	//	*EncryptResponse_Response_Error
 	Response isEncryptResponse_Response_Response `protobuf_oneof:"response"`
@@ -1655,7 +1803,7 @@ type EncryptResponse_Response struct {
 func (x *EncryptResponse_Response) Reset() {
 	*x = EncryptResponse_Response{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_keystore_api_v1_keystore_proto_msgTypes[27]
+		mi := &file_keystore_api_v1_keystore_proto_msgTypes[30]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1668,7 +1816,7 @@ func (x *EncryptResponse_Response) String() string {
 func (*EncryptResponse_Response) ProtoMessage() {}
 
 func (x *EncryptResponse_Response) ProtoReflect() protoreflect.Message {
-	mi := &file_keystore_api_v1_keystore_proto_msgTypes[27]
+	mi := &file_keystore_api_v1_keystore_proto_msgTypes[30]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1733,7 +1881,7 @@ type EncryptResponse_Response_Success struct {
 func (x *EncryptResponse_Response_Success) Reset() {
 	*x = EncryptResponse_Response_Success{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_keystore_api_v1_keystore_proto_msgTypes[28]
+		mi := &file_keystore_api_v1_keystore_proto_msgTypes[31]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1746,7 +1894,7 @@ func (x *EncryptResponse_Response_Success) String() string {
 func (*EncryptResponse_Response_Success) ProtoMessage() {}
 
 func (x *EncryptResponse_Response_Success) ProtoReflect() protoreflect.Message {
-	mi := &file_keystore_api_v1_keystore_proto_msgTypes[28]
+	mi := &file_keystore_api_v1_keystore_proto_msgTypes[31]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1783,7 +1931,7 @@ type EncryptV2Request_Request struct {
 func (x *EncryptV2Request_Request) Reset() {
 	*x = EncryptV2Request_Request{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_keystore_api_v1_keystore_proto_msgTypes[29]
+		mi := &file_keystore_api_v1_keystore_proto_msgTypes[32]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1796,7 +1944,7 @@ func (x *EncryptV2Request_Request) String() string {
 func (*EncryptV2Request_Request) ProtoMessage() {}
 
 func (x *EncryptV2Request_Request) ProtoReflect() protoreflect.Message {
-	mi := &file_keystore_api_v1_keystore_proto_msgTypes[29]
+	mi := &file_keystore_api_v1_keystore_proto_msgTypes[32]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1847,7 +1995,7 @@ type SaveInvitesRequest_Request struct {
 func (x *SaveInvitesRequest_Request) Reset() {
 	*x = SaveInvitesRequest_Request{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_keystore_api_v1_keystore_proto_msgTypes[30]
+		mi := &file_keystore_api_v1_keystore_proto_msgTypes[33]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1860,7 +2008,7 @@ func (x *SaveInvitesRequest_Request) String() string {
 func (*SaveInvitesRequest_Request) ProtoMessage() {}
 
 func (x *SaveInvitesRequest_Request) ProtoReflect() protoreflect.Message {
-	mi := &file_keystore_api_v1_keystore_proto_msgTypes[30]
+	mi := &file_keystore_api_v1_keystore_proto_msgTypes[33]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1873,7 +2021,7 @@ func (x *SaveInvitesRequest_Request) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SaveInvitesRequest_Request.ProtoReflect.Descriptor instead.
 func (*SaveInvitesRequest_Request) Descriptor() ([]byte, []int) {
-	return file_keystore_api_v1_keystore_proto_rawDescGZIP(), []int{12, 0}
+	return file_keystore_api_v1_keystore_proto_rawDescGZIP(), []int{9, 0}
 }
 
 func (x *SaveInvitesRequest_Request) GetContentTopic() string {
@@ -1904,7 +2052,6 @@ type SaveInvitesResponse_Response struct {
 	unknownFields protoimpl.UnknownFields
 
 	// Types that are assignable to Response:
-	//
 	//	*SaveInvitesResponse_Response_Result
 	//	*SaveInvitesResponse_Response_Error
 	Response isSaveInvitesResponse_Response_Response `protobuf_oneof:"response"`
@@ -1913,7 +2060,7 @@ type SaveInvitesResponse_Response struct {
 func (x *SaveInvitesResponse_Response) Reset() {
 	*x = SaveInvitesResponse_Response{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_keystore_api_v1_keystore_proto_msgTypes[31]
+		mi := &file_keystore_api_v1_keystore_proto_msgTypes[34]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1926,7 +2073,7 @@ func (x *SaveInvitesResponse_Response) String() string {
 func (*SaveInvitesResponse_Response) ProtoMessage() {}
 
 func (x *SaveInvitesResponse_Response) ProtoReflect() protoreflect.Message {
-	mi := &file_keystore_api_v1_keystore_proto_msgTypes[31]
+	mi := &file_keystore_api_v1_keystore_proto_msgTypes[34]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1939,7 +2086,7 @@ func (x *SaveInvitesResponse_Response) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SaveInvitesResponse_Response.ProtoReflect.Descriptor instead.
 func (*SaveInvitesResponse_Response) Descriptor() ([]byte, []int) {
-	return file_keystore_api_v1_keystore_proto_rawDescGZIP(), []int{13, 0}
+	return file_keystore_api_v1_keystore_proto_rawDescGZIP(), []int{10, 0}
 }
 
 func (m *SaveInvitesResponse_Response) GetResponse() isSaveInvitesResponse_Response_Response {
@@ -1991,7 +2138,7 @@ type SaveInvitesResponse_Response_Success struct {
 func (x *SaveInvitesResponse_Response_Success) Reset() {
 	*x = SaveInvitesResponse_Response_Success{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_keystore_api_v1_keystore_proto_msgTypes[32]
+		mi := &file_keystore_api_v1_keystore_proto_msgTypes[35]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -2004,7 +2151,7 @@ func (x *SaveInvitesResponse_Response_Success) String() string {
 func (*SaveInvitesResponse_Response_Success) ProtoMessage() {}
 
 func (x *SaveInvitesResponse_Response_Success) ProtoReflect() protoreflect.Message {
-	mi := &file_keystore_api_v1_keystore_proto_msgTypes[32]
+	mi := &file_keystore_api_v1_keystore_proto_msgTypes[35]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2017,7 +2164,7 @@ func (x *SaveInvitesResponse_Response_Success) ProtoReflect() protoreflect.Messa
 
 // Deprecated: Use SaveInvitesResponse_Response_Success.ProtoReflect.Descriptor instead.
 func (*SaveInvitesResponse_Response_Success) Descriptor() ([]byte, []int) {
-	return file_keystore_api_v1_keystore_proto_rawDescGZIP(), []int{13, 0, 0}
+	return file_keystore_api_v1_keystore_proto_rawDescGZIP(), []int{10, 0, 0}
 }
 
 func (x *SaveInvitesResponse_Response_Success) GetConversation() *message_contents.ConversationReference {
@@ -2041,7 +2188,7 @@ type TopicMap_TopicData struct {
 func (x *TopicMap_TopicData) Reset() {
 	*x = TopicMap_TopicData{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_keystore_api_v1_keystore_proto_msgTypes[33]
+		mi := &file_keystore_api_v1_keystore_proto_msgTypes[36]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -2054,7 +2201,7 @@ func (x *TopicMap_TopicData) String() string {
 func (*TopicMap_TopicData) ProtoMessage() {}
 
 func (x *TopicMap_TopicData) ProtoReflect() protoreflect.Message {
-	mi := &file_keystore_api_v1_keystore_proto_msgTypes[33]
+	mi := &file_keystore_api_v1_keystore_proto_msgTypes[36]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2067,7 +2214,7 @@ func (x *TopicMap_TopicData) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use TopicMap_TopicData.ProtoReflect.Descriptor instead.
 func (*TopicMap_TopicData) Descriptor() ([]byte, []int) {
-	return file_keystore_api_v1_keystore_proto_rawDescGZIP(), []int{21, 0}
+	return file_keystore_api_v1_keystore_proto_rawDescGZIP(), []int{24, 0}
 }
 
 func (x *TopicMap_TopicData) GetCreatedNs() uint64 {
@@ -2230,165 +2377,166 @@ var file_keystore_api_v1_keystore_proto_rawDesc = []byte{
 	0x63, 0x4b, 0x65, 0x79, 0x42, 0x75, 0x6e, 0x64, 0x6c, 0x65, 0x52, 0x09, 0x72, 0x65, 0x63, 0x69,
 	0x70, 0x69, 0x65, 0x6e, 0x74, 0x12, 0x1d, 0x0a, 0x0a, 0x63, 0x72, 0x65, 0x61, 0x74, 0x65, 0x64,
 	0x5f, 0x6e, 0x73, 0x18, 0x03, 0x20, 0x01, 0x28, 0x04, 0x52, 0x09, 0x63, 0x72, 0x65, 0x61, 0x74,
-	0x65, 0x64, 0x4e, 0x73, 0x22, 0xae, 0x01, 0x0a, 0x1c, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x49,
-	0x6e, 0x76, 0x69, 0x74, 0x65, 0x46, 0x72, 0x6f, 0x6d, 0x54, 0x6f, 0x70, 0x69, 0x63, 0x52, 0x65,
-	0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x4a, 0x0a, 0x09, 0x72, 0x65, 0x63, 0x69, 0x70, 0x69, 0x65,
-	0x6e, 0x74, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x2c, 0x2e, 0x78, 0x6d, 0x74, 0x70, 0x2e,
-	0x6d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x5f, 0x63, 0x6f, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x73,
-	0x2e, 0x53, 0x69, 0x67, 0x6e, 0x65, 0x64, 0x50, 0x75, 0x62, 0x6c, 0x69, 0x63, 0x4b, 0x65, 0x79,
-	0x42, 0x75, 0x6e, 0x64, 0x6c, 0x65, 0x52, 0x09, 0x72, 0x65, 0x63, 0x69, 0x70, 0x69, 0x65, 0x6e,
-	0x74, 0x12, 0x23, 0x0a, 0x0d, 0x63, 0x6f, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x5f, 0x74, 0x6f, 0x70,
-	0x69, 0x63, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0c, 0x63, 0x6f, 0x6e, 0x74, 0x65, 0x6e,
-	0x74, 0x54, 0x6f, 0x70, 0x69, 0x63, 0x12, 0x1d, 0x0a, 0x0a, 0x63, 0x72, 0x65, 0x61, 0x74, 0x65,
-	0x64, 0x5f, 0x6e, 0x73, 0x18, 0x03, 0x20, 0x01, 0x28, 0x04, 0x52, 0x09, 0x63, 0x72, 0x65, 0x61,
-	0x74, 0x65, 0x64, 0x4e, 0x73, 0x22, 0xca, 0x01, 0x0a, 0x14, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65,
-	0x49, 0x6e, 0x76, 0x69, 0x74, 0x65, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x45,
-	0x0a, 0x07, 0x63, 0x6f, 0x6e, 0x74, 0x65, 0x78, 0x74, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32,
-	0x2b, 0x2e, 0x78, 0x6d, 0x74, 0x70, 0x2e, 0x6d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x5f, 0x63,
-	0x6f, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x73, 0x2e, 0x49, 0x6e, 0x76, 0x69, 0x74, 0x61, 0x74, 0x69,
-	0x6f, 0x6e, 0x56, 0x31, 0x2e, 0x43, 0x6f, 0x6e, 0x74, 0x65, 0x78, 0x74, 0x52, 0x07, 0x63, 0x6f,
-	0x6e, 0x74, 0x65, 0x78, 0x74, 0x12, 0x4c, 0x0a, 0x0a, 0x72, 0x65, 0x63, 0x69, 0x70, 0x69, 0x65,
-	0x6e, 0x74, 0x73, 0x18, 0x02, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x2c, 0x2e, 0x78, 0x6d, 0x74, 0x70,
-	0x2e, 0x6d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x5f, 0x63, 0x6f, 0x6e, 0x74, 0x65, 0x6e, 0x74,
-	0x73, 0x2e, 0x53, 0x69, 0x67, 0x6e, 0x65, 0x64, 0x50, 0x75, 0x62, 0x6c, 0x69, 0x63, 0x4b, 0x65,
-	0x79, 0x42, 0x75, 0x6e, 0x64, 0x6c, 0x65, 0x52, 0x0a, 0x72, 0x65, 0x63, 0x69, 0x70, 0x69, 0x65,
-	0x6e, 0x74, 0x73, 0x12, 0x1d, 0x0a, 0x0a, 0x63, 0x72, 0x65, 0x61, 0x74, 0x65, 0x64, 0x5f, 0x6e,
-	0x73, 0x18, 0x03, 0x20, 0x01, 0x28, 0x04, 0x52, 0x09, 0x63, 0x72, 0x65, 0x61, 0x74, 0x65, 0x64,
-	0x4e, 0x73, 0x22, 0x82, 0x01, 0x0a, 0x14, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x49, 0x6e, 0x76,
-	0x69, 0x74, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x50, 0x0a, 0x0c, 0x63,
-	0x6f, 0x6e, 0x76, 0x65, 0x72, 0x73, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x18, 0x01, 0x20, 0x01, 0x28,
-	0x0b, 0x32, 0x2c, 0x2e, 0x78, 0x6d, 0x74, 0x70, 0x2e, 0x6d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65,
-	0x5f, 0x63, 0x6f, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x73, 0x2e, 0x43, 0x6f, 0x6e, 0x76, 0x65, 0x72,
-	0x73, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x66, 0x65, 0x72, 0x65, 0x6e, 0x63, 0x65, 0x52,
-	0x0c, 0x63, 0x6f, 0x6e, 0x76, 0x65, 0x72, 0x73, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x18, 0x0a,
-	0x07, 0x70, 0x61, 0x79, 0x6c, 0x6f, 0x61, 0x64, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0c, 0x52, 0x07,
-	0x70, 0x61, 0x79, 0x6c, 0x6f, 0x61, 0x64, 0x22, 0x61, 0x0a, 0x15, 0x43, 0x72, 0x65, 0x61, 0x74,
-	0x65, 0x49, 0x6e, 0x76, 0x69, 0x74, 0x65, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65,
-	0x12, 0x48, 0x0a, 0x09, 0x72, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x73, 0x18, 0x01, 0x20,
-	0x03, 0x28, 0x0b, 0x32, 0x2a, 0x2e, 0x78, 0x6d, 0x74, 0x70, 0x2e, 0x6b, 0x65, 0x79, 0x73, 0x74,
-	0x6f, 0x72, 0x65, 0x5f, 0x61, 0x70, 0x69, 0x2e, 0x76, 0x31, 0x2e, 0x43, 0x72, 0x65, 0x61, 0x74,
-	0x65, 0x49, 0x6e, 0x76, 0x69, 0x74, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x52,
-	0x09, 0x72, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x73, 0x22, 0xcf, 0x01, 0x0a, 0x12, 0x53,
-	0x61, 0x76, 0x65, 0x49, 0x6e, 0x76, 0x69, 0x74, 0x65, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73,
-	0x74, 0x12, 0x4c, 0x0a, 0x08, 0x72, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x73, 0x18, 0x01, 0x20,
-	0x03, 0x28, 0x0b, 0x32, 0x30, 0x2e, 0x78, 0x6d, 0x74, 0x70, 0x2e, 0x6b, 0x65, 0x79, 0x73, 0x74,
-	0x6f, 0x72, 0x65, 0x5f, 0x61, 0x70, 0x69, 0x2e, 0x76, 0x31, 0x2e, 0x53, 0x61, 0x76, 0x65, 0x49,
-	0x6e, 0x76, 0x69, 0x74, 0x65, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x2e, 0x52, 0x65,
-	0x71, 0x75, 0x65, 0x73, 0x74, 0x52, 0x08, 0x72, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x73, 0x1a,
-	0x6b, 0x0a, 0x07, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x23, 0x0a, 0x0d, 0x63, 0x6f,
-	0x6e, 0x74, 0x65, 0x6e, 0x74, 0x5f, 0x74, 0x6f, 0x70, 0x69, 0x63, 0x18, 0x01, 0x20, 0x01, 0x28,
-	0x09, 0x52, 0x0c, 0x63, 0x6f, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x54, 0x6f, 0x70, 0x69, 0x63, 0x12,
-	0x21, 0x0a, 0x0c, 0x74, 0x69, 0x6d, 0x65, 0x73, 0x74, 0x61, 0x6d, 0x70, 0x5f, 0x6e, 0x73, 0x18,
-	0x02, 0x20, 0x01, 0x28, 0x04, 0x52, 0x0b, 0x74, 0x69, 0x6d, 0x65, 0x73, 0x74, 0x61, 0x6d, 0x70,
-	0x4e, 0x73, 0x12, 0x18, 0x0a, 0x07, 0x70, 0x61, 0x79, 0x6c, 0x6f, 0x61, 0x64, 0x18, 0x03, 0x20,
-	0x01, 0x28, 0x0c, 0x52, 0x07, 0x70, 0x61, 0x79, 0x6c, 0x6f, 0x61, 0x64, 0x22, 0xf0, 0x02, 0x0a,
-	0x13, 0x53, 0x61, 0x76, 0x65, 0x49, 0x6e, 0x76, 0x69, 0x74, 0x65, 0x73, 0x52, 0x65, 0x73, 0x70,
-	0x6f, 0x6e, 0x73, 0x65, 0x12, 0x50, 0x0a, 0x09, 0x72, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65,
-	0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x32, 0x2e, 0x78, 0x6d, 0x74, 0x70, 0x2e, 0x6b,
-	0x65, 0x79, 0x73, 0x74, 0x6f, 0x72, 0x65, 0x5f, 0x61, 0x70, 0x69, 0x2e, 0x76, 0x31, 0x2e, 0x53,
-	0x61, 0x76, 0x65, 0x49, 0x6e, 0x76, 0x69, 0x74, 0x65, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e,
-	0x73, 0x65, 0x2e, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x52, 0x09, 0x72, 0x65, 0x73,
-	0x70, 0x6f, 0x6e, 0x73, 0x65, 0x73, 0x1a, 0x86, 0x02, 0x0a, 0x08, 0x52, 0x65, 0x73, 0x70, 0x6f,
-	0x6e, 0x73, 0x65, 0x12, 0x54, 0x0a, 0x06, 0x72, 0x65, 0x73, 0x75, 0x6c, 0x74, 0x18, 0x01, 0x20,
-	0x01, 0x28, 0x0b, 0x32, 0x3a, 0x2e, 0x78, 0x6d, 0x74, 0x70, 0x2e, 0x6b, 0x65, 0x79, 0x73, 0x74,
-	0x6f, 0x72, 0x65, 0x5f, 0x61, 0x70, 0x69, 0x2e, 0x76, 0x31, 0x2e, 0x53, 0x61, 0x76, 0x65, 0x49,
-	0x6e, 0x76, 0x69, 0x74, 0x65, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x2e, 0x52,
-	0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x2e, 0x53, 0x75, 0x63, 0x63, 0x65, 0x73, 0x73, 0x48,
-	0x00, 0x52, 0x06, 0x72, 0x65, 0x73, 0x75, 0x6c, 0x74, 0x12, 0x3b, 0x0a, 0x05, 0x65, 0x72, 0x72,
-	0x6f, 0x72, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x23, 0x2e, 0x78, 0x6d, 0x74, 0x70, 0x2e,
+	0x65, 0x64, 0x4e, 0x73, 0x22, 0x82, 0x01, 0x0a, 0x14, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x49,
+	0x6e, 0x76, 0x69, 0x74, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x50, 0x0a,
+	0x0c, 0x63, 0x6f, 0x6e, 0x76, 0x65, 0x72, 0x73, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x18, 0x01, 0x20,
+	0x01, 0x28, 0x0b, 0x32, 0x2c, 0x2e, 0x78, 0x6d, 0x74, 0x70, 0x2e, 0x6d, 0x65, 0x73, 0x73, 0x61,
+	0x67, 0x65, 0x5f, 0x63, 0x6f, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x73, 0x2e, 0x43, 0x6f, 0x6e, 0x76,
+	0x65, 0x72, 0x73, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x66, 0x65, 0x72, 0x65, 0x6e, 0x63,
+	0x65, 0x52, 0x0c, 0x63, 0x6f, 0x6e, 0x76, 0x65, 0x72, 0x73, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x12,
+	0x18, 0x0a, 0x07, 0x70, 0x61, 0x79, 0x6c, 0x6f, 0x61, 0x64, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0c,
+	0x52, 0x07, 0x70, 0x61, 0x79, 0x6c, 0x6f, 0x61, 0x64, 0x22, 0xcf, 0x01, 0x0a, 0x12, 0x53, 0x61,
+	0x76, 0x65, 0x49, 0x6e, 0x76, 0x69, 0x74, 0x65, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74,
+	0x12, 0x4c, 0x0a, 0x08, 0x72, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x73, 0x18, 0x01, 0x20, 0x03,
+	0x28, 0x0b, 0x32, 0x30, 0x2e, 0x78, 0x6d, 0x74, 0x70, 0x2e, 0x6b, 0x65, 0x79, 0x73, 0x74, 0x6f,
+	0x72, 0x65, 0x5f, 0x61, 0x70, 0x69, 0x2e, 0x76, 0x31, 0x2e, 0x53, 0x61, 0x76, 0x65, 0x49, 0x6e,
+	0x76, 0x69, 0x74, 0x65, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x2e, 0x52, 0x65, 0x71,
+	0x75, 0x65, 0x73, 0x74, 0x52, 0x08, 0x72, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x73, 0x1a, 0x6b,
+	0x0a, 0x07, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x23, 0x0a, 0x0d, 0x63, 0x6f, 0x6e,
+	0x74, 0x65, 0x6e, 0x74, 0x5f, 0x74, 0x6f, 0x70, 0x69, 0x63, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09,
+	0x52, 0x0c, 0x63, 0x6f, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x54, 0x6f, 0x70, 0x69, 0x63, 0x12, 0x21,
+	0x0a, 0x0c, 0x74, 0x69, 0x6d, 0x65, 0x73, 0x74, 0x61, 0x6d, 0x70, 0x5f, 0x6e, 0x73, 0x18, 0x02,
+	0x20, 0x01, 0x28, 0x04, 0x52, 0x0b, 0x74, 0x69, 0x6d, 0x65, 0x73, 0x74, 0x61, 0x6d, 0x70, 0x4e,
+	0x73, 0x12, 0x18, 0x0a, 0x07, 0x70, 0x61, 0x79, 0x6c, 0x6f, 0x61, 0x64, 0x18, 0x03, 0x20, 0x01,
+	0x28, 0x0c, 0x52, 0x07, 0x70, 0x61, 0x79, 0x6c, 0x6f, 0x61, 0x64, 0x22, 0xf0, 0x02, 0x0a, 0x13,
+	0x53, 0x61, 0x76, 0x65, 0x49, 0x6e, 0x76, 0x69, 0x74, 0x65, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f,
+	0x6e, 0x73, 0x65, 0x12, 0x50, 0x0a, 0x09, 0x72, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x73,
+	0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x32, 0x2e, 0x78, 0x6d, 0x74, 0x70, 0x2e, 0x6b, 0x65,
+	0x79, 0x73, 0x74, 0x6f, 0x72, 0x65, 0x5f, 0x61, 0x70, 0x69, 0x2e, 0x76, 0x31, 0x2e, 0x53, 0x61,
+	0x76, 0x65, 0x49, 0x6e, 0x76, 0x69, 0x74, 0x65, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73,
+	0x65, 0x2e, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x52, 0x09, 0x72, 0x65, 0x73, 0x70,
+	0x6f, 0x6e, 0x73, 0x65, 0x73, 0x1a, 0x86, 0x02, 0x0a, 0x08, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e,
+	0x73, 0x65, 0x12, 0x54, 0x0a, 0x06, 0x72, 0x65, 0x73, 0x75, 0x6c, 0x74, 0x18, 0x01, 0x20, 0x01,
+	0x28, 0x0b, 0x32, 0x3a, 0x2e, 0x78, 0x6d, 0x74, 0x70, 0x2e, 0x6b, 0x65, 0x79, 0x73, 0x74, 0x6f,
+	0x72, 0x65, 0x5f, 0x61, 0x70, 0x69, 0x2e, 0x76, 0x31, 0x2e, 0x53, 0x61, 0x76, 0x65, 0x49, 0x6e,
+	0x76, 0x69, 0x74, 0x65, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x2e, 0x52, 0x65,
+	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x2e, 0x53, 0x75, 0x63, 0x63, 0x65, 0x73, 0x73, 0x48, 0x00,
+	0x52, 0x06, 0x72, 0x65, 0x73, 0x75, 0x6c, 0x74, 0x12, 0x3b, 0x0a, 0x05, 0x65, 0x72, 0x72, 0x6f,
+	0x72, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x23, 0x2e, 0x78, 0x6d, 0x74, 0x70, 0x2e, 0x6b,
+	0x65, 0x79, 0x73, 0x74, 0x6f, 0x72, 0x65, 0x5f, 0x61, 0x70, 0x69, 0x2e, 0x76, 0x31, 0x2e, 0x4b,
+	0x65, 0x79, 0x73, 0x74, 0x6f, 0x72, 0x65, 0x45, 0x72, 0x72, 0x6f, 0x72, 0x48, 0x00, 0x52, 0x05,
+	0x65, 0x72, 0x72, 0x6f, 0x72, 0x1a, 0x5b, 0x0a, 0x07, 0x53, 0x75, 0x63, 0x63, 0x65, 0x73, 0x73,
+	0x12, 0x50, 0x0a, 0x0c, 0x63, 0x6f, 0x6e, 0x76, 0x65, 0x72, 0x73, 0x61, 0x74, 0x69, 0x6f, 0x6e,
+	0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x2c, 0x2e, 0x78, 0x6d, 0x74, 0x70, 0x2e, 0x6d, 0x65,
+	0x73, 0x73, 0x61, 0x67, 0x65, 0x5f, 0x63, 0x6f, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x73, 0x2e, 0x43,
+	0x6f, 0x6e, 0x76, 0x65, 0x72, 0x73, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x66, 0x65, 0x72,
+	0x65, 0x6e, 0x63, 0x65, 0x52, 0x0c, 0x63, 0x6f, 0x6e, 0x76, 0x65, 0x72, 0x73, 0x61, 0x74, 0x69,
+	0x6f, 0x6e, 0x42, 0x0a, 0x0a, 0x08, 0x72, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x51,
+	0x0a, 0x16, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x41, 0x75, 0x74, 0x68, 0x54, 0x6f, 0x6b, 0x65,
+	0x6e, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x26, 0x0a, 0x0c, 0x74, 0x69, 0x6d, 0x65,
+	0x73, 0x74, 0x61, 0x6d, 0x70, 0x5f, 0x6e, 0x73, 0x18, 0x01, 0x20, 0x01, 0x28, 0x04, 0x48, 0x00,
+	0x52, 0x0b, 0x74, 0x69, 0x6d, 0x65, 0x73, 0x74, 0x61, 0x6d, 0x70, 0x4e, 0x73, 0x88, 0x01, 0x01,
+	0x42, 0x0f, 0x0a, 0x0d, 0x5f, 0x74, 0x69, 0x6d, 0x65, 0x73, 0x74, 0x61, 0x6d, 0x70, 0x5f, 0x6e,
+	0x73, 0x22, 0x70, 0x0a, 0x1a, 0x53, 0x61, 0x76, 0x65, 0x56, 0x31, 0x43, 0x6f, 0x6e, 0x76, 0x65,
+	0x72, 0x73, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12,
+	0x52, 0x0a, 0x0d, 0x63, 0x6f, 0x6e, 0x76, 0x65, 0x72, 0x73, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x73,
+	0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x2c, 0x2e, 0x78, 0x6d, 0x74, 0x70, 0x2e, 0x6d, 0x65,
+	0x73, 0x73, 0x61, 0x67, 0x65, 0x5f, 0x63, 0x6f, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x73, 0x2e, 0x43,
+	0x6f, 0x6e, 0x76, 0x65, 0x72, 0x73, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x66, 0x65, 0x72,
+	0x65, 0x6e, 0x63, 0x65, 0x52, 0x0d, 0x63, 0x6f, 0x6e, 0x76, 0x65, 0x72, 0x73, 0x61, 0x74, 0x69,
+	0x6f, 0x6e, 0x73, 0x22, 0x1d, 0x0a, 0x1b, 0x53, 0x61, 0x76, 0x65, 0x56, 0x31, 0x43, 0x6f, 0x6e,
+	0x76, 0x65, 0x72, 0x73, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e,
+	0x73, 0x65, 0x22, 0x6e, 0x0a, 0x18, 0x47, 0x65, 0x74, 0x43, 0x6f, 0x6e, 0x76, 0x65, 0x72, 0x73,
+	0x61, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x52,
+	0x0a, 0x0d, 0x63, 0x6f, 0x6e, 0x76, 0x65, 0x72, 0x73, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x18,
+	0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x2c, 0x2e, 0x78, 0x6d, 0x74, 0x70, 0x2e, 0x6d, 0x65, 0x73,
+	0x73, 0x61, 0x67, 0x65, 0x5f, 0x63, 0x6f, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x73, 0x2e, 0x43, 0x6f,
+	0x6e, 0x76, 0x65, 0x72, 0x73, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x66, 0x65, 0x72, 0x65,
+	0x6e, 0x63, 0x65, 0x52, 0x0d, 0x63, 0x6f, 0x6e, 0x76, 0x65, 0x72, 0x73, 0x61, 0x74, 0x69, 0x6f,
+	0x6e, 0x73, 0x22, 0x41, 0x0a, 0x18, 0x47, 0x65, 0x74, 0x4b, 0x65, 0x79, 0x73, 0x74, 0x6f, 0x72,
+	0x65, 0x53, 0x74, 0x61, 0x74, 0x75, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x25,
+	0x0a, 0x0e, 0x77, 0x61, 0x6c, 0x6c, 0x65, 0x74, 0x5f, 0x61, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73,
+	0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0d, 0x77, 0x61, 0x6c, 0x6c, 0x65, 0x74, 0x41, 0x64,
+	0x64, 0x72, 0x65, 0x73, 0x73, 0x22, 0xea, 0x01, 0x0a, 0x19, 0x47, 0x65, 0x74, 0x4b, 0x65, 0x79,
+	0x73, 0x74, 0x6f, 0x72, 0x65, 0x53, 0x74, 0x61, 0x74, 0x75, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f,
+	0x6e, 0x73, 0x65, 0x12, 0x56, 0x0a, 0x06, 0x73, 0x74, 0x61, 0x74, 0x75, 0x73, 0x18, 0x01, 0x20,
+	0x01, 0x28, 0x0e, 0x32, 0x3e, 0x2e, 0x78, 0x6d, 0x74, 0x70, 0x2e, 0x6b, 0x65, 0x79, 0x73, 0x74,
+	0x6f, 0x72, 0x65, 0x5f, 0x61, 0x70, 0x69, 0x2e, 0x76, 0x31, 0x2e, 0x47, 0x65, 0x74, 0x4b, 0x65,
+	0x79, 0x73, 0x74, 0x6f, 0x72, 0x65, 0x53, 0x74, 0x61, 0x74, 0x75, 0x73, 0x52, 0x65, 0x73, 0x70,
+	0x6f, 0x6e, 0x73, 0x65, 0x2e, 0x4b, 0x65, 0x79, 0x73, 0x74, 0x6f, 0x72, 0x65, 0x53, 0x74, 0x61,
+	0x74, 0x75, 0x73, 0x52, 0x06, 0x73, 0x74, 0x61, 0x74, 0x75, 0x73, 0x22, 0x75, 0x0a, 0x0e, 0x4b,
+	0x65, 0x79, 0x73, 0x74, 0x6f, 0x72, 0x65, 0x53, 0x74, 0x61, 0x74, 0x75, 0x73, 0x12, 0x1f, 0x0a,
+	0x1b, 0x4b, 0x45, 0x59, 0x53, 0x54, 0x4f, 0x52, 0x45, 0x5f, 0x53, 0x54, 0x41, 0x54, 0x55, 0x53,
+	0x5f, 0x55, 0x4e, 0x53, 0x50, 0x45, 0x43, 0x49, 0x46, 0x49, 0x45, 0x44, 0x10, 0x00, 0x12, 0x21,
+	0x0a, 0x1d, 0x4b, 0x45, 0x59, 0x53, 0x54, 0x4f, 0x52, 0x45, 0x5f, 0x53, 0x54, 0x41, 0x54, 0x55,
+	0x53, 0x5f, 0x55, 0x4e, 0x49, 0x4e, 0x49, 0x54, 0x49, 0x41, 0x4c, 0x49, 0x5a, 0x45, 0x44, 0x10,
+	0x01, 0x12, 0x1f, 0x0a, 0x1b, 0x4b, 0x45, 0x59, 0x53, 0x54, 0x4f, 0x52, 0x45, 0x5f, 0x53, 0x54,
+	0x41, 0x54, 0x55, 0x53, 0x5f, 0x49, 0x4e, 0x49, 0x54, 0x49, 0x41, 0x4c, 0x49, 0x5a, 0x45, 0x44,
+	0x10, 0x02, 0x22, 0x5c, 0x0a, 0x13, 0x49, 0x6e, 0x69, 0x74, 0x4b, 0x65, 0x79, 0x73, 0x74, 0x6f,
+	0x72, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x3b, 0x0a, 0x02, 0x76, 0x31, 0x18,
+	0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x29, 0x2e, 0x78, 0x6d, 0x74, 0x70, 0x2e, 0x6d, 0x65, 0x73,
+	0x73, 0x61, 0x67, 0x65, 0x5f, 0x63, 0x6f, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x73, 0x2e, 0x50, 0x72,
+	0x69, 0x76, 0x61, 0x74, 0x65, 0x4b, 0x65, 0x79, 0x42, 0x75, 0x6e, 0x64, 0x6c, 0x65, 0x56, 0x31,
+	0x48, 0x00, 0x52, 0x02, 0x76, 0x31, 0x42, 0x08, 0x0a, 0x06, 0x62, 0x75, 0x6e, 0x64, 0x6c, 0x65,
+	0x22, 0x51, 0x0a, 0x14, 0x49, 0x6e, 0x69, 0x74, 0x4b, 0x65, 0x79, 0x73, 0x74, 0x6f, 0x72, 0x65,
+	0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x39, 0x0a, 0x05, 0x65, 0x72, 0x72, 0x6f,
+	0x72, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x23, 0x2e, 0x78, 0x6d, 0x74, 0x70, 0x2e, 0x6b,
+	0x65, 0x79, 0x73, 0x74, 0x6f, 0x72, 0x65, 0x5f, 0x61, 0x70, 0x69, 0x2e, 0x76, 0x31, 0x2e, 0x4b,
+	0x65, 0x79, 0x73, 0x74, 0x6f, 0x72, 0x65, 0x45, 0x72, 0x72, 0x6f, 0x72, 0x52, 0x05, 0x65, 0x72,
+	0x72, 0x6f, 0x72, 0x22, 0x7f, 0x0a, 0x11, 0x53, 0x69, 0x67, 0x6e, 0x44, 0x69, 0x67, 0x65, 0x73,
+	0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x16, 0x0a, 0x06, 0x64, 0x69, 0x67, 0x65,
+	0x73, 0x74, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0c, 0x52, 0x06, 0x64, 0x69, 0x67, 0x65, 0x73, 0x74,
+	0x12, 0x23, 0x0a, 0x0c, 0x69, 0x64, 0x65, 0x6e, 0x74, 0x69, 0x74, 0x79, 0x5f, 0x6b, 0x65, 0x79,
+	0x18, 0x02, 0x20, 0x01, 0x28, 0x08, 0x48, 0x00, 0x52, 0x0b, 0x69, 0x64, 0x65, 0x6e, 0x74, 0x69,
+	0x74, 0x79, 0x4b, 0x65, 0x79, 0x12, 0x23, 0x0a, 0x0c, 0x70, 0x72, 0x65, 0x6b, 0x65, 0x79, 0x5f,
+	0x69, 0x6e, 0x64, 0x65, 0x78, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0d, 0x48, 0x00, 0x52, 0x0b, 0x70,
+	0x72, 0x65, 0x6b, 0x65, 0x79, 0x49, 0x6e, 0x64, 0x65, 0x78, 0x42, 0x08, 0x0a, 0x06, 0x73, 0x69,
+	0x67, 0x6e, 0x65, 0x72, 0x22, 0x50, 0x0a, 0x14, 0x47, 0x65, 0x74, 0x52, 0x65, 0x66, 0x72, 0x65,
+	0x73, 0x68, 0x4a, 0x6f, 0x62, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x38, 0x0a, 0x08,
+	0x6a, 0x6f, 0x62, 0x5f, 0x74, 0x79, 0x70, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0e, 0x32, 0x1d,
+	0x2e, 0x78, 0x6d, 0x74, 0x70, 0x2e, 0x6b, 0x65, 0x79, 0x73, 0x74, 0x6f, 0x72, 0x65, 0x5f, 0x61,
+	0x70, 0x69, 0x2e, 0x76, 0x31, 0x2e, 0x4a, 0x6f, 0x62, 0x54, 0x79, 0x70, 0x65, 0x52, 0x07, 0x6a,
+	0x6f, 0x62, 0x54, 0x79, 0x70, 0x65, 0x22, 0x37, 0x0a, 0x15, 0x47, 0x65, 0x74, 0x52, 0x65, 0x66,
+	0x72, 0x65, 0x73, 0x68, 0x4a, 0x6f, 0x62, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12,
+	0x1e, 0x0a, 0x0b, 0x6c, 0x61, 0x73, 0x74, 0x5f, 0x72, 0x75, 0x6e, 0x5f, 0x6e, 0x73, 0x18, 0x01,
+	0x20, 0x01, 0x28, 0x03, 0x52, 0x09, 0x6c, 0x61, 0x73, 0x74, 0x52, 0x75, 0x6e, 0x4e, 0x73, 0x22,
+	0x6f, 0x0a, 0x13, 0x53, 0x65, 0x74, 0x52, 0x65, 0x66, 0x65, 0x73, 0x68, 0x4a, 0x6f, 0x62, 0x52,
+	0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x38, 0x0a, 0x08, 0x6a, 0x6f, 0x62, 0x5f, 0x74, 0x79,
+	0x70, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0e, 0x32, 0x1d, 0x2e, 0x78, 0x6d, 0x74, 0x70, 0x2e,
 	0x6b, 0x65, 0x79, 0x73, 0x74, 0x6f, 0x72, 0x65, 0x5f, 0x61, 0x70, 0x69, 0x2e, 0x76, 0x31, 0x2e,
-	0x4b, 0x65, 0x79, 0x73, 0x74, 0x6f, 0x72, 0x65, 0x45, 0x72, 0x72, 0x6f, 0x72, 0x48, 0x00, 0x52,
-	0x05, 0x65, 0x72, 0x72, 0x6f, 0x72, 0x1a, 0x5b, 0x0a, 0x07, 0x53, 0x75, 0x63, 0x63, 0x65, 0x73,
-	0x73, 0x12, 0x50, 0x0a, 0x0c, 0x63, 0x6f, 0x6e, 0x76, 0x65, 0x72, 0x73, 0x61, 0x74, 0x69, 0x6f,
-	0x6e, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x2c, 0x2e, 0x78, 0x6d, 0x74, 0x70, 0x2e, 0x6d,
-	0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x5f, 0x63, 0x6f, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x73, 0x2e,
-	0x43, 0x6f, 0x6e, 0x76, 0x65, 0x72, 0x73, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x66, 0x65,
-	0x72, 0x65, 0x6e, 0x63, 0x65, 0x52, 0x0c, 0x63, 0x6f, 0x6e, 0x76, 0x65, 0x72, 0x73, 0x61, 0x74,
-	0x69, 0x6f, 0x6e, 0x42, 0x0a, 0x0a, 0x08, 0x72, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22,
-	0x51, 0x0a, 0x16, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x41, 0x75, 0x74, 0x68, 0x54, 0x6f, 0x6b,
-	0x65, 0x6e, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x26, 0x0a, 0x0c, 0x74, 0x69, 0x6d,
-	0x65, 0x73, 0x74, 0x61, 0x6d, 0x70, 0x5f, 0x6e, 0x73, 0x18, 0x01, 0x20, 0x01, 0x28, 0x04, 0x48,
-	0x00, 0x52, 0x0b, 0x74, 0x69, 0x6d, 0x65, 0x73, 0x74, 0x61, 0x6d, 0x70, 0x4e, 0x73, 0x88, 0x01,
-	0x01, 0x42, 0x0f, 0x0a, 0x0d, 0x5f, 0x74, 0x69, 0x6d, 0x65, 0x73, 0x74, 0x61, 0x6d, 0x70, 0x5f,
-	0x6e, 0x73, 0x22, 0x70, 0x0a, 0x1a, 0x47, 0x65, 0x74, 0x56, 0x32, 0x43, 0x6f, 0x6e, 0x76, 0x65,
-	0x72, 0x73, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65,
-	0x12, 0x52, 0x0a, 0x0d, 0x63, 0x6f, 0x6e, 0x76, 0x65, 0x72, 0x73, 0x61, 0x74, 0x69, 0x6f, 0x6e,
-	0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x2c, 0x2e, 0x78, 0x6d, 0x74, 0x70, 0x2e, 0x6d,
-	0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x5f, 0x63, 0x6f, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x73, 0x2e,
-	0x43, 0x6f, 0x6e, 0x76, 0x65, 0x72, 0x73, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x66, 0x65,
-	0x72, 0x65, 0x6e, 0x63, 0x65, 0x52, 0x0d, 0x63, 0x6f, 0x6e, 0x76, 0x65, 0x72, 0x73, 0x61, 0x74,
-	0x69, 0x6f, 0x6e, 0x73, 0x22, 0x41, 0x0a, 0x18, 0x47, 0x65, 0x74, 0x4b, 0x65, 0x79, 0x73, 0x74,
-	0x6f, 0x72, 0x65, 0x53, 0x74, 0x61, 0x74, 0x75, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74,
-	0x12, 0x25, 0x0a, 0x0e, 0x77, 0x61, 0x6c, 0x6c, 0x65, 0x74, 0x5f, 0x61, 0x64, 0x64, 0x72, 0x65,
-	0x73, 0x73, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0d, 0x77, 0x61, 0x6c, 0x6c, 0x65, 0x74,
-	0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x22, 0xea, 0x01, 0x0a, 0x19, 0x47, 0x65, 0x74, 0x4b,
-	0x65, 0x79, 0x73, 0x74, 0x6f, 0x72, 0x65, 0x53, 0x74, 0x61, 0x74, 0x75, 0x73, 0x52, 0x65, 0x73,
-	0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x56, 0x0a, 0x06, 0x73, 0x74, 0x61, 0x74, 0x75, 0x73, 0x18,
-	0x01, 0x20, 0x01, 0x28, 0x0e, 0x32, 0x3e, 0x2e, 0x78, 0x6d, 0x74, 0x70, 0x2e, 0x6b, 0x65, 0x79,
-	0x73, 0x74, 0x6f, 0x72, 0x65, 0x5f, 0x61, 0x70, 0x69, 0x2e, 0x76, 0x31, 0x2e, 0x47, 0x65, 0x74,
-	0x4b, 0x65, 0x79, 0x73, 0x74, 0x6f, 0x72, 0x65, 0x53, 0x74, 0x61, 0x74, 0x75, 0x73, 0x52, 0x65,
-	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x2e, 0x4b, 0x65, 0x79, 0x73, 0x74, 0x6f, 0x72, 0x65, 0x53,
-	0x74, 0x61, 0x74, 0x75, 0x73, 0x52, 0x06, 0x73, 0x74, 0x61, 0x74, 0x75, 0x73, 0x22, 0x75, 0x0a,
-	0x0e, 0x4b, 0x65, 0x79, 0x73, 0x74, 0x6f, 0x72, 0x65, 0x53, 0x74, 0x61, 0x74, 0x75, 0x73, 0x12,
-	0x1f, 0x0a, 0x1b, 0x4b, 0x45, 0x59, 0x53, 0x54, 0x4f, 0x52, 0x45, 0x5f, 0x53, 0x54, 0x41, 0x54,
-	0x55, 0x53, 0x5f, 0x55, 0x4e, 0x53, 0x50, 0x45, 0x43, 0x49, 0x46, 0x49, 0x45, 0x44, 0x10, 0x00,
-	0x12, 0x21, 0x0a, 0x1d, 0x4b, 0x45, 0x59, 0x53, 0x54, 0x4f, 0x52, 0x45, 0x5f, 0x53, 0x54, 0x41,
-	0x54, 0x55, 0x53, 0x5f, 0x55, 0x4e, 0x49, 0x4e, 0x49, 0x54, 0x49, 0x41, 0x4c, 0x49, 0x5a, 0x45,
-	0x44, 0x10, 0x01, 0x12, 0x1f, 0x0a, 0x1b, 0x4b, 0x45, 0x59, 0x53, 0x54, 0x4f, 0x52, 0x45, 0x5f,
-	0x53, 0x54, 0x41, 0x54, 0x55, 0x53, 0x5f, 0x49, 0x4e, 0x49, 0x54, 0x49, 0x41, 0x4c, 0x49, 0x5a,
-	0x45, 0x44, 0x10, 0x02, 0x22, 0x5c, 0x0a, 0x13, 0x49, 0x6e, 0x69, 0x74, 0x4b, 0x65, 0x79, 0x73,
-	0x74, 0x6f, 0x72, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x3b, 0x0a, 0x02, 0x76,
-	0x31, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x29, 0x2e, 0x78, 0x6d, 0x74, 0x70, 0x2e, 0x6d,
-	0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x5f, 0x63, 0x6f, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x73, 0x2e,
-	0x50, 0x72, 0x69, 0x76, 0x61, 0x74, 0x65, 0x4b, 0x65, 0x79, 0x42, 0x75, 0x6e, 0x64, 0x6c, 0x65,
-	0x56, 0x31, 0x48, 0x00, 0x52, 0x02, 0x76, 0x31, 0x42, 0x08, 0x0a, 0x06, 0x62, 0x75, 0x6e, 0x64,
-	0x6c, 0x65, 0x22, 0x51, 0x0a, 0x14, 0x49, 0x6e, 0x69, 0x74, 0x4b, 0x65, 0x79, 0x73, 0x74, 0x6f,
-	0x72, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x39, 0x0a, 0x05, 0x65, 0x72,
-	0x72, 0x6f, 0x72, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x23, 0x2e, 0x78, 0x6d, 0x74, 0x70,
-	0x2e, 0x6b, 0x65, 0x79, 0x73, 0x74, 0x6f, 0x72, 0x65, 0x5f, 0x61, 0x70, 0x69, 0x2e, 0x76, 0x31,
-	0x2e, 0x4b, 0x65, 0x79, 0x73, 0x74, 0x6f, 0x72, 0x65, 0x45, 0x72, 0x72, 0x6f, 0x72, 0x52, 0x05,
-	0x65, 0x72, 0x72, 0x6f, 0x72, 0x22, 0x7f, 0x0a, 0x11, 0x53, 0x69, 0x67, 0x6e, 0x44, 0x69, 0x67,
-	0x65, 0x73, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x16, 0x0a, 0x06, 0x64, 0x69,
-	0x67, 0x65, 0x73, 0x74, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0c, 0x52, 0x06, 0x64, 0x69, 0x67, 0x65,
-	0x73, 0x74, 0x12, 0x23, 0x0a, 0x0c, 0x69, 0x64, 0x65, 0x6e, 0x74, 0x69, 0x74, 0x79, 0x5f, 0x6b,
-	0x65, 0x79, 0x18, 0x02, 0x20, 0x01, 0x28, 0x08, 0x48, 0x00, 0x52, 0x0b, 0x69, 0x64, 0x65, 0x6e,
-	0x74, 0x69, 0x74, 0x79, 0x4b, 0x65, 0x79, 0x12, 0x23, 0x0a, 0x0c, 0x70, 0x72, 0x65, 0x6b, 0x65,
-	0x79, 0x5f, 0x69, 0x6e, 0x64, 0x65, 0x78, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0d, 0x48, 0x00, 0x52,
-	0x0b, 0x70, 0x72, 0x65, 0x6b, 0x65, 0x79, 0x49, 0x6e, 0x64, 0x65, 0x78, 0x42, 0x08, 0x0a, 0x06,
-	0x73, 0x69, 0x67, 0x6e, 0x65, 0x72, 0x22, 0xc8, 0x02, 0x0a, 0x08, 0x54, 0x6f, 0x70, 0x69, 0x63,
-	0x4d, 0x61, 0x70, 0x12, 0x42, 0x0a, 0x06, 0x74, 0x6f, 0x70, 0x69, 0x63, 0x73, 0x18, 0x01, 0x20,
-	0x03, 0x28, 0x0b, 0x32, 0x2a, 0x2e, 0x78, 0x6d, 0x74, 0x70, 0x2e, 0x6b, 0x65, 0x79, 0x73, 0x74,
-	0x6f, 0x72, 0x65, 0x5f, 0x61, 0x70, 0x69, 0x2e, 0x76, 0x31, 0x2e, 0x54, 0x6f, 0x70, 0x69, 0x63,
-	0x4d, 0x61, 0x70, 0x2e, 0x54, 0x6f, 0x70, 0x69, 0x63, 0x73, 0x45, 0x6e, 0x74, 0x72, 0x79, 0x52,
-	0x06, 0x74, 0x6f, 0x70, 0x69, 0x63, 0x73, 0x1a, 0x92, 0x01, 0x0a, 0x09, 0x54, 0x6f, 0x70, 0x69,
-	0x63, 0x44, 0x61, 0x74, 0x61, 0x12, 0x1d, 0x0a, 0x0a, 0x63, 0x72, 0x65, 0x61, 0x74, 0x65, 0x64,
-	0x5f, 0x6e, 0x73, 0x18, 0x01, 0x20, 0x01, 0x28, 0x04, 0x52, 0x09, 0x63, 0x72, 0x65, 0x61, 0x74,
-	0x65, 0x64, 0x4e, 0x73, 0x12, 0x21, 0x0a, 0x0c, 0x70, 0x65, 0x65, 0x72, 0x5f, 0x61, 0x64, 0x64,
-	0x72, 0x65, 0x73, 0x73, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0b, 0x70, 0x65, 0x65, 0x72,
-	0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x12, 0x43, 0x0a, 0x0a, 0x69, 0x6e, 0x76, 0x69, 0x74,
-	0x61, 0x74, 0x69, 0x6f, 0x6e, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x23, 0x2e, 0x78, 0x6d,
-	0x74, 0x70, 0x2e, 0x6d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x5f, 0x63, 0x6f, 0x6e, 0x74, 0x65,
-	0x6e, 0x74, 0x73, 0x2e, 0x49, 0x6e, 0x76, 0x69, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x56, 0x31,
-	0x52, 0x0a, 0x69, 0x6e, 0x76, 0x69, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x1a, 0x63, 0x0a, 0x0b,
-	0x54, 0x6f, 0x70, 0x69, 0x63, 0x73, 0x45, 0x6e, 0x74, 0x72, 0x79, 0x12, 0x10, 0x0a, 0x03, 0x6b,
-	0x65, 0x79, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x6b, 0x65, 0x79, 0x12, 0x3e, 0x0a,
-	0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x28, 0x2e, 0x78,
-	0x6d, 0x74, 0x70, 0x2e, 0x6b, 0x65, 0x79, 0x73, 0x74, 0x6f, 0x72, 0x65, 0x5f, 0x61, 0x70, 0x69,
-	0x2e, 0x76, 0x31, 0x2e, 0x54, 0x6f, 0x70, 0x69, 0x63, 0x4d, 0x61, 0x70, 0x2e, 0x54, 0x6f, 0x70,
-	0x69, 0x63, 0x44, 0x61, 0x74, 0x61, 0x52, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x3a, 0x02, 0x38,
-	0x01, 0x2a, 0x68, 0x0a, 0x09, 0x45, 0x72, 0x72, 0x6f, 0x72, 0x43, 0x6f, 0x64, 0x65, 0x12, 0x1a,
-	0x0a, 0x16, 0x45, 0x52, 0x52, 0x4f, 0x52, 0x5f, 0x43, 0x4f, 0x44, 0x45, 0x5f, 0x55, 0x4e, 0x53,
-	0x50, 0x45, 0x43, 0x49, 0x46, 0x49, 0x45, 0x44, 0x10, 0x00, 0x12, 0x1c, 0x0a, 0x18, 0x45, 0x52,
-	0x52, 0x4f, 0x52, 0x5f, 0x43, 0x4f, 0x44, 0x45, 0x5f, 0x49, 0x4e, 0x56, 0x41, 0x4c, 0x49, 0x44,
-	0x5f, 0x49, 0x4e, 0x50, 0x55, 0x54, 0x10, 0x01, 0x12, 0x21, 0x0a, 0x1d, 0x45, 0x52, 0x52, 0x4f,
-	0x52, 0x5f, 0x43, 0x4f, 0x44, 0x45, 0x5f, 0x4e, 0x4f, 0x5f, 0x4d, 0x41, 0x54, 0x43, 0x48, 0x49,
-	0x4e, 0x47, 0x5f, 0x50, 0x52, 0x45, 0x4b, 0x45, 0x59, 0x10, 0x02, 0x42, 0x4d, 0x0a, 0x1e, 0x6f,
-	0x72, 0x67, 0x2e, 0x78, 0x6d, 0x74, 0x70, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2e, 0x6b, 0x65,
-	0x79, 0x73, 0x74, 0x6f, 0x72, 0x65, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x76, 0x31, 0x5a, 0x2b, 0x67,
-	0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x78, 0x6d, 0x74, 0x70, 0x2f, 0x70,
-	0x72, 0x6f, 0x74, 0x6f, 0x2f, 0x76, 0x33, 0x2f, 0x67, 0x6f, 0x2f, 0x6b, 0x65, 0x79, 0x73, 0x74,
-	0x6f, 0x72, 0x65, 0x5f, 0x61, 0x70, 0x69, 0x2f, 0x76, 0x31, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74,
-	0x6f, 0x33,
+	0x4a, 0x6f, 0x62, 0x54, 0x79, 0x70, 0x65, 0x52, 0x07, 0x6a, 0x6f, 0x62, 0x54, 0x79, 0x70, 0x65,
+	0x12, 0x1e, 0x0a, 0x0b, 0x6c, 0x61, 0x73, 0x74, 0x5f, 0x72, 0x75, 0x6e, 0x5f, 0x6e, 0x73, 0x18,
+	0x02, 0x20, 0x01, 0x28, 0x03, 0x52, 0x09, 0x6c, 0x61, 0x73, 0x74, 0x52, 0x75, 0x6e, 0x4e, 0x73,
+	0x22, 0x17, 0x0a, 0x15, 0x53, 0x65, 0x74, 0x52, 0x65, 0x66, 0x72, 0x65, 0x73, 0x68, 0x4a, 0x6f,
+	0x62, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0xc8, 0x02, 0x0a, 0x08, 0x54, 0x6f,
+	0x70, 0x69, 0x63, 0x4d, 0x61, 0x70, 0x12, 0x42, 0x0a, 0x06, 0x74, 0x6f, 0x70, 0x69, 0x63, 0x73,
+	0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x2a, 0x2e, 0x78, 0x6d, 0x74, 0x70, 0x2e, 0x6b, 0x65,
+	0x79, 0x73, 0x74, 0x6f, 0x72, 0x65, 0x5f, 0x61, 0x70, 0x69, 0x2e, 0x76, 0x31, 0x2e, 0x54, 0x6f,
+	0x70, 0x69, 0x63, 0x4d, 0x61, 0x70, 0x2e, 0x54, 0x6f, 0x70, 0x69, 0x63, 0x73, 0x45, 0x6e, 0x74,
+	0x72, 0x79, 0x52, 0x06, 0x74, 0x6f, 0x70, 0x69, 0x63, 0x73, 0x1a, 0x92, 0x01, 0x0a, 0x09, 0x54,
+	0x6f, 0x70, 0x69, 0x63, 0x44, 0x61, 0x74, 0x61, 0x12, 0x1d, 0x0a, 0x0a, 0x63, 0x72, 0x65, 0x61,
+	0x74, 0x65, 0x64, 0x5f, 0x6e, 0x73, 0x18, 0x01, 0x20, 0x01, 0x28, 0x04, 0x52, 0x09, 0x63, 0x72,
+	0x65, 0x61, 0x74, 0x65, 0x64, 0x4e, 0x73, 0x12, 0x21, 0x0a, 0x0c, 0x70, 0x65, 0x65, 0x72, 0x5f,
+	0x61, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0b, 0x70,
+	0x65, 0x65, 0x72, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x12, 0x43, 0x0a, 0x0a, 0x69, 0x6e,
+	0x76, 0x69, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x23,
+	0x2e, 0x78, 0x6d, 0x74, 0x70, 0x2e, 0x6d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x5f, 0x63, 0x6f,
+	0x6e, 0x74, 0x65, 0x6e, 0x74, 0x73, 0x2e, 0x49, 0x6e, 0x76, 0x69, 0x74, 0x61, 0x74, 0x69, 0x6f,
+	0x6e, 0x56, 0x31, 0x52, 0x0a, 0x69, 0x6e, 0x76, 0x69, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x1a,
+	0x63, 0x0a, 0x0b, 0x54, 0x6f, 0x70, 0x69, 0x63, 0x73, 0x45, 0x6e, 0x74, 0x72, 0x79, 0x12, 0x10,
+	0x0a, 0x03, 0x6b, 0x65, 0x79, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x6b, 0x65, 0x79,
+	0x12, 0x3e, 0x0a, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32,
+	0x28, 0x2e, 0x78, 0x6d, 0x74, 0x70, 0x2e, 0x6b, 0x65, 0x79, 0x73, 0x74, 0x6f, 0x72, 0x65, 0x5f,
+	0x61, 0x70, 0x69, 0x2e, 0x76, 0x31, 0x2e, 0x54, 0x6f, 0x70, 0x69, 0x63, 0x4d, 0x61, 0x70, 0x2e,
+	0x54, 0x6f, 0x70, 0x69, 0x63, 0x44, 0x61, 0x74, 0x61, 0x52, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65,
+	0x3a, 0x02, 0x38, 0x01, 0x2a, 0x68, 0x0a, 0x09, 0x45, 0x72, 0x72, 0x6f, 0x72, 0x43, 0x6f, 0x64,
+	0x65, 0x12, 0x1a, 0x0a, 0x16, 0x45, 0x52, 0x52, 0x4f, 0x52, 0x5f, 0x43, 0x4f, 0x44, 0x45, 0x5f,
+	0x55, 0x4e, 0x53, 0x50, 0x45, 0x43, 0x49, 0x46, 0x49, 0x45, 0x44, 0x10, 0x00, 0x12, 0x1c, 0x0a,
+	0x18, 0x45, 0x52, 0x52, 0x4f, 0x52, 0x5f, 0x43, 0x4f, 0x44, 0x45, 0x5f, 0x49, 0x4e, 0x56, 0x41,
+	0x4c, 0x49, 0x44, 0x5f, 0x49, 0x4e, 0x50, 0x55, 0x54, 0x10, 0x01, 0x12, 0x21, 0x0a, 0x1d, 0x45,
+	0x52, 0x52, 0x4f, 0x52, 0x5f, 0x43, 0x4f, 0x44, 0x45, 0x5f, 0x4e, 0x4f, 0x5f, 0x4d, 0x41, 0x54,
+	0x43, 0x48, 0x49, 0x4e, 0x47, 0x5f, 0x50, 0x52, 0x45, 0x4b, 0x45, 0x59, 0x10, 0x02, 0x2a, 0x55,
+	0x0a, 0x07, 0x4a, 0x6f, 0x62, 0x54, 0x79, 0x70, 0x65, 0x12, 0x18, 0x0a, 0x14, 0x4a, 0x4f, 0x42,
+	0x5f, 0x54, 0x59, 0x50, 0x45, 0x5f, 0x55, 0x4e, 0x53, 0x50, 0x45, 0x43, 0x49, 0x46, 0x49, 0x45,
+	0x44, 0x10, 0x00, 0x12, 0x17, 0x0a, 0x13, 0x4a, 0x4f, 0x42, 0x5f, 0x54, 0x59, 0x50, 0x45, 0x5f,
+	0x52, 0x45, 0x46, 0x52, 0x45, 0x53, 0x48, 0x5f, 0x56, 0x31, 0x10, 0x01, 0x12, 0x17, 0x0a, 0x13,
+	0x4a, 0x4f, 0x42, 0x5f, 0x54, 0x59, 0x50, 0x45, 0x5f, 0x52, 0x45, 0x46, 0x52, 0x45, 0x53, 0x48,
+	0x5f, 0x56, 0x32, 0x10, 0x02, 0x42, 0x4d, 0x0a, 0x1e, 0x6f, 0x72, 0x67, 0x2e, 0x78, 0x6d, 0x74,
+	0x70, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2e, 0x6b, 0x65, 0x79, 0x73, 0x74, 0x6f, 0x72, 0x65,
+	0x2e, 0x61, 0x70, 0x69, 0x2e, 0x76, 0x31, 0x5a, 0x2b, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e,
+	0x63, 0x6f, 0x6d, 0x2f, 0x78, 0x6d, 0x74, 0x70, 0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2f, 0x76,
+	0x33, 0x2f, 0x67, 0x6f, 0x2f, 0x6b, 0x65, 0x79, 0x73, 0x74, 0x6f, 0x72, 0x65, 0x5f, 0x61, 0x70,
+	0x69, 0x2f, 0x76, 0x31, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -2403,95 +2551,98 @@ func file_keystore_api_v1_keystore_proto_rawDescGZIP() []byte {
 	return file_keystore_api_v1_keystore_proto_rawDescData
 }
 
-var file_keystore_api_v1_keystore_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
-var file_keystore_api_v1_keystore_proto_msgTypes = make([]protoimpl.MessageInfo, 35)
+var file_keystore_api_v1_keystore_proto_enumTypes = make([]protoimpl.EnumInfo, 3)
+var file_keystore_api_v1_keystore_proto_msgTypes = make([]protoimpl.MessageInfo, 38)
 var file_keystore_api_v1_keystore_proto_goTypes = []interface{}{
 	(ErrorCode)(0), // 0: xmtp.keystore_api.v1.ErrorCode
-	(GetKeystoreStatusResponse_KeystoreStatus)(0),  // 1: xmtp.keystore_api.v1.GetKeystoreStatusResponse.KeystoreStatus
-	(*KeystoreError)(nil),                          // 2: xmtp.keystore_api.v1.KeystoreError
-	(*DecryptV1Request)(nil),                       // 3: xmtp.keystore_api.v1.DecryptV1Request
-	(*DecryptResponse)(nil),                        // 4: xmtp.keystore_api.v1.DecryptResponse
-	(*DecryptV2Request)(nil),                       // 5: xmtp.keystore_api.v1.DecryptV2Request
-	(*EncryptV1Request)(nil),                       // 6: xmtp.keystore_api.v1.EncryptV1Request
-	(*EncryptResponse)(nil),                        // 7: xmtp.keystore_api.v1.EncryptResponse
-	(*EncryptV2Request)(nil),                       // 8: xmtp.keystore_api.v1.EncryptV2Request
-	(*CreateInviteRequest)(nil),                    // 9: xmtp.keystore_api.v1.CreateInviteRequest
-	(*CreateInviteFromTopicRequest)(nil),           // 10: xmtp.keystore_api.v1.CreateInviteFromTopicRequest
-	(*CreateInvitesRequest)(nil),                   // 11: xmtp.keystore_api.v1.CreateInvitesRequest
-	(*CreateInviteResponse)(nil),                   // 12: xmtp.keystore_api.v1.CreateInviteResponse
-	(*CreateInvitesResponse)(nil),                  // 13: xmtp.keystore_api.v1.CreateInvitesResponse
-	(*SaveInvitesRequest)(nil),                     // 14: xmtp.keystore_api.v1.SaveInvitesRequest
-	(*SaveInvitesResponse)(nil),                    // 15: xmtp.keystore_api.v1.SaveInvitesResponse
-	(*CreateAuthTokenRequest)(nil),                 // 16: xmtp.keystore_api.v1.CreateAuthTokenRequest
-	(*GetV2ConversationsResponse)(nil),             // 17: xmtp.keystore_api.v1.GetV2ConversationsResponse
+	(JobType)(0),   // 1: xmtp.keystore_api.v1.JobType
+	(GetKeystoreStatusResponse_KeystoreStatus)(0),  // 2: xmtp.keystore_api.v1.GetKeystoreStatusResponse.KeystoreStatus
+	(*KeystoreError)(nil),                          // 3: xmtp.keystore_api.v1.KeystoreError
+	(*DecryptV1Request)(nil),                       // 4: xmtp.keystore_api.v1.DecryptV1Request
+	(*DecryptResponse)(nil),                        // 5: xmtp.keystore_api.v1.DecryptResponse
+	(*DecryptV2Request)(nil),                       // 6: xmtp.keystore_api.v1.DecryptV2Request
+	(*EncryptV1Request)(nil),                       // 7: xmtp.keystore_api.v1.EncryptV1Request
+	(*EncryptResponse)(nil),                        // 8: xmtp.keystore_api.v1.EncryptResponse
+	(*EncryptV2Request)(nil),                       // 9: xmtp.keystore_api.v1.EncryptV2Request
+	(*CreateInviteRequest)(nil),                    // 10: xmtp.keystore_api.v1.CreateInviteRequest
+	(*CreateInviteResponse)(nil),                   // 11: xmtp.keystore_api.v1.CreateInviteResponse
+	(*SaveInvitesRequest)(nil),                     // 12: xmtp.keystore_api.v1.SaveInvitesRequest
+	(*SaveInvitesResponse)(nil),                    // 13: xmtp.keystore_api.v1.SaveInvitesResponse
+	(*CreateAuthTokenRequest)(nil),                 // 14: xmtp.keystore_api.v1.CreateAuthTokenRequest
+	(*SaveV1ConversationsRequest)(nil),             // 15: xmtp.keystore_api.v1.SaveV1ConversationsRequest
+	(*SaveV1ConversationsResponse)(nil),            // 16: xmtp.keystore_api.v1.SaveV1ConversationsResponse
+	(*GetConversationsResponse)(nil),               // 17: xmtp.keystore_api.v1.GetConversationsResponse
 	(*GetKeystoreStatusRequest)(nil),               // 18: xmtp.keystore_api.v1.GetKeystoreStatusRequest
 	(*GetKeystoreStatusResponse)(nil),              // 19: xmtp.keystore_api.v1.GetKeystoreStatusResponse
 	(*InitKeystoreRequest)(nil),                    // 20: xmtp.keystore_api.v1.InitKeystoreRequest
 	(*InitKeystoreResponse)(nil),                   // 21: xmtp.keystore_api.v1.InitKeystoreResponse
 	(*SignDigestRequest)(nil),                      // 22: xmtp.keystore_api.v1.SignDigestRequest
-	(*TopicMap)(nil),                               // 23: xmtp.keystore_api.v1.TopicMap
-	(*DecryptV1Request_Request)(nil),               // 24: xmtp.keystore_api.v1.DecryptV1Request.Request
-	(*DecryptResponse_Response)(nil),               // 25: xmtp.keystore_api.v1.DecryptResponse.Response
-	(*DecryptResponse_Response_Success)(nil),       // 26: xmtp.keystore_api.v1.DecryptResponse.Response.Success
-	(*DecryptV2Request_Request)(nil),               // 27: xmtp.keystore_api.v1.DecryptV2Request.Request
-	(*EncryptV1Request_Request)(nil),               // 28: xmtp.keystore_api.v1.EncryptV1Request.Request
-	(*EncryptResponse_Response)(nil),               // 29: xmtp.keystore_api.v1.EncryptResponse.Response
-	(*EncryptResponse_Response_Success)(nil),       // 30: xmtp.keystore_api.v1.EncryptResponse.Response.Success
-	(*EncryptV2Request_Request)(nil),               // 31: xmtp.keystore_api.v1.EncryptV2Request.Request
-	(*SaveInvitesRequest_Request)(nil),             // 32: xmtp.keystore_api.v1.SaveInvitesRequest.Request
-	(*SaveInvitesResponse_Response)(nil),           // 33: xmtp.keystore_api.v1.SaveInvitesResponse.Response
-	(*SaveInvitesResponse_Response_Success)(nil),   // 34: xmtp.keystore_api.v1.SaveInvitesResponse.Response.Success
-	(*TopicMap_TopicData)(nil),                     // 35: xmtp.keystore_api.v1.TopicMap.TopicData
-	nil,                                            // 36: xmtp.keystore_api.v1.TopicMap.TopicsEntry
-	(*message_contents.InvitationV1_Context)(nil),  // 37: xmtp.message_contents.InvitationV1.Context
-	(*message_contents.SignedPublicKeyBundle)(nil), // 38: xmtp.message_contents.SignedPublicKeyBundle
-	(*message_contents.ConversationReference)(nil), // 39: xmtp.message_contents.ConversationReference
-	(*message_contents.PrivateKeyBundleV1)(nil),    // 40: xmtp.message_contents.PrivateKeyBundleV1
-	(*message_contents.Ciphertext)(nil),            // 41: xmtp.message_contents.Ciphertext
-	(*message_contents.PublicKeyBundle)(nil),       // 42: xmtp.message_contents.PublicKeyBundle
-	(*message_contents.InvitationV1)(nil),          // 43: xmtp.message_contents.InvitationV1
+	(*GetRefreshJobRequest)(nil),                   // 23: xmtp.keystore_api.v1.GetRefreshJobRequest
+	(*GetRefreshJobResponse)(nil),                  // 24: xmtp.keystore_api.v1.GetRefreshJobResponse
+	(*SetRefeshJobRequest)(nil),                    // 25: xmtp.keystore_api.v1.SetRefeshJobRequest
+	(*SetRefreshJobResponse)(nil),                  // 26: xmtp.keystore_api.v1.SetRefreshJobResponse
+	(*TopicMap)(nil),                               // 27: xmtp.keystore_api.v1.TopicMap
+	(*DecryptV1Request_Request)(nil),               // 28: xmtp.keystore_api.v1.DecryptV1Request.Request
+	(*DecryptResponse_Response)(nil),               // 29: xmtp.keystore_api.v1.DecryptResponse.Response
+	(*DecryptResponse_Response_Success)(nil),       // 30: xmtp.keystore_api.v1.DecryptResponse.Response.Success
+	(*DecryptV2Request_Request)(nil),               // 31: xmtp.keystore_api.v1.DecryptV2Request.Request
+	(*EncryptV1Request_Request)(nil),               // 32: xmtp.keystore_api.v1.EncryptV1Request.Request
+	(*EncryptResponse_Response)(nil),               // 33: xmtp.keystore_api.v1.EncryptResponse.Response
+	(*EncryptResponse_Response_Success)(nil),       // 34: xmtp.keystore_api.v1.EncryptResponse.Response.Success
+	(*EncryptV2Request_Request)(nil),               // 35: xmtp.keystore_api.v1.EncryptV2Request.Request
+	(*SaveInvitesRequest_Request)(nil),             // 36: xmtp.keystore_api.v1.SaveInvitesRequest.Request
+	(*SaveInvitesResponse_Response)(nil),           // 37: xmtp.keystore_api.v1.SaveInvitesResponse.Response
+	(*SaveInvitesResponse_Response_Success)(nil),   // 38: xmtp.keystore_api.v1.SaveInvitesResponse.Response.Success
+	(*TopicMap_TopicData)(nil),                     // 39: xmtp.keystore_api.v1.TopicMap.TopicData
+	nil,                                            // 40: xmtp.keystore_api.v1.TopicMap.TopicsEntry
+	(*message_contents.InvitationV1_Context)(nil),  // 41: xmtp.message_contents.InvitationV1.Context
+	(*message_contents.SignedPublicKeyBundle)(nil), // 42: xmtp.message_contents.SignedPublicKeyBundle
+	(*message_contents.ConversationReference)(nil), // 43: xmtp.message_contents.ConversationReference
+	(*message_contents.PrivateKeyBundleV1)(nil),    // 44: xmtp.message_contents.PrivateKeyBundleV1
+	(*message_contents.Ciphertext)(nil),            // 45: xmtp.message_contents.Ciphertext
+	(*message_contents.PublicKeyBundle)(nil),       // 46: xmtp.message_contents.PublicKeyBundle
+	(*message_contents.InvitationV1)(nil),          // 47: xmtp.message_contents.InvitationV1
 }
 var file_keystore_api_v1_keystore_proto_depIdxs = []int32{
 	0,  // 0: xmtp.keystore_api.v1.KeystoreError.code:type_name -> xmtp.keystore_api.v1.ErrorCode
-	24, // 1: xmtp.keystore_api.v1.DecryptV1Request.requests:type_name -> xmtp.keystore_api.v1.DecryptV1Request.Request
-	25, // 2: xmtp.keystore_api.v1.DecryptResponse.responses:type_name -> xmtp.keystore_api.v1.DecryptResponse.Response
-	27, // 3: xmtp.keystore_api.v1.DecryptV2Request.requests:type_name -> xmtp.keystore_api.v1.DecryptV2Request.Request
-	28, // 4: xmtp.keystore_api.v1.EncryptV1Request.requests:type_name -> xmtp.keystore_api.v1.EncryptV1Request.Request
-	29, // 5: xmtp.keystore_api.v1.EncryptResponse.responses:type_name -> xmtp.keystore_api.v1.EncryptResponse.Response
-	31, // 6: xmtp.keystore_api.v1.EncryptV2Request.requests:type_name -> xmtp.keystore_api.v1.EncryptV2Request.Request
-	37, // 7: xmtp.keystore_api.v1.CreateInviteRequest.context:type_name -> xmtp.message_contents.InvitationV1.Context
-	38, // 8: xmtp.keystore_api.v1.CreateInviteRequest.recipient:type_name -> xmtp.message_contents.SignedPublicKeyBundle
-	38, // 9: xmtp.keystore_api.v1.CreateInviteFromTopicRequest.recipient:type_name -> xmtp.message_contents.SignedPublicKeyBundle
-	37, // 10: xmtp.keystore_api.v1.CreateInvitesRequest.context:type_name -> xmtp.message_contents.InvitationV1.Context
-	38, // 11: xmtp.keystore_api.v1.CreateInvitesRequest.recipients:type_name -> xmtp.message_contents.SignedPublicKeyBundle
-	39, // 12: xmtp.keystore_api.v1.CreateInviteResponse.conversation:type_name -> xmtp.message_contents.ConversationReference
-	12, // 13: xmtp.keystore_api.v1.CreateInvitesResponse.responses:type_name -> xmtp.keystore_api.v1.CreateInviteResponse
-	32, // 14: xmtp.keystore_api.v1.SaveInvitesRequest.requests:type_name -> xmtp.keystore_api.v1.SaveInvitesRequest.Request
-	33, // 15: xmtp.keystore_api.v1.SaveInvitesResponse.responses:type_name -> xmtp.keystore_api.v1.SaveInvitesResponse.Response
-	39, // 16: xmtp.keystore_api.v1.GetV2ConversationsResponse.conversations:type_name -> xmtp.message_contents.ConversationReference
-	1,  // 17: xmtp.keystore_api.v1.GetKeystoreStatusResponse.status:type_name -> xmtp.keystore_api.v1.GetKeystoreStatusResponse.KeystoreStatus
-	40, // 18: xmtp.keystore_api.v1.InitKeystoreRequest.v1:type_name -> xmtp.message_contents.PrivateKeyBundleV1
-	2,  // 19: xmtp.keystore_api.v1.InitKeystoreResponse.error:type_name -> xmtp.keystore_api.v1.KeystoreError
-	36, // 20: xmtp.keystore_api.v1.TopicMap.topics:type_name -> xmtp.keystore_api.v1.TopicMap.TopicsEntry
-	41, // 21: xmtp.keystore_api.v1.DecryptV1Request.Request.payload:type_name -> xmtp.message_contents.Ciphertext
-	42, // 22: xmtp.keystore_api.v1.DecryptV1Request.Request.peer_keys:type_name -> xmtp.message_contents.PublicKeyBundle
-	26, // 23: xmtp.keystore_api.v1.DecryptResponse.Response.result:type_name -> xmtp.keystore_api.v1.DecryptResponse.Response.Success
-	2,  // 24: xmtp.keystore_api.v1.DecryptResponse.Response.error:type_name -> xmtp.keystore_api.v1.KeystoreError
-	41, // 25: xmtp.keystore_api.v1.DecryptV2Request.Request.payload:type_name -> xmtp.message_contents.Ciphertext
-	42, // 26: xmtp.keystore_api.v1.EncryptV1Request.Request.recipient:type_name -> xmtp.message_contents.PublicKeyBundle
-	30, // 27: xmtp.keystore_api.v1.EncryptResponse.Response.result:type_name -> xmtp.keystore_api.v1.EncryptResponse.Response.Success
-	2,  // 28: xmtp.keystore_api.v1.EncryptResponse.Response.error:type_name -> xmtp.keystore_api.v1.KeystoreError
-	41, // 29: xmtp.keystore_api.v1.EncryptResponse.Response.Success.encrypted:type_name -> xmtp.message_contents.Ciphertext
-	34, // 30: xmtp.keystore_api.v1.SaveInvitesResponse.Response.result:type_name -> xmtp.keystore_api.v1.SaveInvitesResponse.Response.Success
-	2,  // 31: xmtp.keystore_api.v1.SaveInvitesResponse.Response.error:type_name -> xmtp.keystore_api.v1.KeystoreError
-	39, // 32: xmtp.keystore_api.v1.SaveInvitesResponse.Response.Success.conversation:type_name -> xmtp.message_contents.ConversationReference
-	43, // 33: xmtp.keystore_api.v1.TopicMap.TopicData.invitation:type_name -> xmtp.message_contents.InvitationV1
-	35, // 34: xmtp.keystore_api.v1.TopicMap.TopicsEntry.value:type_name -> xmtp.keystore_api.v1.TopicMap.TopicData
-	35, // [35:35] is the sub-list for method output_type
-	35, // [35:35] is the sub-list for method input_type
-	35, // [35:35] is the sub-list for extension type_name
-	35, // [35:35] is the sub-list for extension extendee
-	0,  // [0:35] is the sub-list for field type_name
+	28, // 1: xmtp.keystore_api.v1.DecryptV1Request.requests:type_name -> xmtp.keystore_api.v1.DecryptV1Request.Request
+	29, // 2: xmtp.keystore_api.v1.DecryptResponse.responses:type_name -> xmtp.keystore_api.v1.DecryptResponse.Response
+	31, // 3: xmtp.keystore_api.v1.DecryptV2Request.requests:type_name -> xmtp.keystore_api.v1.DecryptV2Request.Request
+	32, // 4: xmtp.keystore_api.v1.EncryptV1Request.requests:type_name -> xmtp.keystore_api.v1.EncryptV1Request.Request
+	33, // 5: xmtp.keystore_api.v1.EncryptResponse.responses:type_name -> xmtp.keystore_api.v1.EncryptResponse.Response
+	35, // 6: xmtp.keystore_api.v1.EncryptV2Request.requests:type_name -> xmtp.keystore_api.v1.EncryptV2Request.Request
+	41, // 7: xmtp.keystore_api.v1.CreateInviteRequest.context:type_name -> xmtp.message_contents.InvitationV1.Context
+	42, // 8: xmtp.keystore_api.v1.CreateInviteRequest.recipient:type_name -> xmtp.message_contents.SignedPublicKeyBundle
+	43, // 9: xmtp.keystore_api.v1.CreateInviteResponse.conversation:type_name -> xmtp.message_contents.ConversationReference
+	36, // 10: xmtp.keystore_api.v1.SaveInvitesRequest.requests:type_name -> xmtp.keystore_api.v1.SaveInvitesRequest.Request
+	37, // 11: xmtp.keystore_api.v1.SaveInvitesResponse.responses:type_name -> xmtp.keystore_api.v1.SaveInvitesResponse.Response
+	43, // 12: xmtp.keystore_api.v1.SaveV1ConversationsRequest.conversations:type_name -> xmtp.message_contents.ConversationReference
+	43, // 13: xmtp.keystore_api.v1.GetConversationsResponse.conversations:type_name -> xmtp.message_contents.ConversationReference
+	2,  // 14: xmtp.keystore_api.v1.GetKeystoreStatusResponse.status:type_name -> xmtp.keystore_api.v1.GetKeystoreStatusResponse.KeystoreStatus
+	44, // 15: xmtp.keystore_api.v1.InitKeystoreRequest.v1:type_name -> xmtp.message_contents.PrivateKeyBundleV1
+	3,  // 16: xmtp.keystore_api.v1.InitKeystoreResponse.error:type_name -> xmtp.keystore_api.v1.KeystoreError
+	1,  // 17: xmtp.keystore_api.v1.GetRefreshJobRequest.job_type:type_name -> xmtp.keystore_api.v1.JobType
+	1,  // 18: xmtp.keystore_api.v1.SetRefeshJobRequest.job_type:type_name -> xmtp.keystore_api.v1.JobType
+	40, // 19: xmtp.keystore_api.v1.TopicMap.topics:type_name -> xmtp.keystore_api.v1.TopicMap.TopicsEntry
+	45, // 20: xmtp.keystore_api.v1.DecryptV1Request.Request.payload:type_name -> xmtp.message_contents.Ciphertext
+	46, // 21: xmtp.keystore_api.v1.DecryptV1Request.Request.peer_keys:type_name -> xmtp.message_contents.PublicKeyBundle
+	30, // 22: xmtp.keystore_api.v1.DecryptResponse.Response.result:type_name -> xmtp.keystore_api.v1.DecryptResponse.Response.Success
+	3,  // 23: xmtp.keystore_api.v1.DecryptResponse.Response.error:type_name -> xmtp.keystore_api.v1.KeystoreError
+	45, // 24: xmtp.keystore_api.v1.DecryptV2Request.Request.payload:type_name -> xmtp.message_contents.Ciphertext
+	46, // 25: xmtp.keystore_api.v1.EncryptV1Request.Request.recipient:type_name -> xmtp.message_contents.PublicKeyBundle
+	34, // 26: xmtp.keystore_api.v1.EncryptResponse.Response.result:type_name -> xmtp.keystore_api.v1.EncryptResponse.Response.Success
+	3,  // 27: xmtp.keystore_api.v1.EncryptResponse.Response.error:type_name -> xmtp.keystore_api.v1.KeystoreError
+	45, // 28: xmtp.keystore_api.v1.EncryptResponse.Response.Success.encrypted:type_name -> xmtp.message_contents.Ciphertext
+	38, // 29: xmtp.keystore_api.v1.SaveInvitesResponse.Response.result:type_name -> xmtp.keystore_api.v1.SaveInvitesResponse.Response.Success
+	3,  // 30: xmtp.keystore_api.v1.SaveInvitesResponse.Response.error:type_name -> xmtp.keystore_api.v1.KeystoreError
+	43, // 31: xmtp.keystore_api.v1.SaveInvitesResponse.Response.Success.conversation:type_name -> xmtp.message_contents.ConversationReference
+	47, // 32: xmtp.keystore_api.v1.TopicMap.TopicData.invitation:type_name -> xmtp.message_contents.InvitationV1
+	39, // 33: xmtp.keystore_api.v1.TopicMap.TopicsEntry.value:type_name -> xmtp.keystore_api.v1.TopicMap.TopicData
+	34, // [34:34] is the sub-list for method output_type
+	34, // [34:34] is the sub-list for method input_type
+	34, // [34:34] is the sub-list for extension type_name
+	34, // [34:34] is the sub-list for extension extendee
+	0,  // [0:34] is the sub-list for field type_name
 }
 
 func init() { file_keystore_api_v1_keystore_proto_init() }
@@ -2597,30 +2748,6 @@ func file_keystore_api_v1_keystore_proto_init() {
 			}
 		}
 		file_keystore_api_v1_keystore_proto_msgTypes[8].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*CreateInviteFromTopicRequest); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_keystore_api_v1_keystore_proto_msgTypes[9].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*CreateInvitesRequest); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_keystore_api_v1_keystore_proto_msgTypes[10].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*CreateInviteResponse); i {
 			case 0:
 				return &v.state
@@ -2632,19 +2759,7 @@ func file_keystore_api_v1_keystore_proto_init() {
 				return nil
 			}
 		}
-		file_keystore_api_v1_keystore_proto_msgTypes[11].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*CreateInvitesResponse); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_keystore_api_v1_keystore_proto_msgTypes[12].Exporter = func(v interface{}, i int) interface{} {
+		file_keystore_api_v1_keystore_proto_msgTypes[9].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*SaveInvitesRequest); i {
 			case 0:
 				return &v.state
@@ -2656,7 +2771,7 @@ func file_keystore_api_v1_keystore_proto_init() {
 				return nil
 			}
 		}
-		file_keystore_api_v1_keystore_proto_msgTypes[13].Exporter = func(v interface{}, i int) interface{} {
+		file_keystore_api_v1_keystore_proto_msgTypes[10].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*SaveInvitesResponse); i {
 			case 0:
 				return &v.state
@@ -2668,7 +2783,7 @@ func file_keystore_api_v1_keystore_proto_init() {
 				return nil
 			}
 		}
-		file_keystore_api_v1_keystore_proto_msgTypes[14].Exporter = func(v interface{}, i int) interface{} {
+		file_keystore_api_v1_keystore_proto_msgTypes[11].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*CreateAuthTokenRequest); i {
 			case 0:
 				return &v.state
@@ -2680,8 +2795,8 @@ func file_keystore_api_v1_keystore_proto_init() {
 				return nil
 			}
 		}
-		file_keystore_api_v1_keystore_proto_msgTypes[15].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*GetV2ConversationsResponse); i {
+		file_keystore_api_v1_keystore_proto_msgTypes[12].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*SaveV1ConversationsRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2692,7 +2807,31 @@ func file_keystore_api_v1_keystore_proto_init() {
 				return nil
 			}
 		}
-		file_keystore_api_v1_keystore_proto_msgTypes[16].Exporter = func(v interface{}, i int) interface{} {
+		file_keystore_api_v1_keystore_proto_msgTypes[13].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*SaveV1ConversationsResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_keystore_api_v1_keystore_proto_msgTypes[14].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetConversationsResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_keystore_api_v1_keystore_proto_msgTypes[15].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*GetKeystoreStatusRequest); i {
 			case 0:
 				return &v.state
@@ -2704,7 +2843,7 @@ func file_keystore_api_v1_keystore_proto_init() {
 				return nil
 			}
 		}
-		file_keystore_api_v1_keystore_proto_msgTypes[17].Exporter = func(v interface{}, i int) interface{} {
+		file_keystore_api_v1_keystore_proto_msgTypes[16].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*GetKeystoreStatusResponse); i {
 			case 0:
 				return &v.state
@@ -2716,7 +2855,7 @@ func file_keystore_api_v1_keystore_proto_init() {
 				return nil
 			}
 		}
-		file_keystore_api_v1_keystore_proto_msgTypes[18].Exporter = func(v interface{}, i int) interface{} {
+		file_keystore_api_v1_keystore_proto_msgTypes[17].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*InitKeystoreRequest); i {
 			case 0:
 				return &v.state
@@ -2728,7 +2867,7 @@ func file_keystore_api_v1_keystore_proto_init() {
 				return nil
 			}
 		}
-		file_keystore_api_v1_keystore_proto_msgTypes[19].Exporter = func(v interface{}, i int) interface{} {
+		file_keystore_api_v1_keystore_proto_msgTypes[18].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*InitKeystoreResponse); i {
 			case 0:
 				return &v.state
@@ -2740,7 +2879,7 @@ func file_keystore_api_v1_keystore_proto_init() {
 				return nil
 			}
 		}
-		file_keystore_api_v1_keystore_proto_msgTypes[20].Exporter = func(v interface{}, i int) interface{} {
+		file_keystore_api_v1_keystore_proto_msgTypes[19].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*SignDigestRequest); i {
 			case 0:
 				return &v.state
@@ -2752,8 +2891,20 @@ func file_keystore_api_v1_keystore_proto_init() {
 				return nil
 			}
 		}
+		file_keystore_api_v1_keystore_proto_msgTypes[20].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetRefreshJobRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 		file_keystore_api_v1_keystore_proto_msgTypes[21].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*TopicMap); i {
+			switch v := v.(*GetRefreshJobResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2765,7 +2916,7 @@ func file_keystore_api_v1_keystore_proto_init() {
 			}
 		}
 		file_keystore_api_v1_keystore_proto_msgTypes[22].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*DecryptV1Request_Request); i {
+			switch v := v.(*SetRefeshJobRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2777,7 +2928,7 @@ func file_keystore_api_v1_keystore_proto_init() {
 			}
 		}
 		file_keystore_api_v1_keystore_proto_msgTypes[23].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*DecryptResponse_Response); i {
+			switch v := v.(*SetRefreshJobResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2789,7 +2940,7 @@ func file_keystore_api_v1_keystore_proto_init() {
 			}
 		}
 		file_keystore_api_v1_keystore_proto_msgTypes[24].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*DecryptResponse_Response_Success); i {
+			switch v := v.(*TopicMap); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2801,7 +2952,7 @@ func file_keystore_api_v1_keystore_proto_init() {
 			}
 		}
 		file_keystore_api_v1_keystore_proto_msgTypes[25].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*DecryptV2Request_Request); i {
+			switch v := v.(*DecryptV1Request_Request); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2813,7 +2964,7 @@ func file_keystore_api_v1_keystore_proto_init() {
 			}
 		}
 		file_keystore_api_v1_keystore_proto_msgTypes[26].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*EncryptV1Request_Request); i {
+			switch v := v.(*DecryptResponse_Response); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2825,7 +2976,7 @@ func file_keystore_api_v1_keystore_proto_init() {
 			}
 		}
 		file_keystore_api_v1_keystore_proto_msgTypes[27].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*EncryptResponse_Response); i {
+			switch v := v.(*DecryptResponse_Response_Success); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2837,7 +2988,7 @@ func file_keystore_api_v1_keystore_proto_init() {
 			}
 		}
 		file_keystore_api_v1_keystore_proto_msgTypes[28].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*EncryptResponse_Response_Success); i {
+			switch v := v.(*DecryptV2Request_Request); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2849,7 +3000,7 @@ func file_keystore_api_v1_keystore_proto_init() {
 			}
 		}
 		file_keystore_api_v1_keystore_proto_msgTypes[29].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*EncryptV2Request_Request); i {
+			switch v := v.(*EncryptV1Request_Request); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2861,7 +3012,7 @@ func file_keystore_api_v1_keystore_proto_init() {
 			}
 		}
 		file_keystore_api_v1_keystore_proto_msgTypes[30].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*SaveInvitesRequest_Request); i {
+			switch v := v.(*EncryptResponse_Response); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2873,7 +3024,7 @@ func file_keystore_api_v1_keystore_proto_init() {
 			}
 		}
 		file_keystore_api_v1_keystore_proto_msgTypes[31].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*SaveInvitesResponse_Response); i {
+			switch v := v.(*EncryptResponse_Response_Success); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2885,7 +3036,7 @@ func file_keystore_api_v1_keystore_proto_init() {
 			}
 		}
 		file_keystore_api_v1_keystore_proto_msgTypes[32].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*SaveInvitesResponse_Response_Success); i {
+			switch v := v.(*EncryptV2Request_Request); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2897,6 +3048,42 @@ func file_keystore_api_v1_keystore_proto_init() {
 			}
 		}
 		file_keystore_api_v1_keystore_proto_msgTypes[33].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*SaveInvitesRequest_Request); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_keystore_api_v1_keystore_proto_msgTypes[34].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*SaveInvitesResponse_Response); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_keystore_api_v1_keystore_proto_msgTypes[35].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*SaveInvitesResponse_Response_Success); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_keystore_api_v1_keystore_proto_msgTypes[36].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*TopicMap_TopicData); i {
 			case 0:
 				return &v.state
@@ -2909,23 +3096,23 @@ func file_keystore_api_v1_keystore_proto_init() {
 			}
 		}
 	}
-	file_keystore_api_v1_keystore_proto_msgTypes[14].OneofWrappers = []interface{}{}
-	file_keystore_api_v1_keystore_proto_msgTypes[18].OneofWrappers = []interface{}{
+	file_keystore_api_v1_keystore_proto_msgTypes[11].OneofWrappers = []interface{}{}
+	file_keystore_api_v1_keystore_proto_msgTypes[17].OneofWrappers = []interface{}{
 		(*InitKeystoreRequest_V1)(nil),
 	}
-	file_keystore_api_v1_keystore_proto_msgTypes[20].OneofWrappers = []interface{}{
+	file_keystore_api_v1_keystore_proto_msgTypes[19].OneofWrappers = []interface{}{
 		(*SignDigestRequest_IdentityKey)(nil),
 		(*SignDigestRequest_PrekeyIndex)(nil),
 	}
-	file_keystore_api_v1_keystore_proto_msgTypes[23].OneofWrappers = []interface{}{
+	file_keystore_api_v1_keystore_proto_msgTypes[26].OneofWrappers = []interface{}{
 		(*DecryptResponse_Response_Result)(nil),
 		(*DecryptResponse_Response_Error)(nil),
 	}
-	file_keystore_api_v1_keystore_proto_msgTypes[27].OneofWrappers = []interface{}{
+	file_keystore_api_v1_keystore_proto_msgTypes[30].OneofWrappers = []interface{}{
 		(*EncryptResponse_Response_Result)(nil),
 		(*EncryptResponse_Response_Error)(nil),
 	}
-	file_keystore_api_v1_keystore_proto_msgTypes[31].OneofWrappers = []interface{}{
+	file_keystore_api_v1_keystore_proto_msgTypes[34].OneofWrappers = []interface{}{
 		(*SaveInvitesResponse_Response_Result)(nil),
 		(*SaveInvitesResponse_Response_Error)(nil),
 	}
@@ -2934,8 +3121,8 @@ func file_keystore_api_v1_keystore_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_keystore_api_v1_keystore_proto_rawDesc,
-			NumEnums:      2,
-			NumMessages:   35,
+			NumEnums:      3,
+			NumMessages:   38,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
