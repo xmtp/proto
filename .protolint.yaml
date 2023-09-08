@@ -56,7 +56,7 @@ lint:
     # INDENT rule option.
     indent:
       # Available styles are 4(4-spaces), 2(2-spaces) or tab.
-      style: 4
+      style: 2
       # Specifies if it should stop considering and inserting new lines at the appropriate positions
       # when the inner elements are on the same line. Default is false.
       not_insert_newline: true
