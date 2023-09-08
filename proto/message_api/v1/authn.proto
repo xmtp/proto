@@ -11,12 +11,12 @@ option java_package = "org.xmtp.proto.message.api.v1";
 // Token is used by clients to prove to the nodes
 // that they are serving a specific wallet.
 message Token {
-    // identity key signed by a wallet
-    xmtp.message_contents.PublicKey identity_key = 1; 
-    // encoded bytes of AuthData
-    bytes auth_data_bytes = 2;
-    // identity key signature of AuthData bytes
-    xmtp.message_contents.Signature auth_data_signature = 3; 
+  // identity key signed by a wallet
+  xmtp.message_contents.PublicKey identity_key = 1;
+  // encoded bytes of AuthData
+  bytes auth_data_bytes = 2;
+  // identity key signature of AuthData bytes
+  xmtp.message_contents.Signature auth_data_signature = 3;
 }
 
 // AuthData carries token parameters that are authenticated
@@ -25,8 +25,8 @@ message Token {
 // so that the bytes don't need to be reconstructed
 // to verify the token signature.
 message AuthData {
-    // address of the wallet
-    string wallet_addr = 1;
-    // time when the token was generated/signed 
-    uint64 created_ns = 2; 
+  // address of the wallet
+  string wallet_addr = 1;
+  // time when the token was generated/signed
+  uint64 created_ns = 2;
 }

@@ -10,8 +10,8 @@ option java_package = "org.xmtp.proto.message.contents";
 
 // A light pointer for a conversation that contains no decryption keys
 message ConversationReference {
-    string topic = 1;
-    string peer_address = 2;
-    uint64 created_ns = 3;
-    xmtp.message_contents.InvitationV1.Context context = 4;
+  string topic = 1;
+  string peer_address = 2;
+  uint64 created_ns = 3;
+  xmtp.message_contents.InvitationV1.Context context = 4;
 }
