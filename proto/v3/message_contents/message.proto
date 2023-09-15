@@ -25,6 +25,7 @@ message PadlockMessageSealedMetadata {
 message PadlockMessageHeader {
     uint64 sent_ns = 1;
     bytes sealed_metadata = 2;  // PadlockMessageSealedMetadata
+    bool is_invitation = 3;
 }
 
 // The version used for the decrypted padlock message payload

@@ -3,6 +3,8 @@ syntax = "proto3";
 
 package xmtp.v3.message_contents;
 
+import "v3/message_contents/public_key.proto";
+
 option go_package = "github.com/xmtp/proto/v3/go/v3/message_contents";
 option java_package = "org.xmtp.proto.v3.message.contents";
 
@@ -18,6 +20,14 @@ message Eip191Association {
     AssociationTextVersion association_text_version = 1;
     RecoverableEcdsaSignature signature = 2;
     string wallet_address = 3;
+}
+
+// Associates an installation key to the specified legacy XMTP v2 identity,
+// and transitively to a wallet address.
+message LegacyV2IdentityAssociation {
+    bytes sha256_digest = 1;
+    RecoverableEcdsaSignature signature = 2;
+    LegacyV2AccountLinkedIdentityKey v2_identity_key = 3;
 }
 
 // RecoverableEcdsaSignature
