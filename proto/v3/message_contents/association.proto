@@ -3,8 +3,6 @@ syntax = "proto3";
 
 package xmtp.v3.message_contents;
 
-import "v3/message_contents/public_key.proto";
-
 option go_package = "github.com/xmtp/proto/v3/go/v3/message_contents";
 option java_package = "org.xmtp.proto.v3.message.contents";
 
