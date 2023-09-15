@@ -12,8 +12,8 @@ option java_package = "org.xmtp.proto.v3.message.contents";
 // incrementing the entire proto
 enum AssociationTextVersion {
     ASSOCIATION_TEXT_VERSION_UNSPECIFIED = 0;
-    ASSOCIATION_TEXT_VERSION_1 = 1;
-    ASSOCIATION_TEXT_VERSION_LEGACY = 100;
+    ASSOCIATION_TEXT_VERSION_1 = 1; // xmtpv2 create_identity wallet signature
+    ASSOCIATION_TEXT_VERSION_2 = 2;
 }
 
 // EIP191Association is used for all EIP 191 compliant wallet signatures
@@ -28,7 +28,7 @@ message Eip191Association {
 message LegacyV2IdentityAssociation {
     bytes sha256_digest = 1;
     RecoverableEcdsaSignature v2_identity_signature = 2;
-    bytes v2_identity_key_secp256k1_uncompressed = 3;
+    bytes v2_identity_key_bytes = 3;  // embeds a V2 UnsignedPublicKey
     Eip191Association v2_wallet_association = 4;
 }
 
