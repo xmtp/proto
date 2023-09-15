@@ -6,19 +6,26 @@ package xmtp.v3.message_contents;
 option go_package = "github.com/xmtp/proto/v3/go/v3/message_contents";
 option java_package = "org.xmtp.proto.v3.message.contents";
 
-// Allows for us to update the format of the association text without
-// incrementing the entire proto
-enum AssociationTextVersion {
-    ASSOCIATION_TEXT_VERSION_UNSPECIFIED = 0;
-    ASSOCIATION_TEXT_VERSION_1 = 1; // xmtpv2 create_identity wallet signature
-    ASSOCIATION_TEXT_VERSION_2 = 2;
-}
-
 // EIP191Association is used for all EIP 191 compliant wallet signatures
 message Eip191Association {
-    AssociationTextVersion association_text_version = 1;
+    reserved 1;
     RecoverableEcdsaSignature signature = 2;
-    string wallet_address = 3;
+    oneof association_text {
+        LegacyCreateIdentityAssociation legacy_v2_wallet_association = 3;
+        InstallationGrantAssociation installation_grant_association = 4;
+    }
+
+    // All of the information needed to construct the Create Identity
+    // association text used in XMTP v2
+    message LegacyCreateIdentityAssociation {
+        string wallet_address = 1;
+    }
+
+    // All of the information needed to construct the Grant Messaging Access
+    // association text used in XMTP v3
+    message InstallationGrantAssociation {
+        string wallet_address = 1;
+    }
 }
 
 // Associates an installation key to the specified legacy XMTP v2 identity,
