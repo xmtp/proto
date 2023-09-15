@@ -35,30 +35,6 @@ message VmacAccountLinkedKey {
     }
 }
 
-// Identity key used in XMTP v2
-message LegacyV2UnsignedPublicIdentityKey {
-    uint64 created_ns = 1;
-    oneof union {
-        Secp256k1Uncompressed secp256k1_uncompressed = 3;
-    }
-
-    // Supported key types
-
-    // EC: SECP256k1
-    message Secp256k1Uncompressed {
-        // uncompressed point with prefix (0x04) [ P || X || Y ], 65 bytes
-        bytes bytes = 1; 
-    }
-}
-
-// Signed identity key used in XMTP v2 (legacy)
-message LegacyV2AccountLinkedIdentityKey {
-    LegacyV2UnsignedPublicIdentityKey key = 1;
-    oneof association {
-        Eip191Association eip_191 = 2;
-    }
-}
-
 // A key linked to an installation (e.g. signed by an installation identity key)
 // The purpose of the key is encoded in the signature
 message VmacInstallationLinkedKey {
