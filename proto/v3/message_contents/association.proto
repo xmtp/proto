@@ -10,31 +10,31 @@ option java_package = "org.xmtp.proto.v3.message.contents";
 message Eip191Association {
     reserved 1;
     RecoverableEcdsaSignature signature = 2;
-    oneof association_text {
-        LegacyCreateIdentityAssociation legacy_v2_wallet_association = 3;
-        InstallationGrantAssociation installation_grant_association = 4;
+    oneof association_data {
+        CreateIdentityAssociationData create_identity_data = 3;
+        InstallationGrantAssociationData installation_grant_data = 4;
     }
 
-    // All of the information needed to construct the Create Identity
+    // Legacy - all of the information needed to construct the Create Identity
     // association text used in XMTP v2
-    message LegacyCreateIdentityAssociation {
+    message CreateIdentityAssociationData {
         string wallet_address = 1;
     }
 
     // All of the information needed to construct the Grant Messaging Access
     // association text used in XMTP v3
-    message InstallationGrantAssociation {
+    message InstallationGrantAssociationData {
         string wallet_address = 1;
     }
 }
 
-// Associates an installation key to the specified legacy XMTP v2 identity,
+// Legacy - Associates an installation key to a legacy XMTP v2 identity,
 // and transitively to a wallet address.
-message LegacyV2IdentityAssociation {
-    bytes sha256_digest = 1;
-    RecoverableEcdsaSignature v2_identity_signature = 2;
-    bytes v2_identity_key_bytes = 3;  // embeds a V2 UnsignedPublicKey
-    Eip191Association v2_wallet_association = 4;
+message IdentityKeyAssociation {
+    // SECP256k1/SHA256 signature
+    RecoverableEcdsaSignature identity_signature = 1;
+    bytes identity_key_bytes = 2;  // embeds a V2 UnsignedPublicKey
+    Eip191Association identity_key_wallet_association = 3;
 }
 
 // RecoverableEcdsaSignature

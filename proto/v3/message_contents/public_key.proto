@@ -31,7 +31,7 @@ message VmacAccountLinkedKey {
     VmacUnsignedPublicKey key = 1;
     oneof association {
         Eip191Association eip_191 = 2;
-        LegacyV2IdentityAssociation v2_identity_association = 3;
+        IdentityKeyAssociation identity_key_association = 3;
     }
 }
 
