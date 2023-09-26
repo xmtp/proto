@@ -3,6 +3,7 @@ export * as fetcher from "./fetch.pb";
 export * as authn from "./message_api/v1/authn.pb";
 export * as message from "./message_contents/message.pb";
 export * as content from "./message_contents/content.pb";
+export * as conversationReference from "./message_contents/conversation_reference.pb";
 export * as composite from "./message_contents/composite.pb";
 export * as privateKey from "./message_contents/private_key.pb";
 export * as publicKey from "./message_contents/public_key.pb";

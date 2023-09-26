@@ -3,46 +3,58 @@ syntax = "proto3";
 package xmtp.message_api.v1;
 
 import "google/api/annotations.proto";
+import "protoc-gen-openapiv2/options/annotations.proto";
 
 option go_package = "github.com/xmtp/proto/v3/go/message_api/v1";
 option java_package = "org.xmtp.proto.message.api.v1";
+option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
+    info: { title: "MessageApi";
+version: "1.0";
+}
+;
+}
+;
 
 // RPC
 service MessageApi {
     // Publish messages to the network
-    rpc Publish (PublishRequest) returns (PublishResponse) {
+    rpc Publish(PublishRequest) returns (PublishResponse) {
         option (google.api.http) = {
-        post: "/message/v1/publish"
-        body: "*"
-    };
+            post: "/message/v1/publish"
+            body: "*"
+        };
     }
     // Subscribe to a stream of new envelopes matching a predicate
-    rpc Subscribe (SubscribeRequest) returns (stream Envelope) {
+    rpc Subscribe(SubscribeRequest) returns (stream Envelope) {
         option (google.api.http) = {
-        post: "/message/v1/subscribe"
-        body: "*"
-    };
+            post: "/message/v1/subscribe"
+            body: "*"
+        };
     }
+    // Subscribe to a stream of new envelopes and your subscription using
+    // bidirectional streaming
+    // protolint:disable:next RPC_REQUEST_STANDARD_NAME
+    rpc Subscribe2(stream SubscribeRequest) returns (stream Envelope) {}
     // Subscribe to a stream of all messages
-    rpc SubscribeAll (SubscribeAllRequest) returns (stream Envelope) {
+    rpc SubscribeAll(SubscribeAllRequest) returns (stream Envelope) {
         option (google.api.http) = {
             post: "/message/v1/subscribe-all"
             body: "*"
         };
     }
     // Query the store for messages
-    rpc Query (QueryRequest) returns (QueryResponse) {
+    rpc Query(QueryRequest) returns (QueryResponse) {
         option (google.api.http) = {
-        post: "/message/v1/query"
-        body: "*"
-    };
+            post: "/message/v1/query"
+            body: "*"
+        };
     }
     // BatchQuery containing a set of queries to be processed
-    rpc BatchQuery (BatchQueryRequest) returns (BatchQueryResponse) {
+    rpc BatchQuery(BatchQueryRequest) returns (BatchQueryResponse) {
         option (google.api.http) = {
-        post: "/message/v1/batch-query"
-        body: "*"
-    };
+            post: "/message/v1/batch-query"
+            body: "*"
+        };
     }
 }
 
@@ -99,8 +111,7 @@ message PublishRequest {
 }
 
 // Empty message as a response for Publish
-message PublishResponse{
-}
+message PublishResponse {}
 
 // Subscribe
 message SubscribeRequest {
@@ -108,9 +119,7 @@ message SubscribeRequest {
 }
 
 // SubscribeAll
-message SubscribeAllRequest {
-}
-
+message SubscribeAllRequest {}
 
 // Query
 message QueryRequest {
@@ -121,7 +130,7 @@ message QueryRequest {
 }
 
 // The response, containing envelopes, for a query
-message QueryResponse{
+message QueryResponse {
     repeated Envelope envelopes = 1;
     PagingInfo paging_info = 2;
 }

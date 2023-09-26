@@ -5,7 +5,12 @@ vendor_dir="build/tmp/vendor"
 if [ ! -d "${vendor_dir}" ]; then
     mkdir -p "${vendor_dir}"
     cd "${vendor_dir}"
+
     git clone --depth 1 https://github.com/googleapis/googleapis.git
     mv googleapis/google ./
     rm -rf googleapis
+
+    git clone --depth 1 https://github.com/grpc-ecosystem/grpc-gateway.git
+    mv grpc-gateway/protoc-gen-openapiv2 ./
+    rm -rf grpc-gateway
 fi
