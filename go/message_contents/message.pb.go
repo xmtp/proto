@@ -269,7 +269,6 @@ type Message struct {
 	unknownFields protoimpl.UnknownFields
 
 	// Types that are assignable to Version:
-	//
 	//	*Message_V1
 	//	*Message_V2
 	Version isMessage_Version `protobuf_oneof:"version"`

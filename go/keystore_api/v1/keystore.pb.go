@@ -1061,7 +1061,6 @@ type InitKeystoreRequest struct {
 	unknownFields protoimpl.UnknownFields
 
 	// Types that are assignable to Bundle:
-	//
 	//	*InitKeystoreRequest_V1
 	Bundle isInitKeystoreRequest_Bundle `protobuf_oneof:"bundle"`
 }
@@ -1179,7 +1178,6 @@ type SignDigestRequest struct {
 
 	Digest []byte `protobuf:"bytes,1,opt,name=digest,proto3" json:"digest,omitempty"`
 	// Types that are assignable to Signer:
-	//
 	//	*SignDigestRequest_IdentityKey
 	//	*SignDigestRequest_PrekeyIndex
 	Signer isSignDigestRequest_Signer `protobuf_oneof:"signer"`
@@ -1388,7 +1386,6 @@ type DecryptResponse_Response struct {
 	unknownFields protoimpl.UnknownFields
 
 	// Types that are assignable to Response:
-	//
 	//	*DecryptResponse_Response_Result
 	//	*DecryptResponse_Response_Error
 	Response isDecryptResponse_Response_Response `protobuf_oneof:"response"`
@@ -1646,7 +1643,6 @@ type EncryptResponse_Response struct {
 	unknownFields protoimpl.UnknownFields
 
 	// Types that are assignable to Response:
-	//
 	//	*EncryptResponse_Response_Result
 	//	*EncryptResponse_Response_Error
 	Response isEncryptResponse_Response_Response `protobuf_oneof:"response"`
@@ -1904,7 +1900,6 @@ type SaveInvitesResponse_Response struct {
 	unknownFields protoimpl.UnknownFields
 
 	// Types that are assignable to Response:
-	//
 	//	*SaveInvitesResponse_Response_Result
 	//	*SaveInvitesResponse_Response_Error
 	Response isSaveInvitesResponse_Response_Response `protobuf_oneof:"response"`
