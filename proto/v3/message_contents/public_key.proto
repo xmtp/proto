@@ -34,6 +34,17 @@ message VmacAccountLinkedKey {
     }
 }
 
+// Keys linked to an account (e.g. signed by a wallet)
+// The purposes of the keys are encoded in the signatures
+message VmacAccountLinkedKeys {
+    VmacUnsignedPublicKey curve25519_key = 1;
+    VmacUnsignedPublicKey ed25519_key = 2;
+    
+    oneof association {
+        Eip191Association eip_191 = 3;
+    }
+}
+
 // A key linked to an installation (e.g. signed by an installation identity key)
 // The purpose of the key is encoded in the signature
 message VmacInstallationLinkedKey {
