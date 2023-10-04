@@ -10,6 +10,6 @@ option java_package = "org.xmtp.proto.message.contents";
 
 // SignedPayload is a wrapper for a signature and a payload
 message SignedPayload {
-  bytes payload = 1;
-  Signature signature = 2;
+    bytes payload = 1;
+    Signature signature = 2;
 }
