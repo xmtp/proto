@@ -1,8 +1,10 @@
 {
-    "protoc": {
-        "compile_on_save": false,
-        "options": [
-            "--proto_path=build/tmp/vendor",
-        ]
-    }
+  "protoc": {
+    "compile_on_save": false,
+    "options": ["--proto_path=build/tmp/vendor"]
+  },
+  "[proto3]": {
+    "editor.defaultFormatter": "bufbuild.vscode-buf",
+    "editor.formatOnSave": true
+  }
 }
