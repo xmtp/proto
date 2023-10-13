@@ -12,7 +12,7 @@ option java_package = "org.xmtp.proto.v3.message.contents";
 // Plaintext header included with messages, visible to all
 // Recipients can verify this header has not been tampered with.
 // Servers are unable to verify if the header has been tampered with.
-message MessageHeader {
+message MessageHeaderV1 {
   // SealedSender wrapper for arbitrary bytes
   message SealedSender {
     bytes ephemeral_public_key = 1;
@@ -56,8 +56,8 @@ message ConversationMessageV1 {
 //    sender_installation_id
 // 5. Verify that both the sender_user and recipient_user are partipants of the
 //    conversation referenced by convo_id
-message MessagePayload {
-  EdDsaSignature header_signature = 1; // Signed MessageHeader
+message MessagePayloadV1 {
+  EdDsaSignature header_signature = 1; // Signature of the header_bytes
   oneof contents {
     ConversationMessageV1 conversation_message_v1 = 2;
     // TODO: Add other message types
@@ -69,8 +69,8 @@ message MessagePayload {
 message MessageEnvelope {
   // First version of the envelope format
   message EnvelopeV1 {
-    bytes header_bytes = 1; // MessageHeader
-    bytes ciphertext = 2; // Encrypted MessagePayload
+    bytes header_bytes = 1; // MessageHeaderV1
+    bytes ciphertext = 2; // Encrypted MessagePayloadV1
   }
 
   oneof envelope {
