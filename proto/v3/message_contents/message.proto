@@ -4,33 +4,42 @@ syntax = "proto3";
 package xmtp.v3.message_contents;
 
 import "v3/message_contents/association.proto";
+import "v3/message_contents/encoded_content.proto";
 
 option go_package = "github.com/xmtp/proto/v3/go/v3/message_contents";
 option java_package = "org.xmtp.proto.v3.message.contents";
 
-// Metadata that is encrypted via SealedSender and only visible to the recipient
-// Currently we do not actually encrypt this, actual implementation of
-// SealedSender will be added shortly.
-message PadlockMessageSealedMetadata {
-  string sender_user_address = 1;
-  string sender_installation_id = 2;
-  string recipient_user_address = 3;
-  string recipient_installation_id = 4;
-  bool is_prekey_message = 5;
-}
-
 // Plaintext header included with messages, visible to all
 // Recipients can verify this header has not been tampered with.
 // Servers are unable to verify if the header has been tampered with.
-message PadlockMessageHeader {
+message MessageHeader {
+  // SealedSender wrapper for arbitrary bytes
+  message SealedSender {
+    bytes ephemeral_public_key = 1;
+    bytes ephemeral_static_key = 2;
+    bytes encrypted_message = 3; // Will be serialized Metadata
+  }
+
+  // Metadata that is encrypted via SealedSender and only visible to
+  // the recipient
+  message Metadata {
+    string sender_user_address = 1;
+    string sender_installation_id = 2;
+    string recipient_user_address = 3;
+    string recipient_installation_id = 4;
+    bool is_prekey_message = 5;
+  }
+
+  // sent_ns is included to protect against replays of the
+  // header signature
   uint64 sent_ns = 1;
-  bytes sealed_metadata = 2; // PadlockMessageSealedMetadata
+  SealedSender sealed_metadata = 2; // SealedMetadata
 }
 
-// The version used for the decrypted padlock message payload
-enum PadlockMessagePayloadVersion {
-  PADLOCK_MESSAGE_PAYLOAD_VERSION_UNSPECIFIED = 0;
-  PADLOCK_MESSAGE_PAYLOAD_VERSION_ONE = 1;
+// Conversation messages are the primary message type (user to user messages)
+message ConversationMessageV1 {
+  string convo_id = 1;
+  EncodedContent encoded_content = 2;
 }
 
 // Encrypted body included with messages, only visible to recipients
@@ -47,15 +56,23 @@ enum PadlockMessagePayloadVersion {
 //    sender_installation_id
 // 5. Verify that both the sender_user and recipient_user are partipants of the
 //    conversation referenced by convo_id
-message PadlockMessagePayload {
-  PadlockMessagePayloadVersion message_version = 1;
-  EdDsaSignature header_signature = 2; // Signs PadlockMessageHeader
-  string convo_id = 3;
-  bytes content_bytes = 4; // EncodedContent
+message MessagePayload {
+  EdDsaSignature header_signature = 1; // Signed MessageHeader
+  oneof contents {
+    ConversationMessageV1 conversation_message_v1 = 2;
+    // TODO: Add other message types (Backup Request, P4, Backup Response)
+  }
 }
 
 // Combines the plaintext header with the encrypted payload
-message PadlockMessageEnvelope {
-  bytes header_bytes = 1; // PadlockMessageHeader
-  bytes ciphertext = 2; // Encrypted PadlockMessagePayload
+message MessageEnvelope {
+  // First version of the envelope format
+  message V1Envelope {
+    bytes header_bytes = 1; // MessageHeader
+    bytes ciphertext = 2; // Encrypted MessagePayload
+  }
+
+  oneof envelope {
+    V1Envelope v1 = 1;
+  }
 }
