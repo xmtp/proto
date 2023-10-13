@@ -12,25 +12,25 @@ option java_package = "org.xmtp.proto.v3.message.contents";
 // Currently we do not actually encrypt this, actual implementation of
 // SealedSender will be added shortly.
 message PadlockMessageSealedMetadata {
-    string sender_user_address = 1;
-    string sender_installation_id = 2;
-    string recipient_user_address = 3;
-    string recipient_installation_id = 4;
-    bool is_prekey_message = 5;
+  string sender_user_address = 1;
+  string sender_installation_id = 2;
+  string recipient_user_address = 3;
+  string recipient_installation_id = 4;
+  bool is_prekey_message = 5;
 }
 
 // Plaintext header included with messages, visible to all
 // Recipients can verify this header has not been tampered with.
 // Servers are unable to verify if the header has been tampered with.
 message PadlockMessageHeader {
-    uint64 sent_ns = 1;
-    bytes sealed_metadata = 2;  // PadlockMessageSealedMetadata
+  uint64 sent_ns = 1;
+  bytes sealed_metadata = 2; // PadlockMessageSealedMetadata
 }
 
 // The version used for the decrypted padlock message payload
 enum PadlockMessagePayloadVersion {
-    PADLOCK_MESSAGE_PAYLOAD_VERSION_UNSPECIFIED = 0;
-    PADLOCK_MESSAGE_PAYLOAD_VERSION_ONE = 1;
+  PADLOCK_MESSAGE_PAYLOAD_VERSION_UNSPECIFIED = 0;
+  PADLOCK_MESSAGE_PAYLOAD_VERSION_ONE = 1;
 }
 
 // Encrypted body included with messages, only visible to recipients
@@ -48,14 +48,14 @@ enum PadlockMessagePayloadVersion {
 // 5. Verify that both the sender_user and recipient_user are partipants of the
 //    conversation referenced by convo_id
 message PadlockMessagePayload {
-    PadlockMessagePayloadVersion message_version = 1;
-    EdDsaSignature header_signature = 2;    // Signs PadlockMessageHeader
-    string convo_id = 3;
-    bytes content_bytes = 4;                // EncodedContent
+  PadlockMessagePayloadVersion message_version = 1;
+  EdDsaSignature header_signature = 2; // Signs PadlockMessageHeader
+  string convo_id = 3;
+  bytes content_bytes = 4; // EncodedContent
 }
 
 // Combines the plaintext header with the encrypted payload
 message PadlockMessageEnvelope {
-    bytes header_bytes = 1;     // PadlockMessageHeader
-    bytes ciphertext = 2;       // Encrypted PadlockMessagePayload
+  bytes header_bytes = 1; // PadlockMessageHeader
+  bytes ciphertext = 2; // Encrypted PadlockMessagePayload
 }
