@@ -60,19 +60,20 @@ message MessagePayload {
   EdDsaSignature header_signature = 1; // Signed MessageHeader
   oneof contents {
     ConversationMessageV1 conversation_message_v1 = 2;
-    // TODO: Add other message types (Backup Request, P4, Backup Response)
+    // TODO: Add other message types
+    // (Message Backup Request, P4, Message Backup Response)
   }
 }
 
 // Combines the plaintext header with the encrypted payload
 message MessageEnvelope {
   // First version of the envelope format
-  message V1Envelope {
+  message EnvelopeV1 {
     bytes header_bytes = 1; // MessageHeader
     bytes ciphertext = 2; // Encrypted MessagePayload
   }
 
   oneof envelope {
-    V1Envelope v1 = 1;
+    EnvelopeV1 v1 = 1;
   }
 }
