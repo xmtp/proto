@@ -12,26 +12,26 @@ option java_package = "org.xmtp.proto.v3.message.contents";
 // ciphertext in InvitationEnvelopeV1 and decrypted by the recipient using the
 // provided inviter `InstallationContactBundle`
 message InvitationV1 {
-    // If the inviter contact bundle has the same wallet address as the current
-    // user, the invitee is the other wallet address in the conversation. If the
-    // inviter contact bundle has a different wallet address, the invitee wallet
-    // address MUST be the wallet address of the recipient of the invite.
-    string invitee_wallet_address = 1;
-    // TODO: Decide whether we need a Context field
+  // If the inviter contact bundle has the same wallet address as the current
+  // user, the invitee is the other wallet address in the conversation. If the
+  // inviter contact bundle has a different wallet address, the invitee wallet
+  // address MUST be the wallet address of the recipient of the invite.
+  string invitee_wallet_address = 1;
+  // TODO: Decide whether we need a Context field
 }
 
 // InvitationEnvelopeV1 is the encrypted invitation message and the contact of
 // the sender
 message InvitationEnvelopeV1 {
-    // This contains the public key that will be used to decrypt the ciphertext
-    InstallationContactBundle inviter = 1;
-    // Corresponds to an InvitationV1 message
-    bytes ciphertext = 2;
+  // This contains the public key that will be used to decrypt the ciphertext
+  InstallationContactBundle inviter = 1;
+  // Corresponds to an InvitationV1 message
+  bytes ciphertext = 2;
 }
 
 // Wrapper message type
 message InvitationEnvelope {
-    oneof version {
-        InvitationEnvelopeV1 v1 = 1;
-    }
+  oneof version {
+    InvitationEnvelopeV1 v1 = 1;
+  }
 }

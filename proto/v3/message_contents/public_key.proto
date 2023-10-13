@@ -11,33 +11,33 @@ option java_package = "org.xmtp.proto.v3.message.contents";
 
 // An unsigned public key used by libxmtp
 message VmacUnsignedPublicKey {
-    uint64 created_ns = 1;
+  uint64 created_ns = 1;
 
-    oneof union {
-        VodozemacCurve25519 curve25519 = 2;
-    }
+  oneof union {
+    VodozemacCurve25519 curve25519 = 2;
+  }
 
-    // A Vodozemac curve25519 key serialized via serde
-    // (https://github.com/matrix-org/vodozemac/blob/
-    // 929bbaf325686435bdd0ed0d0cc45b0cbad3430d/src/types/curve25519.rs#L100)
-    message VodozemacCurve25519 {
-        bytes bytes = 1;
-    }
+  // A Vodozemac curve25519 key serialized via serde
+  // (https://github.com/matrix-org/vodozemac/blob/
+  // 929bbaf325686435bdd0ed0d0cc45b0cbad3430d/src/types/curve25519.rs#L100)
+  message VodozemacCurve25519 {
+    bytes bytes = 1;
+  }
 }
 
 // A key linked to an XMTP account (e.g. signed by a wallet)
 // The purpose of the key is encoded in the signature
 message VmacAccountLinkedKey {
-    VmacUnsignedPublicKey key = 1;
-    oneof association {
-        Eip191Association eip_191 = 2;
-    }
+  VmacUnsignedPublicKey key = 1;
+  oneof association {
+    Eip191Association eip_191 = 2;
+  }
 }
 
 // A key linked to an installation (e.g. signed by an installation identity key)
 // The purpose of the key is encoded in the signature
 message VmacInstallationLinkedKey {
-    VmacUnsignedPublicKey key = 1;
+  VmacUnsignedPublicKey key = 1;
 }
 
 // A bundle of one time keys uploaded by a client, to be used as
@@ -46,8 +46,8 @@ message VmacInstallationLinkedKey {
 // In our initial prototype we will not actually use one-time prekeys,
 // defaulting to fallback keys.
 message VmacOneTimeKeyTopupBundle {
-    VmacAccountLinkedKey identity_key = 1;
-    repeated VmacInstallationLinkedKey one_time_keys = 2;
+  VmacAccountLinkedKey identity_key = 1;
+  repeated VmacInstallationLinkedKey one_time_keys = 2;
 }
 
 // A fallback key uploaded by a client, which replaces any existing
@@ -56,20 +56,20 @@ message VmacOneTimeKeyTopupBundle {
 // In our initial prototype we will always use the fallback key in place
 // of any one-time prekeys.
 message VmacFallbackKeyRotation {
-    VmacAccountLinkedKey identity_key = 1;
-    VmacInstallationLinkedKey fallback_key = 2;
+  VmacAccountLinkedKey identity_key = 1;
+  VmacInstallationLinkedKey fallback_key = 2;
 }
 
 // A contact bundle served by the server to a requesting client
 message VmacInstallationPublicKeyBundleV1 {
-    VmacAccountLinkedKey identity_key = 1;
-    VmacInstallationLinkedKey fallback_key = 2;
+  VmacAccountLinkedKey identity_key = 1;
+  VmacInstallationLinkedKey fallback_key = 2;
 }
 
 // A wrapper for versions of the installation contact bundle to allow
 // upgradeability
 message InstallationContactBundle {
-    oneof version {
-        VmacInstallationPublicKeyBundleV1 v1 = 1;
-    }
+  oneof version {
+    VmacInstallationPublicKeyBundleV1 v1 = 1;
+  }
 }

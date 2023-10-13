@@ -1,10 +1,12 @@
 {
-    "protoc": {
-        "compile_on_save": false,
-        "options": [
-            "--proto_path=build/tmp/vendor",
-        ]
-    },
-    // protolint complains if lines are longer than length 80, display a ruler
-    "editor.rulers": [80]
+  "protoc": {
+    "compile_on_save": false,
+    "options": ["--proto_path=build/tmp/vendor"]
+  },
+  "[proto3]": {
+    "editor.defaultFormatter": "bufbuild.vscode-buf",
+    "editor.formatOnSave": true
+  },
+  // protolint complains if lines are longer than length 80, display a ruler
+  "editor.rulers": [80]
 }

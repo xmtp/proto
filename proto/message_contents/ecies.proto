@@ -8,8 +8,8 @@ option java_package = "org.xmtp.proto.message.contents";
 
 // EciesMessage is a wrapper for ECIES encrypted payloads
 message EciesMessage {
-    oneof version {
-        // Expected to be an ECIES encrypted SignedPayload
-        bytes v1 = 1;
-    }
+  oneof version {
+    // Expected to be an ECIES encrypted SignedPayload
+    bytes v1 = 1;
+  }
 }
