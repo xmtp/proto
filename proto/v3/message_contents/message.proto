@@ -59,7 +59,9 @@ message ConversationMessageV1 {
 message MessagePayloadV1 {
   EdDsaSignature header_signature = 1; // Signature of the header_bytes
   oneof contents {
-    ConversationMessageV1 conversation_message_v1 = 2;
+    // We store this as bytes so that it can be safely used
+    // to derive the message_id
+    bytes conversation_message_v1 = 2; // ConversationMessageV1
     // TODO: Add other message types
     // (Message Backup Request, P4, Message Backup Response)
   }
