@@ -3,8 +3,6 @@ syntax = "proto3";
 
 package xmtp.v3.message_contents;
 
-import "v3/message_contents/message.proto";
-
 option go_package = "github.com/xmtp/proto/v3/go/v3/message_contents";
 option java_package = "org.xmtp.proto.v3.message.contents";
 
@@ -13,6 +11,6 @@ message MessageBackupEntry {
   uint64 sent_ns = 1;
   string sender_address = 2;
   oneof content {
-    bytes conversation_message_v1 = 3;
+    bytes conversation_message_v1 = 3; // A ConversationMessageV1
   }
 }
