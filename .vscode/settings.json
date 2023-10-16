@@ -6,5 +6,7 @@
   "[proto3]": {
     "editor.defaultFormatter": "bufbuild.vscode-buf",
     "editor.formatOnSave": true
-  }
+  },
+  // protolint complains if lines are longer than length 80, display a ruler
+  "editor.rulers": [80]
 }

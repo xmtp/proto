@@ -1,0 +1,32 @@
+// Association types
+syntax = "proto3";
+
+package xmtp.v3.message_contents;
+
+option go_package = "github.com/xmtp/proto/v3/go/v3/message_contents";
+option java_package = "org.xmtp.proto.v3.message.contents";
+
+// Allows for us to update the format of the association text without
+// incrementing the entire proto
+enum AssociationTextVersion {
+  ASSOCIATION_TEXT_VERSION_UNSPECIFIED = 0;
+  ASSOCIATION_TEXT_VERSION_1 = 1;
+}
+
+// EIP191Association is used for all EIP 191 compliant wallet signatures
+message Eip191Association {
+  AssociationTextVersion association_text_version = 1;
+  RecoverableEcdsaSignature signature = 2;
+  string wallet_address = 3;
+}
+
+// RecoverableEcdsaSignature
+message RecoverableEcdsaSignature {
+  // Includes recovery id as the last byte
+  bytes bytes = 1;
+}
+
+// EdDSA signature bytes matching RFC 8032
+message EdDsaSignature {
+  bytes bytes = 1;
+}
