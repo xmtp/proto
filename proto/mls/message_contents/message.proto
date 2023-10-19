@@ -25,4 +25,8 @@ message GroupMessage {
   message V1 {
     bytes mls_message_tls_serialized = 1;
   }
+
+  oneof version {
+    V1 v1 = 1;
+  }
 }
