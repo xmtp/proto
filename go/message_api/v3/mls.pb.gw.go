@@ -31,8 +31,8 @@ var _ = runtime.String
 var _ = utilities.NewDoubleArray
 var _ = metadata.Join
 
-func request_MlsApi_Publish_0(ctx context.Context, marshaler runtime.Marshaler, client MlsApiClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq PublishRequest
+func request_MlsApi_PublishToGroup_0(ctx context.Context, marshaler runtime.Marshaler, client MlsApiClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var protoReq PublishToGroupRequest
 	var metadata runtime.ServerMetadata
 
 	newReader, berr := utilities.IOReaderFactory(req.Body)
@@ -43,13 +43,13 @@ func request_MlsApi_Publish_0(ctx context.Context, marshaler runtime.Marshaler, 
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
-	msg, err := client.Publish(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
+	msg, err := client.PublishToGroup(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 
 }
 
-func local_request_MlsApi_Publish_0(ctx context.Context, marshaler runtime.Marshaler, server MlsApiServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq PublishRequest
+func local_request_MlsApi_PublishToGroup_0(ctx context.Context, marshaler runtime.Marshaler, server MlsApiServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var protoReq PublishToGroupRequest
 	var metadata runtime.ServerMetadata
 
 	newReader, berr := utilities.IOReaderFactory(req.Body)
@@ -60,7 +60,7 @@ func local_request_MlsApi_Publish_0(ctx context.Context, marshaler runtime.Marsh
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
-	msg, err := server.Publish(ctx, &protoReq)
+	msg, err := server.PublishToGroup(ctx, &protoReq)
 	return msg, metadata, err
 
 }
@@ -241,7 +241,7 @@ func local_request_MlsApi_GetIdentityUpdates_0(ctx context.Context, marshaler ru
 // Note that using this registration option will cause many gRPC library features to stop working. Consider using RegisterMlsApiHandlerFromEndpoint instead.
 func RegisterMlsApiHandlerServer(ctx context.Context, mux *runtime.ServeMux, server MlsApiServer) error {
 
-	mux.Handle("POST", pattern_MlsApi_Publish_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("POST", pattern_MlsApi_PublishToGroup_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
@@ -249,12 +249,12 @@ func RegisterMlsApiHandlerServer(ctx context.Context, mux *runtime.ServeMux, ser
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/xmtp.message_api.v3.MlsApi/Publish", runtime.WithHTTPPathPattern("/message/v3/publish"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/xmtp.message_api.v3.MlsApi/PublishToGroup", runtime.WithHTTPPathPattern("/message/v3/publish-to-group"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := local_request_MlsApi_Publish_0(annotatedContext, inboundMarshaler, server, req, pathParams)
+		resp, md, err := local_request_MlsApi_PublishToGroup_0(annotatedContext, inboundMarshaler, server, req, pathParams)
 		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
 		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
 		if err != nil {
@@ -262,7 +262,7 @@ func RegisterMlsApiHandlerServer(ctx context.Context, mux *runtime.ServeMux, ser
 			return
 		}
 
-		forward_MlsApi_Publish_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_MlsApi_PublishToGroup_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
@@ -432,25 +432,25 @@ func RegisterMlsApiHandler(ctx context.Context, mux *runtime.ServeMux, conn *grp
 // "MlsApiClient" to call the correct interceptors.
 func RegisterMlsApiHandlerClient(ctx context.Context, mux *runtime.ServeMux, client MlsApiClient) error {
 
-	mux.Handle("POST", pattern_MlsApi_Publish_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("POST", pattern_MlsApi_PublishToGroup_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/xmtp.message_api.v3.MlsApi/Publish", runtime.WithHTTPPathPattern("/message/v3/publish"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/xmtp.message_api.v3.MlsApi/PublishToGroup", runtime.WithHTTPPathPattern("/message/v3/publish-to-group"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := request_MlsApi_Publish_0(annotatedContext, inboundMarshaler, client, req, pathParams)
+		resp, md, err := request_MlsApi_PublishToGroup_0(annotatedContext, inboundMarshaler, client, req, pathParams)
 		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
 		if err != nil {
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
 
-		forward_MlsApi_Publish_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_MlsApi_PublishToGroup_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
@@ -568,7 +568,7 @@ func RegisterMlsApiHandlerClient(ctx context.Context, mux *runtime.ServeMux, cli
 }
 
 var (
-	pattern_MlsApi_Publish_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"message", "v3", "publish"}, ""))
+	pattern_MlsApi_PublishToGroup_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"message", "v3", "publish-to-group"}, ""))
 
 	pattern_MlsApi_RegisterInstallation_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"message", "v3", "register-installation"}, ""))
 
@@ -582,7 +582,7 @@ var (
 )
 
 var (
-	forward_MlsApi_Publish_0 = runtime.ForwardResponseMessage
+	forward_MlsApi_PublishToGroup_0 = runtime.ForwardResponseMessage
 
 	forward_MlsApi_RegisterInstallation_0 = runtime.ForwardResponseMessage
 

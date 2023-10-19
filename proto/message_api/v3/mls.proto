@@ -20,9 +20,9 @@ option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
 service MlsApi {
   // Publish a MLS payload, that would be validated before being stored to the
   // network
-  rpc Publish(PublishRequest) returns (google.protobuf.Empty) {
+  rpc PublishToGroup(PublishToGroupRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
-      post: "/message/v3/publish"
+      post: "/message/v3/publish-to-group"
       body: "*"
     };
   }
@@ -72,7 +72,7 @@ service MlsApi {
 }
 
 // Publish a batch of MLS messages
-message PublishRequest {
+message PublishToGroupRequest {
   // An individual message to be published
   message Message {
     // This would be a serialized MLS message that the node would
@@ -126,7 +126,7 @@ message ConsumeKeyPackagesRequest {
 message ConsumeKeyPackagesResponse {
   // An individual key package
   message KeyPackage {
-    bytes key_package = 1;
+    bytes key_package_bytes = 1;
   }
 
   // Returns one key package per installation in the original order of the

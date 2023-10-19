@@ -22,7 +22,7 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	MlsApi_Publish_FullMethodName              = "/xmtp.message_api.v3.MlsApi/Publish"
+	MlsApi_PublishToGroup_FullMethodName       = "/xmtp.message_api.v3.MlsApi/PublishToGroup"
 	MlsApi_RegisterInstallation_FullMethodName = "/xmtp.message_api.v3.MlsApi/RegisterInstallation"
 	MlsApi_UploadKeyPackages_FullMethodName    = "/xmtp.message_api.v3.MlsApi/UploadKeyPackages"
 	MlsApi_ConsumeKeyPackages_FullMethodName   = "/xmtp.message_api.v3.MlsApi/ConsumeKeyPackages"
@@ -36,7 +36,7 @@ const (
 type MlsApiClient interface {
 	// Publish a MLS payload, that would be validated before being stored to the
 	// network
-	Publish(ctx context.Context, in *PublishRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	PublishToGroup(ctx context.Context, in *PublishToGroupRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	// Register a new installation, which would be validated before storage
 	RegisterInstallation(ctx context.Context, in *RegisterInstallationRequest, opts ...grpc.CallOption) (*RegisterInstallationResponse, error)
 	// Upload one or more Key Packages, which would be validated before storage
@@ -60,9 +60,9 @@ func NewMlsApiClient(cc grpc.ClientConnInterface) MlsApiClient {
 	return &mlsApiClient{cc}
 }
 
-func (c *mlsApiClient) Publish(ctx context.Context, in *PublishRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+func (c *mlsApiClient) PublishToGroup(ctx context.Context, in *PublishToGroupRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
 	out := new(emptypb.Empty)
-	err := c.cc.Invoke(ctx, MlsApi_Publish_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, MlsApi_PublishToGroup_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -120,7 +120,7 @@ func (c *mlsApiClient) GetIdentityUpdates(ctx context.Context, in *GetIdentityUp
 type MlsApiServer interface {
 	// Publish a MLS payload, that would be validated before being stored to the
 	// network
-	Publish(context.Context, *PublishRequest) (*emptypb.Empty, error)
+	PublishToGroup(context.Context, *PublishToGroupRequest) (*emptypb.Empty, error)
 	// Register a new installation, which would be validated before storage
 	RegisterInstallation(context.Context, *RegisterInstallationRequest) (*RegisterInstallationResponse, error)
 	// Upload one or more Key Packages, which would be validated before storage
@@ -141,8 +141,8 @@ type MlsApiServer interface {
 type UnimplementedMlsApiServer struct {
 }
 
-func (UnimplementedMlsApiServer) Publish(context.Context, *PublishRequest) (*emptypb.Empty, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Publish not implemented")
+func (UnimplementedMlsApiServer) PublishToGroup(context.Context, *PublishToGroupRequest) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method PublishToGroup not implemented")
 }
 func (UnimplementedMlsApiServer) RegisterInstallation(context.Context, *RegisterInstallationRequest) (*RegisterInstallationResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RegisterInstallation not implemented")
@@ -172,20 +172,20 @@ func RegisterMlsApiServer(s grpc.ServiceRegistrar, srv MlsApiServer) {
 	s.RegisterService(&MlsApi_ServiceDesc, srv)
 }
 
-func _MlsApi_Publish_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(PublishRequest)
+func _MlsApi_PublishToGroup_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PublishToGroupRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(MlsApiServer).Publish(ctx, in)
+		return srv.(MlsApiServer).PublishToGroup(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: MlsApi_Publish_FullMethodName,
+		FullMethod: MlsApi_PublishToGroup_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(MlsApiServer).Publish(ctx, req.(*PublishRequest))
+		return srv.(MlsApiServer).PublishToGroup(ctx, req.(*PublishToGroupRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -288,8 +288,8 @@ var MlsApi_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*MlsApiServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "Publish",
-			Handler:    _MlsApi_Publish_Handler,
+			MethodName: "PublishToGroup",
+			Handler:    _MlsApi_PublishToGroup_Handler,
 		},
 		{
 			MethodName: "RegisterInstallation",
