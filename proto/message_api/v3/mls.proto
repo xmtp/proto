@@ -100,7 +100,7 @@ message PublishWelcomesRequest {
 // Register a new installation
 message RegisterInstallationRequest {
   bytes credential_bytes = 1;
-  bytes signature_public_key = 2;
+  bytes signature_public_key_bytes = 2;
 }
 
 //
