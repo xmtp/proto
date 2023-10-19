@@ -13,7 +13,7 @@ service ValidationApi {
   rpc ValidateGroupMessages(ValidateGroupMessagesRequest) returns (ValidateGroupMessagesResponse) {}
 
   // Validate and parse a batch of credentials
-  rpc ValidateBasicIdentities(ValidateIdentitiesRequest) returns (ValidateIdentitiesResponse) {}
+  rpc ValidateIdentities(ValidateIdentitiesRequest) returns (ValidateIdentitiesResponse) {}
 }
 
 // Contains a batch of serialized Key Packages

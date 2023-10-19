@@ -99,7 +99,7 @@ func local_request_ValidationApi_ValidateGroupMessages_0(ctx context.Context, ma
 
 }
 
-func request_ValidationApi_ValidateBasicIdentities_0(ctx context.Context, marshaler runtime.Marshaler, client ValidationApiClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func request_ValidationApi_ValidateIdentities_0(ctx context.Context, marshaler runtime.Marshaler, client ValidationApiClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq ValidateIdentitiesRequest
 	var metadata runtime.ServerMetadata
 
@@ -111,12 +111,12 @@ func request_ValidationApi_ValidateBasicIdentities_0(ctx context.Context, marsha
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
-	msg, err := client.ValidateBasicIdentities(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
+	msg, err := client.ValidateIdentities(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 
 }
 
-func local_request_ValidationApi_ValidateBasicIdentities_0(ctx context.Context, marshaler runtime.Marshaler, server ValidationApiServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func local_request_ValidationApi_ValidateIdentities_0(ctx context.Context, marshaler runtime.Marshaler, server ValidationApiServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq ValidateIdentitiesRequest
 	var metadata runtime.ServerMetadata
 
@@ -128,7 +128,7 @@ func local_request_ValidationApi_ValidateBasicIdentities_0(ctx context.Context, 
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
-	msg, err := server.ValidateBasicIdentities(ctx, &protoReq)
+	msg, err := server.ValidateIdentities(ctx, &protoReq)
 	return msg, metadata, err
 
 }
@@ -189,7 +189,7 @@ func RegisterValidationApiHandlerServer(ctx context.Context, mux *runtime.ServeM
 
 	})
 
-	mux.Handle("POST", pattern_ValidationApi_ValidateBasicIdentities_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("POST", pattern_ValidationApi_ValidateIdentities_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
@@ -197,12 +197,12 @@ func RegisterValidationApiHandlerServer(ctx context.Context, mux *runtime.ServeM
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/xmtp.mls_validation.v1.ValidationApi/ValidateBasicIdentities", runtime.WithHTTPPathPattern("/xmtp.mls_validation.v1.ValidationApi/ValidateBasicIdentities"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/xmtp.mls_validation.v1.ValidationApi/ValidateIdentities", runtime.WithHTTPPathPattern("/xmtp.mls_validation.v1.ValidationApi/ValidateIdentities"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := local_request_ValidationApi_ValidateBasicIdentities_0(annotatedContext, inboundMarshaler, server, req, pathParams)
+		resp, md, err := local_request_ValidationApi_ValidateIdentities_0(annotatedContext, inboundMarshaler, server, req, pathParams)
 		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
 		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
 		if err != nil {
@@ -210,7 +210,7 @@ func RegisterValidationApiHandlerServer(ctx context.Context, mux *runtime.ServeM
 			return
 		}
 
-		forward_ValidationApi_ValidateBasicIdentities_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_ValidationApi_ValidateIdentities_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
@@ -299,25 +299,25 @@ func RegisterValidationApiHandlerClient(ctx context.Context, mux *runtime.ServeM
 
 	})
 
-	mux.Handle("POST", pattern_ValidationApi_ValidateBasicIdentities_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("POST", pattern_ValidationApi_ValidateIdentities_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/xmtp.mls_validation.v1.ValidationApi/ValidateBasicIdentities", runtime.WithHTTPPathPattern("/xmtp.mls_validation.v1.ValidationApi/ValidateBasicIdentities"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/xmtp.mls_validation.v1.ValidationApi/ValidateIdentities", runtime.WithHTTPPathPattern("/xmtp.mls_validation.v1.ValidationApi/ValidateIdentities"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := request_ValidationApi_ValidateBasicIdentities_0(annotatedContext, inboundMarshaler, client, req, pathParams)
+		resp, md, err := request_ValidationApi_ValidateIdentities_0(annotatedContext, inboundMarshaler, client, req, pathParams)
 		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
 		if err != nil {
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
 
-		forward_ValidationApi_ValidateBasicIdentities_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_ValidationApi_ValidateIdentities_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
@@ -329,7 +329,7 @@ var (
 
 	pattern_ValidationApi_ValidateGroupMessages_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"xmtp.mls_validation.v1.ValidationApi", "ValidateGroupMessages"}, ""))
 
-	pattern_ValidationApi_ValidateBasicIdentities_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"xmtp.mls_validation.v1.ValidationApi", "ValidateBasicIdentities"}, ""))
+	pattern_ValidationApi_ValidateIdentities_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"xmtp.mls_validation.v1.ValidationApi", "ValidateIdentities"}, ""))
 )
 
 var (
@@ -337,5 +337,5 @@ var (
 
 	forward_ValidationApi_ValidateGroupMessages_0 = runtime.ForwardResponseMessage
 
-	forward_ValidationApi_ValidateBasicIdentities_0 = runtime.ForwardResponseMessage
+	forward_ValidationApi_ValidateIdentities_0 = runtime.ForwardResponseMessage
 )

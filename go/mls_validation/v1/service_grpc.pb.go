@@ -21,9 +21,9 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	ValidationApi_ValidateKeyPackages_FullMethodName     = "/xmtp.mls_validation.v1.ValidationApi/ValidateKeyPackages"
-	ValidationApi_ValidateGroupMessages_FullMethodName   = "/xmtp.mls_validation.v1.ValidationApi/ValidateGroupMessages"
-	ValidationApi_ValidateBasicIdentities_FullMethodName = "/xmtp.mls_validation.v1.ValidationApi/ValidateBasicIdentities"
+	ValidationApi_ValidateKeyPackages_FullMethodName   = "/xmtp.mls_validation.v1.ValidationApi/ValidateKeyPackages"
+	ValidationApi_ValidateGroupMessages_FullMethodName = "/xmtp.mls_validation.v1.ValidationApi/ValidateGroupMessages"
+	ValidationApi_ValidateIdentities_FullMethodName    = "/xmtp.mls_validation.v1.ValidationApi/ValidateIdentities"
 )
 
 // ValidationApiClient is the client API for ValidationApi service.
@@ -35,7 +35,7 @@ type ValidationApiClient interface {
 	// Validates and parses a group message and returns relevant details
 	ValidateGroupMessages(ctx context.Context, in *ValidateGroupMessagesRequest, opts ...grpc.CallOption) (*ValidateGroupMessagesResponse, error)
 	// Validate and parse a batch of credentials
-	ValidateBasicIdentities(ctx context.Context, in *ValidateIdentitiesRequest, opts ...grpc.CallOption) (*ValidateIdentitiesResponse, error)
+	ValidateIdentities(ctx context.Context, in *ValidateIdentitiesRequest, opts ...grpc.CallOption) (*ValidateIdentitiesResponse, error)
 }
 
 type validationApiClient struct {
@@ -64,9 +64,9 @@ func (c *validationApiClient) ValidateGroupMessages(ctx context.Context, in *Val
 	return out, nil
 }
 
-func (c *validationApiClient) ValidateBasicIdentities(ctx context.Context, in *ValidateIdentitiesRequest, opts ...grpc.CallOption) (*ValidateIdentitiesResponse, error) {
+func (c *validationApiClient) ValidateIdentities(ctx context.Context, in *ValidateIdentitiesRequest, opts ...grpc.CallOption) (*ValidateIdentitiesResponse, error) {
 	out := new(ValidateIdentitiesResponse)
-	err := c.cc.Invoke(ctx, ValidationApi_ValidateBasicIdentities_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, ValidationApi_ValidateIdentities_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -82,7 +82,7 @@ type ValidationApiServer interface {
 	// Validates and parses a group message and returns relevant details
 	ValidateGroupMessages(context.Context, *ValidateGroupMessagesRequest) (*ValidateGroupMessagesResponse, error)
 	// Validate and parse a batch of credentials
-	ValidateBasicIdentities(context.Context, *ValidateIdentitiesRequest) (*ValidateIdentitiesResponse, error)
+	ValidateIdentities(context.Context, *ValidateIdentitiesRequest) (*ValidateIdentitiesResponse, error)
 	mustEmbedUnimplementedValidationApiServer()
 }
 
@@ -96,8 +96,8 @@ func (UnimplementedValidationApiServer) ValidateKeyPackages(context.Context, *Va
 func (UnimplementedValidationApiServer) ValidateGroupMessages(context.Context, *ValidateGroupMessagesRequest) (*ValidateGroupMessagesResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ValidateGroupMessages not implemented")
 }
-func (UnimplementedValidationApiServer) ValidateBasicIdentities(context.Context, *ValidateIdentitiesRequest) (*ValidateIdentitiesResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ValidateBasicIdentities not implemented")
+func (UnimplementedValidationApiServer) ValidateIdentities(context.Context, *ValidateIdentitiesRequest) (*ValidateIdentitiesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ValidateIdentities not implemented")
 }
 func (UnimplementedValidationApiServer) mustEmbedUnimplementedValidationApiServer() {}
 
@@ -148,20 +148,20 @@ func _ValidationApi_ValidateGroupMessages_Handler(srv interface{}, ctx context.C
 	return interceptor(ctx, in, info, handler)
 }
 
-func _ValidationApi_ValidateBasicIdentities_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _ValidationApi_ValidateIdentities_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(ValidateIdentitiesRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ValidationApiServer).ValidateBasicIdentities(ctx, in)
+		return srv.(ValidationApiServer).ValidateIdentities(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: ValidationApi_ValidateBasicIdentities_FullMethodName,
+		FullMethod: ValidationApi_ValidateIdentities_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ValidationApiServer).ValidateBasicIdentities(ctx, req.(*ValidateIdentitiesRequest))
+		return srv.(ValidationApiServer).ValidateIdentities(ctx, req.(*ValidateIdentitiesRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -182,8 +182,8 @@ var ValidationApi_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _ValidationApi_ValidateGroupMessages_Handler,
 		},
 		{
-			MethodName: "ValidateBasicIdentities",
-			Handler:    _ValidationApi_ValidateBasicIdentities_Handler,
+			MethodName: "ValidateIdentities",
+			Handler:    _ValidationApi_ValidateIdentities_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
