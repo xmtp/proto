@@ -1,0 +1,192 @@
+// Message API
+syntax = "proto3";
+package xmtp.message_api.v3;
+
+import "google/api/annotations.proto";
+import "google/protobuf/empty.proto";
+import "message_contents/signature.proto";
+import "mls/message_contents/message.proto";
+import "protoc-gen-openapiv2/options/annotations.proto";
+
+option go_package = "github.com/xmtp/proto/v3/go/message_api/v3";
+option java_package = "org.xmtp.proto.message.api.v3";
+option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
+  info: {
+    title: "MlsApi";
+    version: "1.0";
+  };
+};
+
+// RPCs for the new MLS API
+service MlsApi {
+  // Publish a MLS payload, that would be validated before being stored to the
+  // network
+  rpc PublishToGroup(PublishToGroupRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      post: "/message/v3/publish-to-group"
+      body: "*"
+    };
+  }
+
+  // Publish a batch of welcome messages
+  rpc PublishWelcomes(PublishWelcomesRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      post: "/message/v3/publish-welcomes"
+      body: "*"
+    };
+  }
+
+  // Register a new installation, which would be validated before storage
+  rpc RegisterInstallation(RegisterInstallationRequest) returns (RegisterInstallationResponse) {
+    option (google.api.http) = {
+      post: "/message/v3/register-installation"
+      body: "*"
+    };
+  }
+
+  // Upload one or more Key Packages, which would be validated before storage
+  rpc UploadKeyPackages(UploadKeyPackagesRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      post: "/message/v3/upload-key-packages"
+      body: "*"
+    };
+  }
+
+  // Get one or more Key Packages by installation_id
+  rpc ConsumeKeyPackages(ConsumeKeyPackagesRequest) returns (ConsumeKeyPackagesResponse) {
+    option (google.api.http) = {
+      post: "/message/v3/consume-key-packages"
+      body: "*"
+    };
+  }
+
+  // Would delete all key packages associated with the installation and mark
+  // the installation as having been revoked
+  rpc RevokeInstallation(RevokeInstallationRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      post: "/message/v3/revoke-installation"
+      body: "*"
+    };
+  }
+
+  // Used to check for changes related to members of a group.
+  // Would return an array of any new installations associated with the wallet
+  // address, and any revocations that have happened.
+  rpc GetIdentityUpdates(GetIdentityUpdatesRequest) returns (GetIdentityUpdatesResponse) {
+    option (google.api.http) = {
+      post: "/message/v3/get-identity-updates"
+      body: "*"
+    };
+  }
+}
+
+// Publish a batch of MLS messages
+message PublishToGroupRequest {
+  repeated xmtp.mls.message_contents.GroupMessage messages = 1;
+}
+
+// Publish a batch of welcome messages
+message PublishWelcomesRequest {
+  // An individual welcome message
+  message WelcomeMessageRequest {
+    // The topic will be derived from this
+    string installation_id = 1;
+    xmtp.mls.message_contents.WelcomeMessage welcome_message = 2;
+  }
+
+  repeated WelcomeMessageRequest welcome_messages = 1;
+}
+
+// Register a new installation
+message RegisterInstallationRequest {
+  bytes credential_bytes = 1;
+  bytes signing_key_public = 2;
+}
+
+//
+message RegisterInstallationResponse {
+  string installation_id = 1;
+}
+
+// Upload one or more key packages
+message UploadKeyPackagesRequest {
+  // An individual key package upload request
+  message KeyPackageUpload {
+    // This would be a serialized MLS key package that the node would
+    // parse, validate, and then store.
+
+    // The owner's wallet address would be extracted from the identity
+    // credential in the key package, and all signatures would be validated.
+    bytes key_package_tls_serialized = 1;
+    // The node will always treat the most recent last-resort key package as
+    // the active one, and will ignore all others.
+    bool is_last_resort = 2;
+  }
+
+  repeated KeyPackageUpload key_packages = 1;
+}
+
+// Consume one or more key packages, removing them from further use
+message ConsumeKeyPackagesRequest {
+  // The caller can provide an array of wallet addresses, and the API
+  // will return one key package for each installation associated with each
+  // wallet address
+  repeated string installation_ids = 1;
+}
+
+// The response to a ConsumeKeyPackagesRequest
+message ConsumeKeyPackagesResponse {
+  // An individual key package
+  message KeyPackage {
+    bytes key_package_tls_serialized = 1;
+  }
+
+  // Returns one key package per installation in the original order of the
+  // request. If any installations are missing key packages,
+  repeated KeyPackage key_packages = 1;
+}
+
+// Revoke an installation
+message RevokeInstallationRequest {
+  string installation_id = 1;
+  // All revocations must be validated with a wallet signature over the
+  // installation_id being revoked (and some sort of standard prologue)
+  xmtp.message_contents.Signature wallet_signature = 2;
+}
+
+// Get all updates for an identity since the specified time
+message GetIdentityUpdatesRequest {
+  repeated string wallet_addresses = 1;
+  uint64 start_time_ns = 2;
+}
+
+// Used to get any new or revoked installations for a list of wallet addresses
+message GetIdentityUpdatesResponse {
+  // A new installation ID was seen for the first time by the nodes
+  message NewInstallationUpdate {
+    string installation_id = 1;
+  }
+
+  // An installation was revoked
+  message RevokedInstallationUpdate {
+    string installation_id = 1;
+  }
+
+  // A wrapper for any update to the wallet
+  message Update {
+    uint64 timestamp_ns = 1;
+    oneof kind {
+      NewInstallationUpdate new_installation = 2;
+      RevokedInstallationUpdate revoked_installation = 3;
+    }
+  }
+
+  // A wrapper for the updates for a single wallet
+  message WalletUpdates {
+    repeated Update updates = 1;
+  }
+
+  // A list of updates (or empty objects if no changes) in the original order
+  // of the request
+  repeated WalletUpdates updates = 1;
+}

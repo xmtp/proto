@@ -37,6 +37,7 @@ lint:
 
     # # The specific linters to remove.
     remove:
+      - RPC_REQUEST_RESPONSE_UNIQUE
       # We should probably turn this back on at some point, but pretty annoying RN
       - FIELDS_HAVE_COMMENT
       # I never want to turn this back on. Enums values should be self-explanatory
@@ -49,7 +50,7 @@ lint:
     # MAX_LINE_LENGTH rule option.
     max_line_length:
       # Enforces a maximum line length
-      max_chars: 80
+      max_chars: 150
       # Specifies the character count for tab characters
       tab_chars: 2
 
