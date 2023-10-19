@@ -27,6 +27,13 @@ service MlsApi {
     };
   }
 
+  rpc PublishWelcomes(PublishWelcomesRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      post: "/message/v3/publish-welcomes"
+      body: "*"
+    };
+  }
+
   // Register a new installation, which would be validated before storage
   rpc RegisterInstallation(RegisterInstallationRequest) returns (RegisterInstallationResponse) {
     option (google.api.http) = {
@@ -83,6 +90,18 @@ message PublishToGroupRequest {
   }
 
   repeated Message messages = 1;
+}
+
+// Publish a batch of welcome messages
+message PublishWelcomesRequest {
+  // An individual welcome message
+  message WelcomeMessage {
+    // The topic will be derived from this
+    string installation_id = 1;
+    bytes welcome_message_bytes = 2;
+  }
+
+  repeated WelcomeMessage welcome_messages = 1;
 }
 
 // Register a new installation

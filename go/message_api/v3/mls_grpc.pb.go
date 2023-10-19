@@ -23,6 +23,7 @@ const _ = grpc.SupportPackageIsVersion7
 
 const (
 	MlsApi_PublishToGroup_FullMethodName       = "/xmtp.message_api.v3.MlsApi/PublishToGroup"
+	MlsApi_PublishWelcomes_FullMethodName      = "/xmtp.message_api.v3.MlsApi/PublishWelcomes"
 	MlsApi_RegisterInstallation_FullMethodName = "/xmtp.message_api.v3.MlsApi/RegisterInstallation"
 	MlsApi_UploadKeyPackages_FullMethodName    = "/xmtp.message_api.v3.MlsApi/UploadKeyPackages"
 	MlsApi_ConsumeKeyPackages_FullMethodName   = "/xmtp.message_api.v3.MlsApi/ConsumeKeyPackages"
@@ -37,6 +38,7 @@ type MlsApiClient interface {
 	// Publish a MLS payload, that would be validated before being stored to the
 	// network
 	PublishToGroup(ctx context.Context, in *PublishToGroupRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	PublishWelcomes(ctx context.Context, in *PublishWelcomesRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	// Register a new installation, which would be validated before storage
 	RegisterInstallation(ctx context.Context, in *RegisterInstallationRequest, opts ...grpc.CallOption) (*RegisterInstallationResponse, error)
 	// Upload one or more Key Packages, which would be validated before storage
@@ -63,6 +65,15 @@ func NewMlsApiClient(cc grpc.ClientConnInterface) MlsApiClient {
 func (c *mlsApiClient) PublishToGroup(ctx context.Context, in *PublishToGroupRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
 	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, MlsApi_PublishToGroup_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *mlsApiClient) PublishWelcomes(ctx context.Context, in *PublishWelcomesRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
+	err := c.cc.Invoke(ctx, MlsApi_PublishWelcomes_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -121,6 +132,7 @@ type MlsApiServer interface {
 	// Publish a MLS payload, that would be validated before being stored to the
 	// network
 	PublishToGroup(context.Context, *PublishToGroupRequest) (*emptypb.Empty, error)
+	PublishWelcomes(context.Context, *PublishWelcomesRequest) (*emptypb.Empty, error)
 	// Register a new installation, which would be validated before storage
 	RegisterInstallation(context.Context, *RegisterInstallationRequest) (*RegisterInstallationResponse, error)
 	// Upload one or more Key Packages, which would be validated before storage
@@ -143,6 +155,9 @@ type UnimplementedMlsApiServer struct {
 
 func (UnimplementedMlsApiServer) PublishToGroup(context.Context, *PublishToGroupRequest) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method PublishToGroup not implemented")
+}
+func (UnimplementedMlsApiServer) PublishWelcomes(context.Context, *PublishWelcomesRequest) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method PublishWelcomes not implemented")
 }
 func (UnimplementedMlsApiServer) RegisterInstallation(context.Context, *RegisterInstallationRequest) (*RegisterInstallationResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RegisterInstallation not implemented")
@@ -186,6 +201,24 @@ func _MlsApi_PublishToGroup_Handler(srv interface{}, ctx context.Context, dec fu
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(MlsApiServer).PublishToGroup(ctx, req.(*PublishToGroupRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _MlsApi_PublishWelcomes_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PublishWelcomesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MlsApiServer).PublishWelcomes(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: MlsApi_PublishWelcomes_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MlsApiServer).PublishWelcomes(ctx, req.(*PublishWelcomesRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -290,6 +323,10 @@ var MlsApi_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "PublishToGroup",
 			Handler:    _MlsApi_PublishToGroup_Handler,
+		},
+		{
+			MethodName: "PublishWelcomes",
+			Handler:    _MlsApi_PublishWelcomes_Handler,
 		},
 		{
 			MethodName: "RegisterInstallation",
