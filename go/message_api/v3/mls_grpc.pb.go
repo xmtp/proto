@@ -38,6 +38,7 @@ type MlsApiClient interface {
 	// Publish a MLS payload, that would be validated before being stored to the
 	// network
 	PublishToGroup(ctx context.Context, in *PublishToGroupRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	// Publish a batch of welcome messages
 	PublishWelcomes(ctx context.Context, in *PublishWelcomesRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	// Register a new installation, which would be validated before storage
 	RegisterInstallation(ctx context.Context, in *RegisterInstallationRequest, opts ...grpc.CallOption) (*RegisterInstallationResponse, error)
@@ -132,6 +133,7 @@ type MlsApiServer interface {
 	// Publish a MLS payload, that would be validated before being stored to the
 	// network
 	PublishToGroup(context.Context, *PublishToGroupRequest) (*emptypb.Empty, error)
+	// Publish a batch of welcome messages
 	PublishWelcomes(context.Context, *PublishWelcomesRequest) (*emptypb.Empty, error)
 	// Register a new installation, which would be validated before storage
 	RegisterInstallation(context.Context, *RegisterInstallationRequest) (*RegisterInstallationResponse, error)

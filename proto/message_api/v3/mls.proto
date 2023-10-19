@@ -27,6 +27,7 @@ service MlsApi {
     };
   }
 
+  // Publish a batch of welcome messages
   rpc PublishWelcomes(PublishWelcomesRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
       post: "/message/v3/publish-welcomes"
