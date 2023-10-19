@@ -100,7 +100,7 @@ func local_request_ValidationApi_ValidateGroupMessages_0(ctx context.Context, ma
 }
 
 func request_ValidationApi_ValidateBasicIdentities_0(ctx context.Context, marshaler runtime.Marshaler, client ValidationApiClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq ValidateBasicIdentitiesRequest
+	var protoReq ValidateIdentitiesRequest
 	var metadata runtime.ServerMetadata
 
 	newReader, berr := utilities.IOReaderFactory(req.Body)
@@ -117,7 +117,7 @@ func request_ValidationApi_ValidateBasicIdentities_0(ctx context.Context, marsha
 }
 
 func local_request_ValidationApi_ValidateBasicIdentities_0(ctx context.Context, marshaler runtime.Marshaler, server ValidationApiServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq ValidateBasicIdentitiesRequest
+	var protoReq ValidateIdentitiesRequest
 	var metadata runtime.ServerMetadata
 
 	newReader, berr := utilities.IOReaderFactory(req.Body)

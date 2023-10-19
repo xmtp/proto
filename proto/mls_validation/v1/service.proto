@@ -13,7 +13,7 @@ service ValidationApi {
   rpc ValidateGroupMessages(ValidateGroupMessagesRequest) returns (ValidateGroupMessagesResponse) {}
 
   // Validate and parse a batch of credentials
-  rpc ValidateBasicIdentities(ValidateBasicIdentitiesRequest) returns (ValidateBasicIdentitiesResponse) {}
+  rpc ValidateBasicIdentities(ValidateIdentitiesRequest) returns (ValidateIdentitiesResponse) {}
 }
 
 // Contains a batch of serialized Key Packages
@@ -63,10 +63,10 @@ message ValidateGroupMessagesResponse {
 }
 
 // Contains a batch of serialized credentials
-message ValidateBasicIdentitiesRequest {
+message ValidateIdentitiesRequest {
   // Wrapper for each credential and public key
   message Credential {
-    bytes identity_bytes_tls_serialized = 1;
+    bytes identity_bytes = 1;
     bytes signing_public_key_bytes = 2;
   }
 
@@ -74,7 +74,7 @@ message ValidateBasicIdentitiesRequest {
 }
 
 // Response to ValidateBasicIdentitiesRequest
-message ValidateBasicIdentitiesResponse {
+message ValidateIdentitiesResponse {
   // An individual response to one credential
   message ValidationResponse {
     bool is_ok = 1;

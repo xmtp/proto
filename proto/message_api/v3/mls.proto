@@ -99,7 +99,7 @@ message PublishWelcomesRequest {
 
 // Register a new installation
 message RegisterInstallationRequest {
-  bytes credential_bytes = 1;
+  bytes identity_bytes = 1;
   bytes signing_key_public = 2;
 }
 
