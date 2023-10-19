@@ -22,11 +22,12 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	MlsApi_Publish_FullMethodName            = "/xmtp.message_api.v3.MlsApi/Publish"
-	MlsApi_UploadKeyPackages_FullMethodName  = "/xmtp.message_api.v3.MlsApi/UploadKeyPackages"
-	MlsApi_ConsumeKeyPackages_FullMethodName = "/xmtp.message_api.v3.MlsApi/ConsumeKeyPackages"
-	MlsApi_RevokeInstallation_FullMethodName = "/xmtp.message_api.v3.MlsApi/RevokeInstallation"
-	MlsApi_GetIdentityUpdates_FullMethodName = "/xmtp.message_api.v3.MlsApi/GetIdentityUpdates"
+	MlsApi_Publish_FullMethodName              = "/xmtp.message_api.v3.MlsApi/Publish"
+	MlsApi_RegisterInstallation_FullMethodName = "/xmtp.message_api.v3.MlsApi/RegisterInstallation"
+	MlsApi_UploadKeyPackages_FullMethodName    = "/xmtp.message_api.v3.MlsApi/UploadKeyPackages"
+	MlsApi_ConsumeKeyPackages_FullMethodName   = "/xmtp.message_api.v3.MlsApi/ConsumeKeyPackages"
+	MlsApi_RevokeInstallation_FullMethodName   = "/xmtp.message_api.v3.MlsApi/RevokeInstallation"
+	MlsApi_GetIdentityUpdates_FullMethodName   = "/xmtp.message_api.v3.MlsApi/GetIdentityUpdates"
 )
 
 // MlsApiClient is the client API for MlsApi service.
@@ -36,6 +37,8 @@ type MlsApiClient interface {
 	// Publish a MLS payload, that would be validated before being stored to the
 	// network
 	Publish(ctx context.Context, in *PublishRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	// Register a new installation, which would be validated before storage
+	RegisterInstallation(ctx context.Context, in *RegisterInstallationRequest, opts ...grpc.CallOption) (*RegisterInstallationResponse, error)
 	// Upload one or more Key Packages, which would be validated before storage
 	UploadKeyPackages(ctx context.Context, in *UploadKeyPackagesRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	// Get one or more Key Packages by installation_id
@@ -60,6 +63,15 @@ func NewMlsApiClient(cc grpc.ClientConnInterface) MlsApiClient {
 func (c *mlsApiClient) Publish(ctx context.Context, in *PublishRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
 	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, MlsApi_Publish_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *mlsApiClient) RegisterInstallation(ctx context.Context, in *RegisterInstallationRequest, opts ...grpc.CallOption) (*RegisterInstallationResponse, error) {
+	out := new(RegisterInstallationResponse)
+	err := c.cc.Invoke(ctx, MlsApi_RegisterInstallation_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -109,6 +121,8 @@ type MlsApiServer interface {
 	// Publish a MLS payload, that would be validated before being stored to the
 	// network
 	Publish(context.Context, *PublishRequest) (*emptypb.Empty, error)
+	// Register a new installation, which would be validated before storage
+	RegisterInstallation(context.Context, *RegisterInstallationRequest) (*RegisterInstallationResponse, error)
 	// Upload one or more Key Packages, which would be validated before storage
 	UploadKeyPackages(context.Context, *UploadKeyPackagesRequest) (*emptypb.Empty, error)
 	// Get one or more Key Packages by installation_id
@@ -129,6 +143,9 @@ type UnimplementedMlsApiServer struct {
 
 func (UnimplementedMlsApiServer) Publish(context.Context, *PublishRequest) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Publish not implemented")
+}
+func (UnimplementedMlsApiServer) RegisterInstallation(context.Context, *RegisterInstallationRequest) (*RegisterInstallationResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RegisterInstallation not implemented")
 }
 func (UnimplementedMlsApiServer) UploadKeyPackages(context.Context, *UploadKeyPackagesRequest) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UploadKeyPackages not implemented")
@@ -169,6 +186,24 @@ func _MlsApi_Publish_Handler(srv interface{}, ctx context.Context, dec func(inte
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(MlsApiServer).Publish(ctx, req.(*PublishRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _MlsApi_RegisterInstallation_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RegisterInstallationRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MlsApiServer).RegisterInstallation(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: MlsApi_RegisterInstallation_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MlsApiServer).RegisterInstallation(ctx, req.(*RegisterInstallationRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -255,6 +290,10 @@ var MlsApi_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Publish",
 			Handler:    _MlsApi_Publish_Handler,
+		},
+		{
+			MethodName: "RegisterInstallation",
+			Handler:    _MlsApi_RegisterInstallation_Handler,
 		},
 		{
 			MethodName: "UploadKeyPackages",

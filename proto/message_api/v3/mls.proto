@@ -27,6 +27,14 @@ service MlsApi {
     };
   }
 
+  // Register a new installation, which would be validated before storage
+  rpc RegisterInstallation(RegisterInstallationRequest) returns (RegisterInstallationResponse) {
+    option (google.api.http) = {
+      post: "/message/v3/register-installation"
+      body: "*"
+    };
+  }
+
   // Upload one or more Key Packages, which would be validated before storage
   rpc UploadKeyPackages(UploadKeyPackagesRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
@@ -75,6 +83,17 @@ message PublishRequest {
   }
 
   repeated Message messages = 1;
+}
+
+// Register a new installation
+message RegisterInstallationRequest {
+  bytes credential_bytes = 1;
+  bytes signature_public_key = 2;
+}
+
+//
+message RegisterInstallationResponse {
+  string installation_id = 1;
 }
 
 // Upload one or more key packages
