@@ -37,6 +37,7 @@ lint:
 
     # # The specific linters to remove.
     remove:
+      - RPC_RESPONSE_STANDARD_NAME
       - RPC_REQUEST_RESPONSE_UNIQUE
       # We should probably turn this back on at some point, but pretty annoying RN
       - FIELDS_HAVE_COMMENT
