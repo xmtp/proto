@@ -100,7 +100,7 @@ message PublishWelcomesRequest {
 // Register a new installation
 message RegisterInstallationRequest {
   bytes credential_bytes = 1;
-  bytes signature_public_key = 2;
+  bytes signing_key_public = 2;
 }
 
 //
@@ -138,7 +138,7 @@ message ConsumeKeyPackagesRequest {
 message ConsumeKeyPackagesResponse {
   // An individual key package
   message KeyPackage {
-    bytes key_package_bytes = 1;
+    bytes key_package_tls_serialized = 1;
   }
 
   // Returns one key package per installation in the original order of the
