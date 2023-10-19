@@ -1,14 +1,14 @@
 // Message API
 syntax = "proto3";
-package xmtp.message_api.v2;
+package xmtp.message_api.v3;
 
 import "google/api/annotations.proto";
 import "google/protobuf/empty.proto";
 import "message_contents/signature.proto";
 import "protoc-gen-openapiv2/options/annotations.proto";
 
-option go_package = "github.com/xmtp/proto/v3/go/message_api/v2";
-option java_package = "org.xmtp.proto.message.api.v2";
+option go_package = "github.com/xmtp/proto/v3/go/message_api/v3";
+option java_package = "org.xmtp.proto.message.api.v3";
 option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
   info: {
     title: "MlsApi";
@@ -22,7 +22,7 @@ service MlsApi {
   // network
   rpc Publish(MlsPublishRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
-      post: "/message/v2/publish"
+      post: "/message/v3/publish"
       body: "*"
     };
   }
@@ -30,7 +30,7 @@ service MlsApi {
   // Upload one or more Key Packages, which would be validated before storage
   rpc UploadKeyPackages(UploadKeyPackagesRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
-      post: "/message/v2/upload-key-packages"
+      post: "/message/v3/upload-key-packages"
       body: "*"
     };
   }
@@ -38,7 +38,7 @@ service MlsApi {
   // Get one or more Key Packages by installation_id
   rpc ConsumeKeyPackages(ConsumeKeyPackagesRequest) returns (ConsumeKeyPackagesResponse) {
     option (google.api.http) = {
-      post: "/message/v2/consume-key-packages"
+      post: "/message/v3/consume-key-packages"
       body: "*"
     };
   }
@@ -47,7 +47,7 @@ service MlsApi {
   // the installation as having been revoked
   rpc RevokeInstallation(RevokeInstallationRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
-      post: "/message/v2/revoke-installation"
+      post: "/message/v3/revoke-installation"
       body: "*"
     };
   }
@@ -57,7 +57,7 @@ service MlsApi {
   // address, and any revocations that have happened.
   rpc GetIdentityUpdates(GetIdentityUpdatesRequest) returns (GetIdentityUpdatesResponse) {
     option (google.api.http) = {
-      post: "/message/v2/get-identity-updates"
+      post: "/message/v3/get-identity-updates"
       body: "*"
     };
   }
