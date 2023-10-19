@@ -5,6 +5,7 @@ package xmtp.message_api.v3;
 import "google/api/annotations.proto";
 import "google/protobuf/empty.proto";
 import "message_contents/signature.proto";
+import "mls/message_contents/message.proto";
 import "protoc-gen-openapiv2/options/annotations.proto";
 
 option go_package = "github.com/xmtp/proto/v3/go/message_api/v3";
@@ -81,28 +82,19 @@ service MlsApi {
 
 // Publish a batch of MLS messages
 message PublishToGroupRequest {
-  // An individual message to be published
-  message Message {
-    // This would be a serialized MLS message that the node would
-    // parse and extract the group_id and epoch from
-    // If the epoch does not match the node's state for that group, it would return
-    // an error.
-    bytes mls_message_tls_serialized = 1;
-  }
-
-  repeated Message messages = 1;
+  repeated xmtp.mls.message_contents.GroupMessage messages = 1;
 }
 
 // Publish a batch of welcome messages
 message PublishWelcomesRequest {
   // An individual welcome message
-  message WelcomeMessage {
+  message WelcomeMessageRequest {
     // The topic will be derived from this
     string installation_id = 1;
-    bytes welcome_message_bytes = 2;
+    xmtp.mls.message_contents.WelcomeMessage welcome_message = 2;
   }
 
-  repeated WelcomeMessage welcome_messages = 1;
+  repeated WelcomeMessageRequest welcome_messages = 1;
 }
 
 // Register a new installation
