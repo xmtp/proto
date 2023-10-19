@@ -1,6 +1,8 @@
 // Message API
 syntax = "proto3";
-package xmtp.message_api.v3;
+package xmtp.mls_validation.v1;
+
+option go_package = "github.com/xmtp/proto/v3/go/mls_validation/v1";
 
 // RPCs for the new MLS API
 service ValidationApi {
