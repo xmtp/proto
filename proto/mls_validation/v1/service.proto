@@ -11,9 +11,6 @@ service ValidationApi {
 
   // Validates and parses a group message and returns relevant details
   rpc ValidateGroupMessages(ValidateGroupMessagesRequest) returns (ValidateGroupMessagesResponse) {}
-
-  // Validate and parse a batch of credentials
-  rpc ValidateIdentities(ValidateIdentitiesRequest) returns (ValidateIdentitiesResponse) {}
 }
 
 // Contains a batch of serialized Key Packages
@@ -57,30 +54,6 @@ message ValidateGroupMessagesResponse {
     string error_message = 2;
     string group_id = 3;
     uint64 epoch = 4;
-  }
-
-  repeated ValidationResponse responses = 1;
-}
-
-// Contains a batch of serialized credentials
-message ValidateIdentitiesRequest {
-  // Wrapper for each credential and public key
-  message Credential {
-    bytes identity_bytes = 1;
-    bytes signing_public_key_bytes = 2;
-  }
-
-  repeated Credential credentials = 1;
-}
-
-// Response to ValidateBasicIdentitiesRequest
-message ValidateIdentitiesResponse {
-  // An individual response to one credential
-  message ValidationResponse {
-    bool is_ok = 1;
-    string error_message = 2;
-    string installation_id = 3;
-    string wallet_address = 4;
   }
 
   repeated ValidationResponse responses = 1;

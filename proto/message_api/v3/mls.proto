@@ -97,13 +97,23 @@ message PublishWelcomesRequest {
   repeated WelcomeMessageRequest welcome_messages = 1;
 }
 
-// Register a new installation
-message RegisterInstallationRequest {
-  bytes identity_bytes = 1;
-  bytes signing_key_public = 2;
+// A wrapper around the Key Package bytes
+message KeyPackageUpload {
+  // This would be a serialized MLS key package that the node would
+  // parse, validate, and then store.
+
+  // The owner's wallet address would be extracted from the identity
+  // credential in the key package, and all signatures would be validated.
+  bytes key_package_tls_serialized = 1;
 }
 
-//
+// Register a new installation
+message RegisterInstallationRequest {
+  // The Key Package contains all information needed to register an installation
+  KeyPackageUpload last_resort_key_package = 1;
+}
+
+// The response to a RegisterInstallationRequest
 message RegisterInstallationResponse {
   string installation_id = 1;
 }
@@ -111,18 +121,6 @@ message RegisterInstallationResponse {
 // Upload one or more key packages
 message UploadKeyPackagesRequest {
   // An individual key package upload request
-  message KeyPackageUpload {
-    // This would be a serialized MLS key package that the node would
-    // parse, validate, and then store.
-
-    // The owner's wallet address would be extracted from the identity
-    // credential in the key package, and all signatures would be validated.
-    bytes key_package_tls_serialized = 1;
-    // The node will always treat the most recent last-resort key package as
-    // the active one, and will ignore all others.
-    bool is_last_resort = 2;
-  }
-
   repeated KeyPackageUpload key_packages = 1;
 }
 

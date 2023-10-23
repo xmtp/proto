@@ -214,102 +214,6 @@ func (x *ValidateGroupMessagesResponse) GetResponses() []*ValidateGroupMessagesR
 	return nil
 }
 
-// Contains a batch of serialized credentials
-type ValidateIdentitiesRequest struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	Credentials []*ValidateIdentitiesRequest_Credential `protobuf:"bytes,1,rep,name=credentials,proto3" json:"credentials,omitempty"`
-}
-
-func (x *ValidateIdentitiesRequest) Reset() {
-	*x = ValidateIdentitiesRequest{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_mls_validation_v1_service_proto_msgTypes[4]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *ValidateIdentitiesRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*ValidateIdentitiesRequest) ProtoMessage() {}
-
-func (x *ValidateIdentitiesRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_mls_validation_v1_service_proto_msgTypes[4]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use ValidateIdentitiesRequest.ProtoReflect.Descriptor instead.
-func (*ValidateIdentitiesRequest) Descriptor() ([]byte, []int) {
-	return file_mls_validation_v1_service_proto_rawDescGZIP(), []int{4}
-}
-
-func (x *ValidateIdentitiesRequest) GetCredentials() []*ValidateIdentitiesRequest_Credential {
-	if x != nil {
-		return x.Credentials
-	}
-	return nil
-}
-
-// Response to ValidateBasicIdentitiesRequest
-type ValidateIdentitiesResponse struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	Responses []*ValidateIdentitiesResponse_ValidationResponse `protobuf:"bytes,1,rep,name=responses,proto3" json:"responses,omitempty"`
-}
-
-func (x *ValidateIdentitiesResponse) Reset() {
-	*x = ValidateIdentitiesResponse{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_mls_validation_v1_service_proto_msgTypes[5]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *ValidateIdentitiesResponse) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*ValidateIdentitiesResponse) ProtoMessage() {}
-
-func (x *ValidateIdentitiesResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_mls_validation_v1_service_proto_msgTypes[5]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use ValidateIdentitiesResponse.ProtoReflect.Descriptor instead.
-func (*ValidateIdentitiesResponse) Descriptor() ([]byte, []int) {
-	return file_mls_validation_v1_service_proto_rawDescGZIP(), []int{5}
-}
-
-func (x *ValidateIdentitiesResponse) GetResponses() []*ValidateIdentitiesResponse_ValidationResponse {
-	if x != nil {
-		return x.Responses
-	}
-	return nil
-}
-
 // Wrapper for each key package
 type ValidateKeyPackagesRequest_KeyPackage struct {
 	state         protoimpl.MessageState
@@ -322,7 +226,7 @@ type ValidateKeyPackagesRequest_KeyPackage struct {
 func (x *ValidateKeyPackagesRequest_KeyPackage) Reset() {
 	*x = ValidateKeyPackagesRequest_KeyPackage{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_mls_validation_v1_service_proto_msgTypes[6]
+		mi := &file_mls_validation_v1_service_proto_msgTypes[4]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -335,7 +239,7 @@ func (x *ValidateKeyPackagesRequest_KeyPackage) String() string {
 func (*ValidateKeyPackagesRequest_KeyPackage) ProtoMessage() {}
 
 func (x *ValidateKeyPackagesRequest_KeyPackage) ProtoReflect() protoreflect.Message {
-	mi := &file_mls_validation_v1_service_proto_msgTypes[6]
+	mi := &file_mls_validation_v1_service_proto_msgTypes[4]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -373,7 +277,7 @@ type ValidateKeyPackagesResponse_ValidationResponse struct {
 func (x *ValidateKeyPackagesResponse_ValidationResponse) Reset() {
 	*x = ValidateKeyPackagesResponse_ValidationResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_mls_validation_v1_service_proto_msgTypes[7]
+		mi := &file_mls_validation_v1_service_proto_msgTypes[5]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -386,7 +290,7 @@ func (x *ValidateKeyPackagesResponse_ValidationResponse) String() string {
 func (*ValidateKeyPackagesResponse_ValidationResponse) ProtoMessage() {}
 
 func (x *ValidateKeyPackagesResponse_ValidationResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_mls_validation_v1_service_proto_msgTypes[7]
+	mi := &file_mls_validation_v1_service_proto_msgTypes[5]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -442,7 +346,7 @@ type ValidateGroupMessagesRequest_GroupMessage struct {
 func (x *ValidateGroupMessagesRequest_GroupMessage) Reset() {
 	*x = ValidateGroupMessagesRequest_GroupMessage{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_mls_validation_v1_service_proto_msgTypes[8]
+		mi := &file_mls_validation_v1_service_proto_msgTypes[6]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -455,7 +359,7 @@ func (x *ValidateGroupMessagesRequest_GroupMessage) String() string {
 func (*ValidateGroupMessagesRequest_GroupMessage) ProtoMessage() {}
 
 func (x *ValidateGroupMessagesRequest_GroupMessage) ProtoReflect() protoreflect.Message {
-	mi := &file_mls_validation_v1_service_proto_msgTypes[8]
+	mi := &file_mls_validation_v1_service_proto_msgTypes[6]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -493,7 +397,7 @@ type ValidateGroupMessagesResponse_ValidationResponse struct {
 func (x *ValidateGroupMessagesResponse_ValidationResponse) Reset() {
 	*x = ValidateGroupMessagesResponse_ValidationResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_mls_validation_v1_service_proto_msgTypes[9]
+		mi := &file_mls_validation_v1_service_proto_msgTypes[7]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -506,7 +410,7 @@ func (x *ValidateGroupMessagesResponse_ValidationResponse) String() string {
 func (*ValidateGroupMessagesResponse_ValidationResponse) ProtoMessage() {}
 
 func (x *ValidateGroupMessagesResponse_ValidationResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_mls_validation_v1_service_proto_msgTypes[9]
+	mi := &file_mls_validation_v1_service_proto_msgTypes[7]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -548,134 +452,6 @@ func (x *ValidateGroupMessagesResponse_ValidationResponse) GetEpoch() uint64 {
 		return x.Epoch
 	}
 	return 0
-}
-
-// Wrapper for each credential and public key
-type ValidateIdentitiesRequest_Credential struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	IdentityBytes         []byte `protobuf:"bytes,1,opt,name=identity_bytes,json=identityBytes,proto3" json:"identity_bytes,omitempty"`
-	SigningPublicKeyBytes []byte `protobuf:"bytes,2,opt,name=signing_public_key_bytes,json=signingPublicKeyBytes,proto3" json:"signing_public_key_bytes,omitempty"`
-}
-
-func (x *ValidateIdentitiesRequest_Credential) Reset() {
-	*x = ValidateIdentitiesRequest_Credential{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_mls_validation_v1_service_proto_msgTypes[10]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *ValidateIdentitiesRequest_Credential) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*ValidateIdentitiesRequest_Credential) ProtoMessage() {}
-
-func (x *ValidateIdentitiesRequest_Credential) ProtoReflect() protoreflect.Message {
-	mi := &file_mls_validation_v1_service_proto_msgTypes[10]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use ValidateIdentitiesRequest_Credential.ProtoReflect.Descriptor instead.
-func (*ValidateIdentitiesRequest_Credential) Descriptor() ([]byte, []int) {
-	return file_mls_validation_v1_service_proto_rawDescGZIP(), []int{4, 0}
-}
-
-func (x *ValidateIdentitiesRequest_Credential) GetIdentityBytes() []byte {
-	if x != nil {
-		return x.IdentityBytes
-	}
-	return nil
-}
-
-func (x *ValidateIdentitiesRequest_Credential) GetSigningPublicKeyBytes() []byte {
-	if x != nil {
-		return x.SigningPublicKeyBytes
-	}
-	return nil
-}
-
-// An individual response to one credential
-type ValidateIdentitiesResponse_ValidationResponse struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	IsOk           bool   `protobuf:"varint,1,opt,name=is_ok,json=isOk,proto3" json:"is_ok,omitempty"`
-	ErrorMessage   string `protobuf:"bytes,2,opt,name=error_message,json=errorMessage,proto3" json:"error_message,omitempty"`
-	InstallationId string `protobuf:"bytes,3,opt,name=installation_id,json=installationId,proto3" json:"installation_id,omitempty"`
-	WalletAddress  string `protobuf:"bytes,4,opt,name=wallet_address,json=walletAddress,proto3" json:"wallet_address,omitempty"`
-}
-
-func (x *ValidateIdentitiesResponse_ValidationResponse) Reset() {
-	*x = ValidateIdentitiesResponse_ValidationResponse{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_mls_validation_v1_service_proto_msgTypes[11]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *ValidateIdentitiesResponse_ValidationResponse) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*ValidateIdentitiesResponse_ValidationResponse) ProtoMessage() {}
-
-func (x *ValidateIdentitiesResponse_ValidationResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_mls_validation_v1_service_proto_msgTypes[11]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use ValidateIdentitiesResponse_ValidationResponse.ProtoReflect.Descriptor instead.
-func (*ValidateIdentitiesResponse_ValidationResponse) Descriptor() ([]byte, []int) {
-	return file_mls_validation_v1_service_proto_rawDescGZIP(), []int{5, 0}
-}
-
-func (x *ValidateIdentitiesResponse_ValidationResponse) GetIsOk() bool {
-	if x != nil {
-		return x.IsOk
-	}
-	return false
-}
-
-func (x *ValidateIdentitiesResponse_ValidationResponse) GetErrorMessage() string {
-	if x != nil {
-		return x.ErrorMessage
-	}
-	return ""
-}
-
-func (x *ValidateIdentitiesResponse_ValidationResponse) GetInstallationId() string {
-	if x != nil {
-		return x.InstallationId
-	}
-	return ""
-}
-
-func (x *ValidateIdentitiesResponse_ValidationResponse) GetWalletAddress() string {
-	if x != nil {
-		return x.WalletAddress
-	}
-	return ""
 }
 
 var File_mls_validation_v1_service_proto protoreflect.FileDescriptor
@@ -747,65 +523,24 @@ var file_mls_validation_v1_service_proto_rawDesc = []byte{
 	0x72, 0x4d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x12, 0x19, 0x0a, 0x08, 0x67, 0x72, 0x6f, 0x75,
 	0x70, 0x5f, 0x69, 0x64, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x67, 0x72, 0x6f, 0x75,
 	0x70, 0x49, 0x64, 0x12, 0x14, 0x0a, 0x05, 0x65, 0x70, 0x6f, 0x63, 0x68, 0x18, 0x04, 0x20, 0x01,
-	0x28, 0x04, 0x52, 0x05, 0x65, 0x70, 0x6f, 0x63, 0x68, 0x22, 0xe9, 0x01, 0x0a, 0x19, 0x56, 0x61,
-	0x6c, 0x69, 0x64, 0x61, 0x74, 0x65, 0x49, 0x64, 0x65, 0x6e, 0x74, 0x69, 0x74, 0x69, 0x65, 0x73,
-	0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x5e, 0x0a, 0x0b, 0x63, 0x72, 0x65, 0x64, 0x65,
-	0x6e, 0x74, 0x69, 0x61, 0x6c, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x3c, 0x2e, 0x78,
-	0x6d, 0x74, 0x70, 0x2e, 0x6d, 0x6c, 0x73, 0x5f, 0x76, 0x61, 0x6c, 0x69, 0x64, 0x61, 0x74, 0x69,
-	0x6f, 0x6e, 0x2e, 0x76, 0x31, 0x2e, 0x56, 0x61, 0x6c, 0x69, 0x64, 0x61, 0x74, 0x65, 0x49, 0x64,
-	0x65, 0x6e, 0x74, 0x69, 0x74, 0x69, 0x65, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x2e,
-	0x43, 0x72, 0x65, 0x64, 0x65, 0x6e, 0x74, 0x69, 0x61, 0x6c, 0x52, 0x0b, 0x63, 0x72, 0x65, 0x64,
-	0x65, 0x6e, 0x74, 0x69, 0x61, 0x6c, 0x73, 0x1a, 0x6c, 0x0a, 0x0a, 0x43, 0x72, 0x65, 0x64, 0x65,
-	0x6e, 0x74, 0x69, 0x61, 0x6c, 0x12, 0x25, 0x0a, 0x0e, 0x69, 0x64, 0x65, 0x6e, 0x74, 0x69, 0x74,
-	0x79, 0x5f, 0x62, 0x79, 0x74, 0x65, 0x73, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0c, 0x52, 0x0d, 0x69,
-	0x64, 0x65, 0x6e, 0x74, 0x69, 0x74, 0x79, 0x42, 0x79, 0x74, 0x65, 0x73, 0x12, 0x37, 0x0a, 0x18,
-	0x73, 0x69, 0x67, 0x6e, 0x69, 0x6e, 0x67, 0x5f, 0x70, 0x75, 0x62, 0x6c, 0x69, 0x63, 0x5f, 0x6b,
-	0x65, 0x79, 0x5f, 0x62, 0x79, 0x74, 0x65, 0x73, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0c, 0x52, 0x15,
-	0x73, 0x69, 0x67, 0x6e, 0x69, 0x6e, 0x67, 0x50, 0x75, 0x62, 0x6c, 0x69, 0x63, 0x4b, 0x65, 0x79,
-	0x42, 0x79, 0x74, 0x65, 0x73, 0x22, 0xa2, 0x02, 0x0a, 0x1a, 0x56, 0x61, 0x6c, 0x69, 0x64, 0x61,
-	0x74, 0x65, 0x49, 0x64, 0x65, 0x6e, 0x74, 0x69, 0x74, 0x69, 0x65, 0x73, 0x52, 0x65, 0x73, 0x70,
-	0x6f, 0x6e, 0x73, 0x65, 0x12, 0x63, 0x0a, 0x09, 0x72, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65,
-	0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x45, 0x2e, 0x78, 0x6d, 0x74, 0x70, 0x2e, 0x6d,
+	0x28, 0x04, 0x52, 0x05, 0x65, 0x70, 0x6f, 0x63, 0x68, 0x32, 0x9b, 0x02, 0x0a, 0x0d, 0x56, 0x61,
+	0x6c, 0x69, 0x64, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x41, 0x70, 0x69, 0x12, 0x80, 0x01, 0x0a, 0x13,
+	0x56, 0x61, 0x6c, 0x69, 0x64, 0x61, 0x74, 0x65, 0x4b, 0x65, 0x79, 0x50, 0x61, 0x63, 0x6b, 0x61,
+	0x67, 0x65, 0x73, 0x12, 0x32, 0x2e, 0x78, 0x6d, 0x74, 0x70, 0x2e, 0x6d, 0x6c, 0x73, 0x5f, 0x76,
+	0x61, 0x6c, 0x69, 0x64, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x2e, 0x76, 0x31, 0x2e, 0x56, 0x61, 0x6c,
+	0x69, 0x64, 0x61, 0x74, 0x65, 0x4b, 0x65, 0x79, 0x50, 0x61, 0x63, 0x6b, 0x61, 0x67, 0x65, 0x73,
+	0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x33, 0x2e, 0x78, 0x6d, 0x74, 0x70, 0x2e, 0x6d,
 	0x6c, 0x73, 0x5f, 0x76, 0x61, 0x6c, 0x69, 0x64, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x2e, 0x76, 0x31,
-	0x2e, 0x56, 0x61, 0x6c, 0x69, 0x64, 0x61, 0x74, 0x65, 0x49, 0x64, 0x65, 0x6e, 0x74, 0x69, 0x74,
-	0x69, 0x65, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x2e, 0x56, 0x61, 0x6c, 0x69,
-	0x64, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x52, 0x09,
-	0x72, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x73, 0x1a, 0x9e, 0x01, 0x0a, 0x12, 0x56, 0x61,
-	0x6c, 0x69, 0x64, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65,
-	0x12, 0x13, 0x0a, 0x05, 0x69, 0x73, 0x5f, 0x6f, 0x6b, 0x18, 0x01, 0x20, 0x01, 0x28, 0x08, 0x52,
-	0x04, 0x69, 0x73, 0x4f, 0x6b, 0x12, 0x23, 0x0a, 0x0d, 0x65, 0x72, 0x72, 0x6f, 0x72, 0x5f, 0x6d,
-	0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0c, 0x65, 0x72,
-	0x72, 0x6f, 0x72, 0x4d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x12, 0x27, 0x0a, 0x0f, 0x69, 0x6e,
-	0x73, 0x74, 0x61, 0x6c, 0x6c, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x69, 0x64, 0x18, 0x03, 0x20,
-	0x01, 0x28, 0x09, 0x52, 0x0e, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6c, 0x6c, 0x61, 0x74, 0x69, 0x6f,
-	0x6e, 0x49, 0x64, 0x12, 0x25, 0x0a, 0x0e, 0x77, 0x61, 0x6c, 0x6c, 0x65, 0x74, 0x5f, 0x61, 0x64,
-	0x64, 0x72, 0x65, 0x73, 0x73, 0x18, 0x04, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0d, 0x77, 0x61, 0x6c,
-	0x6c, 0x65, 0x74, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x32, 0x9a, 0x03, 0x0a, 0x0d, 0x56,
-	0x61, 0x6c, 0x69, 0x64, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x41, 0x70, 0x69, 0x12, 0x80, 0x01, 0x0a,
-	0x13, 0x56, 0x61, 0x6c, 0x69, 0x64, 0x61, 0x74, 0x65, 0x4b, 0x65, 0x79, 0x50, 0x61, 0x63, 0x6b,
-	0x61, 0x67, 0x65, 0x73, 0x12, 0x32, 0x2e, 0x78, 0x6d, 0x74, 0x70, 0x2e, 0x6d, 0x6c, 0x73, 0x5f,
-	0x76, 0x61, 0x6c, 0x69, 0x64, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x2e, 0x76, 0x31, 0x2e, 0x56, 0x61,
-	0x6c, 0x69, 0x64, 0x61, 0x74, 0x65, 0x4b, 0x65, 0x79, 0x50, 0x61, 0x63, 0x6b, 0x61, 0x67, 0x65,
-	0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x33, 0x2e, 0x78, 0x6d, 0x74, 0x70, 0x2e,
+	0x2e, 0x56, 0x61, 0x6c, 0x69, 0x64, 0x61, 0x74, 0x65, 0x4b, 0x65, 0x79, 0x50, 0x61, 0x63, 0x6b,
+	0x61, 0x67, 0x65, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x12, 0x86,
+	0x01, 0x0a, 0x15, 0x56, 0x61, 0x6c, 0x69, 0x64, 0x61, 0x74, 0x65, 0x47, 0x72, 0x6f, 0x75, 0x70,
+	0x4d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x73, 0x12, 0x34, 0x2e, 0x78, 0x6d, 0x74, 0x70, 0x2e,
 	0x6d, 0x6c, 0x73, 0x5f, 0x76, 0x61, 0x6c, 0x69, 0x64, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x2e, 0x76,
-	0x31, 0x2e, 0x56, 0x61, 0x6c, 0x69, 0x64, 0x61, 0x74, 0x65, 0x4b, 0x65, 0x79, 0x50, 0x61, 0x63,
-	0x6b, 0x61, 0x67, 0x65, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x12,
-	0x86, 0x01, 0x0a, 0x15, 0x56, 0x61, 0x6c, 0x69, 0x64, 0x61, 0x74, 0x65, 0x47, 0x72, 0x6f, 0x75,
-	0x70, 0x4d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x73, 0x12, 0x34, 0x2e, 0x78, 0x6d, 0x74, 0x70,
-	0x2e, 0x6d, 0x6c, 0x73, 0x5f, 0x76, 0x61, 0x6c, 0x69, 0x64, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x2e,
-	0x76, 0x31, 0x2e, 0x56, 0x61, 0x6c, 0x69, 0x64, 0x61, 0x74, 0x65, 0x47, 0x72, 0x6f, 0x75, 0x70,
-	0x4d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a,
-	0x35, 0x2e, 0x78, 0x6d, 0x74, 0x70, 0x2e, 0x6d, 0x6c, 0x73, 0x5f, 0x76, 0x61, 0x6c, 0x69, 0x64,
-	0x61, 0x74, 0x69, 0x6f, 0x6e, 0x2e, 0x76, 0x31, 0x2e, 0x56, 0x61, 0x6c, 0x69, 0x64, 0x61, 0x74,
-	0x65, 0x47, 0x72, 0x6f, 0x75, 0x70, 0x4d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x73, 0x52, 0x65,
-	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x12, 0x7d, 0x0a, 0x12, 0x56, 0x61, 0x6c, 0x69,
-	0x64, 0x61, 0x74, 0x65, 0x49, 0x64, 0x65, 0x6e, 0x74, 0x69, 0x74, 0x69, 0x65, 0x73, 0x12, 0x31,
+	0x31, 0x2e, 0x56, 0x61, 0x6c, 0x69, 0x64, 0x61, 0x74, 0x65, 0x47, 0x72, 0x6f, 0x75, 0x70, 0x4d,
+	0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x35,
 	0x2e, 0x78, 0x6d, 0x74, 0x70, 0x2e, 0x6d, 0x6c, 0x73, 0x5f, 0x76, 0x61, 0x6c, 0x69, 0x64, 0x61,
 	0x74, 0x69, 0x6f, 0x6e, 0x2e, 0x76, 0x31, 0x2e, 0x56, 0x61, 0x6c, 0x69, 0x64, 0x61, 0x74, 0x65,
-	0x49, 0x64, 0x65, 0x6e, 0x74, 0x69, 0x74, 0x69, 0x65, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73,
-	0x74, 0x1a, 0x32, 0x2e, 0x78, 0x6d, 0x74, 0x70, 0x2e, 0x6d, 0x6c, 0x73, 0x5f, 0x76, 0x61, 0x6c,
-	0x69, 0x64, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x2e, 0x76, 0x31, 0x2e, 0x56, 0x61, 0x6c, 0x69, 0x64,
-	0x61, 0x74, 0x65, 0x49, 0x64, 0x65, 0x6e, 0x74, 0x69, 0x74, 0x69, 0x65, 0x73, 0x52, 0x65, 0x73,
+	0x47, 0x72, 0x6f, 0x75, 0x70, 0x4d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x73, 0x52, 0x65, 0x73,
 	0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x42, 0x2f, 0x5a, 0x2d, 0x67, 0x69, 0x74, 0x68, 0x75,
 	0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x78, 0x6d, 0x74, 0x70, 0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f,
 	0x2f, 0x76, 0x33, 0x2f, 0x67, 0x6f, 0x2f, 0x6d, 0x6c, 0x73, 0x5f, 0x76, 0x61, 0x6c, 0x69, 0x64,
@@ -824,39 +559,31 @@ func file_mls_validation_v1_service_proto_rawDescGZIP() []byte {
 	return file_mls_validation_v1_service_proto_rawDescData
 }
 
-var file_mls_validation_v1_service_proto_msgTypes = make([]protoimpl.MessageInfo, 12)
+var file_mls_validation_v1_service_proto_msgTypes = make([]protoimpl.MessageInfo, 8)
 var file_mls_validation_v1_service_proto_goTypes = []interface{}{
 	(*ValidateKeyPackagesRequest)(nil),                       // 0: xmtp.mls_validation.v1.ValidateKeyPackagesRequest
 	(*ValidateKeyPackagesResponse)(nil),                      // 1: xmtp.mls_validation.v1.ValidateKeyPackagesResponse
 	(*ValidateGroupMessagesRequest)(nil),                     // 2: xmtp.mls_validation.v1.ValidateGroupMessagesRequest
 	(*ValidateGroupMessagesResponse)(nil),                    // 3: xmtp.mls_validation.v1.ValidateGroupMessagesResponse
-	(*ValidateIdentitiesRequest)(nil),                        // 4: xmtp.mls_validation.v1.ValidateIdentitiesRequest
-	(*ValidateIdentitiesResponse)(nil),                       // 5: xmtp.mls_validation.v1.ValidateIdentitiesResponse
-	(*ValidateKeyPackagesRequest_KeyPackage)(nil),            // 6: xmtp.mls_validation.v1.ValidateKeyPackagesRequest.KeyPackage
-	(*ValidateKeyPackagesResponse_ValidationResponse)(nil),   // 7: xmtp.mls_validation.v1.ValidateKeyPackagesResponse.ValidationResponse
-	(*ValidateGroupMessagesRequest_GroupMessage)(nil),        // 8: xmtp.mls_validation.v1.ValidateGroupMessagesRequest.GroupMessage
-	(*ValidateGroupMessagesResponse_ValidationResponse)(nil), // 9: xmtp.mls_validation.v1.ValidateGroupMessagesResponse.ValidationResponse
-	(*ValidateIdentitiesRequest_Credential)(nil),             // 10: xmtp.mls_validation.v1.ValidateIdentitiesRequest.Credential
-	(*ValidateIdentitiesResponse_ValidationResponse)(nil),    // 11: xmtp.mls_validation.v1.ValidateIdentitiesResponse.ValidationResponse
+	(*ValidateKeyPackagesRequest_KeyPackage)(nil),            // 4: xmtp.mls_validation.v1.ValidateKeyPackagesRequest.KeyPackage
+	(*ValidateKeyPackagesResponse_ValidationResponse)(nil),   // 5: xmtp.mls_validation.v1.ValidateKeyPackagesResponse.ValidationResponse
+	(*ValidateGroupMessagesRequest_GroupMessage)(nil),        // 6: xmtp.mls_validation.v1.ValidateGroupMessagesRequest.GroupMessage
+	(*ValidateGroupMessagesResponse_ValidationResponse)(nil), // 7: xmtp.mls_validation.v1.ValidateGroupMessagesResponse.ValidationResponse
 }
 var file_mls_validation_v1_service_proto_depIdxs = []int32{
-	6,  // 0: xmtp.mls_validation.v1.ValidateKeyPackagesRequest.key_packages:type_name -> xmtp.mls_validation.v1.ValidateKeyPackagesRequest.KeyPackage
-	7,  // 1: xmtp.mls_validation.v1.ValidateKeyPackagesResponse.responses:type_name -> xmtp.mls_validation.v1.ValidateKeyPackagesResponse.ValidationResponse
-	8,  // 2: xmtp.mls_validation.v1.ValidateGroupMessagesRequest.group_messages:type_name -> xmtp.mls_validation.v1.ValidateGroupMessagesRequest.GroupMessage
-	9,  // 3: xmtp.mls_validation.v1.ValidateGroupMessagesResponse.responses:type_name -> xmtp.mls_validation.v1.ValidateGroupMessagesResponse.ValidationResponse
-	10, // 4: xmtp.mls_validation.v1.ValidateIdentitiesRequest.credentials:type_name -> xmtp.mls_validation.v1.ValidateIdentitiesRequest.Credential
-	11, // 5: xmtp.mls_validation.v1.ValidateIdentitiesResponse.responses:type_name -> xmtp.mls_validation.v1.ValidateIdentitiesResponse.ValidationResponse
-	0,  // 6: xmtp.mls_validation.v1.ValidationApi.ValidateKeyPackages:input_type -> xmtp.mls_validation.v1.ValidateKeyPackagesRequest
-	2,  // 7: xmtp.mls_validation.v1.ValidationApi.ValidateGroupMessages:input_type -> xmtp.mls_validation.v1.ValidateGroupMessagesRequest
-	4,  // 8: xmtp.mls_validation.v1.ValidationApi.ValidateIdentities:input_type -> xmtp.mls_validation.v1.ValidateIdentitiesRequest
-	1,  // 9: xmtp.mls_validation.v1.ValidationApi.ValidateKeyPackages:output_type -> xmtp.mls_validation.v1.ValidateKeyPackagesResponse
-	3,  // 10: xmtp.mls_validation.v1.ValidationApi.ValidateGroupMessages:output_type -> xmtp.mls_validation.v1.ValidateGroupMessagesResponse
-	5,  // 11: xmtp.mls_validation.v1.ValidationApi.ValidateIdentities:output_type -> xmtp.mls_validation.v1.ValidateIdentitiesResponse
-	9,  // [9:12] is the sub-list for method output_type
-	6,  // [6:9] is the sub-list for method input_type
-	6,  // [6:6] is the sub-list for extension type_name
-	6,  // [6:6] is the sub-list for extension extendee
-	0,  // [0:6] is the sub-list for field type_name
+	4, // 0: xmtp.mls_validation.v1.ValidateKeyPackagesRequest.key_packages:type_name -> xmtp.mls_validation.v1.ValidateKeyPackagesRequest.KeyPackage
+	5, // 1: xmtp.mls_validation.v1.ValidateKeyPackagesResponse.responses:type_name -> xmtp.mls_validation.v1.ValidateKeyPackagesResponse.ValidationResponse
+	6, // 2: xmtp.mls_validation.v1.ValidateGroupMessagesRequest.group_messages:type_name -> xmtp.mls_validation.v1.ValidateGroupMessagesRequest.GroupMessage
+	7, // 3: xmtp.mls_validation.v1.ValidateGroupMessagesResponse.responses:type_name -> xmtp.mls_validation.v1.ValidateGroupMessagesResponse.ValidationResponse
+	0, // 4: xmtp.mls_validation.v1.ValidationApi.ValidateKeyPackages:input_type -> xmtp.mls_validation.v1.ValidateKeyPackagesRequest
+	2, // 5: xmtp.mls_validation.v1.ValidationApi.ValidateGroupMessages:input_type -> xmtp.mls_validation.v1.ValidateGroupMessagesRequest
+	1, // 6: xmtp.mls_validation.v1.ValidationApi.ValidateKeyPackages:output_type -> xmtp.mls_validation.v1.ValidateKeyPackagesResponse
+	3, // 7: xmtp.mls_validation.v1.ValidationApi.ValidateGroupMessages:output_type -> xmtp.mls_validation.v1.ValidateGroupMessagesResponse
+	6, // [6:8] is the sub-list for method output_type
+	4, // [4:6] is the sub-list for method input_type
+	4, // [4:4] is the sub-list for extension type_name
+	4, // [4:4] is the sub-list for extension extendee
+	0, // [0:4] is the sub-list for field type_name
 }
 
 func init() { file_mls_validation_v1_service_proto_init() }
@@ -914,30 +641,6 @@ func file_mls_validation_v1_service_proto_init() {
 			}
 		}
 		file_mls_validation_v1_service_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*ValidateIdentitiesRequest); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_mls_validation_v1_service_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*ValidateIdentitiesResponse); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_mls_validation_v1_service_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*ValidateKeyPackagesRequest_KeyPackage); i {
 			case 0:
 				return &v.state
@@ -949,7 +652,7 @@ func file_mls_validation_v1_service_proto_init() {
 				return nil
 			}
 		}
-		file_mls_validation_v1_service_proto_msgTypes[7].Exporter = func(v interface{}, i int) interface{} {
+		file_mls_validation_v1_service_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*ValidateKeyPackagesResponse_ValidationResponse); i {
 			case 0:
 				return &v.state
@@ -961,7 +664,7 @@ func file_mls_validation_v1_service_proto_init() {
 				return nil
 			}
 		}
-		file_mls_validation_v1_service_proto_msgTypes[8].Exporter = func(v interface{}, i int) interface{} {
+		file_mls_validation_v1_service_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*ValidateGroupMessagesRequest_GroupMessage); i {
 			case 0:
 				return &v.state
@@ -973,32 +676,8 @@ func file_mls_validation_v1_service_proto_init() {
 				return nil
 			}
 		}
-		file_mls_validation_v1_service_proto_msgTypes[9].Exporter = func(v interface{}, i int) interface{} {
+		file_mls_validation_v1_service_proto_msgTypes[7].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*ValidateGroupMessagesResponse_ValidationResponse); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_mls_validation_v1_service_proto_msgTypes[10].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*ValidateIdentitiesRequest_Credential); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_mls_validation_v1_service_proto_msgTypes[11].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*ValidateIdentitiesResponse_ValidationResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1016,7 +695,7 @@ func file_mls_validation_v1_service_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_mls_validation_v1_service_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   12,
+			NumMessages:   8,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
