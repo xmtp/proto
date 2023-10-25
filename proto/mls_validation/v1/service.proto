@@ -32,7 +32,7 @@ message ValidateKeyPackagesResponse {
     string installation_id = 3;
     string wallet_address = 4;
     bytes pub_key_bytes = 5;
-    bytes credential_bytes = 6;
+    bytes credential_identity_bytes = 6;
   }
 
   repeated ValidationResponse responses = 1;
