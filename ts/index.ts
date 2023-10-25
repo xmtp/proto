@@ -12,3 +12,6 @@ export * as ciphertext from "./message_contents/ciphertext.pb";
 export * as contact from "./message_contents/contact.pb";
 export * as invitation from "./message_contents/invitation.pb";
 export * as keystore from "./keystore_api/v1/keystore.pb";
+export * as privatePreferences from "./message_contents/private_preferences.pb";
+export * as signedPayload from "./message_contents/signed_payload.pb";
+export * as ecies from "./message_contents/ecies.pb";

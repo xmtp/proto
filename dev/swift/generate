@@ -32,4 +32,7 @@ docker run --rm -i -v${PWD}:/code xmtp/protoc-swift \
   message_contents/invitation.proto \
   message_contents/private_key.proto \
   message_contents/message.proto \
-  message_contents/content.proto
+  message_contents/content.proto \
+  message_contents/private_preferences.proto \
+  message_contents/signed_payload.proto \
+  message_contents/ecies.proto

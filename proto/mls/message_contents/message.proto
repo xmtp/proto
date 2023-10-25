@@ -6,12 +6,11 @@ package xmtp.mls.message_contents;
 option go_package = "github.com/xmtp/proto/v3/go/mls/message_contents";
 option java_package = "org.xmtp.proto.mls.message.contents";
 
-// Welcome messages are sent to an installation's welcome topic and are
-// encrypted using Noise Pattern N
+// Wrapper for a MLS welcome message
 message WelcomeMessage {
   // Version 1 of the WelcomeMessage format
   message V1 {
-    bytes ciphertext = 1;
+    bytes welcome_message_tls_serialized = 1;
   }
 
   oneof version {
