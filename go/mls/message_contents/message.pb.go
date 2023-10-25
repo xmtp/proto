@@ -29,6 +29,7 @@ type WelcomeMessage struct {
 	unknownFields protoimpl.UnknownFields
 
 	// Types that are assignable to Version:
+	//
 	//	*WelcomeMessage_V1_
 	Version isWelcomeMessage_Version `protobuf_oneof:"version"`
 }
@@ -96,6 +97,7 @@ type GroupMessage struct {
 	unknownFields protoimpl.UnknownFields
 
 	// Types that are assignable to Version:
+	//
 	//	*GroupMessage_V1_
 	Version isGroupMessage_Version `protobuf_oneof:"version"`
 }

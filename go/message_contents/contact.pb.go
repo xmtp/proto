@@ -130,6 +130,7 @@ type ContactBundle struct {
 	unknownFields protoimpl.UnknownFields
 
 	// Types that are assignable to Version:
+	//
 	//	*ContactBundle_V1
 	//	*ContactBundle_V2
 	Version isContactBundle_Version `protobuf_oneof:"version"`

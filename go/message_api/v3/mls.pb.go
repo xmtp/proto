@@ -179,7 +179,6 @@ func (x *RegisterInstallationRequest) GetSigningKeyPublic() []byte {
 	return nil
 }
 
-//
 type RegisterInstallationResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -809,6 +808,7 @@ type GetIdentityUpdatesResponse_Update struct {
 
 	TimestampNs uint64 `protobuf:"varint,1,opt,name=timestamp_ns,json=timestampNs,proto3" json:"timestamp_ns,omitempty"`
 	// Types that are assignable to Kind:
+	//
 	//	*GetIdentityUpdatesResponse_Update_NewInstallation
 	//	*GetIdentityUpdatesResponse_Update_RevokedInstallation
 	Kind isGetIdentityUpdatesResponse_Update_Kind `protobuf_oneof:"kind"`
