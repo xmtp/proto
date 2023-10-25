@@ -90,7 +90,7 @@ message PublishWelcomesRequest {
   // An individual welcome message
   message WelcomeMessageRequest {
     // The topic will be derived from this
-    string installation_id = 1;
+    bytes installation_id = 1;
     xmtp.mls.message_contents.WelcomeMessage welcome_message = 2;
   }
 
@@ -115,7 +115,7 @@ message RegisterInstallationRequest {
 
 // The response to a RegisterInstallationRequest
 message RegisterInstallationResponse {
-  string installation_id = 1;
+  bytes installation_id = 1;
 }
 
 // Upload one or more key packages
@@ -129,7 +129,7 @@ message ConsumeKeyPackagesRequest {
   // The caller can provide an array of wallet addresses, and the API
   // will return one key package for each installation associated with each
   // wallet address
-  repeated string installation_ids = 1;
+  repeated bytes installation_ids = 1;
 }
 
 // The response to a ConsumeKeyPackagesRequest
@@ -146,7 +146,7 @@ message ConsumeKeyPackagesResponse {
 
 // Revoke an installation
 message RevokeInstallationRequest {
-  string installation_id = 1;
+  bytes installation_id = 1;
   // All revocations must be validated with a wallet signature over the
   // installation_id being revoked (and some sort of standard prologue)
   xmtp.message_contents.Signature wallet_signature = 2;
@@ -162,12 +162,13 @@ message GetIdentityUpdatesRequest {
 message GetIdentityUpdatesResponse {
   // A new installation ID was seen for the first time by the nodes
   message NewInstallationUpdate {
-    string installation_id = 1;
+    bytes installation_id = 1;
+    bytes credential_identity = 2;
   }
 
   // An installation was revoked
   message RevokedInstallationUpdate {
-    string installation_id = 1;
+    bytes installation_id = 1;
   }
 
   // A wrapper for any update to the wallet
