@@ -30,6 +30,7 @@ type Signature struct {
 	unknownFields protoimpl.UnknownFields
 
 	// Types that are assignable to Union:
+	//
 	//	*Signature_EcdsaCompact
 	//	*Signature_WalletEcdsaCompact
 	Union isSignature_Union `protobuf_oneof:"union"`
