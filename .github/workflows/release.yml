@@ -52,8 +52,16 @@ jobs:
           RELEASE_VERSION: ${{ env.GIT_TAG }}
       - name: Verify pubspec
         run: cat ./dart/pubspec.yaml
-      - run: dart pub publish --force
-        working-directory: ./dart
+#      - run: dart pub publish --force
+#        working-directory: ./dart
+        # We can't actually publish to pub.dev from this workflow.
+        #  pub.dev requires the action be triggered by a "tag" (not "branch") push.
+        #  See https://github.com/dart-lang/pub-dev/blob/master/app/lib/package/backend.dart#L1255
+        # Manual Workaround: (after this workflow completes on a clean checkout)
+        #  $ dev/dart/generate
+        #  $ RELEASE_VERSION=#.#.# dev/dart/prepublish
+        #  $ dart pub publish --force
+        # TODO: find safer way to automate
   kotlin:
     # The `semantic-release` from JS calculates the version tag
     needs: js

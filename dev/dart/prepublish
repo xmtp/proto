@@ -15,4 +15,4 @@ cp ./LICENSE ./dart/LICENSE
 
 # Update pubspec.yaml version to use tagged version
 # See https://dart.dev/tools/pub/automated-publishing#triggering-automated-publishing-from-github-actions
-sed -i "s/version: 0.0.0/version: $RELEASE_VERSION/" ./dart/pubspec.yaml
+sed -i'' "s/version: 0.0.0/version: $RELEASE_VERSION/" ./dart/pubspec.yaml
