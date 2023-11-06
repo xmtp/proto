@@ -22,7 +22,7 @@ message SendMessagePublishData {
 message AddMembersPublishData {
     // V1 of AddMembersPublishData
     message V1 {
-        repeated bytes installation_ids = 1;
+        repeated bytes key_packages_bytes_tls_serialized = 1;
     }
 
     oneof version {
