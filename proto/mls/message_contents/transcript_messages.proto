@@ -1,0 +1,21 @@
+// Message content encoding structures
+syntax = "proto3";
+
+package xmtp.mls.message_contents;
+
+option go_package = "github.com/xmtp/proto/v3/go/mls/message_contents";
+option java_package = "org.xmtp.proto.mls.message.contents";
+
+// A group member and affected installation IDs
+message Member {
+    repeated bytes installation_ids = 1;
+    string wallet_address = 2;
+}
+
+// The group membership change proto
+message GroupMembershipChange {
+    repeated Member members_added = 1;
+    repeated Member members_removed = 2;
+    repeated Member installations_added = 3;
+    repeated Member installations_removed = 4;
+}
