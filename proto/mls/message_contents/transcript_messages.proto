@@ -7,15 +7,20 @@ option go_package = "github.com/xmtp/proto/v3/go/mls/message_contents";
 option java_package = "org.xmtp.proto.mls.message.contents";
 
 // A group member and affected installation IDs
-message Member {
+message MembershipChange {
     repeated bytes installation_ids = 1;
-    string wallet_address = 2;
+    string account_address = 2;
+    string initiated_by_account_address = 3;
 }
 
 // The group membership change proto
-message GroupMembershipChange {
-    repeated Member members_added = 1;
-    repeated Member members_removed = 2;
-    repeated Member installations_added = 3;
-    repeated Member installations_removed = 4;
+message GroupMembershipChanges {
+    // Members that have been added in the commit
+    repeated MembershipChange members_added = 1;
+    // Members that have been removed in the commit
+    repeated MembershipChange members_removed = 2;
+    // Installations that have been added in the commit, grouped by member
+    repeated MembershipChange installations_added = 3;
+    // Installations removed in the commit, grouped by member
+    repeated MembershipChange installations_removed = 4;
 }
