@@ -22,7 +22,7 @@ message SendMessageData {
 message AddMembersData {
   // V1 of AddMembersPublishData
   message V1 {
-    repeated bytes key_packages_bytes = 1;
+    repeated bytes wallet_addresses = 1;
   }
 
   oneof version {
