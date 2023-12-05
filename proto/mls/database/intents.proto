@@ -22,7 +22,7 @@ message SendMessageData {
 message AddMembersData {
   // V1 of AddMembersPublishData
   message V1 {
-    repeated bytes wallet_addresses = 1;
+    repeated string account_address = 1;
   }
 
   oneof version {
@@ -34,7 +34,7 @@ message AddMembersData {
 message RemoveMembersData {
   // V1 of RemoveMembersPublishData
   message V1 {
-    repeated bytes installation_ids = 1;
+    repeated string account_address = 1;
   }
 
   oneof version {
