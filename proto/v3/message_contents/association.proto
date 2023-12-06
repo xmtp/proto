@@ -17,7 +17,7 @@ enum AssociationTextVersion {
 message Eip191Association {
   AssociationTextVersion association_text_version = 1;
   RecoverableEcdsaSignature signature = 2;
-  bytes wallet_address = 3;
+  string wallet_address = 3;
 }
 
 // RecoverableEcdsaSignature
