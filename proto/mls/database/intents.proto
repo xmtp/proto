@@ -18,24 +18,29 @@ message SendMessageData {
     V1 v1 = 1;
   }
 }
-// Wrapper around a list af EVM Account Addresses
+// Wrapper around a list af repeated EVM Account Addresses
 message AccountAddresses {
   repeated string account_addresses = 1;
 }
     
-// Wrapper around a list of Installation IDs
+// Wrapper around a list of repeated Installation IDs
 message InstallationIds {
   repeated bytes installation_ids = 1;
+}
+
+// One of an EVM account address or Installation ID
+message AddressOrInstallationId {
+  oneof address_or_installation_id {
+    AccountAddresses account_addresses = 1;
+    InstallationIds installation_ids = 2;
+  }
 }
 
 // The data required to add members to a group
 message AddMembersData {
   // V1 of AddMembersPublishData
   message V1 {
-    oneof address_or_installation_id {
-      AccountAddresses account_addresses = 1;
-      InstallationIds installation_ids = 2;
-    }
+    AddressOrInstallationId address_or_installation_id = 1;
   }
 
   oneof version {
@@ -47,10 +52,7 @@ message AddMembersData {
 message RemoveMembersData {
   // V1 of RemoveMembersPublishData
   message V1 {
-    oneof address_or_installation_id {
-      AccountAddresses account_addresses = 1;
-      InstallationIds installation_ids = 2;
-    }
+    AddressOrInstallationId address_or_installation_id = 1;
   }
 
   oneof version {
