@@ -34,7 +34,7 @@ message AddMembersData {
   message V1 {
     oneof address_or_installation_id {
       AccountAddresses account_addresses = 1;
-      InstallationIds installation_ids = 1;
+      InstallationIds installation_ids = 2;
     }
   }
 
@@ -49,7 +49,7 @@ message RemoveMembersData {
   message V1 {
     oneof address_or_installation_id {
       AccountAddresses account_addresses = 1;
-      InstallationIds installation_ids = 1;
+      InstallationIds installation_ids = 2;
     }
   }
 
