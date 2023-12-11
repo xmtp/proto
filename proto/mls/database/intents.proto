@@ -29,8 +29,8 @@ message InstallationIds {
 }
 
 // One of an EVM account address or Installation ID
-message AddressOrInstallationId {
-  oneof address_or_installation_id {
+message AddressesOrInstallationIds {
+  oneof addresses_or_installation_ids {
     AccountAddresses account_addresses = 1;
     InstallationIds installation_ids = 2;
   }
