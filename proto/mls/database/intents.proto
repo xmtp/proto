@@ -1,4 +1,5 @@
 // V3 invite message structure
+
 syntax = "proto3";
 
 package xmtp.mls.database;
@@ -17,12 +18,29 @@ message SendMessageData {
     V1 v1 = 1;
   }
 }
+// Wrapper around a list af repeated EVM Account Addresses
+message AccountAddresses {
+  repeated string account_addresses = 1;
+}
+    
+// Wrapper around a list of repeated Installation IDs
+message InstallationIds {
+  repeated bytes installation_ids = 1;
+}
+
+// One of an EVM account address or Installation ID
+message AddressesOrInstallationIds {
+  oneof addresses_or_installation_ids {
+    AccountAddresses account_addresses = 1;
+    InstallationIds installation_ids = 2;
+  }
+}
 
 // The data required to add members to a group
 message AddMembersData {
   // V1 of AddMembersPublishData
   message V1 {
-    repeated bytes key_packages_bytes = 1;
+    AddressesOrInstallationIds addresses_or_installation_ids = 1;
   }
 
   oneof version {
@@ -34,7 +52,7 @@ message AddMembersData {
 message RemoveMembersData {
   // V1 of RemoveMembersPublishData
   message V1 {
-    repeated bytes installation_ids = 1;
+    AddressesOrInstallationIds addresses_or_installation_ids = 1;
   }
 
   oneof version {
