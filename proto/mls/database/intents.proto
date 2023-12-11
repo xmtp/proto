@@ -40,7 +40,7 @@ message AddressesOrInstallationIds {
 message AddMembersData {
   // V1 of AddMembersPublishData
   message V1 {
-    AddressOrInstallationId addresses_or_installation_ids = 1;
+    AddressesOrInstallationIds addresses_or_installation_ids = 1;
   }
 
   oneof version {
@@ -52,7 +52,7 @@ message AddMembersData {
 message RemoveMembersData {
   // V1 of RemoveMembersPublishData
   message V1 {
-    AddressOrInstallationId addresses_or_installation_ids = 1;
+    AddressesOrInstallationIds addresses_or_installation_ids = 1;
   }
 
   oneof version {
