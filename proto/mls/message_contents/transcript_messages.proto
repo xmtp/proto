@@ -15,12 +15,16 @@ message MembershipChange {
 
 // The group membership change proto
 message GroupMembershipChanges {
+  // protolint:disable REPEATED_FIELD_NAMES_PLURALIZED
+
   // Members that have been added in the commit
-  repeated MembershipChange members_addeds = 1;
+  repeated MembershipChange members_added = 1;
   // Members that have been removed in the commit
-  repeated MembershipChange members_removeds = 2;
+  repeated MembershipChange members_removed = 2;
   // Installations that have been added in the commit, grouped by member
-  repeated MembershipChange installations_addeds = 3;
+  repeated MembershipChange installations_added = 3;
   // Installations removed in the commit, grouped by member
-  repeated MembershipChange installations_removeds = 4;
+  repeated MembershipChange installations_removed = 4;
+
+  // protolint:enable REPEATED_FIELD_NAMES_PLURALIZED
 }
