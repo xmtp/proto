@@ -12,12 +12,12 @@ docker run --rm -i -v${PWD}:/code xmtp/protoc-swift \
     --proto_path=./proto \
     --plugin=/usr/local/bin/protoc-gen-grpc-swift \
     --grpc-swift_opt=Visibility=Public \
-    --grpc-swift_out=./swift \
+    --grpc-swift_out=./swift/XMTPProtoGRPC \
   message_api/v1/message_api.proto
 
 docker run --rm -i -v${PWD}:/code xmtp/protoc-swift \
   --experimental_allow_proto3_optional \
-  --swift_out=./swift \
+  --swift_out=./swift/XMTPProto \
   --swift_opt=Visibility=Public \
   --proto_path=./proto \
   keystore_api/v1/keystore.proto \

@@ -23,9 +23,14 @@ let package = Package(
         // Targets can depend on other targets in this package, and on products in packages this package depends on.
         .target(
             name: "XMTPProto",
-            dependencies: [.product(name: "SwiftProtobuf", package: "swift-protobuf"), .product(name: "GRPC", package: "grpc-swift")],
-            path: "swift"
+            dependencies: [.product(name: "SwiftProtobuf", package: "swift-protobuf")],
+            path: "swift/XMTPProto"
         ),
+				.target(
+						name: "XMTPProtoGRPC",
+						dependencies: [.product(name: "SwiftProtobuf", package: "swift-protobuf"), .product(name: "GRPC", package: "grpc-swift")],
+						path: "swift/XMTPProtoGRPC"
+				),
         .testTarget(
             name: "XMTPProtoTests",
             dependencies: ["XMTPProto"],
