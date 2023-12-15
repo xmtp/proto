@@ -6,6 +6,8 @@ syntax = "proto3";
 
 package xmtp.message_contents;
 
+import "message_contents/ciphertext.proto";
+
 option go_package = "github.com/xmtp/proto/v3/go/message_contents";
 option java_package = "org.xmtp.proto.message.contents";
 
@@ -25,5 +27,12 @@ message PrivatePreferencesAction {
   oneof message_type {
     Allow allow = 1;
     Block block = 2;
+  }
+}
+
+// The payload that goes over the wire
+message PrivatePreferencesPayload {
+  oneof version {
+    Ciphertext v1 = 1;
   }
 }
