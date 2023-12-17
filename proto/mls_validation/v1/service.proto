@@ -32,6 +32,7 @@ message ValidateKeyPackagesResponse {
     bytes installation_id = 3;
     string wallet_address = 4;
     bytes credential_identity_bytes = 5;
+    uint64 expiration = 6;
   }
 
   repeated ValidationResponse responses = 1;
