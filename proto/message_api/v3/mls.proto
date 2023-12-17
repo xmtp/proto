@@ -44,18 +44,18 @@ service MlsApi {
     };
   }
 
-  // Upload one or more Key Packages, which would be validated before storage
-  rpc UploadKeyPackages(UploadKeyPackagesRequest) returns (google.protobuf.Empty) {
+  // Upload a new KeyPackage, which would be validated before storage
+  rpc UploadKeyPackage(UploadKeyPackageRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
-      post: "/message/v3/upload-key-packages"
+      post: "/message/v3/upload-key-package"
       body: "*"
     };
   }
 
   // Get one or more Key Packages by installation_id
-  rpc ConsumeKeyPackages(ConsumeKeyPackagesRequest) returns (ConsumeKeyPackagesResponse) {
+  rpc FetchKeyPackages(FetchKeyPackagesRequest) returns (FetchKeyPackagesResponse) {
     option (google.api.http) = {
-      post: "/message/v3/consume-key-packages"
+      post: "/message/v3/fetch-key-packages"
       body: "*"
     };
   }
@@ -110,7 +110,7 @@ message KeyPackageUpload {
 // Register a new installation
 message RegisterInstallationRequest {
   // The Key Package contains all information needed to register an installation
-  KeyPackageUpload last_resort_key_package = 1;
+  KeyPackageUpload key_package = 1;
 }
 
 // The response to a RegisterInstallationRequest
@@ -118,29 +118,30 @@ message RegisterInstallationResponse {
   bytes installation_id = 1;
 }
 
-// Upload one or more key packages
-message UploadKeyPackagesRequest {
+// Upload a new key packages
+message UploadKeyPackageRequest {
   // An individual key package upload request
-  repeated KeyPackageUpload key_packages = 1;
+  KeyPackageUpload key_package = 1;
 }
 
-// Consume one or more key packages, removing them from further use
-message ConsumeKeyPackagesRequest {
+// Fetch one or more key packages
+message FetchKeyPackagesRequest {
   // The caller can provide an array of wallet addresses, and the API
   // will return one key package for each installation associated with each
   // wallet address
   repeated bytes installation_ids = 1;
 }
 
-// The response to a ConsumeKeyPackagesRequest
-message ConsumeKeyPackagesResponse {
+// The response to a FetchKeyPackagesRequest
+message FetchKeyPackagesResponse {
   // An individual key package
   message KeyPackage {
     bytes key_package_tls_serialized = 1;
   }
 
   // Returns one key package per installation in the original order of the
-  // request. If any installations are missing key packages,
+  // request. If any installations are missing key packages, an empty entry is
+  // left in their respective spots in the array.
   repeated KeyPackage key_packages = 1;
 }
 
