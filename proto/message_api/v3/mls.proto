@@ -154,7 +154,7 @@ message RevokeInstallationRequest {
 
 // Get all updates for an identity since the specified time
 message GetIdentityUpdatesRequest {
-  repeated string wallet_addresses = 1;
+  repeated string account_addresses = 1;
   uint64 start_time_ns = 2;
 }
 
