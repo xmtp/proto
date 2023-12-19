@@ -30,7 +30,7 @@ message ValidateKeyPackagesResponse {
     bool is_ok = 1;
     string error_message = 2;
     bytes installation_id = 3;
-    string wallet_address = 4;
+    string account_address = 4;
     bytes credential_identity_bytes = 5;
   }
 
