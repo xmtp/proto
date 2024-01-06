@@ -9,7 +9,7 @@ option java_package = "org.xmtp.proto.mls.message.contents";
 message GroupMetadataV1 {
   ConversationType conversation_type = 1;
   string creator_account_address = 2;
-  Policies policies = 3;
+  PolicySet policies = 3;
 }
 
 enum ConversationType {
@@ -18,7 +18,7 @@ enum ConversationType {
   CONVERSATION_TYPE_DM = 2;
 }
 
-message Policies {
+message PolicySet {
   Policy add_member_policy = 1;
   Policy remove_member_policy = 2;
   Policy add_installation_policy = 3;
