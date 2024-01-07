@@ -8,6 +8,5 @@
     "editor.formatOnSave": true
   },
   // protolint complains if lines are longer than length 80, display a ruler
-  "editor.rulers": [80],
-  "java.compile.nullAnalysis.mode": "disabled"
+  "editor.rulers": [80]
 }
