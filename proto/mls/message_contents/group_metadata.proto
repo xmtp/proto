@@ -36,7 +36,7 @@ message MembershipPolicy {
     BASE_POLICY_ALLOW = 1;
     BASE_POLICY_DENY = 2;
     BASE_POLICY_ALLOW_SAME_MEMBER = 3;
-    BASE_POLICY_ALL_IF_ACTOR_CREATOR = 4;
+    BASE_POLICY_ALLOW_IF_ACTOR_CREATOR = 4;
   }
 
   // Combine multiple policies. All must evaluate to true
