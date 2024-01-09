@@ -49,15 +49,9 @@ message MembershipPolicy {
     repeated MembershipPolicy policies = 1;
   }
 
-  // Invert a policy
-  message NotCondition {
-    MembershipPolicy policy = 1;
-  }
-
   oneof kind {
     BasePolicy base = 1;
     AndCondition and_condition = 2;
     AnyCondition any_condition = 3;
-    NotCondition not_condition = 4;
   }
 }
