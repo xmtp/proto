@@ -78,15 +78,31 @@ service MlsApi {
       body: "*"
     };
   }
+
+  // Query stored group messages
+  rpc QueryGroupMessages(QueryGroupMessagesRequest) returns (QueryGroupMessagesResponse) {
+    option (google.api.http) = {
+      post: "/mls/v1/query-group-messages"
+      body: "*"
+    };
+  }
+
+  // Query stored group messages
+  rpc QueryWelcomeMessages(QueryWelcomeMessagesRequest) returns (QueryWelcomeMessagesResponse) {
+    option (google.api.http) = {
+      post: "/mls/v1/query-welcome-messages"
+      body: "*"
+    };
+  }
 }
 
-// Publish a batch of MLS messages
-message PublishToGroupRequest {
+// Send a batch of MLS messages
+message SendGroupMessagesRequest {
   repeated xmtp.mls.message_contents.GroupMessage messages = 1;
 }
 
-// Publish a batch of welcome messages
-message PublishWelcomesRequest {
+// Send a batch of welcome messages
+message SendWelcomeMessagesRequest {
   // An individual welcome message
   message WelcomeMessageRequest {
     // The topic will be derived from this
@@ -189,4 +205,42 @@ message GetIdentityUpdatesResponse {
   // A list of updates (or empty objects if no changes) in the original order
   // of the request
   repeated WalletUpdates updates = 1;
+}
+
+// Sort direction for queries
+enum SortDirection {
+  SORT_DIRECTION_UNSPECIFIED = 0;
+  SORT_DIRECTION_ASCENDING = 1;
+  SORT_DIRECTION_DESCENDING = 2;
+}
+
+// Pagination config for queries
+message PagingInfo {
+  SortDirection direction = 1;
+  uint32 limit = 2;
+  uint64 cursor = 3;
+}
+
+// Request for group message queries
+message QueryGroupMessagesRequest {
+  string group_id = 1;
+  PagingInfo paging_info = 2;
+}
+
+// Response for group message queries
+message QueryGroupMessagesResponse {
+  repeated xmtp.mls.message_contents.GroupMessage messages = 1;
+  PagingInfo paging_info = 2;
+}
+
+// Request for welcome message queries
+message QueryWelcomeMessagesRequest {
+  string installation_id = 1;
+  PagingInfo paging_info = 2;
+}
+
+// Response for welcome message queries
+message QueryWelcomeMessagesResponse {
+  repeated xmtp.mls.message_contents.WelcomeMessage messages = 1;
+  PagingInfo paging_info = 2;
 }
