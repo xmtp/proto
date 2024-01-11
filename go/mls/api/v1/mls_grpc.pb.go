@@ -4,9 +4,9 @@
 // versions:
 // - protoc-gen-go-grpc v1.3.0
 // - protoc             v4.25.1
-// source: message_api/v3/mls.proto
+// source: mls/api/v1/mls.proto
 
-package v3
+package v1
 
 import (
 	context "context"
@@ -22,13 +22,13 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	MlsApi_PublishToGroup_FullMethodName       = "/xmtp.message_api.v3.MlsApi/PublishToGroup"
-	MlsApi_PublishWelcomes_FullMethodName      = "/xmtp.message_api.v3.MlsApi/PublishWelcomes"
-	MlsApi_RegisterInstallation_FullMethodName = "/xmtp.message_api.v3.MlsApi/RegisterInstallation"
-	MlsApi_UploadKeyPackage_FullMethodName     = "/xmtp.message_api.v3.MlsApi/UploadKeyPackage"
-	MlsApi_FetchKeyPackages_FullMethodName     = "/xmtp.message_api.v3.MlsApi/FetchKeyPackages"
-	MlsApi_RevokeInstallation_FullMethodName   = "/xmtp.message_api.v3.MlsApi/RevokeInstallation"
-	MlsApi_GetIdentityUpdates_FullMethodName   = "/xmtp.message_api.v3.MlsApi/GetIdentityUpdates"
+	MlsApi_PublishToGroup_FullMethodName       = "/xmtp.mls.api.v1.MlsApi/PublishToGroup"
+	MlsApi_PublishWelcomes_FullMethodName      = "/xmtp.mls.api.v1.MlsApi/PublishWelcomes"
+	MlsApi_RegisterInstallation_FullMethodName = "/xmtp.mls.api.v1.MlsApi/RegisterInstallation"
+	MlsApi_UploadKeyPackage_FullMethodName     = "/xmtp.mls.api.v1.MlsApi/UploadKeyPackage"
+	MlsApi_FetchKeyPackages_FullMethodName     = "/xmtp.mls.api.v1.MlsApi/FetchKeyPackages"
+	MlsApi_RevokeInstallation_FullMethodName   = "/xmtp.mls.api.v1.MlsApi/RevokeInstallation"
+	MlsApi_GetIdentityUpdates_FullMethodName   = "/xmtp.mls.api.v1.MlsApi/GetIdentityUpdates"
 )
 
 // MlsApiClient is the client API for MlsApi service.
@@ -319,7 +319,7 @@ func _MlsApi_GetIdentityUpdates_Handler(srv interface{}, ctx context.Context, de
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var MlsApi_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "xmtp.message_api.v3.MlsApi",
+	ServiceName: "xmtp.mls.api.v1.MlsApi",
 	HandlerType: (*MlsApiServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
@@ -352,5 +352,5 @@ var MlsApi_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "message_api/v3/mls.proto",
+	Metadata: "mls/api/v1/mls.proto",
 }
