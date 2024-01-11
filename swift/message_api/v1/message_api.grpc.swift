@@ -44,6 +44,11 @@ public protocol Xmtp_MessageApi_V1_MessageApiClientProtocol: GRPCClient {
     handler: @escaping (Xmtp_MessageApi_V1_Envelope) -> Void
   ) -> ServerStreamingCall<Xmtp_MessageApi_V1_SubscribeRequest, Xmtp_MessageApi_V1_Envelope>
 
+  func subscribe2(
+    callOptions: CallOptions?,
+    handler: @escaping (Xmtp_MessageApi_V1_Envelope) -> Void
+  ) -> BidirectionalStreamingCall<Xmtp_MessageApi_V1_SubscribeRequest, Xmtp_MessageApi_V1_Envelope>
+
   func subscribeAll(
     _ request: Xmtp_MessageApi_V1_SubscribeAllRequest,
     callOptions: CallOptions?,
@@ -101,6 +106,29 @@ extension Xmtp_MessageApi_V1_MessageApiClientProtocol {
       request: request,
       callOptions: callOptions ?? self.defaultCallOptions,
       interceptors: self.interceptors?.makeSubscribeInterceptors() ?? [],
+      handler: handler
+    )
+  }
+
+  /// Subscribe to a stream of new envelopes and your subscription using
+  /// bidirectional streaming
+  /// protolint:disable:next RPC_REQUEST_STANDARD_NAME
+  ///
+  /// Callers should use the `send` method on the returned object to send messages
+  /// to the server. The caller should send an `.end` after the final message has been sent.
+  ///
+  /// - Parameters:
+  ///   - callOptions: Call options.
+  ///   - handler: A closure called when each response is received from the server.
+  /// - Returns: A `ClientStreamingCall` with futures for the metadata and status.
+  public func subscribe2(
+    callOptions: CallOptions? = nil,
+    handler: @escaping (Xmtp_MessageApi_V1_Envelope) -> Void
+  ) -> BidirectionalStreamingCall<Xmtp_MessageApi_V1_SubscribeRequest, Xmtp_MessageApi_V1_Envelope> {
+    return self.makeBidirectionalStreamingCall(
+      path: Xmtp_MessageApi_V1_MessageApiClientMetadata.Methods.subscribe2.path,
+      callOptions: callOptions ?? self.defaultCallOptions,
+      interceptors: self.interceptors?.makeSubscribe2Interceptors() ?? [],
       handler: handler
     )
   }
@@ -239,6 +267,10 @@ public protocol Xmtp_MessageApi_V1_MessageApiAsyncClientProtocol: GRPCClient {
     callOptions: CallOptions?
   ) -> GRPCAsyncServerStreamingCall<Xmtp_MessageApi_V1_SubscribeRequest, Xmtp_MessageApi_V1_Envelope>
 
+  func makeSubscribe2Call(
+    callOptions: CallOptions?
+  ) -> GRPCAsyncBidirectionalStreamingCall<Xmtp_MessageApi_V1_SubscribeRequest, Xmtp_MessageApi_V1_Envelope>
+
   func makeSubscribeAllCall(
     _ request: Xmtp_MessageApi_V1_SubscribeAllRequest,
     callOptions: CallOptions?
@@ -286,6 +318,16 @@ extension Xmtp_MessageApi_V1_MessageApiAsyncClientProtocol {
       request: request,
       callOptions: callOptions ?? self.defaultCallOptions,
       interceptors: self.interceptors?.makeSubscribeInterceptors() ?? []
+    )
+  }
+
+  public func makeSubscribe2Call(
+    callOptions: CallOptions? = nil
+  ) -> GRPCAsyncBidirectionalStreamingCall<Xmtp_MessageApi_V1_SubscribeRequest, Xmtp_MessageApi_V1_Envelope> {
+    return self.makeAsyncBidirectionalStreamingCall(
+      path: Xmtp_MessageApi_V1_MessageApiClientMetadata.Methods.subscribe2.path,
+      callOptions: callOptions ?? self.defaultCallOptions,
+      interceptors: self.interceptors?.makeSubscribe2Interceptors() ?? []
     )
   }
 
@@ -349,6 +391,30 @@ extension Xmtp_MessageApi_V1_MessageApiAsyncClientProtocol {
       request: request,
       callOptions: callOptions ?? self.defaultCallOptions,
       interceptors: self.interceptors?.makeSubscribeInterceptors() ?? []
+    )
+  }
+
+  public func subscribe2<RequestStream>(
+    _ requests: RequestStream,
+    callOptions: CallOptions? = nil
+  ) -> GRPCAsyncResponseStream<Xmtp_MessageApi_V1_Envelope> where RequestStream: Sequence, RequestStream.Element == Xmtp_MessageApi_V1_SubscribeRequest {
+    return self.performAsyncBidirectionalStreamingCall(
+      path: Xmtp_MessageApi_V1_MessageApiClientMetadata.Methods.subscribe2.path,
+      requests: requests,
+      callOptions: callOptions ?? self.defaultCallOptions,
+      interceptors: self.interceptors?.makeSubscribe2Interceptors() ?? []
+    )
+  }
+
+  public func subscribe2<RequestStream>(
+    _ requests: RequestStream,
+    callOptions: CallOptions? = nil
+  ) -> GRPCAsyncResponseStream<Xmtp_MessageApi_V1_Envelope> where RequestStream: AsyncSequence & Sendable, RequestStream.Element == Xmtp_MessageApi_V1_SubscribeRequest {
+    return self.performAsyncBidirectionalStreamingCall(
+      path: Xmtp_MessageApi_V1_MessageApiClientMetadata.Methods.subscribe2.path,
+      requests: requests,
+      callOptions: callOptions ?? self.defaultCallOptions,
+      interceptors: self.interceptors?.makeSubscribe2Interceptors() ?? []
     )
   }
 
@@ -416,6 +482,9 @@ public protocol Xmtp_MessageApi_V1_MessageApiClientInterceptorFactoryProtocol: G
   /// - Returns: Interceptors to use when invoking 'subscribe'.
   func makeSubscribeInterceptors() -> [ClientInterceptor<Xmtp_MessageApi_V1_SubscribeRequest, Xmtp_MessageApi_V1_Envelope>]
 
+  /// - Returns: Interceptors to use when invoking 'subscribe2'.
+  func makeSubscribe2Interceptors() -> [ClientInterceptor<Xmtp_MessageApi_V1_SubscribeRequest, Xmtp_MessageApi_V1_Envelope>]
+
   /// - Returns: Interceptors to use when invoking 'subscribeAll'.
   func makeSubscribeAllInterceptors() -> [ClientInterceptor<Xmtp_MessageApi_V1_SubscribeAllRequest, Xmtp_MessageApi_V1_Envelope>]
 
@@ -433,6 +502,7 @@ public enum Xmtp_MessageApi_V1_MessageApiClientMetadata {
     methods: [
       Xmtp_MessageApi_V1_MessageApiClientMetadata.Methods.publish,
       Xmtp_MessageApi_V1_MessageApiClientMetadata.Methods.subscribe,
+      Xmtp_MessageApi_V1_MessageApiClientMetadata.Methods.subscribe2,
       Xmtp_MessageApi_V1_MessageApiClientMetadata.Methods.subscribeAll,
       Xmtp_MessageApi_V1_MessageApiClientMetadata.Methods.query,
       Xmtp_MessageApi_V1_MessageApiClientMetadata.Methods.batchQuery,
@@ -450,6 +520,12 @@ public enum Xmtp_MessageApi_V1_MessageApiClientMetadata {
       name: "Subscribe",
       path: "/xmtp.message_api.v1.MessageApi/Subscribe",
       type: GRPCCallType.serverStreaming
+    )
+
+    public static let subscribe2 = GRPCMethodDescriptor(
+      name: "Subscribe2",
+      path: "/xmtp.message_api.v1.MessageApi/Subscribe2",
+      type: GRPCCallType.bidirectionalStreaming
     )
 
     public static let subscribeAll = GRPCMethodDescriptor(
@@ -483,6 +559,11 @@ public protocol Xmtp_MessageApi_V1_MessageApiProvider: CallHandlerProvider {
 
   /// Subscribe to a stream of new envelopes matching a predicate
   func subscribe(request: Xmtp_MessageApi_V1_SubscribeRequest, context: StreamingResponseCallContext<Xmtp_MessageApi_V1_Envelope>) -> EventLoopFuture<GRPCStatus>
+
+  /// Subscribe to a stream of new envelopes and your subscription using
+  /// bidirectional streaming
+  /// protolint:disable:next RPC_REQUEST_STANDARD_NAME
+  func subscribe2(context: StreamingResponseCallContext<Xmtp_MessageApi_V1_Envelope>) -> EventLoopFuture<(StreamEvent<Xmtp_MessageApi_V1_SubscribeRequest>) -> Void>
 
   /// Subscribe to a stream of all messages
   func subscribeAll(request: Xmtp_MessageApi_V1_SubscribeAllRequest, context: StreamingResponseCallContext<Xmtp_MessageApi_V1_Envelope>) -> EventLoopFuture<GRPCStatus>
@@ -522,6 +603,15 @@ extension Xmtp_MessageApi_V1_MessageApiProvider {
         responseSerializer: ProtobufSerializer<Xmtp_MessageApi_V1_Envelope>(),
         interceptors: self.interceptors?.makeSubscribeInterceptors() ?? [],
         userFunction: self.subscribe(request:context:)
+      )
+
+    case "Subscribe2":
+      return BidirectionalStreamingServerHandler(
+        context: context,
+        requestDeserializer: ProtobufDeserializer<Xmtp_MessageApi_V1_SubscribeRequest>(),
+        responseSerializer: ProtobufSerializer<Xmtp_MessageApi_V1_Envelope>(),
+        interceptors: self.interceptors?.makeSubscribe2Interceptors() ?? [],
+        observerFactory: self.subscribe2(context:)
       )
 
     case "SubscribeAll":
@@ -576,6 +666,15 @@ public protocol Xmtp_MessageApi_V1_MessageApiAsyncProvider: CallHandlerProvider 
   /// Subscribe to a stream of new envelopes matching a predicate
   @Sendable func subscribe(
     request: Xmtp_MessageApi_V1_SubscribeRequest,
+    responseStream: GRPCAsyncResponseStreamWriter<Xmtp_MessageApi_V1_Envelope>,
+    context: GRPCAsyncServerCallContext
+  ) async throws
+
+  /// Subscribe to a stream of new envelopes and your subscription using
+  /// bidirectional streaming
+  /// protolint:disable:next RPC_REQUEST_STANDARD_NAME
+  @Sendable func subscribe2(
+    requestStream: GRPCAsyncRequestStream<Xmtp_MessageApi_V1_SubscribeRequest>,
     responseStream: GRPCAsyncResponseStreamWriter<Xmtp_MessageApi_V1_Envelope>,
     context: GRPCAsyncServerCallContext
   ) async throws
@@ -637,6 +736,15 @@ extension Xmtp_MessageApi_V1_MessageApiAsyncProvider {
         wrapping: self.subscribe(request:responseStream:context:)
       )
 
+    case "Subscribe2":
+      return GRPCAsyncServerHandler(
+        context: context,
+        requestDeserializer: ProtobufDeserializer<Xmtp_MessageApi_V1_SubscribeRequest>(),
+        responseSerializer: ProtobufSerializer<Xmtp_MessageApi_V1_Envelope>(),
+        interceptors: self.interceptors?.makeSubscribe2Interceptors() ?? [],
+        wrapping: self.subscribe2(requestStream:responseStream:context:)
+      )
+
     case "SubscribeAll":
       return GRPCAsyncServerHandler(
         context: context,
@@ -682,6 +790,10 @@ public protocol Xmtp_MessageApi_V1_MessageApiServerInterceptorFactoryProtocol {
   ///   Defaults to calling `self.makeInterceptors()`.
   func makeSubscribeInterceptors() -> [ServerInterceptor<Xmtp_MessageApi_V1_SubscribeRequest, Xmtp_MessageApi_V1_Envelope>]
 
+  /// - Returns: Interceptors to use when handling 'subscribe2'.
+  ///   Defaults to calling `self.makeInterceptors()`.
+  func makeSubscribe2Interceptors() -> [ServerInterceptor<Xmtp_MessageApi_V1_SubscribeRequest, Xmtp_MessageApi_V1_Envelope>]
+
   /// - Returns: Interceptors to use when handling 'subscribeAll'.
   ///   Defaults to calling `self.makeInterceptors()`.
   func makeSubscribeAllInterceptors() -> [ServerInterceptor<Xmtp_MessageApi_V1_SubscribeAllRequest, Xmtp_MessageApi_V1_Envelope>]
@@ -702,6 +814,7 @@ public enum Xmtp_MessageApi_V1_MessageApiServerMetadata {
     methods: [
       Xmtp_MessageApi_V1_MessageApiServerMetadata.Methods.publish,
       Xmtp_MessageApi_V1_MessageApiServerMetadata.Methods.subscribe,
+      Xmtp_MessageApi_V1_MessageApiServerMetadata.Methods.subscribe2,
       Xmtp_MessageApi_V1_MessageApiServerMetadata.Methods.subscribeAll,
       Xmtp_MessageApi_V1_MessageApiServerMetadata.Methods.query,
       Xmtp_MessageApi_V1_MessageApiServerMetadata.Methods.batchQuery,
@@ -719,6 +832,12 @@ public enum Xmtp_MessageApi_V1_MessageApiServerMetadata {
       name: "Subscribe",
       path: "/xmtp.message_api.v1.MessageApi/Subscribe",
       type: GRPCCallType.serverStreaming
+    )
+
+    public static let subscribe2 = GRPCMethodDescriptor(
+      name: "Subscribe2",
+      path: "/xmtp.message_api.v1.MessageApi/Subscribe2",
+      type: GRPCCallType.bidirectionalStreaming
     )
 
     public static let subscribeAll = GRPCMethodDescriptor(

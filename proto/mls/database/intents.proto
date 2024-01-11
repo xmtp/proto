@@ -1,0 +1,74 @@
+// V3 invite message structure
+
+syntax = "proto3";
+
+package xmtp.mls.database;
+
+option go_package = "github.com/xmtp/proto/v3/go/mls/database";
+option java_package = "org.xmtp.proto.mls.database";
+
+// The data required to publish a message
+message SendMessageData {
+  // V1 of SendMessagePublishData
+  message V1 {
+    bytes payload_bytes = 1;
+  }
+
+  oneof version {
+    V1 v1 = 1;
+  }
+}
+// Wrapper around a list af repeated EVM Account Addresses
+message AccountAddresses {
+  repeated string account_addresses = 1;
+}
+    
+// Wrapper around a list of repeated Installation IDs
+message InstallationIds {
+  repeated bytes installation_ids = 1;
+}
+
+// One of an EVM account address or Installation ID
+message AddressesOrInstallationIds {
+  oneof addresses_or_installation_ids {
+    AccountAddresses account_addresses = 1;
+    InstallationIds installation_ids = 2;
+  }
+}
+
+// The data required to add members to a group
+message AddMembersData {
+  // V1 of AddMembersPublishData
+  message V1 {
+    AddressesOrInstallationIds addresses_or_installation_ids = 1;
+  }
+
+  oneof version {
+    V1 v1 = 1;
+  }
+}
+
+// The data required to remove members from a group
+message RemoveMembersData {
+  // V1 of RemoveMembersPublishData
+  message V1 {
+    AddressesOrInstallationIds addresses_or_installation_ids = 1;
+  }
+
+  oneof version {
+    V1 v1 = 1;
+  }
+}
+
+// Generic data-type for all post-commit actions
+message PostCommitAction {
+  // SendWelcome message
+  message SendWelcomes {
+    repeated bytes installation_ids = 1;
+    bytes welcome_message = 2;
+  }
+
+  oneof kind {
+    SendWelcomes send_welcomes = 1;
+  }
+}

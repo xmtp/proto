@@ -1,0 +1,61 @@
+// Message API
+syntax = "proto3";
+package xmtp.mls_validation.v1;
+
+option go_package = "github.com/xmtp/proto/v3/go/mls_validation/v1";
+
+// RPCs for the new MLS API
+service ValidationApi {
+  // Validates and parses a batch of key packages and returns relevant details
+  rpc ValidateKeyPackages(ValidateKeyPackagesRequest) returns (ValidateKeyPackagesResponse) {}
+
+  // Validates and parses a group message and returns relevant details
+  rpc ValidateGroupMessages(ValidateGroupMessagesRequest) returns (ValidateGroupMessagesResponse) {}
+}
+
+// Contains a batch of serialized Key Packages
+message ValidateKeyPackagesRequest {
+  // Wrapper for each key package
+  message KeyPackage {
+    bytes key_package_bytes_tls_serialized = 1;
+  }
+
+  repeated KeyPackage key_packages = 1;
+}
+
+// Response to ValidateKeyPackagesRequest
+message ValidateKeyPackagesResponse {
+  // An individual response to one key package
+  message ValidationResponse {
+    bool is_ok = 1;
+    string error_message = 2;
+    bytes installation_id = 3;
+    string account_address = 4;
+    bytes credential_identity_bytes = 5;
+    uint64 expiration = 6;
+  }
+
+  repeated ValidationResponse responses = 1;
+}
+
+// Contains a batch of serialized Group Messages
+message ValidateGroupMessagesRequest {
+  // Wrapper for each message
+  message GroupMessage {
+    bytes group_message_bytes_tls_serialized = 1;
+  }
+
+  repeated GroupMessage group_messages = 1;
+}
+
+// Response to ValidateGroupMessagesRequest
+message ValidateGroupMessagesResponse {
+  // An individual response to one message
+  message ValidationResponse {
+    bool is_ok = 1;
+    string error_message = 2;
+    string group_id = 3;
+  }
+
+  repeated ValidationResponse responses = 1;
+}

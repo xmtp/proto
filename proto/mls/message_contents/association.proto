@@ -1,10 +1,10 @@
-// Association types
+// Associations and signatures
 syntax = "proto3";
 
-package xmtp.v3.message_contents;
+package xmtp.mls.message_contents;
 
-option go_package = "github.com/xmtp/proto/v3/go/v3/message_contents";
-option java_package = "org.xmtp.proto.v3.message.contents";
+option go_package = "github.com/xmtp/proto/v3/go/mls/message_contents";
+option java_package = "org.xmtp.proto.mls.message.contents";
 
 // Allows for us to update the format of the association text without
 // incrementing the entire proto
@@ -17,7 +17,8 @@ enum AssociationTextVersion {
 message Eip191Association {
   AssociationTextVersion association_text_version = 1;
   RecoverableEcdsaSignature signature = 2;
-  string wallet_address = 3;
+  string account_address = 3;
+  string iso8601_time = 4;
 }
 
 // RecoverableEcdsaSignature

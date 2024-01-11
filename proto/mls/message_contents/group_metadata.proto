@@ -1,0 +1,54 @@
+// Group metadata
+syntax = "proto3";
+
+package xmtp.mls.message_contents;
+
+option go_package = "github.com/xmtp/proto/v3/go/mls/message_contents";
+option java_package = "org.xmtp.proto.mls.message.contents";
+
+// Parent message for group metadata
+message GroupMetadataV1 {
+  ConversationType conversation_type = 1;
+  string creator_account_address = 2;
+  PolicySet policies = 3;
+}
+
+// Defines the type of conversation
+enum ConversationType {
+  CONVERSATION_TYPE_UNSPECIFIED = 0;
+  CONVERSATION_TYPE_GROUP = 1;
+  CONVERSATION_TYPE_DM = 2;
+}
+
+// The set of policies that govern the group
+message PolicySet {
+  MembershipPolicy add_member_policy = 1;
+  MembershipPolicy remove_member_policy = 2;
+}
+
+// A policy that governs adding/removing members or installations
+message MembershipPolicy {
+  // Base policy
+  enum BasePolicy {
+    BASE_POLICY_UNSPECIFIED = 0;
+    BASE_POLICY_ALLOW = 1;
+    BASE_POLICY_DENY = 2;
+    BASE_POLICY_ALLOW_IF_ACTOR_CREATOR = 3;
+  }
+
+  // Combine multiple policies. All must evaluate to true
+  message AndCondition {
+    repeated MembershipPolicy policies = 1;
+  }
+
+  // Combine multiple policies. Any must evaluate to true
+  message AnyCondition {
+    repeated MembershipPolicy policies = 1;
+  }
+
+  oneof kind {
+    BasePolicy base = 1;
+    AndCondition and_condition = 2;
+    AnyCondition any_condition = 3;
+  }
+}

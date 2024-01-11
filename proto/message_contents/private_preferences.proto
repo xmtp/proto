@@ -1,0 +1,38 @@
+// Private Key Storage
+//
+// Following definitions are not used in the protocol, instead
+// they provide a way for encoding private keys for storage.
+syntax = "proto3";
+
+package xmtp.message_contents;
+
+import "message_contents/ciphertext.proto";
+
+option go_package = "github.com/xmtp/proto/v3/go/message_contents";
+option java_package = "org.xmtp.proto.message.contents";
+
+// PrivatePreferencesAction is a message used to update the client's
+// preference store. The only current actions are allow and block.
+// Other actions may be added later
+message PrivatePreferencesAction {
+  // Add the given wallet addresses to the allow list
+  message Allow {
+    repeated string wallet_addresses = 1;
+  }
+  // Add the given wallet addresses to the block list
+  message Block {
+    repeated string wallet_addresses = 1;
+  }
+
+  oneof message_type {
+    Allow allow = 1;
+    Block block = 2;
+  }
+}
+
+// The payload that goes over the wire
+message PrivatePreferencesPayload {
+  oneof version {
+    Ciphertext v1 = 1;
+  }
+}
