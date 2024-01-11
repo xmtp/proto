@@ -28,7 +28,7 @@ message Eip191Association {
 // 'CreateIdentity' wallet signature
 message LegacyCreateIdentityAssociation {
   RecoverableEcdsaSignature signature = 1;
-  xmtp.message_contents.SignedPublicKey legacy_create_identity_key = 2;
+  xmtp.message_contents.SignedPublicKey signed_legacy_create_identity_key = 2;
 }
 
 // RecoverableEcdsaSignature
