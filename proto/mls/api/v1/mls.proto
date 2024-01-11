@@ -19,17 +19,17 @@ option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
 
 // RPCs for the new MLS API
 service MlsApi {
-  // Publish a MLS payload, that would be validated before being stored to the
+  // Send a MLS payload, that would be validated before being stored to the
   // network
-  rpc PublishToGroup(PublishToGroupRequest) returns (google.protobuf.Empty) {
+  rpc SendGroupMessages(SendGroupMessagesRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
       post: "/mls/v1/publish-to-group"
       body: "*"
     };
   }
 
-  // Publish a batch of welcome messages
-  rpc PublishWelcomes(PublishWelcomesRequest) returns (google.protobuf.Empty) {
+  // Send a batch of welcome messages
+  rpc SendWelcomeMessages(SendWelcomeMessagesRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
       post: "/mls/v1/publish-welcomes"
       body: "*"
