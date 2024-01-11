@@ -10,7 +10,9 @@ option java_package = "org.xmtp.proto.mls.message.contents";
 message WelcomeMessage {
   // Version 1 of the WelcomeMessage format
   message V1 {
-    bytes welcome_message_tls_serialized = 1;
+    uint64 id = 1;
+    uint64 created_ns = 2;
+    bytes data = 3;
   }
 
   oneof version {
@@ -22,7 +24,10 @@ message WelcomeMessage {
 message GroupMessage {
   // Version 1 of the GroupMessage format
   message V1 {
-    bytes mls_message_tls_serialized = 1;
+    uint64 id = 1;
+    uint64 created_ns = 2;
+    string group_id = 3;
+    bytes data = 4;
   }
 
   oneof version {
