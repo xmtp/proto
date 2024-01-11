@@ -337,8 +337,8 @@ func local_request_MlsApi_QueryWelcomeMessages_0(ctx context.Context, marshaler 
 
 }
 
-func request_MlsApi_FollowGroupMessages_0(ctx context.Context, marshaler runtime.Marshaler, client MlsApiClient, req *http.Request, pathParams map[string]string) (MlsApi_FollowGroupMessagesClient, runtime.ServerMetadata, error) {
-	var protoReq FollowGroupMessagesRequest
+func request_MlsApi_SubscribeGroupMessages_0(ctx context.Context, marshaler runtime.Marshaler, client MlsApiClient, req *http.Request, pathParams map[string]string) (MlsApi_SubscribeGroupMessagesClient, runtime.ServerMetadata, error) {
+	var protoReq SubscribeGroupMessagesRequest
 	var metadata runtime.ServerMetadata
 
 	newReader, berr := utilities.IOReaderFactory(req.Body)
@@ -349,7 +349,7 @@ func request_MlsApi_FollowGroupMessages_0(ctx context.Context, marshaler runtime
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
-	stream, err := client.FollowGroupMessages(ctx, &protoReq)
+	stream, err := client.SubscribeGroupMessages(ctx, &protoReq)
 	if err != nil {
 		return nil, metadata, err
 	}
@@ -362,8 +362,8 @@ func request_MlsApi_FollowGroupMessages_0(ctx context.Context, marshaler runtime
 
 }
 
-func request_MlsApi_FollowWelcomeMessages_0(ctx context.Context, marshaler runtime.Marshaler, client MlsApiClient, req *http.Request, pathParams map[string]string) (MlsApi_FollowWelcomeMessagesClient, runtime.ServerMetadata, error) {
-	var protoReq FollowWelcomeMessagesRequest
+func request_MlsApi_SubscribeWelcomeMessages_0(ctx context.Context, marshaler runtime.Marshaler, client MlsApiClient, req *http.Request, pathParams map[string]string) (MlsApi_SubscribeWelcomeMessagesClient, runtime.ServerMetadata, error) {
+	var protoReq SubscribeWelcomeMessagesRequest
 	var metadata runtime.ServerMetadata
 
 	newReader, berr := utilities.IOReaderFactory(req.Body)
@@ -374,7 +374,7 @@ func request_MlsApi_FollowWelcomeMessages_0(ctx context.Context, marshaler runti
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
-	stream, err := client.FollowWelcomeMessages(ctx, &protoReq)
+	stream, err := client.SubscribeWelcomeMessages(ctx, &protoReq)
 	if err != nil {
 		return nil, metadata, err
 	}
@@ -618,14 +618,14 @@ func RegisterMlsApiHandlerServer(ctx context.Context, mux *runtime.ServeMux, ser
 
 	})
 
-	mux.Handle("POST", pattern_MlsApi_FollowGroupMessages_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("POST", pattern_MlsApi_SubscribeGroupMessages_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		err := status.Error(codes.Unimplemented, "streaming calls are not yet supported in the in-process transport")
 		_, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 		return
 	})
 
-	mux.Handle("POST", pattern_MlsApi_FollowWelcomeMessages_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("POST", pattern_MlsApi_SubscribeWelcomeMessages_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		err := status.Error(codes.Unimplemented, "streaming calls are not yet supported in the in-process transport")
 		_, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
@@ -871,47 +871,47 @@ func RegisterMlsApiHandlerClient(ctx context.Context, mux *runtime.ServeMux, cli
 
 	})
 
-	mux.Handle("POST", pattern_MlsApi_FollowGroupMessages_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("POST", pattern_MlsApi_SubscribeGroupMessages_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/xmtp.mls.api.v1.MlsApi/FollowGroupMessages", runtime.WithHTTPPathPattern("/mls/v1/follow-group-messages"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/xmtp.mls.api.v1.MlsApi/SubscribeGroupMessages", runtime.WithHTTPPathPattern("/mls/v1/follow-group-messages"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := request_MlsApi_FollowGroupMessages_0(annotatedContext, inboundMarshaler, client, req, pathParams)
+		resp, md, err := request_MlsApi_SubscribeGroupMessages_0(annotatedContext, inboundMarshaler, client, req, pathParams)
 		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
 		if err != nil {
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
 
-		forward_MlsApi_FollowGroupMessages_0(annotatedContext, mux, outboundMarshaler, w, req, func() (proto.Message, error) { return resp.Recv() }, mux.GetForwardResponseOptions()...)
+		forward_MlsApi_SubscribeGroupMessages_0(annotatedContext, mux, outboundMarshaler, w, req, func() (proto.Message, error) { return resp.Recv() }, mux.GetForwardResponseOptions()...)
 
 	})
 
-	mux.Handle("POST", pattern_MlsApi_FollowWelcomeMessages_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("POST", pattern_MlsApi_SubscribeWelcomeMessages_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/xmtp.mls.api.v1.MlsApi/FollowWelcomeMessages", runtime.WithHTTPPathPattern("/mls/v1/follow-welcome-messages"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/xmtp.mls.api.v1.MlsApi/SubscribeWelcomeMessages", runtime.WithHTTPPathPattern("/mls/v1/follow-welcome-messages"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := request_MlsApi_FollowWelcomeMessages_0(annotatedContext, inboundMarshaler, client, req, pathParams)
+		resp, md, err := request_MlsApi_SubscribeWelcomeMessages_0(annotatedContext, inboundMarshaler, client, req, pathParams)
 		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
 		if err != nil {
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
 
-		forward_MlsApi_FollowWelcomeMessages_0(annotatedContext, mux, outboundMarshaler, w, req, func() (proto.Message, error) { return resp.Recv() }, mux.GetForwardResponseOptions()...)
+		forward_MlsApi_SubscribeWelcomeMessages_0(annotatedContext, mux, outboundMarshaler, w, req, func() (proto.Message, error) { return resp.Recv() }, mux.GetForwardResponseOptions()...)
 
 	})
 
@@ -937,9 +937,9 @@ var (
 
 	pattern_MlsApi_QueryWelcomeMessages_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"mls", "v1", "query-welcome-messages"}, ""))
 
-	pattern_MlsApi_FollowGroupMessages_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"mls", "v1", "follow-group-messages"}, ""))
+	pattern_MlsApi_SubscribeGroupMessages_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"mls", "v1", "follow-group-messages"}, ""))
 
-	pattern_MlsApi_FollowWelcomeMessages_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"mls", "v1", "follow-welcome-messages"}, ""))
+	pattern_MlsApi_SubscribeWelcomeMessages_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"mls", "v1", "follow-welcome-messages"}, ""))
 )
 
 var (
@@ -961,7 +961,7 @@ var (
 
 	forward_MlsApi_QueryWelcomeMessages_0 = runtime.ForwardResponseMessage
 
-	forward_MlsApi_FollowGroupMessages_0 = runtime.ForwardResponseStream
+	forward_MlsApi_SubscribeGroupMessages_0 = runtime.ForwardResponseStream
 
-	forward_MlsApi_FollowWelcomeMessages_0 = runtime.ForwardResponseStream
+	forward_MlsApi_SubscribeWelcomeMessages_0 = runtime.ForwardResponseStream
 )
