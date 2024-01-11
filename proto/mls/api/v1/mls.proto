@@ -94,6 +94,22 @@ service MlsApi {
       body: "*"
     };
   }
+
+  // Follow stream of new group messages
+  rpc FollowGroupMessages(FollowGroupMessagesRequest) returns (stream xmtp.mls.message_contents.GroupMessage) {
+    option (google.api.http) = {
+      post: "/mls/v1/follow-group-messages"
+      body: "*"
+    };
+  }
+
+  // Follow stream of new welcome messages
+  rpc FollowWelcomeMessages(FollowWelcomeMessagesRequest) returns (stream xmtp.mls.message_contents.WelcomeMessage) {
+    option (google.api.http) = {
+      post: "/mls/v1/follow-welcome-messages"
+      body: "*"
+    };
+  }
 }
 
 // Send a batch of MLS messages
@@ -243,4 +259,14 @@ message QueryWelcomeMessagesRequest {
 message QueryWelcomeMessagesResponse {
   repeated xmtp.mls.message_contents.WelcomeMessage messages = 1;
   PagingInfo paging_info = 2;
+}
+
+// Request for following group messages
+message FollowGroupMessagesRequest {
+  string group_id = 1;
+}
+
+// Request for following welcome messages
+message FollowWelcomeMessagesRequest {
+  string installation_id = 1;
 }
