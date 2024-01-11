@@ -239,7 +239,7 @@ message PagingInfo {
 
 // Request for group message queries
 message QueryGroupMessagesRequest {
-  string group_id = 1;
+  bytes group_id = 1;
   PagingInfo paging_info = 2;
 }
 
@@ -251,7 +251,7 @@ message QueryGroupMessagesResponse {
 
 // Request for welcome message queries
 message QueryWelcomeMessagesRequest {
-  string installation_id = 1;
+  bytes installation_id = 1;
   PagingInfo paging_info = 2;
 }
 
@@ -263,10 +263,10 @@ message QueryWelcomeMessagesResponse {
 
 // Request for following group messages
 message SubscribeGroupMessagesRequest {
-  string group_id = 1;
+  bytes group_id = 1;
 }
 
 // Request for following welcome messages
 message SubscribeWelcomeMessagesRequest {
-  string installation_id = 1;
+  bytes installation_id = 1;
 }
