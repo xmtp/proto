@@ -45,6 +45,8 @@ message MessageV2 {
   bytes header_bytes = 1; // encapsulates encoded MessageHeaderV2
   // Ciphertext.payload MUST contain encrypted SignedContent
   Ciphertext ciphertext = 2;
+  // HMAC key derived from the sender's private key
+  bytes sender_hmac = 3;
 }
 
 // Versioned Message
