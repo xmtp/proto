@@ -10,7 +10,6 @@ package v1
 
 import (
 	context "context"
-	message_contents "github.com/xmtp/proto/v3/go/mls/message_contents"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
@@ -173,7 +172,7 @@ func (c *mlsApiClient) SubscribeGroupMessages(ctx context.Context, in *Subscribe
 }
 
 type MlsApi_SubscribeGroupMessagesClient interface {
-	Recv() (*message_contents.GroupMessage, error)
+	Recv() (*GroupMessage, error)
 	grpc.ClientStream
 }
 
@@ -181,8 +180,8 @@ type mlsApiSubscribeGroupMessagesClient struct {
 	grpc.ClientStream
 }
 
-func (x *mlsApiSubscribeGroupMessagesClient) Recv() (*message_contents.GroupMessage, error) {
-	m := new(message_contents.GroupMessage)
+func (x *mlsApiSubscribeGroupMessagesClient) Recv() (*GroupMessage, error) {
+	m := new(GroupMessage)
 	if err := x.ClientStream.RecvMsg(m); err != nil {
 		return nil, err
 	}
@@ -205,7 +204,7 @@ func (c *mlsApiClient) SubscribeWelcomeMessages(ctx context.Context, in *Subscri
 }
 
 type MlsApi_SubscribeWelcomeMessagesClient interface {
-	Recv() (*message_contents.WelcomeMessage, error)
+	Recv() (*WelcomeMessage, error)
 	grpc.ClientStream
 }
 
@@ -213,8 +212,8 @@ type mlsApiSubscribeWelcomeMessagesClient struct {
 	grpc.ClientStream
 }
 
-func (x *mlsApiSubscribeWelcomeMessagesClient) Recv() (*message_contents.WelcomeMessage, error) {
-	m := new(message_contents.WelcomeMessage)
+func (x *mlsApiSubscribeWelcomeMessagesClient) Recv() (*WelcomeMessage, error) {
+	m := new(WelcomeMessage)
 	if err := x.ClientStream.RecvMsg(m); err != nil {
 		return nil, err
 	}
@@ -475,7 +474,7 @@ func _MlsApi_SubscribeGroupMessages_Handler(srv interface{}, stream grpc.ServerS
 }
 
 type MlsApi_SubscribeGroupMessagesServer interface {
-	Send(*message_contents.GroupMessage) error
+	Send(*GroupMessage) error
 	grpc.ServerStream
 }
 
@@ -483,7 +482,7 @@ type mlsApiSubscribeGroupMessagesServer struct {
 	grpc.ServerStream
 }
 
-func (x *mlsApiSubscribeGroupMessagesServer) Send(m *message_contents.GroupMessage) error {
+func (x *mlsApiSubscribeGroupMessagesServer) Send(m *GroupMessage) error {
 	return x.ServerStream.SendMsg(m)
 }
 
@@ -496,7 +495,7 @@ func _MlsApi_SubscribeWelcomeMessages_Handler(srv interface{}, stream grpc.Serve
 }
 
 type MlsApi_SubscribeWelcomeMessagesServer interface {
-	Send(*message_contents.WelcomeMessage) error
+	Send(*WelcomeMessage) error
 	grpc.ServerStream
 }
 
@@ -504,7 +503,7 @@ type mlsApiSubscribeWelcomeMessagesServer struct {
 	grpc.ServerStream
 }
 
-func (x *mlsApiSubscribeWelcomeMessagesServer) Send(m *message_contents.WelcomeMessage) error {
+func (x *mlsApiSubscribeWelcomeMessagesServer) Send(m *WelcomeMessage) error {
 	return x.ServerStream.SendMsg(m)
 }
 

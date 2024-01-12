@@ -5,7 +5,6 @@ package xmtp.mls.api.v1;
 import "google/api/annotations.proto";
 import "google/protobuf/empty.proto";
 import "message_contents/signature.proto";
-import "mls/message_contents/message.proto";
 import "protoc-gen-openapiv2/options/annotations.proto";
 
 option go_package = "github.com/xmtp/proto/v3/go/mls/api/v1";
@@ -96,7 +95,7 @@ service MlsApi {
   }
 
   // Subscribe stream of new group messages
-  rpc SubscribeGroupMessages(SubscribeGroupMessagesRequest) returns (stream xmtp.mls.message_contents.GroupMessage) {
+  rpc SubscribeGroupMessages(SubscribeGroupMessagesRequest) returns (stream GroupMessage) {
     option (google.api.http) = {
       post: "/mls/v1/subscribe-group-messages"
       body: "*"
@@ -104,7 +103,7 @@ service MlsApi {
   }
 
   // Subscribe stream of new welcome messages
-  rpc SubscribeWelcomeMessages(SubscribeWelcomeMessagesRequest) returns (stream xmtp.mls.message_contents.WelcomeMessage) {
+  rpc SubscribeWelcomeMessages(SubscribeWelcomeMessagesRequest) returns (stream WelcomeMessage) {
     option (google.api.http) = {
       post: "/mls/v1/subscribe-welcome-messages"
       body: "*"
@@ -112,21 +111,69 @@ service MlsApi {
   }
 }
 
+// Full representation of a welcome message
+message WelcomeMessage {
+  // Version 1 of the WelcomeMessage format
+  message V1 {
+    uint64 id = 1;
+    uint64 created_ns = 2;
+    bytes installation_id = 3;
+    bytes data = 4;
+  }
+
+  oneof version {
+    V1 v1 = 1;
+  }
+}
+
+// Input type for a welcome message
+message WelcomeMessageInput {
+  // Version 1 of the WelcomeMessageInput format
+  message V1 {
+    bytes installation_id = 1;
+    bytes data = 2;
+  }
+
+  oneof version {
+    V1 v1 = 1;
+  }
+}
+
+// Full representation of a group message
+message GroupMessage {
+  // Version 1 of the GroupMessage format
+  message V1 {
+    uint64 id = 1;
+    uint64 created_ns = 2;
+    bytes group_id = 3;
+    bytes data = 4;
+  }
+
+  oneof version {
+    V1 v1 = 1;
+  }
+}
+
+// Input type for a group message
+message GroupMessageInput {
+  // Version 1 of the GroupMessageInput payload format
+  message V1 {
+    bytes data = 1;
+  }
+
+  oneof version {
+    V1 v1 = 1;
+  }
+}
+
 // Send a batch of MLS messages
 message SendGroupMessagesRequest {
-  repeated bytes messages = 1;
+  repeated GroupMessageInput messages = 1;
 }
 
 // Send a batch of welcome messages
 message SendWelcomeMessagesRequest {
-  // An individual welcome message
-  message WelcomeMessageRequest {
-    // The topic will be derived from this
-    bytes installation_id = 1;
-    xmtp.mls.message_contents.WelcomeMessage welcome_message = 2;
-  }
-
-  repeated WelcomeMessageRequest welcome_messages = 1;
+  repeated WelcomeMessageInput messages = 1;
 }
 
 // A wrapper around the Key Package bytes
@@ -245,7 +292,7 @@ message QueryGroupMessagesRequest {
 
 // Response for group message queries
 message QueryGroupMessagesResponse {
-  repeated xmtp.mls.message_contents.GroupMessage messages = 1;
+  repeated GroupMessage messages = 1;
   PagingInfo paging_info = 2;
 }
 
@@ -257,7 +304,7 @@ message QueryWelcomeMessagesRequest {
 
 // Response for welcome message queries
 message QueryWelcomeMessagesResponse {
-  repeated xmtp.mls.message_contents.WelcomeMessage messages = 1;
+  repeated WelcomeMessage messages = 1;
   PagingInfo paging_info = 2;
 }
 

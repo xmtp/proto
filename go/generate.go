@@ -18,7 +18,6 @@ import (
 //go:generate compile ../proto/message_api/v1/message_api.proto
 //go:generate compile ../proto/mls/api/v1/mls.proto
 //go:generate compile ../proto/mls_validation/v1/service.proto
-//go:generate compile ../proto/mls/message_contents/message.proto
 //go:generate compile ../proto/message_api/v1/authn.proto
 //go:generate compile ../proto/message_contents/content.proto
 //go:generate compile ../proto/message_contents/conversation_reference.proto
