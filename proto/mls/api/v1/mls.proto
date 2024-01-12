@@ -114,7 +114,7 @@ service MlsApi {
 
 // Send a batch of MLS messages
 message SendGroupMessagesRequest {
-  repeated xmtp.mls.message_contents.GroupMessage messages = 1;
+  repeated bytes messages = 1;
 }
 
 // Send a batch of welcome messages
