@@ -234,7 +234,7 @@ enum SortDirection {
 message PagingInfo {
   SortDirection direction = 1;
   uint32 limit = 2;
-  uint64 cursor = 3;
+  uint64 id_cursor = 3;
 }
 
 // Request for group message queries
