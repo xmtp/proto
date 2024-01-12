@@ -3,8 +3,6 @@ syntax = "proto3";
 
 package xmtp.mls.message_contents;
 
-import "message_contents/public_key.proto";
-
 option go_package = "github.com/xmtp/proto/v3/go/mls/message_contents";
 option java_package = "org.xmtp.proto.mls.message.contents";
 
@@ -21,14 +19,6 @@ message Eip191Association {
   RecoverableEcdsaSignature signature = 2;
   string account_address = 3;
   string iso8601_time = 4;
-}
-
-// LegacyCreateIdentityAssociation is used when a v3 installation key
-// is signed by a v2 identity key, which in turn is signed via a
-// 'CreateIdentity' wallet signature
-message LegacyCreateIdentityAssociation {
-  RecoverableEcdsaSignature signature = 1;
-  xmtp.message_contents.SignedPublicKey signed_legacy_create_identity_key = 2;
 }
 
 // RecoverableEcdsaSignature
