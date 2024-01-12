@@ -401,7 +401,7 @@ func RegisterMlsApiHandlerServer(ctx context.Context, mux *runtime.ServeMux, ser
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/xmtp.mls.api.v1.MlsApi/SendGroupMessages", runtime.WithHTTPPathPattern("/mls/v1/publish-to-group"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/xmtp.mls.api.v1.MlsApi/SendGroupMessages", runtime.WithHTTPPathPattern("/mls/v1/send-group-messages"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -426,7 +426,7 @@ func RegisterMlsApiHandlerServer(ctx context.Context, mux *runtime.ServeMux, ser
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/xmtp.mls.api.v1.MlsApi/SendWelcomeMessages", runtime.WithHTTPPathPattern("/mls/v1/publish-welcomes"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/xmtp.mls.api.v1.MlsApi/SendWelcomeMessages", runtime.WithHTTPPathPattern("/mls/v1/send-welcome-messages"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -679,7 +679,7 @@ func RegisterMlsApiHandlerClient(ctx context.Context, mux *runtime.ServeMux, cli
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/xmtp.mls.api.v1.MlsApi/SendGroupMessages", runtime.WithHTTPPathPattern("/mls/v1/publish-to-group"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/xmtp.mls.api.v1.MlsApi/SendGroupMessages", runtime.WithHTTPPathPattern("/mls/v1/send-group-messages"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -701,7 +701,7 @@ func RegisterMlsApiHandlerClient(ctx context.Context, mux *runtime.ServeMux, cli
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/xmtp.mls.api.v1.MlsApi/SendWelcomeMessages", runtime.WithHTTPPathPattern("/mls/v1/publish-welcomes"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/xmtp.mls.api.v1.MlsApi/SendWelcomeMessages", runtime.WithHTTPPathPattern("/mls/v1/send-welcome-messages"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -877,7 +877,7 @@ func RegisterMlsApiHandlerClient(ctx context.Context, mux *runtime.ServeMux, cli
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/xmtp.mls.api.v1.MlsApi/SubscribeGroupMessages", runtime.WithHTTPPathPattern("/mls/v1/follow-group-messages"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/xmtp.mls.api.v1.MlsApi/SubscribeGroupMessages", runtime.WithHTTPPathPattern("/mls/v1/subscribe-group-messages"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -899,7 +899,7 @@ func RegisterMlsApiHandlerClient(ctx context.Context, mux *runtime.ServeMux, cli
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/xmtp.mls.api.v1.MlsApi/SubscribeWelcomeMessages", runtime.WithHTTPPathPattern("/mls/v1/follow-welcome-messages"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/xmtp.mls.api.v1.MlsApi/SubscribeWelcomeMessages", runtime.WithHTTPPathPattern("/mls/v1/subscribe-welcome-messages"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -919,9 +919,9 @@ func RegisterMlsApiHandlerClient(ctx context.Context, mux *runtime.ServeMux, cli
 }
 
 var (
-	pattern_MlsApi_SendGroupMessages_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"mls", "v1", "publish-to-group"}, ""))
+	pattern_MlsApi_SendGroupMessages_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"mls", "v1", "send-group-messages"}, ""))
 
-	pattern_MlsApi_SendWelcomeMessages_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"mls", "v1", "publish-welcomes"}, ""))
+	pattern_MlsApi_SendWelcomeMessages_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"mls", "v1", "send-welcome-messages"}, ""))
 
 	pattern_MlsApi_RegisterInstallation_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"mls", "v1", "register-installation"}, ""))
 
@@ -937,9 +937,9 @@ var (
 
 	pattern_MlsApi_QueryWelcomeMessages_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"mls", "v1", "query-welcome-messages"}, ""))
 
-	pattern_MlsApi_SubscribeGroupMessages_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"mls", "v1", "follow-group-messages"}, ""))
+	pattern_MlsApi_SubscribeGroupMessages_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"mls", "v1", "subscribe-group-messages"}, ""))
 
-	pattern_MlsApi_SubscribeWelcomeMessages_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"mls", "v1", "follow-welcome-messages"}, ""))
+	pattern_MlsApi_SubscribeWelcomeMessages_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"mls", "v1", "subscribe-welcome-messages"}, ""))
 )
 
 var (

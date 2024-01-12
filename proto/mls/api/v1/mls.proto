@@ -23,7 +23,7 @@ service MlsApi {
   // network
   rpc SendGroupMessages(SendGroupMessagesRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
-      post: "/mls/v1/publish-to-group"
+      post: "/mls/v1/send-group-messages"
       body: "*"
     };
   }
@@ -31,7 +31,7 @@ service MlsApi {
   // Send a batch of welcome messages
   rpc SendWelcomeMessages(SendWelcomeMessagesRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
-      post: "/mls/v1/publish-welcomes"
+      post: "/mls/v1/send-welcome-messages"
       body: "*"
     };
   }
@@ -98,7 +98,7 @@ service MlsApi {
   // Subscribe stream of new group messages
   rpc SubscribeGroupMessages(SubscribeGroupMessagesRequest) returns (stream xmtp.mls.message_contents.GroupMessage) {
     option (google.api.http) = {
-      post: "/mls/v1/follow-group-messages"
+      post: "/mls/v1/subscribe-group-messages"
       body: "*"
     };
   }
@@ -106,7 +106,7 @@ service MlsApi {
   // Subscribe stream of new welcome messages
   rpc SubscribeWelcomeMessages(SubscribeWelcomeMessagesRequest) returns (stream xmtp.mls.message_contents.WelcomeMessage) {
     option (google.api.http) = {
-      post: "/mls/v1/follow-welcome-messages"
+      post: "/mls/v1/subscribe-welcome-messages"
       body: "*"
     };
   }
