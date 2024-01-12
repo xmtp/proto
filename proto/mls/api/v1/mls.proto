@@ -261,12 +261,32 @@ message QueryWelcomeMessagesResponse {
   PagingInfo paging_info = 2;
 }
 
-// Request for following group messages
-message SubscribeGroupMessagesRequest {
-  bytes group_id = 1;
+// Subscribe filter types
+enum SubscribeFilterType {
+  SUBSCRIBE_FILTER_TYPE_UNSPECIFIED = 0;
+  SUBSCRIBE_FILTER_TYPE_LATEST = 1;
+  SUBSCRIBE_FILTER_TYPE_EARLIEST = 2;
+  SUBSCRIBE_FILTER_TYPE_CURSOR = 3;
 }
 
-// Request for following welcome messages
+// Request for subscribing to group messages
+message SubscribeGroupMessagesRequest {
+  // Subscription filter
+  message Filter {
+    bytes group_id = 1;
+    SubscribeFilterType type = 2;
+    uint64 id_cursor = 3;
+  }
+  repeated Filter filters = 1;
+}
+
+// Request for subscribing to welcome messages
 message SubscribeWelcomeMessagesRequest {
-  bytes installation_id = 1;
+  // Subscription filter
+  message Filter {
+    bytes installation_id = 1;
+    SubscribeFilterType type = 2;
+    uint64 id_cursor = 3;
+  }
+  repeated Filter filters = 1;
 }

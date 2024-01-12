@@ -77,6 +77,59 @@ func (SortDirection) EnumDescriptor() ([]byte, []int) {
 	return file_mls_api_v1_mls_proto_rawDescGZIP(), []int{0}
 }
 
+// Subscribe filter types
+type SubscribeFilterType int32
+
+const (
+	SubscribeFilterType_SUBSCRIBE_FILTER_TYPE_UNSPECIFIED SubscribeFilterType = 0
+	SubscribeFilterType_SUBSCRIBE_FILTER_TYPE_LATEST      SubscribeFilterType = 1
+	SubscribeFilterType_SUBSCRIBE_FILTER_TYPE_EARLIEST    SubscribeFilterType = 2
+	SubscribeFilterType_SUBSCRIBE_FILTER_TYPE_CURSOR      SubscribeFilterType = 3
+)
+
+// Enum value maps for SubscribeFilterType.
+var (
+	SubscribeFilterType_name = map[int32]string{
+		0: "SUBSCRIBE_FILTER_TYPE_UNSPECIFIED",
+		1: "SUBSCRIBE_FILTER_TYPE_LATEST",
+		2: "SUBSCRIBE_FILTER_TYPE_EARLIEST",
+		3: "SUBSCRIBE_FILTER_TYPE_CURSOR",
+	}
+	SubscribeFilterType_value = map[string]int32{
+		"SUBSCRIBE_FILTER_TYPE_UNSPECIFIED": 0,
+		"SUBSCRIBE_FILTER_TYPE_LATEST":      1,
+		"SUBSCRIBE_FILTER_TYPE_EARLIEST":    2,
+		"SUBSCRIBE_FILTER_TYPE_CURSOR":      3,
+	}
+)
+
+func (x SubscribeFilterType) Enum() *SubscribeFilterType {
+	p := new(SubscribeFilterType)
+	*p = x
+	return p
+}
+
+func (x SubscribeFilterType) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (SubscribeFilterType) Descriptor() protoreflect.EnumDescriptor {
+	return file_mls_api_v1_mls_proto_enumTypes[1].Descriptor()
+}
+
+func (SubscribeFilterType) Type() protoreflect.EnumType {
+	return &file_mls_api_v1_mls_proto_enumTypes[1]
+}
+
+func (x SubscribeFilterType) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use SubscribeFilterType.Descriptor instead.
+func (SubscribeFilterType) EnumDescriptor() ([]byte, []int) {
+	return file_mls_api_v1_mls_proto_rawDescGZIP(), []int{1}
+}
+
 // Send a batch of MLS messages
 type SendGroupMessagesRequest struct {
 	state         protoimpl.MessageState
@@ -923,13 +976,13 @@ func (x *QueryWelcomeMessagesResponse) GetPagingInfo() *PagingInfo {
 	return nil
 }
 
-// Request for following group messages
+// Request for subscribing to group messages
 type SubscribeGroupMessagesRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	GroupId []byte `protobuf:"bytes,1,opt,name=group_id,json=groupId,proto3" json:"group_id,omitempty"`
+	Filters []*SubscribeGroupMessagesRequest_Filter `protobuf:"bytes,1,rep,name=filters,proto3" json:"filters,omitempty"`
 }
 
 func (x *SubscribeGroupMessagesRequest) Reset() {
@@ -964,20 +1017,20 @@ func (*SubscribeGroupMessagesRequest) Descriptor() ([]byte, []int) {
 	return file_mls_api_v1_mls_proto_rawDescGZIP(), []int{16}
 }
 
-func (x *SubscribeGroupMessagesRequest) GetGroupId() []byte {
+func (x *SubscribeGroupMessagesRequest) GetFilters() []*SubscribeGroupMessagesRequest_Filter {
 	if x != nil {
-		return x.GroupId
+		return x.Filters
 	}
 	return nil
 }
 
-// Request for following welcome messages
+// Request for subscribing to welcome messages
 type SubscribeWelcomeMessagesRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	InstallationId []byte `protobuf:"bytes,1,opt,name=installation_id,json=installationId,proto3" json:"installation_id,omitempty"`
+	Filters []*SubscribeWelcomeMessagesRequest_Filter `protobuf:"bytes,1,rep,name=filters,proto3" json:"filters,omitempty"`
 }
 
 func (x *SubscribeWelcomeMessagesRequest) Reset() {
@@ -1012,9 +1065,9 @@ func (*SubscribeWelcomeMessagesRequest) Descriptor() ([]byte, []int) {
 	return file_mls_api_v1_mls_proto_rawDescGZIP(), []int{17}
 }
 
-func (x *SubscribeWelcomeMessagesRequest) GetInstallationId() []byte {
+func (x *SubscribeWelcomeMessagesRequest) GetFilters() []*SubscribeWelcomeMessagesRequest_Filter {
 	if x != nil {
-		return x.InstallationId
+		return x.Filters
 	}
 	return nil
 }
@@ -1368,6 +1421,134 @@ func (x *GetIdentityUpdatesResponse_WalletUpdates) GetUpdates() []*GetIdentityUp
 	return nil
 }
 
+// Subscription filter
+type SubscribeGroupMessagesRequest_Filter struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	GroupId  []byte              `protobuf:"bytes,1,opt,name=group_id,json=groupId,proto3" json:"group_id,omitempty"`
+	Type     SubscribeFilterType `protobuf:"varint,2,opt,name=type,proto3,enum=xmtp.mls.api.v1.SubscribeFilterType" json:"type,omitempty"`
+	IdCursor uint64              `protobuf:"varint,3,opt,name=id_cursor,json=idCursor,proto3" json:"id_cursor,omitempty"`
+}
+
+func (x *SubscribeGroupMessagesRequest_Filter) Reset() {
+	*x = SubscribeGroupMessagesRequest_Filter{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_mls_api_v1_mls_proto_msgTypes[24]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *SubscribeGroupMessagesRequest_Filter) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SubscribeGroupMessagesRequest_Filter) ProtoMessage() {}
+
+func (x *SubscribeGroupMessagesRequest_Filter) ProtoReflect() protoreflect.Message {
+	mi := &file_mls_api_v1_mls_proto_msgTypes[24]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SubscribeGroupMessagesRequest_Filter.ProtoReflect.Descriptor instead.
+func (*SubscribeGroupMessagesRequest_Filter) Descriptor() ([]byte, []int) {
+	return file_mls_api_v1_mls_proto_rawDescGZIP(), []int{16, 0}
+}
+
+func (x *SubscribeGroupMessagesRequest_Filter) GetGroupId() []byte {
+	if x != nil {
+		return x.GroupId
+	}
+	return nil
+}
+
+func (x *SubscribeGroupMessagesRequest_Filter) GetType() SubscribeFilterType {
+	if x != nil {
+		return x.Type
+	}
+	return SubscribeFilterType_SUBSCRIBE_FILTER_TYPE_UNSPECIFIED
+}
+
+func (x *SubscribeGroupMessagesRequest_Filter) GetIdCursor() uint64 {
+	if x != nil {
+		return x.IdCursor
+	}
+	return 0
+}
+
+// Subscription filter
+type SubscribeWelcomeMessagesRequest_Filter struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	InstallationId []byte              `protobuf:"bytes,1,opt,name=installation_id,json=installationId,proto3" json:"installation_id,omitempty"`
+	Type           SubscribeFilterType `protobuf:"varint,2,opt,name=type,proto3,enum=xmtp.mls.api.v1.SubscribeFilterType" json:"type,omitempty"`
+	IdCursor       uint64              `protobuf:"varint,3,opt,name=id_cursor,json=idCursor,proto3" json:"id_cursor,omitempty"`
+}
+
+func (x *SubscribeWelcomeMessagesRequest_Filter) Reset() {
+	*x = SubscribeWelcomeMessagesRequest_Filter{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_mls_api_v1_mls_proto_msgTypes[25]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *SubscribeWelcomeMessagesRequest_Filter) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SubscribeWelcomeMessagesRequest_Filter) ProtoMessage() {}
+
+func (x *SubscribeWelcomeMessagesRequest_Filter) ProtoReflect() protoreflect.Message {
+	mi := &file_mls_api_v1_mls_proto_msgTypes[25]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SubscribeWelcomeMessagesRequest_Filter.ProtoReflect.Descriptor instead.
+func (*SubscribeWelcomeMessagesRequest_Filter) Descriptor() ([]byte, []int) {
+	return file_mls_api_v1_mls_proto_rawDescGZIP(), []int{17, 0}
+}
+
+func (x *SubscribeWelcomeMessagesRequest_Filter) GetInstallationId() []byte {
+	if x != nil {
+		return x.InstallationId
+	}
+	return nil
+}
+
+func (x *SubscribeWelcomeMessagesRequest_Filter) GetType() SubscribeFilterType {
+	if x != nil {
+		return x.Type
+	}
+	return SubscribeFilterType_SUBSCRIBE_FILTER_TYPE_UNSPECIFIED
+}
+
+func (x *SubscribeWelcomeMessagesRequest_Filter) GetIdCursor() uint64 {
+	if x != nil {
+		return x.IdCursor
+	}
+	return 0
+}
+
 var File_mls_api_v1_mls_proto protoreflect.FileDescriptor
 
 var file_mls_api_v1_mls_proto_rawDesc = []byte{
@@ -1547,23 +1728,56 @@ var file_mls_api_v1_mls_proto_rawDesc = []byte{
 	0x0b, 0x70, 0x61, 0x67, 0x69, 0x6e, 0x67, 0x5f, 0x69, 0x6e, 0x66, 0x6f, 0x18, 0x02, 0x20, 0x01,
 	0x28, 0x0b, 0x32, 0x1b, 0x2e, 0x78, 0x6d, 0x74, 0x70, 0x2e, 0x6d, 0x6c, 0x73, 0x2e, 0x61, 0x70,
 	0x69, 0x2e, 0x76, 0x31, 0x2e, 0x50, 0x61, 0x67, 0x69, 0x6e, 0x67, 0x49, 0x6e, 0x66, 0x6f, 0x52,
-	0x0a, 0x70, 0x61, 0x67, 0x69, 0x6e, 0x67, 0x49, 0x6e, 0x66, 0x6f, 0x22, 0x3a, 0x0a, 0x1d, 0x53,
-	0x75, 0x62, 0x73, 0x63, 0x72, 0x69, 0x62, 0x65, 0x47, 0x72, 0x6f, 0x75, 0x70, 0x4d, 0x65, 0x73,
-	0x73, 0x61, 0x67, 0x65, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x19, 0x0a, 0x08,
-	0x67, 0x72, 0x6f, 0x75, 0x70, 0x5f, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0c, 0x52, 0x07,
-	0x67, 0x72, 0x6f, 0x75, 0x70, 0x49, 0x64, 0x22, 0x4a, 0x0a, 0x1f, 0x53, 0x75, 0x62, 0x73, 0x63,
-	0x72, 0x69, 0x62, 0x65, 0x57, 0x65, 0x6c, 0x63, 0x6f, 0x6d, 0x65, 0x4d, 0x65, 0x73, 0x73, 0x61,
-	0x67, 0x65, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x27, 0x0a, 0x0f, 0x69, 0x6e,
-	0x73, 0x74, 0x61, 0x6c, 0x6c, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x69, 0x64, 0x18, 0x01, 0x20,
-	0x01, 0x28, 0x0c, 0x52, 0x0e, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6c, 0x6c, 0x61, 0x74, 0x69, 0x6f,
-	0x6e, 0x49, 0x64, 0x2a, 0x6c, 0x0a, 0x0d, 0x53, 0x6f, 0x72, 0x74, 0x44, 0x69, 0x72, 0x65, 0x63,
-	0x74, 0x69, 0x6f, 0x6e, 0x12, 0x1e, 0x0a, 0x1a, 0x53, 0x4f, 0x52, 0x54, 0x5f, 0x44, 0x49, 0x52,
-	0x45, 0x43, 0x54, 0x49, 0x4f, 0x4e, 0x5f, 0x55, 0x4e, 0x53, 0x50, 0x45, 0x43, 0x49, 0x46, 0x49,
-	0x45, 0x44, 0x10, 0x00, 0x12, 0x1c, 0x0a, 0x18, 0x53, 0x4f, 0x52, 0x54, 0x5f, 0x44, 0x49, 0x52,
-	0x45, 0x43, 0x54, 0x49, 0x4f, 0x4e, 0x5f, 0x41, 0x53, 0x43, 0x45, 0x4e, 0x44, 0x49, 0x4e, 0x47,
-	0x10, 0x01, 0x12, 0x1d, 0x0a, 0x19, 0x53, 0x4f, 0x52, 0x54, 0x5f, 0x44, 0x49, 0x52, 0x45, 0x43,
-	0x54, 0x49, 0x4f, 0x4e, 0x5f, 0x44, 0x45, 0x53, 0x43, 0x45, 0x4e, 0x44, 0x49, 0x4e, 0x47, 0x10,
-	0x02, 0x32, 0xe1, 0x0c, 0x0a, 0x06, 0x4d, 0x6c, 0x73, 0x41, 0x70, 0x69, 0x12, 0x7e, 0x0a, 0x11,
+	0x0a, 0x70, 0x61, 0x67, 0x69, 0x6e, 0x67, 0x49, 0x6e, 0x66, 0x6f, 0x22, 0xec, 0x01, 0x0a, 0x1d,
+	0x53, 0x75, 0x62, 0x73, 0x63, 0x72, 0x69, 0x62, 0x65, 0x47, 0x72, 0x6f, 0x75, 0x70, 0x4d, 0x65,
+	0x73, 0x73, 0x61, 0x67, 0x65, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x4f, 0x0a,
+	0x07, 0x66, 0x69, 0x6c, 0x74, 0x65, 0x72, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x35,
+	0x2e, 0x78, 0x6d, 0x74, 0x70, 0x2e, 0x6d, 0x6c, 0x73, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x76, 0x31,
+	0x2e, 0x53, 0x75, 0x62, 0x73, 0x63, 0x72, 0x69, 0x62, 0x65, 0x47, 0x72, 0x6f, 0x75, 0x70, 0x4d,
+	0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x2e, 0x46,
+	0x69, 0x6c, 0x74, 0x65, 0x72, 0x52, 0x07, 0x66, 0x69, 0x6c, 0x74, 0x65, 0x72, 0x73, 0x1a, 0x7a,
+	0x0a, 0x06, 0x46, 0x69, 0x6c, 0x74, 0x65, 0x72, 0x12, 0x19, 0x0a, 0x08, 0x67, 0x72, 0x6f, 0x75,
+	0x70, 0x5f, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0c, 0x52, 0x07, 0x67, 0x72, 0x6f, 0x75,
+	0x70, 0x49, 0x64, 0x12, 0x38, 0x0a, 0x04, 0x74, 0x79, 0x70, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28,
+	0x0e, 0x32, 0x24, 0x2e, 0x78, 0x6d, 0x74, 0x70, 0x2e, 0x6d, 0x6c, 0x73, 0x2e, 0x61, 0x70, 0x69,
+	0x2e, 0x76, 0x31, 0x2e, 0x53, 0x75, 0x62, 0x73, 0x63, 0x72, 0x69, 0x62, 0x65, 0x46, 0x69, 0x6c,
+	0x74, 0x65, 0x72, 0x54, 0x79, 0x70, 0x65, 0x52, 0x04, 0x74, 0x79, 0x70, 0x65, 0x12, 0x1b, 0x0a,
+	0x09, 0x69, 0x64, 0x5f, 0x63, 0x75, 0x72, 0x73, 0x6f, 0x72, 0x18, 0x03, 0x20, 0x01, 0x28, 0x04,
+	0x52, 0x08, 0x69, 0x64, 0x43, 0x75, 0x72, 0x73, 0x6f, 0x72, 0x22, 0xff, 0x01, 0x0a, 0x1f, 0x53,
+	0x75, 0x62, 0x73, 0x63, 0x72, 0x69, 0x62, 0x65, 0x57, 0x65, 0x6c, 0x63, 0x6f, 0x6d, 0x65, 0x4d,
+	0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x51,
+	0x0a, 0x07, 0x66, 0x69, 0x6c, 0x74, 0x65, 0x72, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32,
+	0x37, 0x2e, 0x78, 0x6d, 0x74, 0x70, 0x2e, 0x6d, 0x6c, 0x73, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x76,
+	0x31, 0x2e, 0x53, 0x75, 0x62, 0x73, 0x63, 0x72, 0x69, 0x62, 0x65, 0x57, 0x65, 0x6c, 0x63, 0x6f,
+	0x6d, 0x65, 0x4d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73,
+	0x74, 0x2e, 0x46, 0x69, 0x6c, 0x74, 0x65, 0x72, 0x52, 0x07, 0x66, 0x69, 0x6c, 0x74, 0x65, 0x72,
+	0x73, 0x1a, 0x88, 0x01, 0x0a, 0x06, 0x46, 0x69, 0x6c, 0x74, 0x65, 0x72, 0x12, 0x27, 0x0a, 0x0f,
+	0x69, 0x6e, 0x73, 0x74, 0x61, 0x6c, 0x6c, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x69, 0x64, 0x18,
+	0x01, 0x20, 0x01, 0x28, 0x0c, 0x52, 0x0e, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6c, 0x6c, 0x61, 0x74,
+	0x69, 0x6f, 0x6e, 0x49, 0x64, 0x12, 0x38, 0x0a, 0x04, 0x74, 0x79, 0x70, 0x65, 0x18, 0x02, 0x20,
+	0x01, 0x28, 0x0e, 0x32, 0x24, 0x2e, 0x78, 0x6d, 0x74, 0x70, 0x2e, 0x6d, 0x6c, 0x73, 0x2e, 0x61,
+	0x70, 0x69, 0x2e, 0x76, 0x31, 0x2e, 0x53, 0x75, 0x62, 0x73, 0x63, 0x72, 0x69, 0x62, 0x65, 0x46,
+	0x69, 0x6c, 0x74, 0x65, 0x72, 0x54, 0x79, 0x70, 0x65, 0x52, 0x04, 0x74, 0x79, 0x70, 0x65, 0x12,
+	0x1b, 0x0a, 0x09, 0x69, 0x64, 0x5f, 0x63, 0x75, 0x72, 0x73, 0x6f, 0x72, 0x18, 0x03, 0x20, 0x01,
+	0x28, 0x04, 0x52, 0x08, 0x69, 0x64, 0x43, 0x75, 0x72, 0x73, 0x6f, 0x72, 0x2a, 0x6c, 0x0a, 0x0d,
+	0x53, 0x6f, 0x72, 0x74, 0x44, 0x69, 0x72, 0x65, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x1e, 0x0a,
+	0x1a, 0x53, 0x4f, 0x52, 0x54, 0x5f, 0x44, 0x49, 0x52, 0x45, 0x43, 0x54, 0x49, 0x4f, 0x4e, 0x5f,
+	0x55, 0x4e, 0x53, 0x50, 0x45, 0x43, 0x49, 0x46, 0x49, 0x45, 0x44, 0x10, 0x00, 0x12, 0x1c, 0x0a,
+	0x18, 0x53, 0x4f, 0x52, 0x54, 0x5f, 0x44, 0x49, 0x52, 0x45, 0x43, 0x54, 0x49, 0x4f, 0x4e, 0x5f,
+	0x41, 0x53, 0x43, 0x45, 0x4e, 0x44, 0x49, 0x4e, 0x47, 0x10, 0x01, 0x12, 0x1d, 0x0a, 0x19, 0x53,
+	0x4f, 0x52, 0x54, 0x5f, 0x44, 0x49, 0x52, 0x45, 0x43, 0x54, 0x49, 0x4f, 0x4e, 0x5f, 0x44, 0x45,
+	0x53, 0x43, 0x45, 0x4e, 0x44, 0x49, 0x4e, 0x47, 0x10, 0x02, 0x2a, 0xa4, 0x01, 0x0a, 0x13, 0x53,
+	0x75, 0x62, 0x73, 0x63, 0x72, 0x69, 0x62, 0x65, 0x46, 0x69, 0x6c, 0x74, 0x65, 0x72, 0x54, 0x79,
+	0x70, 0x65, 0x12, 0x25, 0x0a, 0x21, 0x53, 0x55, 0x42, 0x53, 0x43, 0x52, 0x49, 0x42, 0x45, 0x5f,
+	0x46, 0x49, 0x4c, 0x54, 0x45, 0x52, 0x5f, 0x54, 0x59, 0x50, 0x45, 0x5f, 0x55, 0x4e, 0x53, 0x50,
+	0x45, 0x43, 0x49, 0x46, 0x49, 0x45, 0x44, 0x10, 0x00, 0x12, 0x20, 0x0a, 0x1c, 0x53, 0x55, 0x42,
+	0x53, 0x43, 0x52, 0x49, 0x42, 0x45, 0x5f, 0x46, 0x49, 0x4c, 0x54, 0x45, 0x52, 0x5f, 0x54, 0x59,
+	0x50, 0x45, 0x5f, 0x4c, 0x41, 0x54, 0x45, 0x53, 0x54, 0x10, 0x01, 0x12, 0x22, 0x0a, 0x1e, 0x53,
+	0x55, 0x42, 0x53, 0x43, 0x52, 0x49, 0x42, 0x45, 0x5f, 0x46, 0x49, 0x4c, 0x54, 0x45, 0x52, 0x5f,
+	0x54, 0x59, 0x50, 0x45, 0x5f, 0x45, 0x41, 0x52, 0x4c, 0x49, 0x45, 0x53, 0x54, 0x10, 0x02, 0x12,
+	0x20, 0x0a, 0x1c, 0x53, 0x55, 0x42, 0x53, 0x43, 0x52, 0x49, 0x42, 0x45, 0x5f, 0x46, 0x49, 0x4c,
+	0x54, 0x45, 0x52, 0x5f, 0x54, 0x59, 0x50, 0x45, 0x5f, 0x43, 0x55, 0x52, 0x53, 0x4f, 0x52, 0x10,
+	0x03, 0x32, 0xe1, 0x0c, 0x0a, 0x06, 0x4d, 0x6c, 0x73, 0x41, 0x70, 0x69, 0x12, 0x7e, 0x0a, 0x11,
 	0x53, 0x65, 0x6e, 0x64, 0x47, 0x72, 0x6f, 0x75, 0x70, 0x4d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65,
 	0x73, 0x12, 0x29, 0x2e, 0x78, 0x6d, 0x74, 0x70, 0x2e, 0x6d, 0x6c, 0x73, 0x2e, 0x61, 0x70, 0x69,
 	0x2e, 0x76, 0x31, 0x2e, 0x53, 0x65, 0x6e, 0x64, 0x47, 0x72, 0x6f, 0x75, 0x70, 0x4d, 0x65, 0x73,
@@ -1686,84 +1900,91 @@ func file_mls_api_v1_mls_proto_rawDescGZIP() []byte {
 	return file_mls_api_v1_mls_proto_rawDescData
 }
 
-var file_mls_api_v1_mls_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_mls_api_v1_mls_proto_msgTypes = make([]protoimpl.MessageInfo, 24)
+var file_mls_api_v1_mls_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
+var file_mls_api_v1_mls_proto_msgTypes = make([]protoimpl.MessageInfo, 26)
 var file_mls_api_v1_mls_proto_goTypes = []interface{}{
 	(SortDirection)(0),                                           // 0: xmtp.mls.api.v1.SortDirection
-	(*SendGroupMessagesRequest)(nil),                             // 1: xmtp.mls.api.v1.SendGroupMessagesRequest
-	(*SendWelcomeMessagesRequest)(nil),                           // 2: xmtp.mls.api.v1.SendWelcomeMessagesRequest
-	(*KeyPackageUpload)(nil),                                     // 3: xmtp.mls.api.v1.KeyPackageUpload
-	(*RegisterInstallationRequest)(nil),                          // 4: xmtp.mls.api.v1.RegisterInstallationRequest
-	(*RegisterInstallationResponse)(nil),                         // 5: xmtp.mls.api.v1.RegisterInstallationResponse
-	(*UploadKeyPackageRequest)(nil),                              // 6: xmtp.mls.api.v1.UploadKeyPackageRequest
-	(*FetchKeyPackagesRequest)(nil),                              // 7: xmtp.mls.api.v1.FetchKeyPackagesRequest
-	(*FetchKeyPackagesResponse)(nil),                             // 8: xmtp.mls.api.v1.FetchKeyPackagesResponse
-	(*RevokeInstallationRequest)(nil),                            // 9: xmtp.mls.api.v1.RevokeInstallationRequest
-	(*GetIdentityUpdatesRequest)(nil),                            // 10: xmtp.mls.api.v1.GetIdentityUpdatesRequest
-	(*GetIdentityUpdatesResponse)(nil),                           // 11: xmtp.mls.api.v1.GetIdentityUpdatesResponse
-	(*PagingInfo)(nil),                                           // 12: xmtp.mls.api.v1.PagingInfo
-	(*QueryGroupMessagesRequest)(nil),                            // 13: xmtp.mls.api.v1.QueryGroupMessagesRequest
-	(*QueryGroupMessagesResponse)(nil),                           // 14: xmtp.mls.api.v1.QueryGroupMessagesResponse
-	(*QueryWelcomeMessagesRequest)(nil),                          // 15: xmtp.mls.api.v1.QueryWelcomeMessagesRequest
-	(*QueryWelcomeMessagesResponse)(nil),                         // 16: xmtp.mls.api.v1.QueryWelcomeMessagesResponse
-	(*SubscribeGroupMessagesRequest)(nil),                        // 17: xmtp.mls.api.v1.SubscribeGroupMessagesRequest
-	(*SubscribeWelcomeMessagesRequest)(nil),                      // 18: xmtp.mls.api.v1.SubscribeWelcomeMessagesRequest
-	(*SendWelcomeMessagesRequest_WelcomeMessageRequest)(nil),     // 19: xmtp.mls.api.v1.SendWelcomeMessagesRequest.WelcomeMessageRequest
-	(*FetchKeyPackagesResponse_KeyPackage)(nil),                  // 20: xmtp.mls.api.v1.FetchKeyPackagesResponse.KeyPackage
-	(*GetIdentityUpdatesResponse_NewInstallationUpdate)(nil),     // 21: xmtp.mls.api.v1.GetIdentityUpdatesResponse.NewInstallationUpdate
-	(*GetIdentityUpdatesResponse_RevokedInstallationUpdate)(nil), // 22: xmtp.mls.api.v1.GetIdentityUpdatesResponse.RevokedInstallationUpdate
-	(*GetIdentityUpdatesResponse_Update)(nil),                    // 23: xmtp.mls.api.v1.GetIdentityUpdatesResponse.Update
-	(*GetIdentityUpdatesResponse_WalletUpdates)(nil),             // 24: xmtp.mls.api.v1.GetIdentityUpdatesResponse.WalletUpdates
-	(*message_contents.Signature)(nil),                           // 25: xmtp.message_contents.Signature
-	(*message_contents1.GroupMessage)(nil),                       // 26: xmtp.mls.message_contents.GroupMessage
-	(*message_contents1.WelcomeMessage)(nil),                     // 27: xmtp.mls.message_contents.WelcomeMessage
-	(*emptypb.Empty)(nil),                                        // 28: google.protobuf.Empty
+	(SubscribeFilterType)(0),                                     // 1: xmtp.mls.api.v1.SubscribeFilterType
+	(*SendGroupMessagesRequest)(nil),                             // 2: xmtp.mls.api.v1.SendGroupMessagesRequest
+	(*SendWelcomeMessagesRequest)(nil),                           // 3: xmtp.mls.api.v1.SendWelcomeMessagesRequest
+	(*KeyPackageUpload)(nil),                                     // 4: xmtp.mls.api.v1.KeyPackageUpload
+	(*RegisterInstallationRequest)(nil),                          // 5: xmtp.mls.api.v1.RegisterInstallationRequest
+	(*RegisterInstallationResponse)(nil),                         // 6: xmtp.mls.api.v1.RegisterInstallationResponse
+	(*UploadKeyPackageRequest)(nil),                              // 7: xmtp.mls.api.v1.UploadKeyPackageRequest
+	(*FetchKeyPackagesRequest)(nil),                              // 8: xmtp.mls.api.v1.FetchKeyPackagesRequest
+	(*FetchKeyPackagesResponse)(nil),                             // 9: xmtp.mls.api.v1.FetchKeyPackagesResponse
+	(*RevokeInstallationRequest)(nil),                            // 10: xmtp.mls.api.v1.RevokeInstallationRequest
+	(*GetIdentityUpdatesRequest)(nil),                            // 11: xmtp.mls.api.v1.GetIdentityUpdatesRequest
+	(*GetIdentityUpdatesResponse)(nil),                           // 12: xmtp.mls.api.v1.GetIdentityUpdatesResponse
+	(*PagingInfo)(nil),                                           // 13: xmtp.mls.api.v1.PagingInfo
+	(*QueryGroupMessagesRequest)(nil),                            // 14: xmtp.mls.api.v1.QueryGroupMessagesRequest
+	(*QueryGroupMessagesResponse)(nil),                           // 15: xmtp.mls.api.v1.QueryGroupMessagesResponse
+	(*QueryWelcomeMessagesRequest)(nil),                          // 16: xmtp.mls.api.v1.QueryWelcomeMessagesRequest
+	(*QueryWelcomeMessagesResponse)(nil),                         // 17: xmtp.mls.api.v1.QueryWelcomeMessagesResponse
+	(*SubscribeGroupMessagesRequest)(nil),                        // 18: xmtp.mls.api.v1.SubscribeGroupMessagesRequest
+	(*SubscribeWelcomeMessagesRequest)(nil),                      // 19: xmtp.mls.api.v1.SubscribeWelcomeMessagesRequest
+	(*SendWelcomeMessagesRequest_WelcomeMessageRequest)(nil),     // 20: xmtp.mls.api.v1.SendWelcomeMessagesRequest.WelcomeMessageRequest
+	(*FetchKeyPackagesResponse_KeyPackage)(nil),                  // 21: xmtp.mls.api.v1.FetchKeyPackagesResponse.KeyPackage
+	(*GetIdentityUpdatesResponse_NewInstallationUpdate)(nil),     // 22: xmtp.mls.api.v1.GetIdentityUpdatesResponse.NewInstallationUpdate
+	(*GetIdentityUpdatesResponse_RevokedInstallationUpdate)(nil), // 23: xmtp.mls.api.v1.GetIdentityUpdatesResponse.RevokedInstallationUpdate
+	(*GetIdentityUpdatesResponse_Update)(nil),                    // 24: xmtp.mls.api.v1.GetIdentityUpdatesResponse.Update
+	(*GetIdentityUpdatesResponse_WalletUpdates)(nil),             // 25: xmtp.mls.api.v1.GetIdentityUpdatesResponse.WalletUpdates
+	(*SubscribeGroupMessagesRequest_Filter)(nil),                 // 26: xmtp.mls.api.v1.SubscribeGroupMessagesRequest.Filter
+	(*SubscribeWelcomeMessagesRequest_Filter)(nil),               // 27: xmtp.mls.api.v1.SubscribeWelcomeMessagesRequest.Filter
+	(*message_contents.Signature)(nil),                           // 28: xmtp.message_contents.Signature
+	(*message_contents1.GroupMessage)(nil),                       // 29: xmtp.mls.message_contents.GroupMessage
+	(*message_contents1.WelcomeMessage)(nil),                     // 30: xmtp.mls.message_contents.WelcomeMessage
+	(*emptypb.Empty)(nil),                                        // 31: google.protobuf.Empty
 }
 var file_mls_api_v1_mls_proto_depIdxs = []int32{
-	19, // 0: xmtp.mls.api.v1.SendWelcomeMessagesRequest.welcome_messages:type_name -> xmtp.mls.api.v1.SendWelcomeMessagesRequest.WelcomeMessageRequest
-	3,  // 1: xmtp.mls.api.v1.RegisterInstallationRequest.key_package:type_name -> xmtp.mls.api.v1.KeyPackageUpload
-	3,  // 2: xmtp.mls.api.v1.UploadKeyPackageRequest.key_package:type_name -> xmtp.mls.api.v1.KeyPackageUpload
-	20, // 3: xmtp.mls.api.v1.FetchKeyPackagesResponse.key_packages:type_name -> xmtp.mls.api.v1.FetchKeyPackagesResponse.KeyPackage
-	25, // 4: xmtp.mls.api.v1.RevokeInstallationRequest.wallet_signature:type_name -> xmtp.message_contents.Signature
-	24, // 5: xmtp.mls.api.v1.GetIdentityUpdatesResponse.updates:type_name -> xmtp.mls.api.v1.GetIdentityUpdatesResponse.WalletUpdates
+	20, // 0: xmtp.mls.api.v1.SendWelcomeMessagesRequest.welcome_messages:type_name -> xmtp.mls.api.v1.SendWelcomeMessagesRequest.WelcomeMessageRequest
+	4,  // 1: xmtp.mls.api.v1.RegisterInstallationRequest.key_package:type_name -> xmtp.mls.api.v1.KeyPackageUpload
+	4,  // 2: xmtp.mls.api.v1.UploadKeyPackageRequest.key_package:type_name -> xmtp.mls.api.v1.KeyPackageUpload
+	21, // 3: xmtp.mls.api.v1.FetchKeyPackagesResponse.key_packages:type_name -> xmtp.mls.api.v1.FetchKeyPackagesResponse.KeyPackage
+	28, // 4: xmtp.mls.api.v1.RevokeInstallationRequest.wallet_signature:type_name -> xmtp.message_contents.Signature
+	25, // 5: xmtp.mls.api.v1.GetIdentityUpdatesResponse.updates:type_name -> xmtp.mls.api.v1.GetIdentityUpdatesResponse.WalletUpdates
 	0,  // 6: xmtp.mls.api.v1.PagingInfo.direction:type_name -> xmtp.mls.api.v1.SortDirection
-	12, // 7: xmtp.mls.api.v1.QueryGroupMessagesRequest.paging_info:type_name -> xmtp.mls.api.v1.PagingInfo
-	26, // 8: xmtp.mls.api.v1.QueryGroupMessagesResponse.messages:type_name -> xmtp.mls.message_contents.GroupMessage
-	12, // 9: xmtp.mls.api.v1.QueryGroupMessagesResponse.paging_info:type_name -> xmtp.mls.api.v1.PagingInfo
-	12, // 10: xmtp.mls.api.v1.QueryWelcomeMessagesRequest.paging_info:type_name -> xmtp.mls.api.v1.PagingInfo
-	27, // 11: xmtp.mls.api.v1.QueryWelcomeMessagesResponse.messages:type_name -> xmtp.mls.message_contents.WelcomeMessage
-	12, // 12: xmtp.mls.api.v1.QueryWelcomeMessagesResponse.paging_info:type_name -> xmtp.mls.api.v1.PagingInfo
-	27, // 13: xmtp.mls.api.v1.SendWelcomeMessagesRequest.WelcomeMessageRequest.welcome_message:type_name -> xmtp.mls.message_contents.WelcomeMessage
-	21, // 14: xmtp.mls.api.v1.GetIdentityUpdatesResponse.Update.new_installation:type_name -> xmtp.mls.api.v1.GetIdentityUpdatesResponse.NewInstallationUpdate
-	22, // 15: xmtp.mls.api.v1.GetIdentityUpdatesResponse.Update.revoked_installation:type_name -> xmtp.mls.api.v1.GetIdentityUpdatesResponse.RevokedInstallationUpdate
-	23, // 16: xmtp.mls.api.v1.GetIdentityUpdatesResponse.WalletUpdates.updates:type_name -> xmtp.mls.api.v1.GetIdentityUpdatesResponse.Update
-	1,  // 17: xmtp.mls.api.v1.MlsApi.SendGroupMessages:input_type -> xmtp.mls.api.v1.SendGroupMessagesRequest
-	2,  // 18: xmtp.mls.api.v1.MlsApi.SendWelcomeMessages:input_type -> xmtp.mls.api.v1.SendWelcomeMessagesRequest
-	4,  // 19: xmtp.mls.api.v1.MlsApi.RegisterInstallation:input_type -> xmtp.mls.api.v1.RegisterInstallationRequest
-	6,  // 20: xmtp.mls.api.v1.MlsApi.UploadKeyPackage:input_type -> xmtp.mls.api.v1.UploadKeyPackageRequest
-	7,  // 21: xmtp.mls.api.v1.MlsApi.FetchKeyPackages:input_type -> xmtp.mls.api.v1.FetchKeyPackagesRequest
-	9,  // 22: xmtp.mls.api.v1.MlsApi.RevokeInstallation:input_type -> xmtp.mls.api.v1.RevokeInstallationRequest
-	10, // 23: xmtp.mls.api.v1.MlsApi.GetIdentityUpdates:input_type -> xmtp.mls.api.v1.GetIdentityUpdatesRequest
-	13, // 24: xmtp.mls.api.v1.MlsApi.QueryGroupMessages:input_type -> xmtp.mls.api.v1.QueryGroupMessagesRequest
-	15, // 25: xmtp.mls.api.v1.MlsApi.QueryWelcomeMessages:input_type -> xmtp.mls.api.v1.QueryWelcomeMessagesRequest
-	17, // 26: xmtp.mls.api.v1.MlsApi.SubscribeGroupMessages:input_type -> xmtp.mls.api.v1.SubscribeGroupMessagesRequest
-	18, // 27: xmtp.mls.api.v1.MlsApi.SubscribeWelcomeMessages:input_type -> xmtp.mls.api.v1.SubscribeWelcomeMessagesRequest
-	28, // 28: xmtp.mls.api.v1.MlsApi.SendGroupMessages:output_type -> google.protobuf.Empty
-	28, // 29: xmtp.mls.api.v1.MlsApi.SendWelcomeMessages:output_type -> google.protobuf.Empty
-	5,  // 30: xmtp.mls.api.v1.MlsApi.RegisterInstallation:output_type -> xmtp.mls.api.v1.RegisterInstallationResponse
-	28, // 31: xmtp.mls.api.v1.MlsApi.UploadKeyPackage:output_type -> google.protobuf.Empty
-	8,  // 32: xmtp.mls.api.v1.MlsApi.FetchKeyPackages:output_type -> xmtp.mls.api.v1.FetchKeyPackagesResponse
-	28, // 33: xmtp.mls.api.v1.MlsApi.RevokeInstallation:output_type -> google.protobuf.Empty
-	11, // 34: xmtp.mls.api.v1.MlsApi.GetIdentityUpdates:output_type -> xmtp.mls.api.v1.GetIdentityUpdatesResponse
-	14, // 35: xmtp.mls.api.v1.MlsApi.QueryGroupMessages:output_type -> xmtp.mls.api.v1.QueryGroupMessagesResponse
-	16, // 36: xmtp.mls.api.v1.MlsApi.QueryWelcomeMessages:output_type -> xmtp.mls.api.v1.QueryWelcomeMessagesResponse
-	26, // 37: xmtp.mls.api.v1.MlsApi.SubscribeGroupMessages:output_type -> xmtp.mls.message_contents.GroupMessage
-	27, // 38: xmtp.mls.api.v1.MlsApi.SubscribeWelcomeMessages:output_type -> xmtp.mls.message_contents.WelcomeMessage
-	28, // [28:39] is the sub-list for method output_type
-	17, // [17:28] is the sub-list for method input_type
-	17, // [17:17] is the sub-list for extension type_name
-	17, // [17:17] is the sub-list for extension extendee
-	0,  // [0:17] is the sub-list for field type_name
+	13, // 7: xmtp.mls.api.v1.QueryGroupMessagesRequest.paging_info:type_name -> xmtp.mls.api.v1.PagingInfo
+	29, // 8: xmtp.mls.api.v1.QueryGroupMessagesResponse.messages:type_name -> xmtp.mls.message_contents.GroupMessage
+	13, // 9: xmtp.mls.api.v1.QueryGroupMessagesResponse.paging_info:type_name -> xmtp.mls.api.v1.PagingInfo
+	13, // 10: xmtp.mls.api.v1.QueryWelcomeMessagesRequest.paging_info:type_name -> xmtp.mls.api.v1.PagingInfo
+	30, // 11: xmtp.mls.api.v1.QueryWelcomeMessagesResponse.messages:type_name -> xmtp.mls.message_contents.WelcomeMessage
+	13, // 12: xmtp.mls.api.v1.QueryWelcomeMessagesResponse.paging_info:type_name -> xmtp.mls.api.v1.PagingInfo
+	26, // 13: xmtp.mls.api.v1.SubscribeGroupMessagesRequest.filters:type_name -> xmtp.mls.api.v1.SubscribeGroupMessagesRequest.Filter
+	27, // 14: xmtp.mls.api.v1.SubscribeWelcomeMessagesRequest.filters:type_name -> xmtp.mls.api.v1.SubscribeWelcomeMessagesRequest.Filter
+	30, // 15: xmtp.mls.api.v1.SendWelcomeMessagesRequest.WelcomeMessageRequest.welcome_message:type_name -> xmtp.mls.message_contents.WelcomeMessage
+	22, // 16: xmtp.mls.api.v1.GetIdentityUpdatesResponse.Update.new_installation:type_name -> xmtp.mls.api.v1.GetIdentityUpdatesResponse.NewInstallationUpdate
+	23, // 17: xmtp.mls.api.v1.GetIdentityUpdatesResponse.Update.revoked_installation:type_name -> xmtp.mls.api.v1.GetIdentityUpdatesResponse.RevokedInstallationUpdate
+	24, // 18: xmtp.mls.api.v1.GetIdentityUpdatesResponse.WalletUpdates.updates:type_name -> xmtp.mls.api.v1.GetIdentityUpdatesResponse.Update
+	1,  // 19: xmtp.mls.api.v1.SubscribeGroupMessagesRequest.Filter.type:type_name -> xmtp.mls.api.v1.SubscribeFilterType
+	1,  // 20: xmtp.mls.api.v1.SubscribeWelcomeMessagesRequest.Filter.type:type_name -> xmtp.mls.api.v1.SubscribeFilterType
+	2,  // 21: xmtp.mls.api.v1.MlsApi.SendGroupMessages:input_type -> xmtp.mls.api.v1.SendGroupMessagesRequest
+	3,  // 22: xmtp.mls.api.v1.MlsApi.SendWelcomeMessages:input_type -> xmtp.mls.api.v1.SendWelcomeMessagesRequest
+	5,  // 23: xmtp.mls.api.v1.MlsApi.RegisterInstallation:input_type -> xmtp.mls.api.v1.RegisterInstallationRequest
+	7,  // 24: xmtp.mls.api.v1.MlsApi.UploadKeyPackage:input_type -> xmtp.mls.api.v1.UploadKeyPackageRequest
+	8,  // 25: xmtp.mls.api.v1.MlsApi.FetchKeyPackages:input_type -> xmtp.mls.api.v1.FetchKeyPackagesRequest
+	10, // 26: xmtp.mls.api.v1.MlsApi.RevokeInstallation:input_type -> xmtp.mls.api.v1.RevokeInstallationRequest
+	11, // 27: xmtp.mls.api.v1.MlsApi.GetIdentityUpdates:input_type -> xmtp.mls.api.v1.GetIdentityUpdatesRequest
+	14, // 28: xmtp.mls.api.v1.MlsApi.QueryGroupMessages:input_type -> xmtp.mls.api.v1.QueryGroupMessagesRequest
+	16, // 29: xmtp.mls.api.v1.MlsApi.QueryWelcomeMessages:input_type -> xmtp.mls.api.v1.QueryWelcomeMessagesRequest
+	18, // 30: xmtp.mls.api.v1.MlsApi.SubscribeGroupMessages:input_type -> xmtp.mls.api.v1.SubscribeGroupMessagesRequest
+	19, // 31: xmtp.mls.api.v1.MlsApi.SubscribeWelcomeMessages:input_type -> xmtp.mls.api.v1.SubscribeWelcomeMessagesRequest
+	31, // 32: xmtp.mls.api.v1.MlsApi.SendGroupMessages:output_type -> google.protobuf.Empty
+	31, // 33: xmtp.mls.api.v1.MlsApi.SendWelcomeMessages:output_type -> google.protobuf.Empty
+	6,  // 34: xmtp.mls.api.v1.MlsApi.RegisterInstallation:output_type -> xmtp.mls.api.v1.RegisterInstallationResponse
+	31, // 35: xmtp.mls.api.v1.MlsApi.UploadKeyPackage:output_type -> google.protobuf.Empty
+	9,  // 36: xmtp.mls.api.v1.MlsApi.FetchKeyPackages:output_type -> xmtp.mls.api.v1.FetchKeyPackagesResponse
+	31, // 37: xmtp.mls.api.v1.MlsApi.RevokeInstallation:output_type -> google.protobuf.Empty
+	12, // 38: xmtp.mls.api.v1.MlsApi.GetIdentityUpdates:output_type -> xmtp.mls.api.v1.GetIdentityUpdatesResponse
+	15, // 39: xmtp.mls.api.v1.MlsApi.QueryGroupMessages:output_type -> xmtp.mls.api.v1.QueryGroupMessagesResponse
+	17, // 40: xmtp.mls.api.v1.MlsApi.QueryWelcomeMessages:output_type -> xmtp.mls.api.v1.QueryWelcomeMessagesResponse
+	29, // 41: xmtp.mls.api.v1.MlsApi.SubscribeGroupMessages:output_type -> xmtp.mls.message_contents.GroupMessage
+	30, // 42: xmtp.mls.api.v1.MlsApi.SubscribeWelcomeMessages:output_type -> xmtp.mls.message_contents.WelcomeMessage
+	32, // [32:43] is the sub-list for method output_type
+	21, // [21:32] is the sub-list for method input_type
+	21, // [21:21] is the sub-list for extension type_name
+	21, // [21:21] is the sub-list for extension extendee
+	0,  // [0:21] is the sub-list for field type_name
 }
 
 func init() { file_mls_api_v1_mls_proto_init() }
@@ -2060,6 +2281,30 @@ func file_mls_api_v1_mls_proto_init() {
 				return nil
 			}
 		}
+		file_mls_api_v1_mls_proto_msgTypes[24].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*SubscribeGroupMessagesRequest_Filter); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_mls_api_v1_mls_proto_msgTypes[25].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*SubscribeWelcomeMessagesRequest_Filter); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	file_mls_api_v1_mls_proto_msgTypes[22].OneofWrappers = []interface{}{
 		(*GetIdentityUpdatesResponse_Update_NewInstallation)(nil),
@@ -2070,8 +2315,8 @@ func file_mls_api_v1_mls_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_mls_api_v1_mls_proto_rawDesc,
-			NumEnums:      1,
-			NumMessages:   24,
+			NumEnums:      2,
+			NumMessages:   26,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
