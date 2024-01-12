@@ -308,21 +308,12 @@ message QueryWelcomeMessagesResponse {
   PagingInfo paging_info = 2;
 }
 
-// Subscribe filter types
-enum SubscribeFilterType {
-  SUBSCRIBE_FILTER_TYPE_UNSPECIFIED = 0;
-  SUBSCRIBE_FILTER_TYPE_LATEST = 1;
-  SUBSCRIBE_FILTER_TYPE_EARLIEST = 2;
-  SUBSCRIBE_FILTER_TYPE_CURSOR = 3;
-}
-
 // Request for subscribing to group messages
 message SubscribeGroupMessagesRequest {
   // Subscription filter
   message Filter {
     bytes group_id = 1;
-    SubscribeFilterType type = 2;
-    uint64 id_cursor = 3;
+    uint64 id_cursor = 2;
   }
   repeated Filter filters = 1;
 }
@@ -332,8 +323,7 @@ message SubscribeWelcomeMessagesRequest {
   // Subscription filter
   message Filter {
     bytes installation_key = 1;
-    SubscribeFilterType type = 2;
-    uint64 id_cursor = 3;
+    uint64 id_cursor = 2;
   }
   repeated Filter filters = 1;
 }
