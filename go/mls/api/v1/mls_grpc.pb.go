@@ -22,17 +22,15 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	MlsApi_SendGroupMessages_FullMethodName        = "/xmtp.mls.api.v1.MlsApi/SendGroupMessages"
-	MlsApi_SendWelcomeMessages_FullMethodName      = "/xmtp.mls.api.v1.MlsApi/SendWelcomeMessages"
-	MlsApi_RegisterInstallation_FullMethodName     = "/xmtp.mls.api.v1.MlsApi/RegisterInstallation"
-	MlsApi_UploadKeyPackage_FullMethodName         = "/xmtp.mls.api.v1.MlsApi/UploadKeyPackage"
-	MlsApi_FetchKeyPackages_FullMethodName         = "/xmtp.mls.api.v1.MlsApi/FetchKeyPackages"
-	MlsApi_RevokeInstallation_FullMethodName       = "/xmtp.mls.api.v1.MlsApi/RevokeInstallation"
-	MlsApi_GetIdentityUpdates_FullMethodName       = "/xmtp.mls.api.v1.MlsApi/GetIdentityUpdates"
-	MlsApi_QueryGroupMessages_FullMethodName       = "/xmtp.mls.api.v1.MlsApi/QueryGroupMessages"
-	MlsApi_QueryWelcomeMessages_FullMethodName     = "/xmtp.mls.api.v1.MlsApi/QueryWelcomeMessages"
-	MlsApi_SubscribeGroupMessages_FullMethodName   = "/xmtp.mls.api.v1.MlsApi/SubscribeGroupMessages"
-	MlsApi_SubscribeWelcomeMessages_FullMethodName = "/xmtp.mls.api.v1.MlsApi/SubscribeWelcomeMessages"
+	MlsApi_SendGroupMessages_FullMethodName    = "/xmtp.mls.api.v1.MlsApi/SendGroupMessages"
+	MlsApi_GetGroupMessages_FullMethodName     = "/xmtp.mls.api.v1.MlsApi/GetGroupMessages"
+	MlsApi_SendWelcomeMessages_FullMethodName  = "/xmtp.mls.api.v1.MlsApi/SendWelcomeMessages"
+	MlsApi_GetWelcomeMessages_FullMethodName   = "/xmtp.mls.api.v1.MlsApi/GetWelcomeMessages"
+	MlsApi_RegisterInstallation_FullMethodName = "/xmtp.mls.api.v1.MlsApi/RegisterInstallation"
+	MlsApi_UploadKeyPackage_FullMethodName     = "/xmtp.mls.api.v1.MlsApi/UploadKeyPackage"
+	MlsApi_FetchKeyPackages_FullMethodName     = "/xmtp.mls.api.v1.MlsApi/FetchKeyPackages"
+	MlsApi_RevokeInstallation_FullMethodName   = "/xmtp.mls.api.v1.MlsApi/RevokeInstallation"
+	MlsApi_GetIdentityUpdates_FullMethodName   = "/xmtp.mls.api.v1.MlsApi/GetIdentityUpdates"
 )
 
 // MlsApiClient is the client API for MlsApi service.
@@ -42,8 +40,12 @@ type MlsApiClient interface {
 	// Send a MLS payload, that would be validated before being stored to the
 	// network
 	SendGroupMessages(ctx context.Context, in *SendGroupMessagesRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	// Get stream of group messages
+	GetGroupMessages(ctx context.Context, in *GetGroupMessagesRequest, opts ...grpc.CallOption) (MlsApi_GetGroupMessagesClient, error)
 	// Send a batch of welcome messages
 	SendWelcomeMessages(ctx context.Context, in *SendWelcomeMessagesRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	// Get stream of welcome messages
+	GetWelcomeMessages(ctx context.Context, in *GetWelcomeMessagesRequest, opts ...grpc.CallOption) (MlsApi_GetWelcomeMessagesClient, error)
 	// Register a new installation, which would be validated before storage
 	RegisterInstallation(ctx context.Context, in *RegisterInstallationRequest, opts ...grpc.CallOption) (*RegisterInstallationResponse, error)
 	// Upload a new KeyPackage, which would be validated before storage
@@ -57,14 +59,6 @@ type MlsApiClient interface {
 	// Would return an array of any new installations associated with the wallet
 	// address, and any revocations that have happened.
 	GetIdentityUpdates(ctx context.Context, in *GetIdentityUpdatesRequest, opts ...grpc.CallOption) (*GetIdentityUpdatesResponse, error)
-	// Query stored group messages
-	QueryGroupMessages(ctx context.Context, in *QueryGroupMessagesRequest, opts ...grpc.CallOption) (*QueryGroupMessagesResponse, error)
-	// Query stored group messages
-	QueryWelcomeMessages(ctx context.Context, in *QueryWelcomeMessagesRequest, opts ...grpc.CallOption) (*QueryWelcomeMessagesResponse, error)
-	// Subscribe stream of new group messages
-	SubscribeGroupMessages(ctx context.Context, in *SubscribeGroupMessagesRequest, opts ...grpc.CallOption) (MlsApi_SubscribeGroupMessagesClient, error)
-	// Subscribe stream of new welcome messages
-	SubscribeWelcomeMessages(ctx context.Context, in *SubscribeWelcomeMessagesRequest, opts ...grpc.CallOption) (MlsApi_SubscribeWelcomeMessagesClient, error)
 }
 
 type mlsApiClient struct {
@@ -84,6 +78,38 @@ func (c *mlsApiClient) SendGroupMessages(ctx context.Context, in *SendGroupMessa
 	return out, nil
 }
 
+func (c *mlsApiClient) GetGroupMessages(ctx context.Context, in *GetGroupMessagesRequest, opts ...grpc.CallOption) (MlsApi_GetGroupMessagesClient, error) {
+	stream, err := c.cc.NewStream(ctx, &MlsApi_ServiceDesc.Streams[0], MlsApi_GetGroupMessages_FullMethodName, opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &mlsApiGetGroupMessagesClient{stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+type MlsApi_GetGroupMessagesClient interface {
+	Recv() (*GroupMessage, error)
+	grpc.ClientStream
+}
+
+type mlsApiGetGroupMessagesClient struct {
+	grpc.ClientStream
+}
+
+func (x *mlsApiGetGroupMessagesClient) Recv() (*GroupMessage, error) {
+	m := new(GroupMessage)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
 func (c *mlsApiClient) SendWelcomeMessages(ctx context.Context, in *SendWelcomeMessagesRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
 	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, MlsApi_SendWelcomeMessages_FullMethodName, in, out, opts...)
@@ -91,6 +117,38 @@ func (c *mlsApiClient) SendWelcomeMessages(ctx context.Context, in *SendWelcomeM
 		return nil, err
 	}
 	return out, nil
+}
+
+func (c *mlsApiClient) GetWelcomeMessages(ctx context.Context, in *GetWelcomeMessagesRequest, opts ...grpc.CallOption) (MlsApi_GetWelcomeMessagesClient, error) {
+	stream, err := c.cc.NewStream(ctx, &MlsApi_ServiceDesc.Streams[1], MlsApi_GetWelcomeMessages_FullMethodName, opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &mlsApiGetWelcomeMessagesClient{stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+type MlsApi_GetWelcomeMessagesClient interface {
+	Recv() (*WelcomeMessage, error)
+	grpc.ClientStream
+}
+
+type mlsApiGetWelcomeMessagesClient struct {
+	grpc.ClientStream
+}
+
+func (x *mlsApiGetWelcomeMessagesClient) Recv() (*WelcomeMessage, error) {
+	m := new(WelcomeMessage)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
 }
 
 func (c *mlsApiClient) RegisterInstallation(ctx context.Context, in *RegisterInstallationRequest, opts ...grpc.CallOption) (*RegisterInstallationResponse, error) {
@@ -138,88 +196,6 @@ func (c *mlsApiClient) GetIdentityUpdates(ctx context.Context, in *GetIdentityUp
 	return out, nil
 }
 
-func (c *mlsApiClient) QueryGroupMessages(ctx context.Context, in *QueryGroupMessagesRequest, opts ...grpc.CallOption) (*QueryGroupMessagesResponse, error) {
-	out := new(QueryGroupMessagesResponse)
-	err := c.cc.Invoke(ctx, MlsApi_QueryGroupMessages_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *mlsApiClient) QueryWelcomeMessages(ctx context.Context, in *QueryWelcomeMessagesRequest, opts ...grpc.CallOption) (*QueryWelcomeMessagesResponse, error) {
-	out := new(QueryWelcomeMessagesResponse)
-	err := c.cc.Invoke(ctx, MlsApi_QueryWelcomeMessages_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *mlsApiClient) SubscribeGroupMessages(ctx context.Context, in *SubscribeGroupMessagesRequest, opts ...grpc.CallOption) (MlsApi_SubscribeGroupMessagesClient, error) {
-	stream, err := c.cc.NewStream(ctx, &MlsApi_ServiceDesc.Streams[0], MlsApi_SubscribeGroupMessages_FullMethodName, opts...)
-	if err != nil {
-		return nil, err
-	}
-	x := &mlsApiSubscribeGroupMessagesClient{stream}
-	if err := x.ClientStream.SendMsg(in); err != nil {
-		return nil, err
-	}
-	if err := x.ClientStream.CloseSend(); err != nil {
-		return nil, err
-	}
-	return x, nil
-}
-
-type MlsApi_SubscribeGroupMessagesClient interface {
-	Recv() (*GroupMessage, error)
-	grpc.ClientStream
-}
-
-type mlsApiSubscribeGroupMessagesClient struct {
-	grpc.ClientStream
-}
-
-func (x *mlsApiSubscribeGroupMessagesClient) Recv() (*GroupMessage, error) {
-	m := new(GroupMessage)
-	if err := x.ClientStream.RecvMsg(m); err != nil {
-		return nil, err
-	}
-	return m, nil
-}
-
-func (c *mlsApiClient) SubscribeWelcomeMessages(ctx context.Context, in *SubscribeWelcomeMessagesRequest, opts ...grpc.CallOption) (MlsApi_SubscribeWelcomeMessagesClient, error) {
-	stream, err := c.cc.NewStream(ctx, &MlsApi_ServiceDesc.Streams[1], MlsApi_SubscribeWelcomeMessages_FullMethodName, opts...)
-	if err != nil {
-		return nil, err
-	}
-	x := &mlsApiSubscribeWelcomeMessagesClient{stream}
-	if err := x.ClientStream.SendMsg(in); err != nil {
-		return nil, err
-	}
-	if err := x.ClientStream.CloseSend(); err != nil {
-		return nil, err
-	}
-	return x, nil
-}
-
-type MlsApi_SubscribeWelcomeMessagesClient interface {
-	Recv() (*WelcomeMessage, error)
-	grpc.ClientStream
-}
-
-type mlsApiSubscribeWelcomeMessagesClient struct {
-	grpc.ClientStream
-}
-
-func (x *mlsApiSubscribeWelcomeMessagesClient) Recv() (*WelcomeMessage, error) {
-	m := new(WelcomeMessage)
-	if err := x.ClientStream.RecvMsg(m); err != nil {
-		return nil, err
-	}
-	return m, nil
-}
-
 // MlsApiServer is the server API for MlsApi service.
 // All implementations must embed UnimplementedMlsApiServer
 // for forward compatibility
@@ -227,8 +203,12 @@ type MlsApiServer interface {
 	// Send a MLS payload, that would be validated before being stored to the
 	// network
 	SendGroupMessages(context.Context, *SendGroupMessagesRequest) (*emptypb.Empty, error)
+	// Get stream of group messages
+	GetGroupMessages(*GetGroupMessagesRequest, MlsApi_GetGroupMessagesServer) error
 	// Send a batch of welcome messages
 	SendWelcomeMessages(context.Context, *SendWelcomeMessagesRequest) (*emptypb.Empty, error)
+	// Get stream of welcome messages
+	GetWelcomeMessages(*GetWelcomeMessagesRequest, MlsApi_GetWelcomeMessagesServer) error
 	// Register a new installation, which would be validated before storage
 	RegisterInstallation(context.Context, *RegisterInstallationRequest) (*RegisterInstallationResponse, error)
 	// Upload a new KeyPackage, which would be validated before storage
@@ -242,14 +222,6 @@ type MlsApiServer interface {
 	// Would return an array of any new installations associated with the wallet
 	// address, and any revocations that have happened.
 	GetIdentityUpdates(context.Context, *GetIdentityUpdatesRequest) (*GetIdentityUpdatesResponse, error)
-	// Query stored group messages
-	QueryGroupMessages(context.Context, *QueryGroupMessagesRequest) (*QueryGroupMessagesResponse, error)
-	// Query stored group messages
-	QueryWelcomeMessages(context.Context, *QueryWelcomeMessagesRequest) (*QueryWelcomeMessagesResponse, error)
-	// Subscribe stream of new group messages
-	SubscribeGroupMessages(*SubscribeGroupMessagesRequest, MlsApi_SubscribeGroupMessagesServer) error
-	// Subscribe stream of new welcome messages
-	SubscribeWelcomeMessages(*SubscribeWelcomeMessagesRequest, MlsApi_SubscribeWelcomeMessagesServer) error
 	mustEmbedUnimplementedMlsApiServer()
 }
 
@@ -260,8 +232,14 @@ type UnimplementedMlsApiServer struct {
 func (UnimplementedMlsApiServer) SendGroupMessages(context.Context, *SendGroupMessagesRequest) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SendGroupMessages not implemented")
 }
+func (UnimplementedMlsApiServer) GetGroupMessages(*GetGroupMessagesRequest, MlsApi_GetGroupMessagesServer) error {
+	return status.Errorf(codes.Unimplemented, "method GetGroupMessages not implemented")
+}
 func (UnimplementedMlsApiServer) SendWelcomeMessages(context.Context, *SendWelcomeMessagesRequest) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SendWelcomeMessages not implemented")
+}
+func (UnimplementedMlsApiServer) GetWelcomeMessages(*GetWelcomeMessagesRequest, MlsApi_GetWelcomeMessagesServer) error {
+	return status.Errorf(codes.Unimplemented, "method GetWelcomeMessages not implemented")
 }
 func (UnimplementedMlsApiServer) RegisterInstallation(context.Context, *RegisterInstallationRequest) (*RegisterInstallationResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RegisterInstallation not implemented")
@@ -277,18 +255,6 @@ func (UnimplementedMlsApiServer) RevokeInstallation(context.Context, *RevokeInst
 }
 func (UnimplementedMlsApiServer) GetIdentityUpdates(context.Context, *GetIdentityUpdatesRequest) (*GetIdentityUpdatesResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetIdentityUpdates not implemented")
-}
-func (UnimplementedMlsApiServer) QueryGroupMessages(context.Context, *QueryGroupMessagesRequest) (*QueryGroupMessagesResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method QueryGroupMessages not implemented")
-}
-func (UnimplementedMlsApiServer) QueryWelcomeMessages(context.Context, *QueryWelcomeMessagesRequest) (*QueryWelcomeMessagesResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method QueryWelcomeMessages not implemented")
-}
-func (UnimplementedMlsApiServer) SubscribeGroupMessages(*SubscribeGroupMessagesRequest, MlsApi_SubscribeGroupMessagesServer) error {
-	return status.Errorf(codes.Unimplemented, "method SubscribeGroupMessages not implemented")
-}
-func (UnimplementedMlsApiServer) SubscribeWelcomeMessages(*SubscribeWelcomeMessagesRequest, MlsApi_SubscribeWelcomeMessagesServer) error {
-	return status.Errorf(codes.Unimplemented, "method SubscribeWelcomeMessages not implemented")
 }
 func (UnimplementedMlsApiServer) mustEmbedUnimplementedMlsApiServer() {}
 
@@ -321,6 +287,27 @@ func _MlsApi_SendGroupMessages_Handler(srv interface{}, ctx context.Context, dec
 	return interceptor(ctx, in, info, handler)
 }
 
+func _MlsApi_GetGroupMessages_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(GetGroupMessagesRequest)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(MlsApiServer).GetGroupMessages(m, &mlsApiGetGroupMessagesServer{stream})
+}
+
+type MlsApi_GetGroupMessagesServer interface {
+	Send(*GroupMessage) error
+	grpc.ServerStream
+}
+
+type mlsApiGetGroupMessagesServer struct {
+	grpc.ServerStream
+}
+
+func (x *mlsApiGetGroupMessagesServer) Send(m *GroupMessage) error {
+	return x.ServerStream.SendMsg(m)
+}
+
 func _MlsApi_SendWelcomeMessages_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(SendWelcomeMessagesRequest)
 	if err := dec(in); err != nil {
@@ -337,6 +324,27 @@ func _MlsApi_SendWelcomeMessages_Handler(srv interface{}, ctx context.Context, d
 		return srv.(MlsApiServer).SendWelcomeMessages(ctx, req.(*SendWelcomeMessagesRequest))
 	}
 	return interceptor(ctx, in, info, handler)
+}
+
+func _MlsApi_GetWelcomeMessages_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(GetWelcomeMessagesRequest)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(MlsApiServer).GetWelcomeMessages(m, &mlsApiGetWelcomeMessagesServer{stream})
+}
+
+type MlsApi_GetWelcomeMessagesServer interface {
+	Send(*WelcomeMessage) error
+	grpc.ServerStream
+}
+
+type mlsApiGetWelcomeMessagesServer struct {
+	grpc.ServerStream
+}
+
+func (x *mlsApiGetWelcomeMessagesServer) Send(m *WelcomeMessage) error {
+	return x.ServerStream.SendMsg(m)
 }
 
 func _MlsApi_RegisterInstallation_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -429,84 +437,6 @@ func _MlsApi_GetIdentityUpdates_Handler(srv interface{}, ctx context.Context, de
 	return interceptor(ctx, in, info, handler)
 }
 
-func _MlsApi_QueryGroupMessages_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(QueryGroupMessagesRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(MlsApiServer).QueryGroupMessages(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: MlsApi_QueryGroupMessages_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(MlsApiServer).QueryGroupMessages(ctx, req.(*QueryGroupMessagesRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _MlsApi_QueryWelcomeMessages_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(QueryWelcomeMessagesRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(MlsApiServer).QueryWelcomeMessages(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: MlsApi_QueryWelcomeMessages_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(MlsApiServer).QueryWelcomeMessages(ctx, req.(*QueryWelcomeMessagesRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _MlsApi_SubscribeGroupMessages_Handler(srv interface{}, stream grpc.ServerStream) error {
-	m := new(SubscribeGroupMessagesRequest)
-	if err := stream.RecvMsg(m); err != nil {
-		return err
-	}
-	return srv.(MlsApiServer).SubscribeGroupMessages(m, &mlsApiSubscribeGroupMessagesServer{stream})
-}
-
-type MlsApi_SubscribeGroupMessagesServer interface {
-	Send(*GroupMessage) error
-	grpc.ServerStream
-}
-
-type mlsApiSubscribeGroupMessagesServer struct {
-	grpc.ServerStream
-}
-
-func (x *mlsApiSubscribeGroupMessagesServer) Send(m *GroupMessage) error {
-	return x.ServerStream.SendMsg(m)
-}
-
-func _MlsApi_SubscribeWelcomeMessages_Handler(srv interface{}, stream grpc.ServerStream) error {
-	m := new(SubscribeWelcomeMessagesRequest)
-	if err := stream.RecvMsg(m); err != nil {
-		return err
-	}
-	return srv.(MlsApiServer).SubscribeWelcomeMessages(m, &mlsApiSubscribeWelcomeMessagesServer{stream})
-}
-
-type MlsApi_SubscribeWelcomeMessagesServer interface {
-	Send(*WelcomeMessage) error
-	grpc.ServerStream
-}
-
-type mlsApiSubscribeWelcomeMessagesServer struct {
-	grpc.ServerStream
-}
-
-func (x *mlsApiSubscribeWelcomeMessagesServer) Send(m *WelcomeMessage) error {
-	return x.ServerStream.SendMsg(m)
-}
-
 // MlsApi_ServiceDesc is the grpc.ServiceDesc for MlsApi service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -542,24 +472,16 @@ var MlsApi_ServiceDesc = grpc.ServiceDesc{
 			MethodName: "GetIdentityUpdates",
 			Handler:    _MlsApi_GetIdentityUpdates_Handler,
 		},
-		{
-			MethodName: "QueryGroupMessages",
-			Handler:    _MlsApi_QueryGroupMessages_Handler,
-		},
-		{
-			MethodName: "QueryWelcomeMessages",
-			Handler:    _MlsApi_QueryWelcomeMessages_Handler,
-		},
 	},
 	Streams: []grpc.StreamDesc{
 		{
-			StreamName:    "SubscribeGroupMessages",
-			Handler:       _MlsApi_SubscribeGroupMessages_Handler,
+			StreamName:    "GetGroupMessages",
+			Handler:       _MlsApi_GetGroupMessages_Handler,
 			ServerStreams: true,
 		},
 		{
-			StreamName:    "SubscribeWelcomeMessages",
-			Handler:       _MlsApi_SubscribeWelcomeMessages_Handler,
+			StreamName:    "GetWelcomeMessages",
+			Handler:       _MlsApi_GetWelcomeMessages_Handler,
 			ServerStreams: true,
 		},
 	},
