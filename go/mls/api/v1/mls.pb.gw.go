@@ -31,8 +31,8 @@ var _ = runtime.String
 var _ = utilities.NewDoubleArray
 var _ = metadata.Join
 
-func request_MlsApi_SendGroupMessages_0(ctx context.Context, marshaler runtime.Marshaler, client MlsApiClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq SendGroupMessagesRequest
+func request_MlsApi_SendGroupMessage_0(ctx context.Context, marshaler runtime.Marshaler, client MlsApiClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var protoReq SendGroupMessageRequest
 	var metadata runtime.ServerMetadata
 
 	newReader, berr := utilities.IOReaderFactory(req.Body)
@@ -43,13 +43,13 @@ func request_MlsApi_SendGroupMessages_0(ctx context.Context, marshaler runtime.M
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
-	msg, err := client.SendGroupMessages(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
+	msg, err := client.SendGroupMessage(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 
 }
 
-func local_request_MlsApi_SendGroupMessages_0(ctx context.Context, marshaler runtime.Marshaler, server MlsApiServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq SendGroupMessagesRequest
+func local_request_MlsApi_SendGroupMessage_0(ctx context.Context, marshaler runtime.Marshaler, server MlsApiServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var protoReq SendGroupMessageRequest
 	var metadata runtime.ServerMetadata
 
 	newReader, berr := utilities.IOReaderFactory(req.Body)
@@ -60,7 +60,7 @@ func local_request_MlsApi_SendGroupMessages_0(ctx context.Context, marshaler run
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
-	msg, err := server.SendGroupMessages(ctx, &protoReq)
+	msg, err := server.SendGroupMessage(ctx, &protoReq)
 	return msg, metadata, err
 
 }
@@ -90,8 +90,8 @@ func request_MlsApi_GetGroupMessages_0(ctx context.Context, marshaler runtime.Ma
 
 }
 
-func request_MlsApi_SendWelcomeMessages_0(ctx context.Context, marshaler runtime.Marshaler, client MlsApiClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq SendWelcomeMessagesRequest
+func request_MlsApi_SendWelcomeMessage_0(ctx context.Context, marshaler runtime.Marshaler, client MlsApiClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var protoReq SendWelcomeMessageRequest
 	var metadata runtime.ServerMetadata
 
 	newReader, berr := utilities.IOReaderFactory(req.Body)
@@ -102,13 +102,13 @@ func request_MlsApi_SendWelcomeMessages_0(ctx context.Context, marshaler runtime
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
-	msg, err := client.SendWelcomeMessages(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
+	msg, err := client.SendWelcomeMessage(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 
 }
 
-func local_request_MlsApi_SendWelcomeMessages_0(ctx context.Context, marshaler runtime.Marshaler, server MlsApiServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq SendWelcomeMessagesRequest
+func local_request_MlsApi_SendWelcomeMessage_0(ctx context.Context, marshaler runtime.Marshaler, server MlsApiServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var protoReq SendWelcomeMessageRequest
 	var metadata runtime.ServerMetadata
 
 	newReader, berr := utilities.IOReaderFactory(req.Body)
@@ -119,7 +119,7 @@ func local_request_MlsApi_SendWelcomeMessages_0(ctx context.Context, marshaler r
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
-	msg, err := server.SendWelcomeMessages(ctx, &protoReq)
+	msg, err := server.SendWelcomeMessage(ctx, &protoReq)
 	return msg, metadata, err
 
 }
@@ -325,7 +325,7 @@ func local_request_MlsApi_GetIdentityUpdates_0(ctx context.Context, marshaler ru
 // Note that using this registration option will cause many gRPC library features to stop working. Consider using RegisterMlsApiHandlerFromEndpoint instead.
 func RegisterMlsApiHandlerServer(ctx context.Context, mux *runtime.ServeMux, server MlsApiServer) error {
 
-	mux.Handle("POST", pattern_MlsApi_SendGroupMessages_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("POST", pattern_MlsApi_SendGroupMessage_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
@@ -333,12 +333,12 @@ func RegisterMlsApiHandlerServer(ctx context.Context, mux *runtime.ServeMux, ser
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/xmtp.mls.api.v1.MlsApi/SendGroupMessages", runtime.WithHTTPPathPattern("/mls/v1/send-group-messages"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/xmtp.mls.api.v1.MlsApi/SendGroupMessage", runtime.WithHTTPPathPattern("/mls/v1/send-group-message"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := local_request_MlsApi_SendGroupMessages_0(annotatedContext, inboundMarshaler, server, req, pathParams)
+		resp, md, err := local_request_MlsApi_SendGroupMessage_0(annotatedContext, inboundMarshaler, server, req, pathParams)
 		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
 		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
 		if err != nil {
@@ -346,7 +346,7 @@ func RegisterMlsApiHandlerServer(ctx context.Context, mux *runtime.ServeMux, ser
 			return
 		}
 
-		forward_MlsApi_SendGroupMessages_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_MlsApi_SendGroupMessage_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
@@ -357,7 +357,7 @@ func RegisterMlsApiHandlerServer(ctx context.Context, mux *runtime.ServeMux, ser
 		return
 	})
 
-	mux.Handle("POST", pattern_MlsApi_SendWelcomeMessages_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("POST", pattern_MlsApi_SendWelcomeMessage_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
@@ -365,12 +365,12 @@ func RegisterMlsApiHandlerServer(ctx context.Context, mux *runtime.ServeMux, ser
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/xmtp.mls.api.v1.MlsApi/SendWelcomeMessages", runtime.WithHTTPPathPattern("/mls/v1/send-welcome-messages"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/xmtp.mls.api.v1.MlsApi/SendWelcomeMessage", runtime.WithHTTPPathPattern("/mls/v1/send-welcome-message"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := local_request_MlsApi_SendWelcomeMessages_0(annotatedContext, inboundMarshaler, server, req, pathParams)
+		resp, md, err := local_request_MlsApi_SendWelcomeMessage_0(annotatedContext, inboundMarshaler, server, req, pathParams)
 		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
 		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
 		if err != nil {
@@ -378,7 +378,7 @@ func RegisterMlsApiHandlerServer(ctx context.Context, mux *runtime.ServeMux, ser
 			return
 		}
 
-		forward_MlsApi_SendWelcomeMessages_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_MlsApi_SendWelcomeMessage_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
@@ -555,25 +555,25 @@ func RegisterMlsApiHandler(ctx context.Context, mux *runtime.ServeMux, conn *grp
 // "MlsApiClient" to call the correct interceptors.
 func RegisterMlsApiHandlerClient(ctx context.Context, mux *runtime.ServeMux, client MlsApiClient) error {
 
-	mux.Handle("POST", pattern_MlsApi_SendGroupMessages_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("POST", pattern_MlsApi_SendGroupMessage_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/xmtp.mls.api.v1.MlsApi/SendGroupMessages", runtime.WithHTTPPathPattern("/mls/v1/send-group-messages"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/xmtp.mls.api.v1.MlsApi/SendGroupMessage", runtime.WithHTTPPathPattern("/mls/v1/send-group-message"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := request_MlsApi_SendGroupMessages_0(annotatedContext, inboundMarshaler, client, req, pathParams)
+		resp, md, err := request_MlsApi_SendGroupMessage_0(annotatedContext, inboundMarshaler, client, req, pathParams)
 		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
 		if err != nil {
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
 
-		forward_MlsApi_SendGroupMessages_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_MlsApi_SendGroupMessage_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
@@ -599,25 +599,25 @@ func RegisterMlsApiHandlerClient(ctx context.Context, mux *runtime.ServeMux, cli
 
 	})
 
-	mux.Handle("POST", pattern_MlsApi_SendWelcomeMessages_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("POST", pattern_MlsApi_SendWelcomeMessage_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/xmtp.mls.api.v1.MlsApi/SendWelcomeMessages", runtime.WithHTTPPathPattern("/mls/v1/send-welcome-messages"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/xmtp.mls.api.v1.MlsApi/SendWelcomeMessage", runtime.WithHTTPPathPattern("/mls/v1/send-welcome-message"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := request_MlsApi_SendWelcomeMessages_0(annotatedContext, inboundMarshaler, client, req, pathParams)
+		resp, md, err := request_MlsApi_SendWelcomeMessage_0(annotatedContext, inboundMarshaler, client, req, pathParams)
 		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
 		if err != nil {
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
 
-		forward_MlsApi_SendWelcomeMessages_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_MlsApi_SendWelcomeMessage_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
@@ -757,11 +757,11 @@ func RegisterMlsApiHandlerClient(ctx context.Context, mux *runtime.ServeMux, cli
 }
 
 var (
-	pattern_MlsApi_SendGroupMessages_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"mls", "v1", "send-group-messages"}, ""))
+	pattern_MlsApi_SendGroupMessage_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"mls", "v1", "send-group-message"}, ""))
 
 	pattern_MlsApi_GetGroupMessages_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"mls", "v1", "get-group-messages"}, ""))
 
-	pattern_MlsApi_SendWelcomeMessages_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"mls", "v1", "send-welcome-messages"}, ""))
+	pattern_MlsApi_SendWelcomeMessage_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"mls", "v1", "send-welcome-message"}, ""))
 
 	pattern_MlsApi_GetWelcomeMessages_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"mls", "v1", "get-welcome-messages"}, ""))
 
@@ -777,11 +777,11 @@ var (
 )
 
 var (
-	forward_MlsApi_SendGroupMessages_0 = runtime.ForwardResponseMessage
+	forward_MlsApi_SendGroupMessage_0 = runtime.ForwardResponseMessage
 
 	forward_MlsApi_GetGroupMessages_0 = runtime.ForwardResponseStream
 
-	forward_MlsApi_SendWelcomeMessages_0 = runtime.ForwardResponseMessage
+	forward_MlsApi_SendWelcomeMessage_0 = runtime.ForwardResponseMessage
 
 	forward_MlsApi_GetWelcomeMessages_0 = runtime.ForwardResponseStream
 

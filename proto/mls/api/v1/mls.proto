@@ -18,16 +18,15 @@ option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
 
 // RPCs for the new MLS API
 service MlsApi {
-  // Send a MLS payload, that would be validated before being stored to the
-  // network
-  rpc SendGroupMessages(SendGroupMessagesRequest) returns (google.protobuf.Empty) {
+  // Send group message
+  rpc SendGroupMessage(SendGroupMessageRequest) returns (SendGroupMessageResponse) {
     option (google.api.http) = {
-      post: "/mls/v1/send-group-messages"
+      post: "/mls/v1/send-group-message"
       body: "*"
     };
   }
 
-  // Get stream of group messages
+  // Get stream of group message
   rpc GetGroupMessages(GetGroupMessagesRequest) returns (stream GroupMessage) {
     option (google.api.http) = {
       post: "/mls/v1/get-group-messages"
@@ -35,10 +34,10 @@ service MlsApi {
     };
   }
 
-  // Send a batch of welcome messages
-  rpc SendWelcomeMessages(SendWelcomeMessagesRequest) returns (google.protobuf.Empty) {
+  // Send welcome message
+  rpc SendWelcomeMessage(SendWelcomeMessageRequest) returns (SendWelcomeMessageResponse) {
     option (google.api.http) = {
-      post: "/mls/v1/send-welcome-messages"
+      post: "/mls/v1/send-welcome-message"
       body: "*"
     };
   }
@@ -151,15 +150,27 @@ message GroupMessageInput {
   }
 }
 
-// Send a batch of MLS messages
-message SendGroupMessagesRequest {
-  repeated GroupMessageInput messages = 1;
+// Request for sending a group message
+message SendGroupMessageRequest {
+  GroupMessageInput message = 1;
 }
 
-// Send a batch of welcome messages
-message SendWelcomeMessagesRequest {
-  repeated WelcomeMessageInput messages = 1;
+// Response from sending a group message
+message SendGroupMessageResponse {
+  GroupMessage message = 1;
 }
+
+// Request for sending a welcome message
+message SendWelcomeMessageRequest {
+  WelcomeMessageInput message = 1;
+}
+
+// Response from sending a welcome message
+message SendWelcomeMessageResponse {
+  WelcomeMessage message = 1;
+}
+
+// Response from sending a welcome message
 
 // A wrapper around the Key Package bytes
 message KeyPackageUpload {
