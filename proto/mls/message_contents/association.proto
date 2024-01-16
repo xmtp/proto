@@ -27,7 +27,7 @@ message Eip191Association {
 // is signed by a v2 identity key, which in turn is signed via a
 // 'CreateIdentity' wallet signature
 message LegacyCreateIdentityAssociation {
-  RecoverableEcdsaSignature signature = 1;
+  RecoverableEcdsaSignature signature = 1;  // SHA-256 hash of installation key
   xmtp.message_contents.SignedPublicKey signed_legacy_create_identity_key = 2;
 }
 
