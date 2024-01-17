@@ -15,10 +15,10 @@ enum AssociationTextVersion {
   ASSOCIATION_TEXT_VERSION_1 = 1;
 }
 
-// EIP191Association is used for all EIP 191 compliant wallet signatures
-message Eip191Association {
+// Used for "Grant Messaging Access" and "Revoke Messaging Access" associations
+message MessagingAccessAssociation {
   AssociationTextVersion association_text_version = 1;
-  RecoverableEcdsaSignature signature = 2;
+  RecoverableEcdsaSignature signature = 2;  // EIP-191 signature
   string account_address = 3;
   string iso8601_time = 4;
 }
