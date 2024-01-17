@@ -15,8 +15,16 @@ enum AssociationTextVersion {
   ASSOCIATION_TEXT_VERSION_1 = 1;
 }
 
-// Used for "Grant Messaging Access" and "Revoke Messaging Access" associations
-message MessagingAccessAssociation {
+// Used for "Grant Messaging Access" associations
+message GrantMessagingAccessAssociation {
+  AssociationTextVersion association_text_version = 1;
+  RecoverableEcdsaSignature signature = 2;  // EIP-191 signature
+  string account_address = 3;
+  string iso8601_time = 4;
+}
+
+// Used for "Revoke Messaging Access" associations
+message RevokeMessagingAccessAssociation {
   AssociationTextVersion association_text_version = 1;
   RecoverableEcdsaSignature signature = 2;  // EIP-191 signature
   string account_address = 3;
