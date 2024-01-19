@@ -35,7 +35,10 @@ message RevokeMessagingAccessAssociation {
 // is signed by a v2 identity key, which in turn is signed via a
 // 'CreateIdentity' wallet signature
 message LegacyCreateIdentityAssociation {
-  RecoverableEcdsaSignature signature = 1;  // Signs SHA-256 hash of installation key
+  // Signs SHA-256 hash of installation key
+  RecoverableEcdsaSignature signature = 1;
+  // created_ns is encoded inside serialized key, account_address is recoverable
+  // from the SignedPublicKey signature
   xmtp.message_contents.SignedPublicKey signed_legacy_create_identity_key = 2;
 }
 
