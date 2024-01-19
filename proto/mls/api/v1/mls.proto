@@ -5,7 +5,6 @@ package xmtp.mls.api.v1;
 import "google/api/annotations.proto";
 import "google/protobuf/empty.proto";
 import "message_contents/signature.proto";
-import "mls/message_contents/message.proto";
 import "protoc-gen-openapiv2/options/annotations.proto";
 
 option go_package = "github.com/xmtp/proto/v3/go/mls/api/v1";
@@ -19,19 +18,19 @@ option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
 
 // RPCs for the new MLS API
 service MlsApi {
-  // Publish a MLS payload, that would be validated before being stored to the
+  // Send a MLS payload, that would be validated before being stored to the
   // network
-  rpc PublishToGroup(PublishToGroupRequest) returns (google.protobuf.Empty) {
+  rpc SendGroupMessages(SendGroupMessagesRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
-      post: "/mls/v1/publish-to-group"
+      post: "/mls/v1/send-group-messages"
       body: "*"
     };
   }
 
-  // Publish a batch of welcome messages
-  rpc PublishWelcomes(PublishWelcomesRequest) returns (google.protobuf.Empty) {
+  // Send a batch of welcome messages
+  rpc SendWelcomeMessages(SendWelcomeMessagesRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
-      post: "/mls/v1/publish-welcomes"
+      post: "/mls/v1/send-welcome-messages"
       body: "*"
     };
   }
@@ -78,23 +77,103 @@ service MlsApi {
       body: "*"
     };
   }
-}
 
-// Publish a batch of MLS messages
-message PublishToGroupRequest {
-  repeated xmtp.mls.message_contents.GroupMessage messages = 1;
-}
-
-// Publish a batch of welcome messages
-message PublishWelcomesRequest {
-  // An individual welcome message
-  message WelcomeMessageRequest {
-    // The topic will be derived from this
-    bytes installation_id = 1;
-    xmtp.mls.message_contents.WelcomeMessage welcome_message = 2;
+  // Query stored group messages
+  rpc QueryGroupMessages(QueryGroupMessagesRequest) returns (QueryGroupMessagesResponse) {
+    option (google.api.http) = {
+      post: "/mls/v1/query-group-messages"
+      body: "*"
+    };
   }
 
-  repeated WelcomeMessageRequest welcome_messages = 1;
+  // Query stored group messages
+  rpc QueryWelcomeMessages(QueryWelcomeMessagesRequest) returns (QueryWelcomeMessagesResponse) {
+    option (google.api.http) = {
+      post: "/mls/v1/query-welcome-messages"
+      body: "*"
+    };
+  }
+
+  // Subscribe stream of new group messages
+  rpc SubscribeGroupMessages(SubscribeGroupMessagesRequest) returns (stream GroupMessage) {
+    option (google.api.http) = {
+      post: "/mls/v1/subscribe-group-messages"
+      body: "*"
+    };
+  }
+
+  // Subscribe stream of new welcome messages
+  rpc SubscribeWelcomeMessages(SubscribeWelcomeMessagesRequest) returns (stream WelcomeMessage) {
+    option (google.api.http) = {
+      post: "/mls/v1/subscribe-welcome-messages"
+      body: "*"
+    };
+  }
+}
+
+// Full representation of a welcome message
+message WelcomeMessage {
+  // Version 1 of the WelcomeMessage format
+  message V1 {
+    uint64 id = 1;
+    uint64 created_ns = 2;
+    bytes installation_key = 3;
+    bytes data = 4;
+  }
+
+  oneof version {
+    V1 v1 = 1;
+  }
+}
+
+// Input type for a welcome message
+message WelcomeMessageInput {
+  // Version 1 of the WelcomeMessageInput format
+  message V1 {
+    bytes installation_key = 1;
+    bytes data = 2;
+  }
+
+  oneof version {
+    V1 v1 = 1;
+  }
+}
+
+// Full representation of a group message
+message GroupMessage {
+  // Version 1 of the GroupMessage format
+  message V1 {
+    uint64 id = 1;
+    uint64 created_ns = 2;
+    bytes group_id = 3;
+    bytes data = 4;
+  }
+
+  oneof version {
+    V1 v1 = 1;
+  }
+}
+
+// Input type for a group message
+message GroupMessageInput {
+  // Version 1 of the GroupMessageInput payload format
+  message V1 {
+    bytes data = 1;
+  }
+
+  oneof version {
+    V1 v1 = 1;
+  }
+}
+
+// Send a batch of MLS messages
+message SendGroupMessagesRequest {
+  repeated GroupMessageInput messages = 1;
+}
+
+// Send a batch of welcome messages
+message SendWelcomeMessagesRequest {
+  repeated WelcomeMessageInput messages = 1;
 }
 
 // A wrapper around the Key Package bytes
@@ -115,7 +194,7 @@ message RegisterInstallationRequest {
 
 // The response to a RegisterInstallationRequest
 message RegisterInstallationResponse {
-  bytes installation_id = 1;
+  bytes installation_key = 1;
 }
 
 // Upload a new key packages
@@ -126,10 +205,10 @@ message UploadKeyPackageRequest {
 
 // Fetch one or more key packages
 message FetchKeyPackagesRequest {
-  // The caller can provide an array of wallet addresses, and the API
+  // The caller can provide an array of installation keys, and the API
   // will return one key package for each installation associated with each
-  // wallet address
-  repeated bytes installation_ids = 1;
+  // installation key
+  repeated bytes installation_keys = 1;
 }
 
 // The response to a FetchKeyPackagesRequest
@@ -147,7 +226,7 @@ message FetchKeyPackagesResponse {
 
 // Revoke an installation
 message RevokeInstallationRequest {
-  bytes installation_id = 1;
+  bytes installation_key = 1;
   // All revocations must be validated with a wallet signature over the
   // installation_id being revoked (and some sort of standard prologue)
   xmtp.message_contents.Signature wallet_signature = 2;
@@ -161,15 +240,15 @@ message GetIdentityUpdatesRequest {
 
 // Used to get any new or revoked installations for a list of wallet addresses
 message GetIdentityUpdatesResponse {
-  // A new installation ID was seen for the first time by the nodes
+  // A new installation key was seen for the first time by the nodes
   message NewInstallationUpdate {
-    bytes installation_id = 1;
+    bytes installation_key = 1;
     bytes credential_identity = 2;
   }
 
   // An installation was revoked
   message RevokedInstallationUpdate {
-    bytes installation_id = 1;
+    bytes installation_key = 1;
   }
 
   // A wrapper for any update to the wallet
@@ -189,4 +268,62 @@ message GetIdentityUpdatesResponse {
   // A list of updates (or empty objects if no changes) in the original order
   // of the request
   repeated WalletUpdates updates = 1;
+}
+
+// Sort direction for queries
+enum SortDirection {
+  SORT_DIRECTION_UNSPECIFIED = 0;
+  SORT_DIRECTION_ASCENDING = 1;
+  SORT_DIRECTION_DESCENDING = 2;
+}
+
+// Pagination config for queries
+message PagingInfo {
+  SortDirection direction = 1;
+  uint32 limit = 2;
+  uint64 id_cursor = 3;
+}
+
+// Request for group message queries
+message QueryGroupMessagesRequest {
+  bytes group_id = 1;
+  PagingInfo paging_info = 2;
+}
+
+// Response for group message queries
+message QueryGroupMessagesResponse {
+  repeated GroupMessage messages = 1;
+  PagingInfo paging_info = 2;
+}
+
+// Request for welcome message queries
+message QueryWelcomeMessagesRequest {
+  bytes installation_key = 1;
+  PagingInfo paging_info = 2;
+}
+
+// Response for welcome message queries
+message QueryWelcomeMessagesResponse {
+  repeated WelcomeMessage messages = 1;
+  PagingInfo paging_info = 2;
+}
+
+// Request for subscribing to group messages
+message SubscribeGroupMessagesRequest {
+  // Subscription filter
+  message Filter {
+    bytes group_id = 1;
+    uint64 id_cursor = 2;
+  }
+  repeated Filter filters = 1;
+}
+
+// Request for subscribing to welcome messages
+message SubscribeWelcomeMessagesRequest {
+  // Subscription filter
+  message Filter {
+    bytes installation_key = 1;
+    uint64 id_cursor = 2;
+  }
+  repeated Filter filters = 1;
 }
