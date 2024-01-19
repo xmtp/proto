@@ -106,11 +106,52 @@ public struct Xmtp_MessageContents_PrivatePreferencesAction {
   public init() {}
 }
 
+/// The payload that goes over the wire
+public struct Xmtp_MessageContents_PrivatePreferencesPayload {
+  // SwiftProtobuf.Message conformance is added in an extension below. See the
+  // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+  // methods supported on all messages.
+
+  public var version: Xmtp_MessageContents_PrivatePreferencesPayload.OneOf_Version? = nil
+
+  public var v1: Xmtp_MessageContents_Ciphertext {
+    get {
+      if case .v1(let v)? = version {return v}
+      return Xmtp_MessageContents_Ciphertext()
+    }
+    set {version = .v1(newValue)}
+  }
+
+  public var unknownFields = SwiftProtobuf.UnknownStorage()
+
+  public enum OneOf_Version: Equatable {
+    case v1(Xmtp_MessageContents_Ciphertext)
+
+  #if !swift(>=4.1)
+    public static func ==(lhs: Xmtp_MessageContents_PrivatePreferencesPayload.OneOf_Version, rhs: Xmtp_MessageContents_PrivatePreferencesPayload.OneOf_Version) -> Bool {
+      // The use of inline closures is to circumvent an issue where the compiler
+      // allocates stack space for every case branch when no optimizations are
+      // enabled. https://github.com/apple/swift-protobuf/issues/1034
+      switch (lhs, rhs) {
+      case (.v1, .v1): return {
+        guard case .v1(let l) = lhs, case .v1(let r) = rhs else { preconditionFailure() }
+        return l == r
+      }()
+      }
+    }
+  #endif
+  }
+
+  public init() {}
+}
+
 #if swift(>=5.5) && canImport(_Concurrency)
 extension Xmtp_MessageContents_PrivatePreferencesAction: @unchecked Sendable {}
 extension Xmtp_MessageContents_PrivatePreferencesAction.OneOf_MessageType: @unchecked Sendable {}
 extension Xmtp_MessageContents_PrivatePreferencesAction.Allow: @unchecked Sendable {}
 extension Xmtp_MessageContents_PrivatePreferencesAction.Block: @unchecked Sendable {}
+extension Xmtp_MessageContents_PrivatePreferencesPayload: @unchecked Sendable {}
+extension Xmtp_MessageContents_PrivatePreferencesPayload.OneOf_Version: @unchecked Sendable {}
 #endif  // swift(>=5.5) && canImport(_Concurrency)
 
 // MARK: - Code below here is support for the SwiftProtobuf runtime.
@@ -246,6 +287,54 @@ extension Xmtp_MessageContents_PrivatePreferencesAction.Block: SwiftProtobuf.Mes
 
   public static func ==(lhs: Xmtp_MessageContents_PrivatePreferencesAction.Block, rhs: Xmtp_MessageContents_PrivatePreferencesAction.Block) -> Bool {
     if lhs.walletAddresses != rhs.walletAddresses {return false}
+    if lhs.unknownFields != rhs.unknownFields {return false}
+    return true
+  }
+}
+
+extension Xmtp_MessageContents_PrivatePreferencesPayload: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  public static let protoMessageName: String = _protobuf_package + ".PrivatePreferencesPayload"
+  public static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+    1: .same(proto: "v1"),
+  ]
+
+  public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    while let fieldNumber = try decoder.nextFieldNumber() {
+      // The use of inline closures is to circumvent an issue where the compiler
+      // allocates stack space for every case branch when no optimizations are
+      // enabled. https://github.com/apple/swift-protobuf/issues/1034
+      switch fieldNumber {
+      case 1: try {
+        var v: Xmtp_MessageContents_Ciphertext?
+        var hadOneofValue = false
+        if let current = self.version {
+          hadOneofValue = true
+          if case .v1(let m) = current {v = m}
+        }
+        try decoder.decodeSingularMessageField(value: &v)
+        if let v = v {
+          if hadOneofValue {try decoder.handleConflictingOneOf()}
+          self.version = .v1(v)
+        }
+      }()
+      default: break
+      }
+    }
+  }
+
+  public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    // The use of inline closures is to circumvent an issue where the compiler
+    // allocates stack space for every if/case branch local when no optimizations
+    // are enabled. https://github.com/apple/swift-protobuf/issues/1034 and
+    // https://github.com/apple/swift-protobuf/issues/1182
+    try { if case .v1(let v)? = self.version {
+      try visitor.visitSingularMessageField(value: v, fieldNumber: 1)
+    } }()
+    try unknownFields.traverse(visitor: &visitor)
+  }
+
+  public static func ==(lhs: Xmtp_MessageContents_PrivatePreferencesPayload, rhs: Xmtp_MessageContents_PrivatePreferencesPayload) -> Bool {
+    if lhs.version != rhs.version {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
   }
