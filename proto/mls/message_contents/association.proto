@@ -20,7 +20,7 @@ message GrantMessagingAccessAssociation {
   AssociationTextVersion association_text_version = 1;
   RecoverableEcdsaSignature signature = 2;  // EIP-191 signature
   string account_address = 3;
-  string iso8601_time = 4;
+  uint64 created_ns = 4;
 }
 
 // Used for "Revoke Messaging Access" associations
@@ -28,7 +28,7 @@ message RevokeMessagingAccessAssociation {
   AssociationTextVersion association_text_version = 1;
   RecoverableEcdsaSignature signature = 2;  // EIP-191 signature
   string account_address = 3;
-  string iso8601_time = 4;
+  uint64 created_ns = 4;
 }
 
 // LegacyCreateIdentityAssociation is used when a v3 installation key
