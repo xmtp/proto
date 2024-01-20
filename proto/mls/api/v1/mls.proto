@@ -78,34 +78,18 @@ service MlsApi {
     };
   }
 
-  // Query stored group messages
-  rpc QueryGroupMessages(QueryGroupMessagesRequest) returns (QueryGroupMessagesResponse) {
+  // Get stream of new group messages
+  rpc GetGroupMessages(GetGroupMessagesRequest) returns (stream GroupMessage) {
     option (google.api.http) = {
-      post: "/mls/v1/query-group-messages"
+      post: "/mls/v1/get-group-messages"
       body: "*"
     };
   }
 
-  // Query stored group messages
-  rpc QueryWelcomeMessages(QueryWelcomeMessagesRequest) returns (QueryWelcomeMessagesResponse) {
+  // Get stream of new welcome messages
+  rpc GetWelcomeMessages(GetWelcomeMessagesRequest) returns (stream WelcomeMessage) {
     option (google.api.http) = {
-      post: "/mls/v1/query-welcome-messages"
-      body: "*"
-    };
-  }
-
-  // Subscribe stream of new group messages
-  rpc SubscribeGroupMessages(SubscribeGroupMessagesRequest) returns (stream GroupMessage) {
-    option (google.api.http) = {
-      post: "/mls/v1/subscribe-group-messages"
-      body: "*"
-    };
-  }
-
-  // Subscribe stream of new welcome messages
-  rpc SubscribeWelcomeMessages(SubscribeWelcomeMessagesRequest) returns (stream WelcomeMessage) {
-    option (google.api.http) = {
-      post: "/mls/v1/subscribe-welcome-messages"
+      post: "/mls/v1/get-welcome-messages"
       body: "*"
     };
   }
@@ -270,60 +254,24 @@ message GetIdentityUpdatesResponse {
   repeated WalletUpdates updates = 1;
 }
 
-// Sort direction for queries
-enum SortDirection {
-  SORT_DIRECTION_UNSPECIFIED = 0;
-  SORT_DIRECTION_ASCENDING = 1;
-  SORT_DIRECTION_DESCENDING = 2;
-}
-
-// Pagination config for queries
-message PagingInfo {
-  SortDirection direction = 1;
-  uint32 limit = 2;
-  uint64 id_cursor = 3;
-}
-
-// Request for group message queries
-message QueryGroupMessagesRequest {
-  bytes group_id = 1;
-  PagingInfo paging_info = 2;
-}
-
-// Response for group message queries
-message QueryGroupMessagesResponse {
-  repeated GroupMessage messages = 1;
-  PagingInfo paging_info = 2;
-}
-
-// Request for welcome message queries
-message QueryWelcomeMessagesRequest {
-  bytes installation_key = 1;
-  PagingInfo paging_info = 2;
-}
-
-// Response for welcome message queries
-message QueryWelcomeMessagesResponse {
-  repeated WelcomeMessage messages = 1;
-  PagingInfo paging_info = 2;
-}
-
-// Request for subscribing to group messages
-message SubscribeGroupMessagesRequest {
-  // Subscription filter
+// Request for getting group messages
+message GetGroupMessagesRequest {
+  // Get messages filter
   message Filter {
     bytes group_id = 1;
     uint64 id_cursor = 2;
   }
   repeated Filter filters = 1;
+  bool no_follow = 2;
 }
 
-// Request for subscribing to welcome messages
-message SubscribeWelcomeMessagesRequest {
-  // Subscription filter
+// Request for getting welcome messages
+message GetWelcomeMessagesRequest {
+  // Get messages filter
   message Filter {
     bytes installation_key = 1;
     uint64 id_cursor = 2;
   }
   repeated Filter filters = 1;
+  bool no_follow = 2;
 }
