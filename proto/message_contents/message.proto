@@ -47,6 +47,8 @@ message MessageV2 {
   Ciphertext ciphertext = 2;
   // HMAC of the message ciphertext, with the HMAC key derived from the topic key
   bytes sender_hmac = 3;
+  // Flag indicating whether the message should be pushed from a notification server
+  bool should_push = 4;
 }
 
 // Versioned Message
