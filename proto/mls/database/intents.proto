@@ -65,7 +65,7 @@ message RemoveMembersData {
 message PostCommitAction {
   // An installation
   message Installation {
-    bytes installation_id = 1;
+    bytes installation_key = 1;
     bytes hpke_public_key = 2;
   }
   // SendWelcome message
