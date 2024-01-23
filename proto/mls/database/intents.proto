@@ -18,11 +18,12 @@ message SendMessageData {
     V1 v1 = 1;
   }
 }
+
 // Wrapper around a list af repeated EVM Account Addresses
 message AccountAddresses {
   repeated string account_addresses = 1;
 }
-    
+
 // Wrapper around a list of repeated Installation IDs
 message InstallationIds {
   repeated bytes installation_ids = 1;
@@ -62,9 +63,14 @@ message RemoveMembersData {
 
 // Generic data-type for all post-commit actions
 message PostCommitAction {
+  // An installation
+  message Installation {
+    bytes installation_id = 1;
+    bytes hpke_public_key = 2;
+  }
   // SendWelcome message
   message SendWelcomes {
-    repeated bytes installation_ids = 1;
+    repeated Installation installations = 1;
     bytes welcome_message = 2;
   }
 
