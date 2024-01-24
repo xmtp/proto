@@ -119,6 +119,7 @@ message WelcomeMessage {
     uint64 created_ns = 2;
     bytes installation_key = 3;
     bytes data = 4;
+    bytes hpke_public_key = 5;
   }
 
   oneof version {
@@ -132,6 +133,7 @@ message WelcomeMessageInput {
   message V1 {
     bytes installation_key = 1;
     bytes data = 2;
+    bytes hpke_public_key = 3;
   }
 
   oneof version {
@@ -147,6 +149,7 @@ message GroupMessage {
     uint64 created_ns = 2;
     bytes group_id = 3;
     bytes data = 4;
+    bytes sender_hmac = 5;
   }
 
   oneof version {
@@ -159,6 +162,7 @@ message GroupMessageInput {
   // Version 1 of the GroupMessageInput payload format
   message V1 {
     bytes data = 1;
+    bytes sender_hmac = 2;
   }
 
   oneof version {
