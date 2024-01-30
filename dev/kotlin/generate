@@ -17,7 +17,8 @@ docker run --platform linux/x86_64 --rm -i -v${PWD}:/code xmtp/protoc-kotlin \
     --plugin=protoc-gen-java_rpc=../../build/binaries/java_pluginExecutable/protoc-gen-grpc-java \
     --grpc-java_out=lite:./kotlin/lib/src/main/kotlin \
     --grpckt_out=lite:./kotlin/lib/src/main/kotlin \
-  message_api/v1/message_api.proto
+  message_api/v1/message_api.proto \
+  mls/api/v1/mls.proto
 
 docker run --platform linux/x86_64 --rm -i -v${PWD}:/code xmtp/protoc-kotlin \
   -I=./proto \
@@ -40,4 +41,11 @@ docker run --platform linux/x86_64 --rm -i -v${PWD}:/code xmtp/protoc-kotlin \
   message_contents/content.proto \
   message_contents/private_preferences.proto \
   message_contents/signed_payload.proto \
-  message_contents/ecies.proto
+  message_contents/ecies.proto \
+  mls/api/v1/mls.proto \
+  mls/database/intents.proto \
+  mls/message_contents/group_metadata.proto \
+  mls/message_contents/content.proto \
+  mls/message_contents/transcript_messages.proto \
+  mls/message_contents/credential.proto \
+  mls/message_contents/association.proto
