@@ -28,6 +28,7 @@ docker run --rm -i -v${PWD}:/code xmtp/protoc \
   message_contents/ciphertext.proto \
   message_contents/public_key.proto \
   message_contents/contact.proto \
+  message_contents/frames.proto \
   message_contents/invitation.proto \
   message_contents/private_key.proto \
   message_contents/content.proto \

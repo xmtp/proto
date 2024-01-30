@@ -1,0 +1,25 @@
+// Signature is a generic structure for public key signatures.
+syntax = "proto3";
+
+package xmtp.message_contents;
+
+import "message_contents/public_key.proto";
+import "message_contents/signature.proto";
+
+option go_package = "github.com/xmtp/proto/v3/go/message_contents";
+option java_package = "org.xmtp.proto.message.contents";
+
+// The message that will be signed by the Client and returned inside the `action_body` field of the FrameAction message
+message FrameActionBody {
+  bytes frame_url = 1; // Why did Farcaster make the frame_url a byte array and not a string???
+  bytes button_index = 2; // Same question for the button index
+  string conversation_identifier = 3; // This field needs to be a little different from FC's version
+  string message_id = 4; // Also include a reference to the specific message
+}
+
+// The outer payload that will be sent as the `messageBytes` in the `trusted_data` part of the Frames message
+message FrameAction {
+  Signature signature = 1; // XMTP already has signature types that can be used here
+  SignedPublicKeyBundle signed_public_key_bundle = 2; // The SignedPublicKeyBundle of the signer, used to link the XMTP signature with a blockchain account through a chain of signatures.
+  bytes action_body = 3; // Serialized FrameActionBody message, so that the signature verification can happen on a byte-perfect representation of the message
+}
