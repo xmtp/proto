@@ -17,7 +17,7 @@ message FrameActionBody {
   uint64 timestamp_ns = 3;
   // A unique identifier for the conversation, not tied to anything on the
   // network. Will not match the topic or conversation_id
-  string opaque_conversation_id = 4;
+  string opaque_conversation_identifier = 4;
 }
 
 // The outer payload that will be sent as the `messageBytes` in the
