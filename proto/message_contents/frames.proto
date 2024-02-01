@@ -12,10 +12,12 @@ option java_package = "org.xmtp.proto.message.contents";
 // The message that will be signed by the Client and returned inside the
 // `action_body` field of the FrameAction message
 message FrameActionBody {
-  bytes frame_url = 1;
-  bytes button_index = 2;
-  string conversation_identifier = 3;
-  string message_id = 4; // Also include a reference to the specific message
+  string frame_url = 1;
+  string button_index = 2;
+  uint64 timestamp_ns = 3;
+  // A unique identifier for the conversation, not tied to anything on the
+  // network. Will not match the topic or conversation_id
+  string opaque_conversation_identifier = 4;
 }
 
 // The outer payload that will be sent as the `messageBytes` in the
