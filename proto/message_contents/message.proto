@@ -46,9 +46,9 @@ message MessageV2 {
   // Ciphertext.payload MUST contain encrypted SignedContent
   Ciphertext ciphertext = 2;
   // HMAC of the message ciphertext, with the HMAC key derived from the topic key
-  bytes sender_hmac = 3;
+  optional bytes sender_hmac = 3;
   // Flag indicating whether the message should be pushed from a notification server
-  bool should_push = 4;
+  optional bool should_push = 4;
 }
 
 // Versioned Message
