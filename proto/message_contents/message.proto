@@ -45,6 +45,10 @@ message MessageV2 {
   bytes header_bytes = 1; // encapsulates encoded MessageHeaderV2
   // Ciphertext.payload MUST contain encrypted SignedContent
   Ciphertext ciphertext = 2;
+  // HMAC of the message ciphertext, with the HMAC key derived from the topic key
+  optional bytes sender_hmac = 3;
+  // Flag indicating whether the message should be pushed from a notification server
+  optional bool should_push = 4;
 }
 
 // Versioned Message
