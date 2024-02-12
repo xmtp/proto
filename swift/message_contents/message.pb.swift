@@ -124,6 +124,9 @@ public struct Xmtp_MessageContents_MessageV2 {
   /// Clears the value of `ciphertext`. Subsequent reads from it will return its default value.
   public mutating func clearCiphertext() {self._ciphertext = nil}
 
+  /// HMAC of the message ciphertext, with the HMAC key derived from the topic key
+  public var senderHmac: Data = Data()
+
   public var unknownFields = SwiftProtobuf.UnknownStorage()
 
   public init() {}
@@ -414,6 +417,7 @@ extension Xmtp_MessageContents_MessageV2: SwiftProtobuf.Message, SwiftProtobuf._
   public static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .standard(proto: "header_bytes"),
     2: .same(proto: "ciphertext"),
+    3: .standard(proto: "sender_hmac"),
   ]
 
   public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -424,6 +428,7 @@ extension Xmtp_MessageContents_MessageV2: SwiftProtobuf.Message, SwiftProtobuf._
       switch fieldNumber {
       case 1: try { try decoder.decodeSingularBytesField(value: &self.headerBytes) }()
       case 2: try { try decoder.decodeSingularMessageField(value: &self._ciphertext) }()
+      case 3: try { try decoder.decodeSingularBytesField(value: &self.senderHmac) }()
       default: break
       }
     }
@@ -440,12 +445,16 @@ extension Xmtp_MessageContents_MessageV2: SwiftProtobuf.Message, SwiftProtobuf._
     try { if let v = self._ciphertext {
       try visitor.visitSingularMessageField(value: v, fieldNumber: 2)
     } }()
+    if !self.senderHmac.isEmpty {
+      try visitor.visitSingularBytesField(value: self.senderHmac, fieldNumber: 3)
+    }
     try unknownFields.traverse(visitor: &visitor)
   }
 
   public static func ==(lhs: Xmtp_MessageContents_MessageV2, rhs: Xmtp_MessageContents_MessageV2) -> Bool {
     if lhs.headerBytes != rhs.headerBytes {return false}
     if lhs._ciphertext != rhs._ciphertext {return false}
+    if lhs.senderHmac != rhs.senderHmac {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
   }
