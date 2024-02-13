@@ -15,13 +15,19 @@ option java_package = "org.xmtp.proto.message.contents";
 // preference store. The only current actions are allow and block.
 // Other actions may be added later
 message PrivatePreferencesAction {
-  // Add the given wallet addresses to the allow list
+  // Grant access
   message Allow {
+    // Add the given wallet addresses to the allow list
     repeated string wallet_addresses = 1;
+    // Add the given group_ids to the allow list
+    repeated string group_ids = 2;
   }
-  // Add the given wallet addresses to the block list
+  // Deny access
   message Block {
+    // Add the given wallet addresses to the block list
     repeated string wallet_addresses = 1;
+    // Add the given group_ids to the block list
+    repeated string group_ids = 2;
   }
 
   oneof message_type {
@@ -32,7 +38,5 @@ message PrivatePreferencesAction {
 
 // The payload that goes over the wire
 message PrivatePreferencesPayload {
-  oneof version {
-    Ciphertext v1 = 1;
-  }
+  oneof version { Ciphertext v1 = 1; }
 }
