@@ -1,4 +1,4 @@
-This is the authoritative source of information about the XTMP protocol itself. It contains
+This is the authoritative source of information about the XMTP protocol itself. It contains
 
 * an overview of the protocol [PROTOCOL.md](https://github.com/xmtp/proto/blob/main/PROTOCOL.md)
 * the protobuf definitions of all the elements of the protocol [/proto](https://github.com/xmtp/proto/blob/main/proto)
