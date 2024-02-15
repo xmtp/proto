@@ -12,37 +12,37 @@ option go_package = "github.com/xmtp/proto/v3/go/message_contents";
 option java_package = "org.xmtp.proto.message.contents";
 
 // PrivatePreferencesAction is a message used to update the client's preference
-// store. The only current actions are allow and block.
+// store.
 message PrivatePreferencesAction {
-  // Grant 1:1 direct message (DM) access
+  // Allow 1:1 direct message (DM) access
   message AllowDM {
     // Add the given wallet addresses to the allow list
     repeated string wallet_addresses = 1;
   }
 
-  // Deny 1:1 direct message (DM) access
-  message BlockDM {
-    // Add the given wallet addresses to the block list
+  // Deny (block) 1:1 direct message (DM) access
+  message DenyDM {
+    // Add the given wallet addresses to the deny list
     repeated string wallet_addresses = 1;
   }
 
-  // Grant Group access
+  // Allow Group access
   message AllowGroup {
     // Add the given group_ids to the allow list
-    repeated string group_ids = 2;
+    repeated bytes group_ids = 2;
   }
 
-  // Deny Group access
-  message BlockGroup {
-    // Add the given group_ids to the block list
-    repeated string group_ids = 2;
+  // Deny (deny) Group access
+  message DenyGroup {
+    // Add the given group_ids to the deny list
+    repeated bytes group_ids = 2;
   }
 
   oneof message_type {
     AllowDM allow_dm = 1;
-    BlockDM block_dm = 2;
+    DenyDM deny_dm = 2;
     AllowGroup allow_group = 3;
-    BlockGroup block_group = 4;
+    DenyGroup deny_group = 4;
   }
 }
 
