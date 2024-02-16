@@ -18,10 +18,14 @@ message FrameActionBody {
   // The 1-indexed button that was clicked
   int32 button_index = 2;
   // Timestamp of the click in milliseconds since the epoch
-  uint64 timestamp = 3;
+  uint64 timestamp = 3 [deprecated = true];
   // A unique identifier for the conversation, not tied to anything on the
   // network. Will not match the topic or conversation_id
   string opaque_conversation_identifier = 4;
+  // Unix timestamp
+  uint32 unix_timestamp = 5;
+  // Input text from a text input field
+  string input_text = 6;
 }
 
 // The outer payload that will be sent as the `messageBytes` in the
