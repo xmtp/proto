@@ -15,13 +15,13 @@ option java_package = "org.xmtp.proto.message.contents";
 // store.
 message PrivatePreferencesAction {
   // Allow 1:1 direct message (DM) access
-  message AllowDM {
+  message AllowAddress {
     // Add the given wallet addresses to the allow list
     repeated string wallet_addresses = 1;
   }
 
   // Deny (block) 1:1 direct message (DM) access
-  message DenyDM {
+  message DenyAddress {
     // Add the given wallet addresses to the deny list
     repeated string wallet_addresses = 1;
   }
@@ -39,8 +39,8 @@ message PrivatePreferencesAction {
   }
 
   oneof message_type {
-    AllowDM allow_dm = 1;
-    DenyDM deny_dm = 2;
+    AllowAddress allow_address = 1;
+    DenyAddress deny_address = 2;
     AllowGroup allow_group = 3;
     DenyGroup deny_group = 4;
   }
