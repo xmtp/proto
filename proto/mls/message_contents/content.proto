@@ -40,3 +40,19 @@ message EncodedContent {
   // encoded content itself
   bytes content = 4;
 }
+
+// A PlaintextEnvelope is the outermost payload that gets encrypted by MLS
+message PlaintextEnvelope {
+  // Version 1 of the encrypted envelope
+  message V1 {
+    // Expected to be EncodedContent
+    bytes content = 1;
+    // A unique value that can be used to ensure that the same content can
+    // produce different hashes. May be the sender timestamp.
+    string idempotency_key = 2;
+  }
+
+  oneof content {
+    V1 v1 = 1;
+  }
+}
