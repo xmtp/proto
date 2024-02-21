@@ -41,8 +41,8 @@ message EncodedContent {
   bytes content = 4;
 }
 
-// An MlsEnvelope is the outermost payload that gets encrypted by MLS
-message MlsEnvelope {
+// A PlaintextEnvelope is the outermost payload that gets encrypted by MLS
+message PlaintextEnvelope {
   // Version 1 of the encrypted envelope
   message V1 {
     // Expected to be EncodedContent
