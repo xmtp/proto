@@ -26,6 +26,8 @@ message FrameActionBody {
   uint32 unix_timestamp = 5;
   // Input text from a text input field
   string input_text = 6;
+  // A state serialized to a string (for example via JSON.stringify()). Maximum 4096 bytes.
+  string state = 7;
 }
 
 // The outer payload that will be sent as the `messageBytes` in the
