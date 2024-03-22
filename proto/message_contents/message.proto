@@ -45,29 +45,14 @@ message MessageHeaderV2 {
 message MessageV2 {
   // encapsulates encoded MessageHeaderV2
   bytes header_bytes = 1;
-  oneof content {
-    // Ciphertext.payload MUST contain encrypted SignedContent
-    Ciphertext ciphertext = 2;
-    // Initiator sends the request to receive history
-    MessageHistoryRequest message_history_request = 5;
-    // Other credentialed party sends response 
-    MessageHistoryResponse message_history_response = 6;
-  }
+  // Ciphertext.payload MUST contain encrypted SignedContent
+  Ciphertext ciphertext = 2;
   // HMAC of the message ciphertext, with the HMAC key derived from the topic
   // key
   optional bytes sender_hmac = 3;
   // Flag indicating whether the message should be pushed from a notification
   // server
   optional bool should_push = 4;
-}
-
-message MessageHistoryRequest { string request_id = 1; }
-
-message MessageHistoryResponse {
-  string request_id = 1;
-  string backup_url = 2;
-  bytes backup_file_hash = 3;
-  int64 expiration_time_ns = 4;
 }
 
 // Versioned Message
