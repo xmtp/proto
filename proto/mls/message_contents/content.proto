@@ -45,20 +45,31 @@ message EncodedContent {
 message PlaintextEnvelope {
   // Version 1 of the encrypted envelope
   message V1 {
-    oneof content {
-      // Expected to be EncodedContent
-      bytes content = 1;
-      // Initiator sends the request to receive history
-      MessageHistoryRequest message_history_request = 5;
-      // Other credentialed party sends response
-      MessageHistoryResponse message_history_response = 6;
-    }
+    // Expected to be EncodedContent
+    bytes content = 1;
     // A unique value that can be used to ensure that the same content can
     // produce different hashes. May be the sender timestamp.
     string idempotency_key = 2;
   }
 
-  oneof content { V1 v1 = 1; }
+  // Version 2 of the encrypted envelope
+  message V2 {
+    oneof message_type {
+      // Expected to be EncodedContent
+      bytes content = 1;
+      // Initiator sends the request to receive history
+      MessageHistoryRequest message_history_request = 2;
+      // Other credentialed party sends response
+      MessageHistoryResponse message_history_response = 3;
+    }
+  }
+
+  // Selector which declares which version of the EncodedContent this
+  // PlaintextEnvelope is
+  oneof content {
+    V1 v1 = 1;
+    V2 v2 = 2;
+  }
 }
 
 // The initiator or new installation id that is requesting a history will send a
