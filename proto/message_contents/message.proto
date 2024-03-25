@@ -22,7 +22,8 @@ message MessageHeaderV1 {
 
 // Message is the top level protocol element
 message MessageV1 {
-  bytes header_bytes = 1; // encapsulates encoded MessageHeaderV1
+  // encapsulates encoded MessageHeaderV1
+  bytes header_bytes = 1;
   // Ciphertext.payload MUST contain encrypted EncodedContent
   Ciphertext ciphertext = 2;
 }
@@ -42,12 +43,15 @@ message MessageHeaderV2 {
 
 // Message combines the encoded header with the encrypted payload.
 message MessageV2 {
-  bytes header_bytes = 1; // encapsulates encoded MessageHeaderV2
+  // encapsulates encoded MessageHeaderV2
+  bytes header_bytes = 1;
   // Ciphertext.payload MUST contain encrypted SignedContent
   Ciphertext ciphertext = 2;
-  // HMAC of the message ciphertext, with the HMAC key derived from the topic key
+  // HMAC of the message ciphertext, with the HMAC key derived from the topic
+  // key
   optional bytes sender_hmac = 3;
-  // Flag indicating whether the message should be pushed from a notification server
+  // Flag indicating whether the message should be pushed from a notification
+  // server
   optional bool should_push = 4;
 }
 
