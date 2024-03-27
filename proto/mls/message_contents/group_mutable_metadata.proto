@@ -1,0 +1,48 @@
+// Group metadata
+syntax = "proto3";
+
+package xmtp.mls.message_contents;
+
+option go_package = "github.com/xmtp/proto/v3/go/mls/message_contents";
+option java_package = "org.xmtp.proto.mls.message.contents";
+
+// Parent message for group mutable metadata
+message GroupMutableMetadataV1 {
+  string group_name = 1;
+  repeated string account_address_allow_list_member = 2;
+  PolicySet policies = 3;
+}
+
+// The set of policies that govern metadata updates
+message PolicySet {
+  MembershipPolicy update_group_name_policy = 1;
+  MembershipPolicy update_group_allow_list = 2;
+}
+
+// A policy that governs updating metadata
+message MembershipPolicy {
+  // Base policy
+  enum BasePolicy {
+    BASE_POLICY_UNSPECIFIED = 0;
+    BASE_POLICY_ALLOW = 1;
+    BASE_POLICY_DENY = 2;
+    BASE_POLICY_ALLOW_IF_ACTOR_CREATOR = 3;
+    BASE_POLICY_ALLOW_IF_ACTOR_ALLOW_LIST = 4;
+  }
+
+  // Combine multiple policies. All must evaluate to true
+  message AndCondition {
+    repeated MembershipPolicy policies = 1;
+  }
+
+  // Combine multiple policies. Any must evaluate to true
+  message AnyCondition {
+    repeated MembershipPolicy policies = 1;
+  }
+
+  oneof kind {
+    BasePolicy base = 1;
+    AndCondition and_condition = 2;
+    AnyCondition any_condition = 3;
+  }
+}
