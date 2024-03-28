@@ -25,25 +25,16 @@ message AddAssociation {
   }
 
   uint32 nonce = 1;
-  AssociationSignature existing_member_signature = 2;
-  AssociationSignature new_member_signature = 3;
-  // Clients must validate that the AssociationSignature for the new_member
-  // is appropriate for this entity_type
+  Signature existing_member_signature = 2;
+  Signature new_member_signature = 3;
   AssociatedRole new_member_role = 4;
-  // These next two fields aren't strictly necessary, since they should be able to
-  // be derived from the signatures
-  // Either account address, V2 public key, or installation_id
-  // The ID of the existing member
-  string existing_member_id = 5;
-  // THe ID of the new member
-  string new_member_id = 6;
 }
 
 // An entity may have been associated with multiple roles. Clients MUST remove
 // the entity from all previously associated roles.
 message RevokeAssociation {
   uint32 nonce = 1;
-  AssociationSignature recovery_address_signature = 2;
+  Signature recovery_address_signature = 2;
   string xid = 3;
   // The nonce of the association being removed.
   // This nonce must never be used again for this XID
@@ -57,7 +48,7 @@ message RevokeAssociation {
 
 message ChangeRecoveryAddress {
   uint32 nonce = 1;
-  AssociationSignature recovery_address_signature = 2;
+  Signature recovery_address_signature = 2;
   string new_recovery_address = 3;
 }
 

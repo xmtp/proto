@@ -5,15 +5,6 @@ package xmtp.identity.associations;
 option go_package = "github.com/xmtp/proto/v3/go/identity/associations";
 option java_package = "org.xmtp.proto.identity.associations";
 
-enum AssociationTextTemplate {
-  ASSOCIATION_TEXT_TEMPLATE_UNSPECIFIED = 0;
-  ASSOCIATION_TEXT_TEMPLATE_REGISTER_XID = 1;
-  ASSOCIATION_TEXT_TEMPLATE_ASSOCIATE_INSTALLATION = 2;
-  ASSOCIATION_TEXT_TEMPLATE_ASSOCIATE_ACCOUNT = 3;
-  ASSOCIATION_TEXT_TEMPLATE_ASSOCIATE_ACCOUNT_LEGACY = 4;
-  ASSOCIATION_TEXT_TEMPLATE_CHANGE_RECOVERY_ADDRESS = 5;
-}
-
 // RecoverableEcdsaSignature for EIP-191 and V2 signatures
 message RecoverableEcdsaSignature {
   // 65-bytes [ R || S || V ], with recovery id as the last byte
@@ -35,12 +26,13 @@ message Erc1271Signature {
   bytes signature = 3;
 }
 
-message AssociationSignature {
+// The data which is being signed must be inferred from the context in which
+// the signature is being provided.
+message Signature {
   oneof signature {
     RecoverableEcdsaSignature erc_191 = 1;
     Erc1271Signature erc_1271 = 2;
     RecoverableEd25519Signature installation_key = 3;
     RecoverableEcdsaSignature legacy_key = 4;
   }
-  AssociationTextTemplate association_text_template = 5;
 }
