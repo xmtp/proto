@@ -12,8 +12,9 @@ option java_package = "org.xmtp.proto.identity.associations";
 // The recovery address defaults to the initial_associated_address unless
 // there is a subsequent ChangeRecoveryAddress in the log.
 message CreateXid {
-  uint32 nonce = 1;
-  string initial_associated_address = 2;
+  string xid = 1;
+  uint32 nonce = 2;
+  string initial_associated_address = 3;
 }
 
 message AddAssociation {
@@ -21,39 +22,44 @@ message AddAssociation {
     ASSOCIATED_ROLE_UNSPECIFIED = 0;
     ASSOCIATED_ROLE_INSTALLATION = 1;
     ASSOCIATED_ROLE_ADDRESS = 2;
-    ASSOCIATED_ROLE_LEGACY_KEY = 4;
+    ASSOCIATED_ROLE_LEGACY_KEY = 3;
   }
 
-  uint32 nonce = 1;
-  Signature existing_member_signature = 2;
-  Signature new_member_signature = 3;
-  AssociatedRole new_member_role = 4;
+  string xid = 1;
+  uint64 client_timestamp_ns = 2;
+  uint32 nonce = 3;
+  Signature existing_member_signature = 4;
+  Signature new_member_signature = 5;
+  AssociatedRole new_member_role = 6;
 }
 
 // An entity may have been associated with multiple roles. Clients MUST remove
 // the entity from all previously associated roles.
 message RevokeAssociation {
-  uint32 nonce = 1;
-  Signature recovery_address_signature = 2;
-  string xid = 3;
+  string xid = 1;
+  uint64 client_timestamp_ns = 2;
+  uint32 nonce = 3;
+  Signature recovery_address_signature = 4;
   // The nonce of the association being removed.
   // This nonce must never be used again for this XID
   // Either an installation public key or a wallet address
-  string revoked_entity_id = 4;
+  string revoked_entity_id = 5;
   // Allow the revoker to include a list of downstream associations that should
   // be retained even after the revocation. Any association not in this list
   // will be removed
-  repeated string retained_associations = 5;
+  repeated string retained_associations = 6;
 }
 
 message ChangeRecoveryAddress {
-  uint32 nonce = 1;
-  Signature recovery_address_signature = 2;
-  string new_recovery_address = 3;
+  string xid = 1;
+  uint64 client_timestamp_ns = 2;
+  uint32 nonce = 3;
+  Signature recovery_address_signature = 4;
+  string new_recovery_address = 5;
 }
 
 message XidLogEntry {
-  uint64 timestamp_ns = 1;
+  uint64 server_timestamp_ns = 1;
   oneof kind {
     CreateXid create = 2;
     AddAssociation add = 3;
@@ -66,6 +72,6 @@ message XidLogEntry {
 // is considered to be the active XID, provided that the referenced XID log
 // validates successfully.
 message AddressLogEntry {
-  uint64 timestamp_ns = 1;
+  uint64 server_timestamp_ns = 1;
   AddAssociation add = 2;
 }

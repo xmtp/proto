@@ -26,9 +26,12 @@ message Erc1271Signature {
   bytes signature = 3;
 }
 
-// The data which is being signed must be inferred from the context in which
-// the signature is being provided.
 message Signature {
+  // Must have two properties:
+  // 1. An identifier for the signer must either be recoverable, or specified as
+  //    a field
+  // 2. The signer certifies that the signing payload is correct. The payload
+  //    must be inferred from the context in which the signature is provided.
   oneof signature {
     RecoverableEcdsaSignature erc_191 = 1;
     Erc1271Signature erc_1271 = 2;
