@@ -10,7 +10,7 @@ option java_package = "org.xmtp.proto.identity.associations";
 enum EntityType {
   ENTITY_TYPE_UNSPECIFIED = 0;
   ENTITY_TYPE_INSTALLATION = 1;
-  ENTITY_TYPE_ACCOUNT = 2;
+  ENTITY_TYPE_ADDRESS = 2;
   ENTITY_TYPE_RECOVERY_ADDRESS = 3;
   ENTITY_TYPE_LEGACY_KEY = 4;
 }
@@ -20,11 +20,13 @@ message Association {
   AssociationSignature new_member_signature = 2;
 }
 
+// The first entry of any XID log, which is considered valid iff the XID can be
+// deterministically derived from the address and nonce.
+// The recovery address defaults to the initial_associated_address unless
+// there is a subsequent ChangeRecoveryAddress in the log.
 message CreateXid {
   uint32 nonce = 1;
-  string initial_entity_id = 2;
-  string recovery_address = 3;
-  AssociationSignature signature = 4;
+  string initial_associated_address = 2;
 }
 
 message AddAssociation {
