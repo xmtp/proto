@@ -49,6 +49,10 @@ message RevokeAssociation {
   // This nonce must never be used again for this XID
   // Either an installation public key or a wallet address
   string revoked_entity_id = 4;
+  // Allow the revoker to include a list of downstream associations that should
+  // be retained even after the revocation. Any association not in this list
+  // will be removed
+  repeated string retained_associations = 5;
 }
 
 message ChangeRecoveryAddress {
