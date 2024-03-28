@@ -62,7 +62,7 @@ message ChangeRecoveryAddress {
   Association association = 2;
 }
 
-message LogEntry {
+message XidLogEntry {
   uint64 timestamp_ns = 1;
   oneof kind {
     CreateXid create = 2;
@@ -70,4 +70,12 @@ message LogEntry {
     RevokeAssociation revoke = 4;
     ChangeRecoveryAddress change_recovery_address = 5;
   }
+}
+
+// Used to resolve the XID for a given address. The last entry in the log
+// is considered to be the active XID, provided that the referenced XID log
+// validates successfully.
+message AddressLogEntry {
+  uint64 timestamp_ns = 1;
+  AddAssociation add = 3;
 }
