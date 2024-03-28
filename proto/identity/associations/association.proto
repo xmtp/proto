@@ -1,0 +1,67 @@
+syntax = "proto3";
+
+package xmtp.identity.associations;
+
+import "identity/associations/signature.proto";
+
+option go_package = "github.com/xmtp/proto/v3/go/identity/associations";
+option java_package = "org.xmtp.proto.identity.associations";
+
+enum EntityType {
+  ENTITY_TYPE_UNSPECIFIED = 0;
+  ENTITY_TYPE_INSTALLATION = 1;
+  ENTITY_TYPE_ACCOUNT = 2;
+  ENTITY_TYPE_RECOVERY_ADDRESS = 3;
+  ENTITY_TYPE_LEGACY_KEY = 4;
+}
+
+message Association {
+  AssociationSignature existing_member_signature = 1;
+  AssociationSignature new_member_signature = 2;
+}
+
+message CreateXid {
+  uint32 nonce = 1;
+  string initial_entity_id = 2;
+  string recovery_address = 3;
+  AssociationSignature signature = 4;
+}
+
+message AddAssociation {
+  uint32 nonce = 1;
+  Association association = 2;
+  // Clients must validate that the AssociationSignature for the new_member
+  // is appropriate for this entity_type
+  EntityType entity_type = 3;
+  // These next two fields aren't strictly necessary, since they should be able to
+  // be derived from the signatures
+  // Either account address, V2 public key, or installation_id
+  string entity_id = 4;
+  // The ID of the existing member
+  string existing_member_id = 5;
+}
+
+message RevokeAssociation {
+  uint32 nonce = 1;
+  AssociationSignature signature = 2;
+  string xid = 3;
+  // The nonce of the association being removed.
+  // This nonce must never be used again for this XID
+  // Either an installation public key or a wallet address
+  string revoked_entity_id = 4;
+}
+
+message ChangeRecoveryAddress {
+  uint32 nonce = 1;
+  Association association = 2;
+}
+
+message LogEntry {
+  uint64 timestamp_ns = 1;
+  oneof kind {
+    CreateXid create = 2;
+    AddAssociation add = 3;
+    RevokeAssociation revoke = 4;
+    ChangeRecoveryAddress change_recovery_address = 5;
+  }
+}

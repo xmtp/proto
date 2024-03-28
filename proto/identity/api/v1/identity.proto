@@ -1,0 +1,103 @@
+// Message API
+syntax = "proto3";
+package xmtp.identity.api.v1;
+
+import "google/api/annotations.proto";
+import "google/protobuf/empty.proto";
+import "identity/associations/association.proto";
+import "protoc-gen-openapiv2/options/annotations.proto";
+
+option go_package = "github.com/xmtp/proto/v3/go/mls/api/v1";
+option java_package = "org.xmtp.proto.mls.api.v1";
+option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
+  info: {
+    title: "IdentityApi";
+    version: "1.0";
+  };
+};
+
+// RPCs for the new MLS API
+service IdentityApi {
+  rpc CreateXid(CreateXidRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      post: "/identity/v1/create-xid"
+      body: "*"
+    };
+  }
+
+  rpc AddAssociation(AddAssociationRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      post: "/identity/v1/add-association"
+      body: "*"
+    };
+  }
+
+  rpc RevokeAssociation(RevokeAssociationRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      post: "/identity/v1/revoke-association"
+      body: "*"
+    };
+  }
+
+  // Used to check for changes related to members of a group.
+  // Would return an array of any new installations associated with the wallet
+  // address, and any revocations that have happened.
+  rpc GetIdentityUpdates(GetIdentityUpdatesRequest) returns (GetIdentityUpdatesResponse) {
+    option (google.api.http) = {
+      post: "/identity/v1/get-identity-updates"
+      body: "*"
+    };
+  }
+
+  rpc GetXids(GetXidsRequest) returns (GetXidsResponse) {
+    option (google.api.http) = {
+      post: "/identity/v1/get-xids"
+      body: "*"
+    };
+  }
+}
+
+message CreateXidRequest {
+  xmtp.identity.associations.CreateXid request = 1;
+}
+
+message AddAssociationRequest {
+  string xid = 1;
+  xmtp.identity.associations.AddAssociation request = 2;
+}
+
+message RevokeAssociationRequest {
+  string xid = 1;
+  xmtp.identity.associations.RevokeAssociation request = 2;
+}
+
+// Get all updates for an identity since the specified time
+message GetIdentityUpdatesRequest {
+  repeated string xids = 1;
+  uint64 start_time_ns = 2;
+}
+
+message GetIdentityUpdatesResponse {
+  message Response {
+    repeated xmtp.identity.associations.LogEntry log_entries = 1;
+  }
+
+  repeated Response responses = 1;
+}
+
+message GetXidsRequest {
+  message Request {
+    xmtp.identity.associations.EntityType entity_type = 1;
+    string entity_id = 2;
+  }
+
+  repeated Request requests = 1;
+}
+
+message GetXidsResponse {
+  message Response {
+    optional string xid = 1;
+  }
+
+  repeated Response responses = 1;
+}
