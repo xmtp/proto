@@ -15,11 +15,6 @@ enum EntityType {
   ENTITY_TYPE_LEGACY_KEY = 4;
 }
 
-message Association {
-  AssociationSignature existing_member_signature = 1;
-  AssociationSignature new_member_signature = 2;
-}
-
 // The first entry of any XID log, which is considered valid iff the XID can be
 // deterministically derived from the address and nonce.
 // The recovery address defaults to the initial_associated_address unless
@@ -31,21 +26,22 @@ message CreateXid {
 
 message AddAssociation {
   uint32 nonce = 1;
-  Association association = 2;
+  AssociationSignature existing_member_signature = 2;
+  AssociationSignature new_member_signature = 3;
   // Clients must validate that the AssociationSignature for the new_member
   // is appropriate for this entity_type
-  EntityType entity_type = 3;
+  EntityType entity_type = 4;
   // These next two fields aren't strictly necessary, since they should be able to
   // be derived from the signatures
   // Either account address, V2 public key, or installation_id
-  string entity_id = 4;
+  string entity_id = 5;
   // The ID of the existing member
-  string existing_member_id = 5;
+  string existing_member_id = 6;
 }
 
 message RevokeAssociation {
   uint32 nonce = 1;
-  AssociationSignature signature = 2;
+  AssociationSignature recovery_address_signature = 2;
   string xid = 3;
   // The nonce of the association being removed.
   // This nonce must never be used again for this XID
@@ -59,7 +55,8 @@ message RevokeAssociation {
 
 message ChangeRecoveryAddress {
   uint32 nonce = 1;
-  Association association = 2;
+  AssociationSignature recovery_address_signature = 2;
+  string new_recovery_address = 3;
 }
 
 message XidLogEntry {
