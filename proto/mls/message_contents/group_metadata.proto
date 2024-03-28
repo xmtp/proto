@@ -24,6 +24,8 @@ enum ConversationType {
 message PolicySet {
   MembershipPolicy add_member_policy = 1;
   MembershipPolicy remove_member_policy = 2;
+  MembershipPolicy update_group_name_policy = 3;
+  MembershipPolicy update_allow_list_policy = 4;
 }
 
 // A policy that governs adding/removing members or installations
@@ -34,6 +36,7 @@ message MembershipPolicy {
     BASE_POLICY_ALLOW = 1;
     BASE_POLICY_DENY = 2;
     BASE_POLICY_ALLOW_IF_ACTOR_CREATOR = 3;
+    BASE_POLICY_ALLOW_IF_ACTOR_ALLOW_LIST = 4;
   }
 
   // Combine multiple policies. All must evaluate to true
