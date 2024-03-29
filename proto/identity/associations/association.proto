@@ -59,7 +59,7 @@ message ChangeRecoveryAddress {
   string new_recovery_address = 5;
 }
 
-message XidLogEntry {
+message IdentityUpdate {
   uint64 server_timestamp_ns = 1;
   oneof kind {
     CreateXid create = 2;
@@ -67,12 +67,4 @@ message XidLogEntry {
     RevokeAssociation revoke = 4;
     ChangeRecoveryAddress change_recovery_address = 5;
   }
-}
-
-// Used to resolve the XID for a given address. The last entry in the log
-// is considered to be the active XID, provided that the referenced XID log
-// validates successfully.
-message AddressLogEntry {
-  uint64 server_timestamp_ns = 1;
-  AddAssociation add = 2;
 }

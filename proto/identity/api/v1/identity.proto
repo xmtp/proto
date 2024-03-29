@@ -77,7 +77,7 @@ message GetIdentityUpdatesRequest {
 
 message GetIdentityUpdatesResponse {
   message Response {
-    repeated xmtp.identity.associations.LogEntry log_entries = 1;
+    repeated xmtp.identity.associations.IdentityUpdate identity_updates = 1;
   }
 
   repeated Response responses = 1;
