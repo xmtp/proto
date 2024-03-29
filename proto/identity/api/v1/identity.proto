@@ -62,13 +62,11 @@ message CreateXidRequest {
 }
 
 message AddAssociationRequest {
-  string xid = 1;
-  xmtp.identity.associations.AddAssociation request = 2;
+  xmtp.identity.associations.AddAssociation request = 1;
 }
 
 message RevokeAssociationRequest {
-  string xid = 1;
-  xmtp.identity.associations.RevokeAssociation request = 2;
+  xmtp.identity.associations.RevokeAssociation request = 1;
 }
 
 // Get all updates for an identity since the specified time
@@ -87,8 +85,7 @@ message GetIdentityUpdatesResponse {
 
 message GetXidsRequest {
   message Request {
-    xmtp.identity.associations.EntityType entity_type = 1;
-    string entity_id = 2;
+    string address = 1;
   }
 
   repeated Request requests = 1;
