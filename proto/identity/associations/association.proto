@@ -41,9 +41,10 @@ message RevokeAssociation {
   uint32 nonce = 3;
   Signature recovery_address_signature = 4;
   // The nonce of the association being removed.
-  // This nonce must never be used again for this XID
+  // This nonce must never be used again for this member.
+  uint32 revoked_nonce = 4;
   // Either an installation public key or a wallet address
-  string revoked_entity_id = 5;
+  string revoked_member = 5;
   // Allow the revoker to include a list of downstream associations that should
   // be retained even after the revocation. Any association not in this list
   // will be removed
