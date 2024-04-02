@@ -7,14 +7,22 @@ import "identity/associations/signature.proto";
 option go_package = "github.com/xmtp/proto/v3/go/identity/associations";
 option java_package = "org.xmtp.proto.identity.associations";
 
-// The first entry of any XID log, which is considered valid iff the XID can be
-// deterministically derived from the address and nonce.
-// The recovery address defaults to the initial_associated_address unless
+// Any address can be associated with an XID with a nonce of 0 without a
+// signature, provided that the wallet is not already associated elsewhere.
+message CreateXidUnsigned {
+  string xid = 1;
+  string initial_associated_address = 2;
+}
+
+// The first entry of any XID log. The XID must be deterministically derivable
+// from the address and nonce.
+// The recovery address defaults to the initial associated_address unless
 // there is a subsequent ChangeRecoveryAddress in the log.
 message CreateXid {
   string xid = 1;
-  uint32 nonce = 2;
-  string initial_associated_address = 3;  // TODO clarify when signature is required
+  uint64 client_timestamp_ns = 2;
+  uint32 nonce = 3;
+  Signature associated_address_signature = 4; // TODO enforce wallets only
 }
 
 message AddAssociation {
