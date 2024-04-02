@@ -36,15 +36,15 @@ message AddAssociation {
 message RevokeAssociation {
   string xid = 1;
   uint64 client_timestamp_ns = 2;
-  // Either an installation public key or a wallet address
-  string revoked_member = 3;
+  // Either an installation or wallet public key
+  bytes revoked_public_key = 3;
   Signature recovery_address_signature = 4;
 }
 
 message ChangeRecoveryAddress {
   string xid = 1;
   uint64 client_timestamp_ns = 2;
-  string new_recovery_address = 3;  // TODO clarify if recovery address must be member and permissions
+  bytes new_recovery_address_public_key = 3;  // TODO clarify if recovery address must be member and permissions
   Signature existing_recovery_address_signature = 4;
 }
 
