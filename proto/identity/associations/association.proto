@@ -14,7 +14,7 @@ option java_package = "org.xmtp.proto.identity.associations";
 message CreateXid {
   string xid = 1;
   uint32 nonce = 2;
-  string initial_associated_address = 3;
+  string initial_associated_address = 3;  // TODO clarify when signature is required
 }
 
 message AddAssociation {
@@ -22,15 +22,14 @@ message AddAssociation {
     ASSOCIATED_ROLE_UNSPECIFIED = 0;
     ASSOCIATED_ROLE_INSTALLATION = 1;
     ASSOCIATED_ROLE_ADDRESS = 2;
-    ASSOCIATED_ROLE_LEGACY_KEY = 3;
+    ASSOCIATED_ROLE_LEGACY_KEY = 3; // TODO: clarify how this is used
   }
 
   string xid = 1;
   uint64 client_timestamp_ns = 2;
-  uint32 nonce = 3;
+  AssociatedRole new_member_role = 3;
   Signature existing_member_signature = 4;
   Signature new_member_signature = 5;
-  AssociatedRole new_member_role = 6;
 }
 
 // An entity may have been associated with multiple roles. Clients MUST remove
@@ -38,25 +37,16 @@ message AddAssociation {
 message RevokeAssociation {
   string xid = 1;
   uint64 client_timestamp_ns = 2;
-  uint32 nonce = 3;
-  Signature recovery_address_signature = 4;
-  // The nonce of the association being removed.
-  // This nonce must never be used again for this member.
-  uint32 revoked_nonce = 4;
   // Either an installation public key or a wallet address
-  string revoked_member = 5;
-  // Allow the revoker to include a list of downstream associations that should
-  // be retained even after the revocation. Any association not in this list
-  // will be removed
-  repeated string retained_associations = 6;
+  string revoked_member = 3;
+  Signature recovery_address_signature = 4;
 }
 
 message ChangeRecoveryAddress {
   string xid = 1;
   uint64 client_timestamp_ns = 2;
-  uint32 nonce = 3;
-  Signature recovery_address_signature = 4;
-  string new_recovery_address = 5;
+  string new_recovery_address = 3;  // TODO clarify if recovery address must be member and permissions
+  Signature existing_recovery_address_signature = 4;
 }
 
 message IdentityUpdate {
