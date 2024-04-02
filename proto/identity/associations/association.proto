@@ -1,3 +1,4 @@
+// Payloads to be signed for identity associations
 syntax = "proto3";
 
 package xmtp.identity.associations;
@@ -17,7 +18,10 @@ message CreateXid {
   Signature initial_member_signature = 3;
 }
 
+// Adds a new member for an XID - either an addressable key-pair such as a
+// wallet, or an installation acting on behalf of an address.
 message AddAssociation {
+  // The role of the new member in the association. Must not be UNSPECIFIED.
   enum AssociatedRole {
     ASSOCIATED_ROLE_UNSPECIFIED = 0;
     ASSOCIATED_ROLE_INSTALLATION = 1;
@@ -31,8 +35,8 @@ message AddAssociation {
   Signature new_member_signature = 5;
 }
 
-// An entity may have been associated with multiple roles. Clients MUST remove
-// the entity from all previously associated roles.
+// A member may have been associated with multiple roles. Clients MUST remove
+// the member from all previously associated roles.
 message RevokeAssociation {
   string xid = 1;
   uint64 client_timestamp_ns = 2;
@@ -41,13 +45,17 @@ message RevokeAssociation {
   Signature recovery_address_signature = 4;
 }
 
+// Changes the recovery address for an XID. The recovery address is not required
+// to be a member of the XID. In addition to being able to add members, the
+// recovery address can also revoke members.
 message ChangeRecoveryAddress {
   string xid = 1;
   uint64 client_timestamp_ns = 2;
-  bytes new_recovery_address_public_key = 3;  // TODO clarify if recovery address must be member and permissions
+  bytes new_recovery_address_public_key = 3;
   Signature existing_recovery_address_signature = 4;
 }
 
+// An update that comprises an entry within an XID log or wallet log.
 message IdentityUpdate {
   uint64 server_timestamp_ns = 1;
   oneof kind {

@@ -1,3 +1,4 @@
+// Signing methods for identity associations
 syntax = "proto3";
 
 package xmtp.identity.associations;
@@ -18,6 +19,7 @@ message RecoverableEd25519Signature {
   bytes bytes = 1;
 }
 
+// Smart wallet signature
 message Erc1271Signature {
   // CAIP-10 contract address
   // https://github.com/ChainAgnostic/CAIPs/blob/main/CAIPs/caip-10.md
@@ -28,17 +30,18 @@ message Erc1271Signature {
   bytes signature = 3;
 }
 
-// An address may already have a xmtpv2 legacy identity key of type
-// SignedPublicKey, created via the legacy 'Create Identity' signature. For
-// migration purposes, the legacy key may be permitted to sign on behalf of the 
+// An existing address on xmtpv2 may have already signed a legacy identity key
+// of type SignedPublicKey via the 'Create Identity' signature.
+// For migration to xmtpv3, the legacy key is permitted to sign on behalf of the 
 // address to create a matching xmtpv3 installation key.
-// This signature type can ONLY be used to validate CreateXid and AddAssociation
-// payloads, and can only be used a single time.
+// This signature type can ONLY be used for CreateXid and AddAssociation
+// payloads, and can only be used once in xmtpv3.
 message LegacyDelegatedSignature {
   xmtp.message_contents.SignedPublicKey delegated_key = 1;
   RecoverableEcdsaSignature signature = 2;
 }
 
+// A wrapper for all possible signature types
 message Signature {
   // Must have two properties:
   // 1. An identifier for the signer must either be recoverable, or specified as
