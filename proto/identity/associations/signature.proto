@@ -32,6 +32,8 @@ message Erc1271Signature {
 // SignedPublicKey, created via the legacy 'Create Identity' signature. For
 // migration purposes, the legacy key may be permitted to sign on behalf of the 
 // address to create a matching xmtpv3 installation key.
+// This signature type can ONLY be used to validate CreateXid and AddAssociation
+// payloads, and can only be used a single time.
 message LegacyDelegatedSignature {
   xmtp.message_contents.SignedPublicKey delegated_key = 1;
   RecoverableEcdsaSignature signature = 2;
