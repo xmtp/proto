@@ -7,22 +7,16 @@ import "identity/associations/signature.proto";
 option go_package = "github.com/xmtp/proto/v3/go/identity/associations";
 option java_package = "org.xmtp.proto.identity.associations";
 
-// Any address can be associated with an XID with a nonce of 0 without a
-// signature, provided that the wallet is not already associated elsewhere.
-message CreateXidUnsigned {
-  string xid = 1;
-  string initial_associated_address = 2;
-}
-
 // The first entry of any XID log. The XID must be deterministically derivable
 // from the address and nonce.
 // The recovery address defaults to the initial associated_address unless
 // there is a subsequent ChangeRecoveryAddress in the log.
+// It requires no independent signature, but must be batched with an
+// AddAssociation (typically used to add an installation key).
 message CreateXid {
   string xid = 1;
-  uint64 client_timestamp_ns = 2;
-  uint32 nonce = 3;
-  Signature associated_address_signature = 4; // TODO enforce wallets only
+  uint32 nonce = 2;
+  string initial_associated_address = 3;
 }
 
 message AddAssociation {
