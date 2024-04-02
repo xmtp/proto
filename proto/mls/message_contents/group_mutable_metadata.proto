@@ -9,10 +9,5 @@ option java_package = "org.xmtp.proto.mls.message.contents";
 // Message for group mutable metadata
 message GroupMutableMetadataV1 {
   string group_name = 1;
-  AccountAddresses allow_list_account_addresses = 2;
-}
-
-// Wrapper around a list af repeated EVM Account Addresses
-message AccountAddresses {
-  repeated string account_addresses = 1;
+  repeated string allow_list_account_addresses = 2;
 }
