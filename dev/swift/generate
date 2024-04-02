@@ -36,6 +36,7 @@ docker run --rm -i -v${PWD}:/code xmtp/protoc-swift \
   message_contents/private_preferences.proto \
   message_contents/signed_payload.proto \
   message_contents/ecies.proto \
+  message_contents/frames.proto \
   mls/api/v1/mls.proto \
   mls/database/intents.proto \
   mls/message_contents/group_metadata.proto \
