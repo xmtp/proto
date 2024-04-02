@@ -11,12 +11,10 @@ option java_package = "org.xmtp.proto.identity.associations";
 // from the address and nonce.
 // The recovery address defaults to the initial associated_address unless
 // there is a subsequent ChangeRecoveryAddress in the log.
-// It requires no independent signature, but must be batched with an
-// AddAssociation (typically used to add an installation key).
 message CreateXid {
   string xid = 1;
   uint32 nonce = 2;
-  string initial_associated_address = 3;
+  Signature initial_member_signature = 3;
 }
 
 message AddAssociation {
