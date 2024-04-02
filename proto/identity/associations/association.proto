@@ -22,7 +22,6 @@ message AddAssociation {
     ASSOCIATED_ROLE_UNSPECIFIED = 0;
     ASSOCIATED_ROLE_INSTALLATION = 1;
     ASSOCIATED_ROLE_ADDRESS = 2;
-    ASSOCIATED_ROLE_LEGACY_KEY = 3; // TODO: clarify how this is used
   }
 
   string xid = 1;

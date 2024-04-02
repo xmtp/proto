@@ -2,6 +2,8 @@ syntax = "proto3";
 
 package xmtp.identity.associations;
 
+import "message_contents/public_key.proto";
+
 option go_package = "github.com/xmtp/proto/v3/go/identity/associations";
 option java_package = "org.xmtp.proto.identity.associations";
 
@@ -26,6 +28,15 @@ message Erc1271Signature {
   bytes signature = 3;
 }
 
+// An address may already have a xmtpv2 legacy identity key of type
+// SignedPublicKey, created via the legacy 'Create Identity' signature. For
+// migration purposes, the legacy key may be permitted to sign on behalf of the 
+// address to create a matching xmtpv3 installation key.
+message LegacyDelegatedSignature {
+  xmtp.message_contents.SignedPublicKey delegated_key = 1;
+  RecoverableEcdsaSignature signature = 2;
+}
+
 message Signature {
   // Must have two properties:
   // 1. An identifier for the signer must either be recoverable, or specified as
@@ -36,6 +47,6 @@ message Signature {
     RecoverableEcdsaSignature erc_191 = 1;
     Erc1271Signature erc_1271 = 2;
     RecoverableEd25519Signature installation_key = 3;
-    RecoverableEcdsaSignature legacy_key = 4;
+    LegacyDelegatedSignature delegated_erc_191 = 4;
   }
 }
