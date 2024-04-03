@@ -45,7 +45,7 @@ message RevokeAssociation {
     bytes revoked_installation_public_key = 3;
     string revoked_address = 4;
   }
-  Signature recovery_address_signature = 4;
+  Signature recovery_address_signature = 5;
 }
 
 // Changes the recovery address for an XID. The recovery address is not required
