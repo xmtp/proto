@@ -8,6 +8,14 @@ import "identity/associations/signature.proto";
 option go_package = "github.com/xmtp/proto/v3/go/identity/associations";
 option java_package = "org.xmtp.proto.identity.associations";
 
+// The identifier for a member of an XID
+message MemberIdentifier {
+  oneof kind {
+    string address = 1;
+    bytes installation_public_key = 2;
+  }
+}
+
 // The first entry of any XID log. The XID must be deterministically derivable
 // from the address and nonce.
 // The recovery address defaults to the initial associated_address unless
@@ -15,7 +23,7 @@ option java_package = "org.xmtp.proto.identity.associations";
 message CreateXid {
   string xid = 1;
   uint32 nonce = 2;
-  Signature initial_address_signature = 3;  // Must be an addressable member
+  Signature initial_address_signature = 3; // Must be an addressable member
 }
 
 // Adds a new member for an XID - either an addressable member such as a
@@ -32,20 +40,18 @@ message AddAssociation {
 
   string xid = 1;
   uint64 client_timestamp_ns = 2;
-  AssociatedRole new_member_role = 3;
-  Signature existing_member_signature = 4;
+  Signature existing_member_signature = 3;
+  AssociatedRole new_member_role = 4;
   Signature new_member_signature = 5;
+  MemberIdentifier new_member_identifier = 6;
 }
 
 // Revokes a member from an XID. The recovery address must sign the revocation.
 message RevokeAssociation {
   string xid = 1;
   uint64 client_timestamp_ns = 2;
-  oneof revoked_member {
-    bytes revoked_installation_public_key = 3;
-    string revoked_address = 4;
-  }
-  Signature recovery_address_signature = 5;
+  MemberIdentifier member = 3;
+  Signature recovery_address_signature = 4;
 }
 
 // Changes the recovery address for an XID. The recovery address is not required
