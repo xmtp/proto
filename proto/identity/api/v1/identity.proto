@@ -50,6 +50,7 @@ message PublishIdentityUpdateRequest {
   xmtp.identity.associations.IdentityUpdate identity_update = 1;
 }
 
+// The response when an identity update is published
 message PublishIdentityUpdateResponse {
   string inbox_id = 1;
 }
