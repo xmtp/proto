@@ -50,7 +50,7 @@ message AddAssociation {
 message RevokeAssociation {
   string xid = 1;
   uint64 client_timestamp_ns = 2;
-  MemberIdentifier member = 3;
+  MemberIdentifier member_to_revoke = 3;
   Signature recovery_address_signature = 4;
 }
 
