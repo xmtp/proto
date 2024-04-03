@@ -58,20 +58,27 @@ message PublishIdentityUpdateResponse {
 message GetIdentityUpdatesRequest {
   // Points to the last entry the client has received. The sequence_id should be
   // set to 0 if the client has not received anything.
-  message InboxCursor {
+  message Request {
     string inbox_id = 1;
     uint64 sequence_id = 2;
   }
 
-  repeated InboxCursor cursors = 1;
+  repeated Request requests = 1;
 }
 
 // Returns all log entries for the requested identities
 message GetIdentityUpdatesResponse {
+  // A single entry in the XID log on the server.
+  message IdentityUpdateLog {
+    uint64 sequence_id = 1;
+    uint64 server_timestamp_ns = 2;
+    xmtp.identity.associations.IdentityUpdate update = 3;
+  }
+
   // The update log for a single identity, starting after the last cursor
   message Response {
     string inbox_id = 1;
-    repeated xmtp.identity.associations.IdentityUpdateLog updates = 2;
+    repeated IdentityUpdateLog updates = 2;
   }
 
   repeated Response responses = 1;
