@@ -20,8 +20,8 @@ message MemberIdentifier {
 // from the address and nonce.
 // The recovery address defaults to the initial associated_address unless
 // there is a subsequent ChangeRecoveryAddress in the log.
-message CreateXid {
-  string xid = 1;
+message CreateInbox {
+  string initial_address = 1;
   uint32 nonce = 2;
   Signature initial_address_signature = 3; // Must be an addressable member
 }
@@ -38,7 +38,7 @@ message AddAssociation {
     ASSOCIATED_ROLE_ADDRESS = 2;
   }
 
-  string xid = 1;
+  string inbox_id = 1;
   uint64 client_timestamp_ns = 2;
   Signature existing_member_signature = 3;
   AssociatedRole new_member_role = 4;
@@ -48,7 +48,7 @@ message AddAssociation {
 
 // Revokes a member from an XID. The recovery address must sign the revocation.
 message RevokeAssociation {
-  string xid = 1;
+  string inbox_id = 1;
   uint64 client_timestamp_ns = 2;
   MemberIdentifier member_to_revoke = 3;
   Signature recovery_address_signature = 4;
@@ -58,7 +58,7 @@ message RevokeAssociation {
 // to be a member of the XID. In addition to being able to add members, the
 // recovery address can also revoke members.
 message ChangeRecoveryAddress {
-  string xid = 1;
+  string inbox_id = 1;
   uint64 client_timestamp_ns = 2;
   string new_recovery_address = 3;
   Signature existing_recovery_address_signature = 4;
@@ -67,7 +67,7 @@ message ChangeRecoveryAddress {
 // A single identity operation
 message IdentityAction {
   oneof kind {
-    CreateXid create_xid = 1;
+    CreateInbox create_inbox = 1;
     AddAssociation add = 2;
     RevokeAssociation revoke = 3;
     ChangeRecoveryAddress change_recovery_address = 4;
