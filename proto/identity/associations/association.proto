@@ -31,19 +31,11 @@ message CreateXid {
 // A key-pair that has been associated with one role MUST not be permitted to be
 // associated with a different role.
 message AddAssociation {
-  // The role of the new member in the association. Must not be UNSPECIFIED.
-  enum AssociatedRole {
-    ASSOCIATED_ROLE_UNSPECIFIED = 0;
-    ASSOCIATED_ROLE_INSTALLATION = 1;
-    ASSOCIATED_ROLE_ADDRESS = 2;
-  }
-
   string xid = 1;
   uint64 client_timestamp_ns = 2;
-  Signature existing_member_signature = 3;
-  AssociatedRole new_member_role = 4;
+  MemberIdentifier new_member_identifier = 3;
+  Signature existing_member_signature = 4;
   Signature new_member_signature = 5;
-  MemberIdentifier new_member_identifier = 6;
 }
 
 // Revokes a member from an XID. The recovery address must sign the revocation.
