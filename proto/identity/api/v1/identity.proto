@@ -18,23 +18,11 @@ option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
 
 // RPCs for the new MLS API
 service IdentityApi {
-  rpc CreateXid(CreateXidRequest) returns (google.protobuf.Empty) {
+  // Publishes an identity update for an XID or wallet. An identity update may
+  // consist of multiple identity actions that have been batch signed.
+  rpc PublishIdentityUpdate(PublishIdentityUpdateRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
-      post: "/identity/v1/create-xid"
-      body: "*"
-    };
-  }
-
-  rpc AddAssociation(AddAssociationRequest) returns (google.protobuf.Empty) {
-    option (google.api.http) = {
-      post: "/identity/v1/add-association"
-      body: "*"
-    };
-  }
-
-  rpc RevokeAssociation(RevokeAssociationRequest) returns (google.protobuf.Empty) {
-    option (google.api.http) = {
-      post: "/identity/v1/revoke-association"
+      post: "/identity/v1/publish-identity-update"
       body: "*"
     };
   }
@@ -49,6 +37,7 @@ service IdentityApi {
     };
   }
 
+  // Retrieve the XIDs for the given addresses
   rpc GetXids(GetXidsRequest) returns (GetXidsResponse) {
     option (google.api.http) = {
       post: "/identity/v1/get-xids"
@@ -57,33 +46,37 @@ service IdentityApi {
   }
 }
 
-message CreateXidRequest {
-  xmtp.identity.associations.CreateXid request = 1;
-}
-
-message AddAssociationRequest {
-  xmtp.identity.associations.AddAssociation request = 1;
-}
-
-message RevokeAssociationRequest {
-  xmtp.identity.associations.RevokeAssociation request = 1;
+// Publishes an identity update to the network
+message PublishIdentityUpdateRequest {
+  xmtp.identity.associations.IdentityUpdate identity_update = 1;
 }
 
 // Get all updates for an identity since the specified time
 message GetIdentityUpdatesRequest {
-  repeated string xids = 1;
-  uint64 start_time_ns = 2;
+  // Points to the last entry the client has received. The sequence_id should be
+  // set to 0 if the client has not received anything.
+  message XidCursor {
+    string xid = 1;
+    uint64 sequence_id = 2;
+  }
+
+  repeated XidCursor cursors = 1;
 }
 
+// Returns all log entries for the requested identities
 message GetIdentityUpdatesResponse {
+  // The update log for a single identity, starting after the last cursor
   message Response {
-    repeated xmtp.identity.associations.IdentityUpdate identity_updates = 1;
+    string xid = 1;
+    repeated xmtp.identity.associations.IdentityUpdateLog updates = 2;
   }
 
   repeated Response responses = 1;
 }
 
+// Request to retrieve the XIDs for the given addresses
 message GetXidsRequest {
+  // A single request for a given address
   message Request {
     string address = 1;
   }
@@ -91,9 +84,12 @@ message GetXidsRequest {
   repeated Request requests = 1;
 }
 
+// Response with the XIDs for the requested addresses
 message GetXidsResponse {
+  // A single response for a given address
   message Response {
-    optional string xid = 1;
+    string address = 1;
+    optional string xid = 2;
   }
 
   repeated Response responses = 1;
