@@ -15,11 +15,13 @@ option java_package = "org.xmtp.proto.identity.associations";
 message CreateXid {
   string xid = 1;
   uint32 nonce = 2;
-  Signature initial_member_signature = 3;
+  Signature initial_address_signature = 3;  // Must be an addressable member
 }
 
-// Adds a new member for an XID - either an addressable key-pair such as a
+// Adds a new member for an XID - either an addressable member such as a
 // wallet, or an installation acting on behalf of an address.
+// A key-pair that has been associated with one role MUST not be permitted to be
+// associated with a different role.
 message AddAssociation {
   // The role of the new member in the association. Must not be UNSPECIFIED.
   enum AssociatedRole {
@@ -35,13 +37,14 @@ message AddAssociation {
   Signature new_member_signature = 5;
 }
 
-// A member may have been associated with multiple roles. Clients MUST remove
-// the member from all previously associated roles.
+// Revokes a member from an XID. The recovery address must sign the revocation.
 message RevokeAssociation {
   string xid = 1;
   uint64 client_timestamp_ns = 2;
-  // Either an installation or wallet public key
-  bytes revoked_public_key = 3;
+  oneof revoked_member {
+    bytes revoked_installation_public_key = 3;
+    string revoked_address = 4;
+  }
   Signature recovery_address_signature = 4;
 }
 
@@ -51,17 +54,17 @@ message RevokeAssociation {
 message ChangeRecoveryAddress {
   string xid = 1;
   uint64 client_timestamp_ns = 2;
-  bytes new_recovery_address_public_key = 3;
+  string new_recovery_address = 3;
   Signature existing_recovery_address_signature = 4;
 }
 
 // A single identity operation
 message IdentityAction {
   oneof kind {
-    CreateXid create_xid = 2;
-    AddAssociation add = 3;
-    RevokeAssociation revoke = 4;
-    ChangeRecoveryAddress change_recovery_address = 5;
+    CreateXid create_xid = 1;
+    AddAssociation add = 2;
+    RevokeAssociation revoke = 3;
+    ChangeRecoveryAddress change_recovery_address = 4;
   }
 }
 
