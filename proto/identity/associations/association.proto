@@ -74,10 +74,3 @@ message IdentityUpdate {
   repeated IdentityAction actions = 1;
   uint64 client_timestamp_ns = 2;
 }
-
-// A single entry in the XID log on the server.
-message IdentityUpdateLog {
-  uint64 sequence_number = 1;
-  uint64 server_timestamp_ns = 2;
-  IdentityUpdate update = 3;
-}
