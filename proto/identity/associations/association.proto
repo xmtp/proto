@@ -22,7 +22,7 @@ message MemberIdentifier {
 // there is a subsequent ChangeRecoveryAddress in the log.
 message CreateInbox {
   string initial_address = 1;
-  uint32 nonce = 2;
+  uint64 nonce = 2;
   Signature initial_address_signature = 3; // Must be an addressable member
 }
 
