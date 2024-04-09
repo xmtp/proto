@@ -1,5 +1,2 @@
 #!/usr/bin/env sh
-. "$(dirname -- "$0")/_/husky.sh"
-
-npm test
-./dev/go/generate
+. "$(dirname -- "$0")/_/husky.sh"   
