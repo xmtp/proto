@@ -66,7 +66,6 @@ message UpdateMetadataData {
   // V1 of UpdateMetadataPublishData
   message V1 {
     string group_name = 1;
-    repeated string allow_list_account_addresses = 2;
   }
 
   oneof version {
