@@ -51,9 +51,7 @@ message PublishIdentityUpdateRequest {
 }
 
 // The response when an identity update is published
-message PublishIdentityUpdateResponse {
-  string inbox_id = 1;
-}
+message PublishIdentityUpdateResponse {}
 
 // Get all updates for an identity since the specified time
 message GetIdentityUpdatesRequest {

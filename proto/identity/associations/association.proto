@@ -31,26 +31,23 @@ message CreateInbox {
 // A key-pair that has been associated with one role MUST not be permitted to be
 // associated with a different role.
 message AddAssociation {
-  string inbox_id = 1;
-  MemberIdentifier new_member_identifier = 2;
-  Signature existing_member_signature = 3;
-  Signature new_member_signature = 4;
+  MemberIdentifier new_member_identifier = 1;
+  Signature existing_member_signature = 2;
+  Signature new_member_signature = 3;
 }
 
 // Revokes a member from an XID. The recovery address must sign the revocation.
 message RevokeAssociation {
-  string inbox_id = 1;
-  MemberIdentifier member_to_revoke = 2;
-  Signature recovery_address_signature = 3;
+  MemberIdentifier member_to_revoke = 1;
+  Signature recovery_address_signature = 2;
 }
 
 // Changes the recovery address for an XID. The recovery address is not required
 // to be a member of the XID. In addition to being able to add members, the
 // recovery address can also revoke members.
 message ChangeRecoveryAddress {
-  string inbox_id = 1;
-  string new_recovery_address = 2;
-  Signature existing_recovery_address_signature = 3;
+  string new_recovery_address = 1;
+  Signature existing_recovery_address_signature = 2;
 }
 
 // A single identity operation
@@ -73,4 +70,5 @@ message IdentityAction {
 message IdentityUpdate {
   repeated IdentityAction actions = 1;
   uint64 client_timestamp_ns = 2;
+  string inbox_id = 3;
 }
