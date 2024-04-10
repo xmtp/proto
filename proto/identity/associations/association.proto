@@ -16,6 +16,12 @@ message MemberIdentifier {
   }
 }
 
+// single member that optionally indicates the member that added them
+message Member {
+  MemberIdentifier identifier = 1;
+  optional MemberIdentifier added_by_entity = 2;
+}
+
 // The first entry of any XID log. The XID must be deterministically derivable
 // from the address and nonce.
 // The recovery address defaults to the initial associated_address unless

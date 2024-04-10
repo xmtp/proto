@@ -59,3 +59,37 @@ message ValidateGroupMessagesResponse {
 
   repeated ValidationResponse responses = 1;
 }
+
+// Request to get a final association state for identity updates
+message GetAssociationStateRequest {
+  // a single identity update
+  message IdentityUpdate {
+    uint64 client_timestamp_ns = 1;
+    // single action for an identity update
+    message Action {
+      oneof kind {
+        xmtp.identity.CreateInbox create_inbox = 1;
+        xmtp.identity.AddAssociation add_association = 2;
+        xmtp.identity.RevokeAssociation revoke_association = 3;
+        xmtp.identity.ChangeRecoveryAddress change_recovery_address = 4;
+      }
+    }
+  }
+
+  repeated IdentityUpdate updates = 1;
+}
+
+// Map of members belonging to an inbox_id
+message MemberMap {
+  xmtp.identity.MemberIdentifier key = 1;
+  xmtp.identity.Member value = 2;
+}
+
+// Reponse to GetAssociationStateRequest, containing the final association state
+// for an InboxID
+message GetAssociationStateResponse {
+  string inbox_id = 1;
+  repeated MemberMap members = 2;
+  string recovery_address = 3;
+  repeated bytes seen_signatures = 4;
+}
