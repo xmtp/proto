@@ -61,6 +61,18 @@ message RemoveMembersData {
   }
 }
 
+// The data required to update group metadata
+message UpdateMetadataData {
+  // V1 of UpdateMetadataPublishData
+  message V1 {
+    string group_name = 1;
+  }
+
+  oneof version {
+    V1 v1 = 1;
+  }
+}
+
 // Generic data-type for all post-commit actions
 message PostCommitAction {
   // An installation
