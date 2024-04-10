@@ -24,7 +24,7 @@ enum ConversationType {
 message PolicySet {
   MembershipPolicy add_member_policy = 1;
   MembershipPolicy remove_member_policy = 2;
-  MembershipPolicy update_group_name_policy = 3;
+  MetadataPolicy update_group_name_policy = 3;
 }
 
 // A policy that governs adding/removing members or installations
@@ -45,6 +45,33 @@ message MembershipPolicy {
   // Combine multiple policies. Any must evaluate to true
   message AnyCondition {
     repeated MembershipPolicy policies = 1;
+  }
+
+  oneof kind {
+    BasePolicy base = 1;
+    AndCondition and_condition = 2;
+    AnyCondition any_condition = 3;
+  }
+}
+
+// A policy that governs updating metadata
+message MetadataPolicy {
+  // Base policy
+  enum BasePolicy {
+    BASE_POLICY_UNSPECIFIED = 0;
+    BASE_POLICY_ALLOW = 1;
+    BASE_POLICY_DENY = 2;
+    BASE_POLICY_ALLOW_IF_ACTOR_CREATOR = 3;
+  }
+
+  // Combine multiple policies. All must evaluate to true
+  message AndCondition {
+    repeated MetadataPolicy policies = 1;
+  }
+
+  // Combine multiple policies. Any must evaluate to true
+  message AnyCondition {
+    repeated MetadataPolicy policies = 1;
   }
 
   oneof kind {
