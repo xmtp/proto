@@ -57,7 +57,7 @@ message MembershipPolicy {
 // A policy that governs updating metadata
 message MetadataPolicy {
   // Base policy
-  enum BasePolicy {
+  enum MetadataBasePolicy {
     BASE_POLICY_UNSPECIFIED = 0;
     BASE_POLICY_ALLOW = 1;
     BASE_POLICY_DENY = 2;
@@ -75,7 +75,7 @@ message MetadataPolicy {
   }
 
   oneof kind {
-    BasePolicy base = 1;
+    MetadataBasePolicy base = 1;
     AndCondition and_condition = 2;
     AnyCondition any_condition = 3;
   }
