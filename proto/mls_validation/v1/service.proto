@@ -11,6 +11,9 @@ service ValidationApi {
 
   // Validates and parses a group message and returns relevant details
   rpc ValidateGroupMessages(ValidateGroupMessagesRequest) returns (ValidateGroupMessagesResponse) {}
+  
+  // Gets the final association state for a batch of identity updates
+  rpc GetAssociationState(GetAssociationStateRequest) returns (GetAssociationStateResponse) {}
 }
 
 // Contains a batch of serialized Key Packages
