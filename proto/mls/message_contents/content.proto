@@ -54,13 +54,17 @@ message PlaintextEnvelope {
 
   // Version 2 of the encrypted envelope
   message V2 {
+    // A unique value that can be used to ensure that the same content can
+    // produce different hashes. May be the sender timestamp.
+    string idempotency_key = 1;
+
     oneof message_type {
       // Expected to be EncodedContent
-      bytes content = 1;
+      bytes content = 2;
       // Initiator sends the request to receive history
-      MessageHistoryRequest message_history_request = 2;
+      MessageHistoryRequest message_history_request = 3;
       // Other credentialed party sends response
-      MessageHistoryResponse message_history_response = 3;
+      MessageHistoryResponse message_history_response = 4;
     }
   }
 
@@ -74,13 +78,22 @@ message PlaintextEnvelope {
 
 // The initiator or new installation id that is requesting a history will send a
 // request
-message MessageHistoryRequest { string request_id = 1; }
+message MessageHistoryRequest { 
+  // Unique identifier for each request
+  string request_id = 1;
+  // Ensures a human is in the loop
+  string pin_code = 2;
+}
 
 // Pre-existing installation id that is capable of supplying a history will send
 // this response
 message MessageHistoryResponse {
+  // Unique identifier for each request - must match an existing request_id from a request
   string request_id = 1;
+  // Where the messages can be retrieved from
   string backup_url = 2;
+  // HMAC Signature of the message-bundle
   bytes backup_file_hash = 3;
+  // When the message-bundle should expire,and no longer be accessible
   int64 expiration_time_ns = 4;
 }
