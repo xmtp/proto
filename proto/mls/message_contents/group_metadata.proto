@@ -58,10 +58,10 @@ message MembershipPolicy {
 message MetadataPolicy {
   // Base policy
   enum MetadataBasePolicy {
-    BASE_POLICY_UNSPECIFIED = 0;
-    BASE_POLICY_ALLOW = 1;
-    BASE_POLICY_DENY = 2;
-    BASE_POLICY_ALLOW_IF_ACTOR_CREATOR = 3;
+    METADATA_BASE_POLICY_UNSPECIFIED = 0;
+    METADATA_BASE_POLICY_ALLOW = 1;
+    METADATA_BASE_POLICY_DENY = 2;
+    METADATA_BASE_POLICY_ALLOW_IF_ACTOR_CREATOR = 3;
   }
 
   // Combine multiple policies. All must evaluate to true
