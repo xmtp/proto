@@ -40,6 +40,7 @@ docker run --rm -i -v${PWD}:/code xmtp/protoc-swift \
   mls/api/v1/mls.proto \
   mls/database/intents.proto \
   mls/message_contents/group_metadata.proto \
+  mls/message_contents/group_mutable_metadata.proto \
   mls/message_contents/transcript_messages.proto \
   mls/message_contents/credential.proto \
   mls/message_contents/association.proto
