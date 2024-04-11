@@ -40,6 +40,9 @@ message InvitationV1 {
     // Specify the encryption method to process the key material properly.
     Aes256gcmHkdfsha256 aes256_gcm_hkdf_sha256 = 3;
   }
+
+  // The user's consent proof
+  ConsentProofPayload consent_proof = 4;
 }
 
 // Sealed Invitation V1 Header
@@ -69,4 +72,15 @@ message SealedInvitation {
   oneof version {
     SealedInvitationV1 v1 = 1;
   }
+}
+
+// Payload for user's consent proof to be set in the invitation
+// Signifying the conversation should be preapproved for the user on receipt
+message ConsentProofPayload {
+  // the user's signature in hex format
+  string signature = 1;
+  // approximate time when the user signed
+  uint64 timestamp = 2;
+  // version of the payload
+  uint32 payload_version = 3;
 }
