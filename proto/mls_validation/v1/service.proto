@@ -67,21 +67,8 @@ message ValidateGroupMessagesResponse {
 
 // Request to get a final association state for identity updates
 message GetAssociationStateRequest {
-  // a single identity update
-  message IdentityUpdate {
-    uint64 client_timestamp_ns = 1;
-    // single action for an identity update
-    message Action {
-      oneof kind {
-        xmtp.identity.associations.CreateInbox create_inbox = 1;
-        xmtp.identity.associations.AddAssociation add_association = 2;
-        xmtp.identity.associations.RevokeAssociation revoke_association = 3;
-        xmtp.identity.associations.ChangeRecoveryAddress change_recovery_address = 4;
-      }
-    }
-  }
-
-  repeated IdentityUpdate updates = 1;
+  // List of identity updates
+  repeated xmtp.identity.associations.IdentityUpdate updates = 1;
 }
 
 // Map of members belonging to an inbox_id
