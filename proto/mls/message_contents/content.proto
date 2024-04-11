@@ -60,11 +60,11 @@ message PlaintextEnvelope {
 
     oneof message_type {
       // Expected to be EncodedContent
-      bytes content = 1;
+      bytes content = 2;
       // Initiator sends the request to receive history
-      MessageHistoryRequest message_history_request = 2;
+      MessageHistoryRequest message_history_request = 3;
       // Other credentialed party sends response
-      MessageHistoryResponse message_history_response = 3;
+      MessageHistoryResponse message_history_response = 4;
     }
   }
 
