@@ -74,6 +74,10 @@ message SealedInvitation {
   }
 }
 
+enum ConsentProofPayloadVersion {
+  V1 = 1;
+}
+
 // Payload for user's consent proof to be set in the invitation
 // Signifying the conversation should be preapproved for the user on receipt
 message ConsentProofPayload {
@@ -82,5 +86,5 @@ message ConsentProofPayload {
   // approximate time when the user signed
   uint64 timestamp = 2;
   // version of the payload
-  uint32 payload_version = 3;
+  ConsentProofPayloadVersion payload_version = 3;
 }
