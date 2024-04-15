@@ -61,10 +61,10 @@ message PlaintextEnvelope {
     oneof message_type {
       // Expected to be EncodedContent
       bytes content = 2;
-      // Initiator sends the request to receive history
-      MessageHistoryRequest message_history_request = 3;
-      // Other credentialed party sends response
-      MessageHistoryResponse message_history_response = 4;
+      // Initiator sends a request to receive message history
+      MessageHistoryRequest request = 3;
+      // Some other authorized installation sends a reply
+      MessageHistoryReply reply = 4;
     }
   }
 
@@ -76,19 +76,17 @@ message PlaintextEnvelope {
   }
 }
 
-// The initiator or new installation id that is requesting a history will send a
-// request
-message MessageHistoryRequest { 
+// Initiator or new installation id requesting a history will send a request
+message MessageHistoryRequest {
   // Unique identifier for each request
   string request_id = 1;
   // Ensures a human is in the loop
   string pin_code = 2;
 }
 
-// Pre-existing installation id that is capable of supplying a history will send
-// this response
-message MessageHistoryResponse {
-  // Unique identifier for each request - must match an existing request_id from a request
+// Pre-existing installation id capable of supplying a history sends this reply
+message MessageHistoryReply {
+  // Must match an existing request_id from a message history request
   string request_id = 1;
   // Where the messages can be retrieved from
   string backup_url = 2;
