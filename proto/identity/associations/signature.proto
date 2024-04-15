@@ -25,14 +25,14 @@ message Erc1271Signature {
   // https://github.com/ChainAgnostic/CAIPs/blob/main/CAIPs/caip-10.md
   string contract_address = 1;
   // Specify the block height to verify the signature against
-  int64 block_height = 2;
+  uint64 block_height = 2;
   // The actual signature bytes
   bytes signature = 3;
 }
 
 // An existing address on xmtpv2 may have already signed a legacy identity key
 // of type SignedPublicKey via the 'Create Identity' signature.
-// For migration to xmtpv3, the legacy key is permitted to sign on behalf of the 
+// For migration to xmtpv3, the legacy key is permitted to sign on behalf of the
 // address to create a matching xmtpv3 installation key.
 // This signature type can ONLY be used for CreateXid and AddAssociation
 // payloads, and can only be used once in xmtpv3.
