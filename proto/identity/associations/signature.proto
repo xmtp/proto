@@ -24,8 +24,8 @@ message Erc1271Signature {
   // CAIP-10 contract address
   // https://github.com/ChainAgnostic/CAIPs/blob/main/CAIPs/caip-10.md
   string contract_address = 1;
-  // Specify the block height to verify the signature against
-  uint64 block_height = 2;
+  // Specify the block number to verify the signature against
+  uint64 block_number = 2;
   // The actual signature bytes
   bytes signature = 3;
 }
