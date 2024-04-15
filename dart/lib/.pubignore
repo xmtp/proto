@@ -1,3 +1,0 @@
-# per https://dart.dev/tools/pub/publishing#what-files-are-published
-# We want src in the pub but not in git.
-# During `dart pub publish` this empty `.pubignore` is used instead of `.gitignore`
