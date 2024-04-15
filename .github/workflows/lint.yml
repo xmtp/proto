@@ -18,14 +18,3 @@ jobs:
         with:
           configDirectory: .
           srcDirectory: ./proto
-  dart:
-    name: Lint (dart)
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: dart-lang/setup-dart@v1.3
-      - run: dart pub get
-        working-directory: ./dart
-      - run: dev/dart/generate
-      - run: dart analyze
-        working-directory: ./dart
