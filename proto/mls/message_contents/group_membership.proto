@@ -1,4 +1,4 @@
-// Group metadata
+// Group membership
 syntax = "proto3";
 
 package xmtp.mls.message_contents;
