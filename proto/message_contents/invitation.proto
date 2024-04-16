@@ -74,8 +74,10 @@ message SealedInvitation {
   }
 }
 
+// Version of consent proof payload 
 enum ConsentProofPayloadVersion {
-  V1 = 1;
+  CONSENT_PROOF_PAYLOAD_VERSION_UNSPECIFIED = 0;
+  CONSENT_PROOF_PAYLOAD_VERSION_1 = 1;
 }
 
 // Payload for user's consent proof to be set in the invitation
