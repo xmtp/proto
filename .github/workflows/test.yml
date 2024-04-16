@@ -5,17 +5,6 @@ on:
       - main
   pull_request:
 jobs:
-  dart:
-    name: Test (dart)
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: dart-lang/setup-dart@v1.3
-      - run: dart pub get
-        working-directory: ./dart
-      - run: dev/dart/generate
-      - run: dart test
-        working-directory: ./dart
   js:
     name: Test (JS)
     runs-on: ubuntu-latest
@@ -24,28 +13,19 @@ jobs:
       - uses: actions/setup-node@v2
       - run: npm ci
       - run: npm test
-  swift:
-    name: Test (swift)
-    runs-on: ubuntu-latest
-    steps:
-      - uses: swift-actions/setup-swift@v1
-      - uses: actions/checkout@v3
-      - run: dev/swift/generate
-      - run: swift build
-      - run: swift test
   kotlin:
     name: Test (Kotlin)
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout project sources
-      uses: actions/checkout@v3
-    - name: Setup Gradle
-      uses: gradle/gradle-build-action@v2
-    - name: Validate Gradle Wrapper
-      uses: gradle/wrapper-validation-action@v1
-    - name: Generate protobufs
-      run: dev/kotlin/generate
-    - name: Run build with Gradle Wrapper
-      run: ./gradlew build
-    - name: Gradle Run Tests
-      run: ./gradlew kotlin:test
+      - name: Checkout project sources
+        uses: actions/checkout@v3
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@v2
+      - name: Validate Gradle Wrapper
+        uses: gradle/wrapper-validation-action@v1
+      - name: Generate protobufs
+        run: dev/kotlin/generate
+      - name: Run build with Gradle Wrapper
+        run: ./gradlew build
+      - name: Gradle Run Tests
+        run: ./gradlew kotlin:test
