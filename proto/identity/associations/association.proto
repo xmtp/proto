@@ -78,3 +78,17 @@ message IdentityUpdate {
   uint64 client_timestamp_ns = 2;
   string inbox_id = 3;
 }
+
+// Map of members belonging to an inbox_id
+message MemberMap {
+  MemberIdentifier key = 1;
+  Member value = 2;
+}
+
+// A final association state resulting from multiple `IdentityUpdates`
+message AssociationState {
+  string inbox_id = 1;
+  repeated MemberMap members = 2;
+  string recovery_address = 3;
+  repeated bytes seen_signatures = 4;
+}

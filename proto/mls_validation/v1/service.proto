@@ -71,17 +71,8 @@ message GetAssociationStateRequest {
   repeated xmtp.identity.associations.IdentityUpdate updates = 1;
 }
 
-// Map of members belonging to an inbox_id
-message MemberMap {
-  xmtp.identity.associations.MemberIdentifier key = 1;
-  xmtp.identity.associations.Member value = 2;
-}
-
 // Reponse to GetAssociationStateRequest, containing the final association state
 // for an InboxID
 message GetAssociationStateResponse {
-  string inbox_id = 1;
-  repeated MemberMap members = 2;
-  string recovery_address = 3;
-  repeated bytes seen_signatures = 4;
+  xmtp.identity.associations.AssociationState association_state = 1;
 }
