@@ -69,10 +69,12 @@ message ValidateGroupMessagesResponse {
 message GetAssociationStateRequest {
   // List of identity updates
   repeated xmtp.identity.associations.IdentityUpdate updates = 1;
+  old_sequence_id uint64 = 2;
 }
 
-// Reponse to GetAssociationStateRequest, containing the final association state
+// Response to GetAssociationStateRequest, containing the final association state
 // for an InboxID
 message GetAssociationStateResponse {
   xmtp.identity.associations.AssociationState association_state = 1;
+  xmtp.identity.associations.AssociationStateDiff state_diff = 2;
 }

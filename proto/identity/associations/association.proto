@@ -92,3 +92,9 @@ message AssociationState {
   string recovery_address = 3;
   repeated bytes seen_signatures = 4;
 }
+
+/// state diff between two final AssociationStates
+message AssociationStateDiff {
+  repeated MemberIdentifier new_members = 1;
+  repeated MemberIdentifier removed_members = 2;
+}
