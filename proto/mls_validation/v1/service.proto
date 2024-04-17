@@ -69,7 +69,7 @@ message ValidateGroupMessagesResponse {
 message GetAssociationStateRequest {
   // List of identity updates
   repeated xmtp.identity.associations.IdentityUpdate updates = 1;
-  old_sequence_id uint64 = 2;
+  uint64 old_sequence_id = 2;
 }
 
 // Response to GetAssociationStateRequest, containing the final association state
