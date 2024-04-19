@@ -28,6 +28,8 @@ message FrameActionBody {
   string input_text = 6;
   // A state serialized to a string (for example via JSON.stringify()). Maximum 4096 bytes.
   string state = 7;
+  // A 0x wallet address
+  string address = 8;
 }
 
 // The outer payload that will be sent as the `messageBytes` in the
