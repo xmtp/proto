@@ -16,7 +16,10 @@ message RecoverableEcdsaSignature {
 
 // EdDSA signature for 25519
 message RecoverableEd25519Signature {
+  // 64 bytes [R(32 bytes) || S(32 bytes)]
   bytes bytes = 1;
+  // 32 bytes
+  bytes public_key = 2;
 }
 
 // Smart wallet signature
