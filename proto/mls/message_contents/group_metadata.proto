@@ -24,7 +24,7 @@ enum ConversationType {
 message PolicySet {
   MembershipPolicy add_member_policy = 1;
   MembershipPolicy remove_member_policy = 2;
-  MetadataPolicy update_group_name_policy = 3;
+  map<string, MetadataPolicy> update_metadata_policy = 3;
 }
 
 // A policy that governs adding/removing members or installations
