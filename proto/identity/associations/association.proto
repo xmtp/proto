@@ -16,6 +16,12 @@ message MemberIdentifier {
   }
 }
 
+// single member that optionally indicates the member that added them
+message Member {
+  MemberIdentifier identifier = 1;
+  optional MemberIdentifier added_by_entity = 2;
+}
+
 // The first entry of any XID log. The XID must be deterministically derivable
 // from the address and nonce.
 // The recovery address defaults to the initial associated_address unless
@@ -71,4 +77,24 @@ message IdentityUpdate {
   repeated IdentityAction actions = 1;
   uint64 client_timestamp_ns = 2;
   string inbox_id = 3;
+}
+
+// Map of members belonging to an inbox_id
+message MemberMap {
+  MemberIdentifier key = 1;
+  Member value = 2;
+}
+
+// A final association state resulting from multiple `IdentityUpdates`
+message AssociationState {
+  string inbox_id = 1;
+  repeated MemberMap members = 2;
+  string recovery_address = 3;
+  repeated bytes seen_signatures = 4;
+}
+
+/// state diff between two final AssociationStates
+message AssociationStateDiff {
+  repeated MemberIdentifier new_members = 1;
+  repeated MemberIdentifier removed_members = 2;
 }
