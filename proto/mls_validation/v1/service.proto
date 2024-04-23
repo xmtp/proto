@@ -2,6 +2,8 @@
 syntax = "proto3";
 package xmtp.mls_validation.v1;
 
+import "identity/associations/association.proto";
+
 option go_package = "github.com/xmtp/proto/v3/go/mls_validation/v1";
 
 // RPCs for the new MLS API
@@ -11,6 +13,9 @@ service ValidationApi {
 
   // Validates and parses a group message and returns relevant details
   rpc ValidateGroupMessages(ValidateGroupMessagesRequest) returns (ValidateGroupMessagesResponse) {}
+  
+  // Gets the final association state for a batch of identity updates
+  rpc GetAssociationState(GetAssociationStateRequest) returns (GetAssociationStateResponse) {}
 }
 
 // Contains a batch of serialized Key Packages
@@ -58,4 +63,18 @@ message ValidateGroupMessagesResponse {
   }
 
   repeated ValidationResponse responses = 1;
+}
+
+// Request to get a final association state for identity updates
+message GetAssociationStateRequest {
+  // List of identity updates
+  repeated xmtp.identity.associations.IdentityUpdate old_updates = 1;
+  repeated xmtp.identity.associations.IdentityUpdate new_updates = 2;
+}
+
+// Response to GetAssociationStateRequest, containing the final association state
+// for an InboxID
+message GetAssociationStateResponse {
+  xmtp.identity.associations.AssociationState association_state = 1;
+  xmtp.identity.associations.AssociationStateDiff state_diff = 2;
 }
