@@ -32,7 +32,7 @@ message Erc1271Signature {
   // The actual signature bytes
   bytes signature = 3;
   // RPC URL of the node where the contract is deployed
-  string rpc_url = 4;
+  string node_rpc_url = 4;
 }
 
 // An existing address on xmtpv2 may have already signed a legacy identity key
