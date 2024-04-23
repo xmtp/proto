@@ -8,5 +8,5 @@ option java_package = "org.xmtp.proto.mls.message.contents";
 
 // Message for group mutable metadata
 message GroupMutableMetadataV1 {
-  map<string, string> attributes = 1;  // Map to store various metadata attributes
+  string group_name = 1;
 }
