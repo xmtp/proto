@@ -3,6 +3,7 @@ syntax = "proto3";
 package xmtp.mls_validation.v1;
 
 import "identity/associations/association.proto";
+import "identity/credential.proto";
 
 option go_package = "github.com/xmtp/proto/v3/go/mls_validation/v1";
 
@@ -16,6 +17,10 @@ service ValidationApi {
   
   // Gets the final association state for a batch of identity updates
   rpc GetAssociationState(GetAssociationStateRequest) returns (GetAssociationStateResponse) {}
+
+  // Validate an InboxID Key Package
+  // need public key possibly
+  rpc ValidateInboxId(ValidateInboxIdKeyPackageRequest) returns (ValidateInboxIdKeyPackageResponse) {}
 }
 
 // Contains a batch of serialized Key Packages
@@ -77,4 +82,29 @@ message GetAssociationStateRequest {
 message GetAssociationStateResponse {
   xmtp.identity.associations.AssociationState association_state = 1;
   xmtp.identity.associations.AssociationStateDiff state_diff = 2;
+}
+
+// Request to validate an InboxID with the backend service. Ensures an Inbox Id <> Installation key are valid.
+message ValidateInboxIdRequest {
+  // a single validation request
+  message ValidationRequest {
+    xmtp.identity.MlsCredential credential = 1;
+    bytes installation_public_key = 2;
+  }
+
+  // list of validation requests
+  repeated ValidationRequest requests = 1;
+}
+
+// Response to ValidateInboxIdRequest
+message ValidateInboxIdResponse {
+  // a single validation response
+  message ValidationResponse {
+    bool is_ok = 1;
+    string error_message = 2;
+    string inbox_id = 2;
+    uint64 expiration = 3;
+  }
+  // List of validation responses
+  repeated ValidationResponse responses = 1;
 }
