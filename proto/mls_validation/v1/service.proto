@@ -20,7 +20,7 @@ service ValidationApi {
 
   // Validate an InboxID Key Package
   // need public key possibly
-  rpc ValidateInboxId(ValidateInboxIdRequest) returns (ValidateInboxIdResponse) {}
+  rpc ValidateInboxIds(ValidateInboxIdsRequest) returns (ValidateInboxIdsResponse) {}
 }
 
 // Contains a batch of serialized Key Packages
