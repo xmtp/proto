@@ -85,7 +85,7 @@ message GetAssociationStateResponse {
 }
 
 // Request to validate an InboxID with the backend service. Ensures an Inbox Id <> Installation key are valid.
-message ValidateInboxIdRequest {
+message ValidateInboxIdsRequest {
   // a single validation request
   message ValidationRequest {
     xmtp.identity.MlsCredential credential = 1;
@@ -97,13 +97,13 @@ message ValidateInboxIdRequest {
 }
 
 // Response to ValidateInboxIdRequest
-message ValidateInboxIdResponse {
+message ValidateInboxIdsResponse {
   // a single validation response
   message ValidationResponse {
     bool is_ok = 1;
     string error_message = 2;
-    string inbox_id = 2;
-    uint64 expiration = 3;
+    string inbox_id = 3;
+    uint64 expiration = 4;
   }
   // List of validation responses
   repeated ValidationResponse responses = 1;
