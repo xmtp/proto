@@ -104,7 +104,6 @@ message ValidateInboxIdsResponse {
     bool is_ok = 1;
     string error_message = 2;
     string inbox_id = 3;
-    uint64 expiration = 4;
   }
   // List of validation responses
   repeated ValidationResponse responses = 1;
