@@ -89,9 +89,11 @@ message MessageHistoryReply {
   // Must match an existing request_id from a message history request
   string request_id = 1;
   // Where the messages can be retrieved from
-  string backup_url = 2;
+  string url = 2;
+  // AES Key used to encrypt the message-bundle
+  string encryption_key = 3;
   // HMAC Signature of the message-bundle
-  bytes backup_file_hash = 3;
-  // When the message-bundle should expire,and no longer be accessible
-  int64 expiration_time_ns = 4;
+  bytes bundle_hash = 4;
+  // HMAC Key used to sign the bundle_hash
+  string bundle_signing_key = 5;
 }
