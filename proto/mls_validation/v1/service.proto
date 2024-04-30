@@ -90,6 +90,7 @@ message ValidateInboxIdsRequest {
   message ValidationRequest {
     xmtp.identity.MlsCredential credential = 1;
     bytes installation_public_key = 2;
+    repeated xmtp.identity.associations.IdentityUpdate identity_updates = 3;
   }
 
   // list of validation requests
