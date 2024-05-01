@@ -20,7 +20,6 @@ enum ConversationType {
   CONVERSATION_TYPE_UNSPECIFIED = 0;
   CONVERSATION_TYPE_GROUP = 1;
   CONVERSATION_TYPE_DM = 2;
-  CONVERSATION_TYPE_SYNC = 3;
 }
 
 // The set of policies that govern the group
