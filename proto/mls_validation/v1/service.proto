@@ -17,10 +17,26 @@ service ValidationApi {
   
   // Gets the final association state for a batch of identity updates
   rpc GetAssociationState(GetAssociationStateRequest) returns (GetAssociationStateResponse) {}
-
+  
+  // Validates InboxID key packages and returns credential information for them, without validating anything.
+  rpc ValidateInboxIdKeyPackages(ValidateKeyPackagesRequest) returns (ValidateInboxIdKeyPackagesResponse) {}
+  
   // Validate an InboxID Key Package
   // need public key possibly
   rpc ValidateInboxIds(ValidateInboxIdsRequest) returns (ValidateInboxIdsResponse) {}
+}
+
+// Validates a Inbox-ID Key Package Type
+message ValidateInboxIdKeyPackagesResponse {
+  // one response corresponding to information about one key package
+  message Response {
+    bool is_ok = 1;
+    string error_message = 2;
+    xmtp.identity.MlsCredential credential = 3;
+    bytes installation_public_key = 4;
+  }
+
+  repeated Response responses = 1;
 }
 
 // Contains a batch of serialized Key Packages
