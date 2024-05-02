@@ -9,7 +9,9 @@ option java_package = "org.xmtp.proto.mls.message.contents";
 // Parent message for group metadata
 message GroupMetadataV1 {
   ConversationType conversation_type = 1;
+  // This will be removed soon
   string creator_account_address = 2;
+  string creator_inbox_id = 3;
 }
 
 // Defines the type of conversation
@@ -17,4 +19,5 @@ enum ConversationType {
   CONVERSATION_TYPE_UNSPECIFIED = 0;
   CONVERSATION_TYPE_GROUP = 1;
   CONVERSATION_TYPE_DM = 2;
+  CONVERSATION_TYPE_SYNC = 3;
 }
