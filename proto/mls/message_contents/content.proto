@@ -90,10 +90,15 @@ message MessageHistoryReply {
   string request_id = 1;
   // Where the messages can be retrieved from
   string url = 2;
-  // AES Key used to encrypt the message-bundle
-  string encryption_key = 3;
+  // Generated input 'secret' for the AES Key used to encrypt the message-bundle
+  MessageHistoryKeyType encryption_key = 3;
+  // Generated input 'secret' for the HMAC Key used to sign the bundle_hash
+  MessageHistoryKeyType signing_key = 4;
   // HMAC Signature of the message-bundle
-  bytes bundle_hash = 4;
-  // HMAC Key used to sign the bundle_hash
-  string bundle_signing_key = 5;
+  bytes bundle_hash = 5;
+}
+
+// Key used to encrypt or sign the message-bundle
+message MessageHistoryKeyType {
+  oneof key { bytes chacha20_poly1305 = 1; }
 }
