@@ -98,6 +98,7 @@ message MessageHistoryReply {
   bytes bundle_hash = 5;
 }
 
+// Key used to encrypt or sign the message-bundle
 message MessageHistoryKeyType {
   oneof key { bytes chacha20_poly1305 = 1; }
 }
