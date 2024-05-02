@@ -17,7 +17,7 @@ message GroupMutableMetadataV1 {
   AccountAddresses super_admin_list = 3;
 }
 
-// Wrapper around a list af repeated EVM Account Addresses
+// Wrapper around a list of repeated EVM Account Addresses
 message AccountAddresses {
   repeated string account_addresses = 1;
 }
