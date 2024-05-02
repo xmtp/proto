@@ -91,13 +91,13 @@ message MessageHistoryReply {
   // Where the messages can be retrieved from
   string url = 2;
   // Generated input 'secret' for the AES Key used to encrypt the message-bundle
-  MessagerHistoryKeyType encryption_key = 3;
-  // Generated inut 'secret' for the HMAC Key used to sign the bundle_hash
-  MessagerHistoryKeyType signing_key = 4;
+  MessageHistoryKeyType encryption_key = 3;
+  // Generated input 'secret' for the HMAC Key used to sign the bundle_hash
+  MessageHistoryKeyType signing_key = 4;
   // HMAC Signature of the message-bundle
   bytes bundle_hash = 5;
 }
 
-message MessagerHistoryKeyType {
+message MessageHistoryKeyType {
   oneof key { bytes chacha20_poly1305 = 1; }
 }
