@@ -8,9 +8,8 @@ option java_package = "org.xmtp.proto.mls.message.contents";
 
 // A group member and affected installation IDs
 message MembershipChange {
-  repeated bytes installation_ids = 1;
-  string account_address = 2;
-  string initiated_by_account_address = 3;
+  string inbox_id = 1;
+  string initiated_by_inbox_id = 2;
 }
 
 // The group membership change proto
@@ -21,10 +20,5 @@ message GroupMembershipChanges {
   repeated MembershipChange members_added = 1;
   // Members that have been removed in the commit
   repeated MembershipChange members_removed = 2;
-  // Installations that have been added in the commit, grouped by member
-  repeated MembershipChange installations_added = 3;
-  // Installations removed in the commit, grouped by member
-  repeated MembershipChange installations_removed = 4;
-
   // protolint:enable REPEATED_FIELD_NAMES_PLURALIZED
 }
