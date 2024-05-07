@@ -40,7 +40,7 @@ message GroupUpdated {
   // A summary of a change to the mutable metadata
   message MetadataChange {
     // The field that was changed
-    string key = 1;
+    string field_name = 1;
     // The previous value
     string old_value = 2;
     // The updated value
