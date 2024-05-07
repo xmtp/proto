@@ -8,7 +8,9 @@ option java_package = "org.xmtp.proto.mls.message.contents";
 
 // A group member and affected installation IDs
 message MembershipChange {
-  string inbox_id = 1;
+  repeated bytes installation_ids = 1;
+  string account_address = 2;
+  string initiated_by_account_address = 3;
 }
 
 // The group membership change proto
@@ -19,6 +21,37 @@ message GroupMembershipChanges {
   repeated MembershipChange members_added = 1;
   // Members that have been removed in the commit
   repeated MembershipChange members_removed = 2;
+  // Installations that have been added in the commit, grouped by member
+  repeated MembershipChange installations_added = 3;
+  // Installations removed in the commit, grouped by member
+  repeated MembershipChange installations_removed = 4;
+
   // protolint:enable REPEATED_FIELD_NAMES_PLURALIZED
-  string initiated_by_inbox_id = 3;
+}
+
+// A summary of the changes in a commit.
+// Includes added/removed inboxes and changes to metadata
+message GroupUpdated {
+  // An inbox that was added or removed in this commit
+  message Inbox {
+    string inbox_id = 1;
+  }
+
+  // A summary of a change to the mutable metadata
+  message MetadataChange {
+    // The field that was changed
+    string key = 1;
+    // The previous value
+    string old_value = 2;
+    // The updated value
+    string new_value = 3;
+  }
+
+  string initiated_by_inbox_id = 1;
+  // The inboxes added in the commit
+  repeated Inbox added_inboxes = 2;
+  // The inboxes removed in the commit
+  repeated Inbox removed_inboxes = 3;
+  // The metadata changes in the commit
+  repeated MetadataChange metadata_changes = 4;
 }
