@@ -18,7 +18,8 @@ service ValidationApi {
   // Gets the final association state for a batch of identity updates
   rpc GetAssociationState(GetAssociationStateRequest) returns (GetAssociationStateResponse) {}
   
-  // Validates InboxID key packages and returns credential information for them, without validating anything.
+  // Validates InboxID key packages and returns credential information for them, without checking
+  // whether an InboxId <> InstallationPublicKey pair is really valid.
   rpc ValidateInboxIdKeyPackages(ValidateKeyPackagesRequest) returns (ValidateInboxIdKeyPackagesResponse) {}
   
   // Validate an InboxID Key Package
