@@ -90,6 +90,27 @@ message UpdateMetadataData {
   }
 }
 
+// Sort direction for queries
+enum AdminListUpdateType {
+  ADD_ADMIN = 0;
+  REMOVE_ADMIN = 1;
+  ADD_SUPER_ADMIN = 2;
+  REMOVE_SUPER_ADMIN = 3;
+}
+
+// The data required to update group admin/super admin lists
+message UpdateAdminListsData {
+  // V1 of UpdateMetadataPublishData
+  message V1 {
+    AdminListUpdateType admin_list_update_type = 1;
+    string inbox_id = 2;
+  }
+
+  oneof version {
+    V1 v1 = 1;
+  }
+}
+
 // Generic data-type for all post-commit actions
 message PostCommitAction {
   // An installation
