@@ -90,7 +90,7 @@ message UpdateMetadataData {
   }
 }
 
-// Sort direction for queries
+// Type of update to admin lists
 enum AdminListUpdateType {
   ADD_ADMIN = 0;
   REMOVE_ADMIN = 1;
@@ -100,7 +100,7 @@ enum AdminListUpdateType {
 
 // The data required to update group admin/super admin lists
 message UpdateAdminListsData {
-  // V1 of UpdateMetadataPublishData
+  // V1 of UpdateAdminListsPublishData
   message V1 {
     AdminListUpdateType admin_list_update_type = 1;
     string inbox_id = 2;
