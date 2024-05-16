@@ -194,6 +194,7 @@ message KeyPackageUpload {
 message RegisterInstallationRequest {
   // The Key Package contains all information needed to register an installation
   KeyPackageUpload key_package = 1;
+  isInboxIdCredential bool = 2;
 }
 
 // The response to a RegisterInstallationRequest
@@ -205,6 +206,7 @@ message RegisterInstallationResponse {
 message UploadKeyPackageRequest {
   // An individual key package upload request
   KeyPackageUpload key_package = 1;
+  isInboxIdCredential bool = 2;
 }
 
 // Fetch one or more key packages
