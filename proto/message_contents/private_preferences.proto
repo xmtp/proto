@@ -29,13 +29,13 @@ message PrivatePreferencesAction {
   // Allow V3 1:1 direct message (DM) access
   message AllowInboxId {
     // Add the given inbox id to the allow list
-    repeated string inbox_id = 1;
+    repeated string inbox_ids = 1;
   }
 
   // Deny (block) V3 1:1 direct message (DM) access
   message DenyInboxId {
     // Add the given inbox id to the deny list
-    repeated string inbox_id = 1;
+    repeated string inbox_ids = 1;
   }
 
 
