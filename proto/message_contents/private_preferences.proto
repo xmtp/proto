@@ -26,6 +26,19 @@ message PrivatePreferencesAction {
     repeated string wallet_addresses = 1;
   }
 
+  // Allow V3 1:1 direct message (DM) access
+  message AllowInboxId {
+    // Add the given inbox id to the allow list
+    repeated string inbox_id = 1;
+  }
+
+  // Deny (block) V3 1:1 direct message (DM) access
+  message DenyInboxId {
+    // Add the given inbox id to the deny list
+    repeated string inbox_id = 1;
+  }
+
+
   // Allow Group access
   message AllowGroup {
     // Add the given group_ids to the allow list
@@ -43,6 +56,8 @@ message PrivatePreferencesAction {
     DenyAddress deny_address = 2;
     AllowGroup allow_group = 3;
     DenyGroup deny_group = 4;
+    AllowInboxId allow_inbox_id = 5;
+    DenyInboxId deny_inbox_id = 6;
   }
 }
 
