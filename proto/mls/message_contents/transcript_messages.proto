@@ -38,13 +38,13 @@ message GroupUpdated {
   }
 
   // A summary of a change to the mutable metadata
-  message MetadataChange {
+  message MetadataFieldChange {
     // The field that was changed
     string field_name = 1;
     // The previous value
-    string old_value = 2;
+    optional string old_value = 2;
     // The updated value
-    string new_value = 3;
+    optional string new_value = 3;
   }
 
   string initiated_by_inbox_id = 1;
@@ -53,5 +53,5 @@ message GroupUpdated {
   // The inboxes removed in the commit
   repeated Inbox removed_inboxes = 3;
   // The metadata changes in the commit
-  repeated MetadataChange metadata_changes = 4;
+  repeated MetadataFieldChange metadata_field_changes = 4;
 }
