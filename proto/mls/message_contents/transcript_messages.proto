@@ -28,3 +28,30 @@ message GroupMembershipChanges {
 
   // protolint:enable REPEATED_FIELD_NAMES_PLURALIZED
 }
+
+// A summary of the changes in a commit.
+// Includes added/removed inboxes and changes to metadata
+message GroupUpdated {
+  // An inbox that was added or removed in this commit
+  message Inbox {
+    string inbox_id = 1;
+  }
+
+  // A summary of a change to the mutable metadata
+  message MetadataFieldChange {
+    // The field that was changed
+    string field_name = 1;
+    // The previous value
+    optional string old_value = 2;
+    // The updated value
+    optional string new_value = 3;
+  }
+
+  string initiated_by_inbox_id = 1;
+  // The inboxes added in the commit
+  repeated Inbox added_inboxes = 2;
+  // The inboxes removed in the commit
+  repeated Inbox removed_inboxes = 3;
+  // The metadata changes in the commit
+  repeated MetadataFieldChange metadata_field_changes = 4;
+}
