@@ -35,6 +35,7 @@ message ValidateInboxIdKeyPackagesResponse {
     string error_message = 2;
     xmtp.identity.MlsCredential credential = 3;
     bytes installation_public_key = 4;
+    uint64 expiration = 6; 
   }
 
   repeated Response responses = 1;
