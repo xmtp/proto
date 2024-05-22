@@ -35,6 +35,7 @@ message ValidateInboxIdKeyPackagesResponse {
     string error_message = 2;
     xmtp.identity.MlsCredential credential = 3;
     bytes installation_public_key = 4;
+    uint64 expiration = 5; 
   }
 
   repeated Response responses = 1;
@@ -45,6 +46,7 @@ message ValidateKeyPackagesRequest {
   // Wrapper for each key package
   message KeyPackage {
     bytes key_package_bytes_tls_serialized = 1;
+    bool is_inbox_id_credential = 2;
   }
 
   repeated KeyPackage key_packages = 1;
