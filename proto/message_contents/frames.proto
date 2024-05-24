@@ -30,6 +30,8 @@ message FrameActionBody {
   string state = 7;
   // A 0x wallet address
   string address = 8;
+  // A hash from a transaction
+  string transaction_id = 9;
 }
 
 // The outer payload that will be sent as the `messageBytes` in the
