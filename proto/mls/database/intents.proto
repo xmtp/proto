@@ -90,6 +90,28 @@ message UpdateMetadataData {
   }
 }
 
+// Type of update to admin lists
+enum AdminListUpdateType {
+  ADMIN_LIST_UPDATE_TYPE_UNSPECIFIED = 0;
+  ADMIN_LIST_UPDATE_TYPE_ADD_ADMIN = 1;
+  ADMIN_LIST_UPDATE_TYPE_REMOVE_ADMIN = 2;
+  ADMIN_LIST_UPDATE_TYPE_ADD_SUPER_ADMIN = 3;
+  ADMIN_LIST_UPDATE_TYPE_REMOVE_SUPER_ADMIN = 4;
+}
+
+// The data required to update group admin/super admin lists
+message UpdateAdminListsData {
+  // V1 of UpdateAdminListsPublishData
+  message V1 {
+    AdminListUpdateType admin_list_update_type = 1;
+    string inbox_id = 2;
+  }
+
+  oneof version {
+    V1 v1 = 1;
+  }
+}
+
 // Generic data-type for all post-commit actions
 message PostCommitAction {
   // An installation
