@@ -22,15 +22,17 @@ message RecoverableEd25519Signature {
   bytes public_key = 2;
 }
 
-// Smart wallet signature
-message Erc1271Signature {
-  // CAIP-10
+// Smart Contract Wallet signature
+message SmartContractWalletSignature {
+  // CAIP-10 string
   // https://github.com/ChainAgnostic/CAIPs/blob/main/CAIPs/caip-10.md
   string account_id = 1;
   // Specify the block number to verify the signature against
   uint64 block_number = 2;
   // The actual signature bytes
   bytes signature = 3;
+  // The RPC URL specifies a chain to verify the signature against
+  string chain_rpc_url = 4;
 }
 
 // An existing address on xmtpv2 may have already signed a legacy identity key
@@ -53,7 +55,7 @@ message Signature {
   //    must be inferred from the context in which the signature is provided.
   oneof signature {
     RecoverableEcdsaSignature erc_191 = 1;
-    Erc1271Signature erc_1271 = 2;
+    SmartContractWalletSignature erc_6492 = 2;
     RecoverableEd25519Signature installation_key = 3;
     LegacyDelegatedSignature delegated_erc_191 = 4;
   }
