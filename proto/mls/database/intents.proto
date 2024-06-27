@@ -112,6 +112,40 @@ message UpdateAdminListsData {
   }
 }
 
+// Type of Permission to Update
+enum PermissionUpdateType {
+  PERMISSION_UPDATE_TYPE_UNSPECIFIED = 0;
+  PERMISSION_UPDATE_TYPE_ADD_MEMBER = 1;
+  PERMISSION_UPDATE_TYPE_REMOVE_MEMBER = 2;
+  PERMISSION_UPDATE_TYPE_ADD_ADMIN = 3;
+  PERMISSION_UPDATE_TYPE_REMOVE_ADMIN = 4;
+  PERMISSION_UPDATE_TYPE_UPDATE_METADATA = 5;
+}
+
+// Permission Policy
+enum PermissionPolicyOption {
+  PERMISSION_POLICY_OPTION_UNSPECIFIED = 0;
+  PERMISSION_POLICY_OPTION_ALLOW = 1;
+  PERMISSION_POLICY_OPTION_DENY = 2;
+  PERMISSION_POLICY_OPTION_ADMIN_ONLY = 3;
+  PERMISSION_POLICY_OPTION_SUPER_ADMIN_ONLY = 4;
+}
+
+// The data required to update permissions
+message UpdatePermissionData {
+  // V1 of UpdatePermissionData
+  message V1 {
+    PermissionUpdateType permission_update_type = 1;
+    PermissionPolicyOption permission_policy_option = 2;
+    // Metadata permissions update specify which field permission they are updating
+    optional string metadata_field_name = 3;
+  }
+
+  oneof version {
+    V1 v1 = 1;
+  }
+}
+
 // Generic data-type for all post-commit actions
 message PostCommitAction {
   // An installation
