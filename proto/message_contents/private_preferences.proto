@@ -42,13 +42,13 @@ message PrivatePreferencesAction {
   // Allow Group access
   message AllowGroup {
     // Add the given group_ids to the allow list
-    repeated bytes group_ids = 1;
+    repeated string group_ids = 1;
   }
 
   // Deny (deny) Group access
   message DenyGroup {
     // Add the given group_ids to the deny list
-    repeated bytes group_ids = 1;
+    repeated string group_ids = 1;
   }
 
   oneof message_type {
