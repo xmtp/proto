@@ -12,6 +12,9 @@ message GroupMetadataV1 {
   // This will be removed soon
   string creator_account_address = 2;
   string creator_inbox_id = 3;
+  // Ordering does not matter here
+  Inbox dm_member_one = 4;
+  Inbox dm_member_two = 5;
 }
 
 // Defines the type of conversation
@@ -20,4 +23,9 @@ enum ConversationType {
   CONVERSATION_TYPE_GROUP = 1;
   CONVERSATION_TYPE_DM = 2;
   CONVERSATION_TYPE_SYNC = 3;
+}
+
+// Wrapper around a list of repeated Inbox Ids
+message Inbox {
+  string inbox_id = 1;
 }
