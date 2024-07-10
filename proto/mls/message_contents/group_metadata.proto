@@ -12,7 +12,7 @@ message GroupMetadataV1 {
   // This will be removed soon
   string creator_account_address = 2;
   string creator_inbox_id = 3;
-  DmMembers dm_members = 4;
+  optional DmMembers dm_members = 4;
 }
 
 // Defines the type of conversation
