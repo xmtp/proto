@@ -1,89 +1,93 @@
-message AuthenticatedData {
-	repeated uint64 last_originator_sids = 1;
-}
+syntax = "proto3";
 
-// From MLS spec
-message MlsPrivateMessage {
-    bytes group_id;
-    uint64 epoch;
-    // One of Application, Proposal, Commit
-    ContentType content_type;
-    bytes authenticated_data;
-    bytes encrypted_sender_data;
-    bytes ciphertext;
+package xmtp.xmtpv4;
+
+import "google/api/annotations.proto";
+import "identity/associations/signature.proto";
+
+option go_package = "github.com/xmtp/proto/v3/go/xmtpv4/message_api";
+
+message AuthenticatedData {
+  repeated uint64 last_originator_sids = 1;
 }
 
 // Replaces GroupMessageInput V1
 // To rename or not to rename?
 message ClientEnvelope {
-	// TLS serialized MlsMessageIn, which contains MlsPrivateMessage
-	bytes data = 1;
-	bytes sender_hmac = 2;
+  // TLS serialized MlsMessageIn, which contains MlsPrivateMessage
+  bytes data = 1;
+  bytes sender_hmac = 2;
 }
 
 message PayerEnvelope {
-	bytes unsigned_client_envelope = 1; // Protobuf serialized
-	RecoverableEcdsaSignature payer_signature = 2;
+  bytes unsigned_client_envelope = 1; // Protobuf serialized
+  xmtp.identity.associations.RecoverableEcdsaSignature payer_signature = 2;
 }
 
 // For blockchain envelopes, the originator_sid is set by the smart contract,
 // but the originator_ns is set by the publishing node
 message UnsignedOriginatorEnvelope {
-	uint64 originator_sid = 1;
-	uint64 originator_ns = 2;
-	PayerEnvelope payer_envelope = 3;
+  uint64 originator_sid = 1;
+  uint64 originator_ns = 2;
+  PayerEnvelope payer_envelope = 3;
 }
 
 message BlockchainProof {
-	uint64 block_number = 1;
-	uint32 publisher_id = 2;
+  uint64 block_number = 1;
+  uint32 publisher_id = 2;
 }
 
 message OriginatorEnvelope {
-	bytes unsigned_originator_envelope = 1; // Protobuf serialized
-	oneof proof {
-		RecoverableEcdsaSignature originator_signature = 2;
-		BlockchainProof blockchain_proof = 3;
-	}
+  bytes unsigned_originator_envelope = 1; // Protobuf serialized
+  oneof proof {
+    xmtp.identity.associations.RecoverableEcdsaSignature originator_signature = 2;
+    BlockchainProof blockchain_proof = 3;
+  }
 }
 
 message GatewayEnvelope {
-	uint64 gateway_sid = 1;
-	OriginatorEnvelope originator_envelope = 2;
+  uint64 gateway_sid = 1;
+  OriginatorEnvelope originator_envelope = 2;
 }
 
-
-
-
 message EnvelopesQuery {
-	optional oneof last_seen {
-		uint64 originator_sid = 1;
-		uint64 gateway_sid = 2;
-	}
-	optional oneof filter {
-		bytes topic = 3;
-		uint32 originator_id = 4;
-	}
+  oneof last_seen {
+    uint64 originator_sid = 1;
+    uint64 gateway_sid = 2;
+  }
+
+  oneof filter {
+    bytes topic = 3;
+    uint32 originator_id = 4;
+  }
 }
 
 message BatchSubscribeEnvelopesRequest {
-	message SubscribeEnvelopesRequest {
-		EnvelopesQuery query = 1;
-	}
-	repeated SubscribeEnvelopesRequest requests = 1;
+  message SubscribeEnvelopesRequest {
+    EnvelopesQuery query = 1;
+  }
+  repeated SubscribeEnvelopesRequest requests = 1;
 }
 
-rpc SubscribeEnvelopes(BatchSubscribeEnvelopesRequest) returns (stream GatewayEnvelope) {
-  option (google.api.http) = {
-    post: "/mls/v2/subscribe-envelopes"
-    body: "*"
-  };
+service ReplicationApi {
+  rpc SubscribeEnvelopes(BatchSubscribeEnvelopesRequest) returns (stream GatewayEnvelope) {
+    option (google.api.http) = {
+      post: "/mls/v2/subscribe-envelopes"
+      body: "*"
+    };
+  }
+
+  rpc QueryEnvelopes(QueryEnvelopesRequest) returns (QueryEnvelopesResponse) {
+    option (google.api.http) = {
+      post: "/mls/v2/query-envelopes"
+      body: "*"
+    };
+  }
 }
 
 // Pagination config for queries
 message PagingInfo {
-  SortDirection direction = 1;
-  uint32 limit = 2;
+  uint32 limit = 1;
 }
 
 message QueryEnvelopesRequest {
@@ -95,22 +99,15 @@ message QueryEnvelopesResponse {
   repeated GatewayEnvelope envelopes = 1;
 }
 
-rpc QueryEnvelopes(QueryEnvelopesRequest) returns (QueryEnvelopesResponse) {
-  option (google.api.http) = {
-    post: "/mls/v2/query-envelopes"
-    body: "*"
-  };
-}
-
 enum Misbehavior {
-	MISBEHAVIOR_UNSPECIFIED = 0;
-	MISBEHAVIOR_UNAVAILABLE_NODE = 1;
-	MISBEHAVIOR_OUT_OF_ORDER_ORIGINATOR_SID = 2;
-	MISBEHAVIOR_DUPLICATE_ORIGINATOR_SID = 3;
-	MISBEHAVIOR_CYCLICAL_MESSAGE_ORDERING;	
+  MISBEHAVIOR_UNSPECIFIED = 0;
+  MISBEHAVIOR_UNAVAILABLE_NODE = 1;
+  MISBEHAVIOR_OUT_OF_ORDER_ORIGINATOR_SID = 2;
+  MISBEHAVIOR_DUPLICATE_ORIGINATOR_SID = 3;
+  MISBEHAVIOR_CYCLICAL_MESSAGE_ORDERING = 4;
 }
 
 message MisbehaviorReport {
-	MisbehaviorType type;
-	repeated OriginatorEnvelope envelopes;
+  Misbehavior type = 1;
+  repeated OriginatorEnvelope envelopes = 2;
 }
