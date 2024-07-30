@@ -1,0 +1,129 @@
+// Message API for XMTP V4
+syntax = "proto3";
+
+package xmtp.xmtpv4;
+
+import "google/api/annotations.proto";
+import "identity/associations/signature.proto";
+
+option go_package = "github.com/xmtp/proto/v3/go/xmtpv4/message_api";
+
+// Authenticated data within the MlsPrivateMessage
+message AuthenticatedData {
+  repeated uint64 last_originator_sids = 1;
+}
+
+// Replaces GroupMessageInput V1
+// To rename or not to rename?
+message ClientEnvelope {
+  // TLS serialized MlsMessageIn, which contains MlsPrivateMessage
+  bytes data = 1;
+  bytes sender_hmac = 2;
+}
+
+// Wraps client envelope with payer signature
+message PayerEnvelope {
+  bytes unsigned_client_envelope = 1; // Protobuf serialized
+  xmtp.identity.associations.RecoverableEcdsaSignature payer_signature = 2;
+}
+
+// For blockchain envelopes, the originator_sid is set by the smart contract,
+// but the originator_ns is set by the publishing node
+message UnsignedOriginatorEnvelope {
+  uint64 originator_sid = 1;
+  uint64 originator_ns = 2;
+  PayerEnvelope payer_envelope = 3;
+}
+
+// An alternative to a signature for blockchain payloads
+message BlockchainProof {
+  uint64 block_number = 1;
+  uint32 publisher_id = 2;
+}
+
+// Signed originator envelope
+message OriginatorEnvelope {
+  bytes unsigned_originator_envelope = 1; // Protobuf serialized
+  oneof proof {
+    xmtp.identity.associations.RecoverableEcdsaSignature originator_signature = 2;
+    BlockchainProof blockchain_proof = 3;
+  }
+}
+
+// Wraps originator envelope with a sequence ID assigned by the gateway
+message GatewayEnvelope {
+  uint64 gateway_sid = 1;
+  OriginatorEnvelope originator_envelope = 2;
+}
+
+// Misbehavior types
+enum Misbehavior {
+  MISBEHAVIOR_UNSPECIFIED = 0;
+  MISBEHAVIOR_UNAVAILABLE_NODE = 1;
+  MISBEHAVIOR_OUT_OF_ORDER_ORIGINATOR_SID = 2;
+  MISBEHAVIOR_DUPLICATE_ORIGINATOR_SID = 3;
+  MISBEHAVIOR_CYCLICAL_MESSAGE_ORDERING = 4;
+}
+
+// Reports node misbehavior, submittable by nodes or by clients
+message MisbehaviorReport {
+  Misbehavior type = 1;
+  repeated OriginatorEnvelope envelopes = 2;
+}
+
+// Query for envelopes, shared by query and subscribe endpoints
+message EnvelopesQuery {
+  oneof last_seen {
+    uint64 originator_sid = 1;
+    uint64 gateway_sid = 2;
+  }
+
+  oneof filter {
+    bytes topic = 3;
+    uint32 originator_id = 4;
+  }
+}
+
+// Batch subscribe to envelopes
+message BatchSubscribeEnvelopesRequest {
+  // Single subscription request for envelopes
+  message SubscribeEnvelopesRequest {
+    EnvelopesQuery query = 1;
+  }
+  repeated SubscribeEnvelopesRequest requests = 1;
+}
+
+// Streamed response for batch subscribe - can be multiple envelopes at once
+message BatchSubscribeEnvelopesResponse {
+  repeated GatewayEnvelope envelopes = 1;
+}
+
+// Query envelopes request
+message QueryEnvelopesRequest {
+  EnvelopesQuery query = 1;
+  uint32 limit = 2;
+}
+
+// Query envelopes response
+message QueryEnvelopesResponse {
+  repeated GatewayEnvelope envelopes = 1;
+}
+
+// Replication API
+service ReplicationApi {
+  // Subscribe to envelopes
+  rpc BatchSubscribeEnvelopes(BatchSubscribeEnvelopesRequest) returns (stream BatchSubscribeEnvelopesResponse) {
+    option (google.api.http) = {
+      post: "/mls/v2/subscribe-envelopes"
+      body: "*"
+    };
+  }
+
+  // Query envelopes
+  rpc QueryEnvelopes(QueryEnvelopesRequest) returns (QueryEnvelopesResponse) {
+    option (google.api.http) = {
+      post: "/mls/v2/query-envelopes"
+      body: "*"
+    };
+  }
+}
