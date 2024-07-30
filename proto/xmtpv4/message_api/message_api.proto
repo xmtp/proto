@@ -98,15 +98,10 @@ message BatchSubscribeEnvelopesResponse {
   repeated GatewayEnvelope envelopes = 1;
 }
 
-// Pagination config for queries
-message PagingInfo {
-  uint32 limit = 1;
-}
-
 // Query envelopes request
 message QueryEnvelopesRequest {
   EnvelopesQuery query = 1;
-  PagingInfo paging_info = 2;
+  uint32 limit = 2;
 }
 
 // Query envelopes response
