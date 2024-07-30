@@ -56,6 +56,21 @@ message GatewayEnvelope {
   OriginatorEnvelope originator_envelope = 2;
 }
 
+// Misbehavior types
+enum Misbehavior {
+  MISBEHAVIOR_UNSPECIFIED = 0;
+  MISBEHAVIOR_UNAVAILABLE_NODE = 1;
+  MISBEHAVIOR_OUT_OF_ORDER_ORIGINATOR_SID = 2;
+  MISBEHAVIOR_DUPLICATE_ORIGINATOR_SID = 3;
+  MISBEHAVIOR_CYCLICAL_MESSAGE_ORDERING = 4;
+}
+
+// Reports node misbehavior, submittable by nodes or by clients
+message MisbehaviorReport {
+  Misbehavior type = 1;
+  repeated OriginatorEnvelope envelopes = 2;
+}
+
 // Query for envelopes, shared by query and subscribe endpoints
 message EnvelopesQuery {
   oneof last_seen {
@@ -78,7 +93,24 @@ message BatchSubscribeEnvelopesRequest {
   repeated SubscribeEnvelopesRequest requests = 1;
 }
 
+// Streamed response for batch subscribe - can be multiple envelopes at once
 message BatchSubscribeEnvelopesResponse {
+  repeated GatewayEnvelope envelopes = 1;
+}
+
+// Pagination config for queries
+message PagingInfo {
+  uint32 limit = 1;
+}
+
+// Query envelopes request
+message QueryEnvelopesRequest {
+  EnvelopesQuery query = 1;
+  PagingInfo paging_info = 2;
+}
+
+// Query envelopes response
+message QueryEnvelopesResponse {
   repeated GatewayEnvelope envelopes = 1;
 }
 
@@ -99,35 +131,4 @@ service ReplicationApi {
       body: "*"
     };
   }
-}
-
-// Pagination config for queries
-message PagingInfo {
-  uint32 limit = 1;
-}
-
-// Query envelopes request
-message QueryEnvelopesRequest {
-  EnvelopesQuery query = 1;
-  PagingInfo paging_info = 2;
-}
-
-// Query envelopes response
-message QueryEnvelopesResponse {
-  repeated GatewayEnvelope envelopes = 1;
-}
-
-// Misbehavior types
-enum Misbehavior {
-  MISBEHAVIOR_UNSPECIFIED = 0;
-  MISBEHAVIOR_UNAVAILABLE_NODE = 1;
-  MISBEHAVIOR_OUT_OF_ORDER_ORIGINATOR_SID = 2;
-  MISBEHAVIOR_DUPLICATE_ORIGINATOR_SID = 3;
-  MISBEHAVIOR_CYCLICAL_MESSAGE_ORDERING = 4;
-}
-
-// Reports node misbehavior, submittable by nodes or by clients
-message MisbehaviorReport {
-  Misbehavior type = 1;
-  repeated OriginatorEnvelope envelopes = 2;
 }
