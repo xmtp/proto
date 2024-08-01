@@ -5,20 +5,32 @@ package xmtp.xmtpv4;
 
 import "google/api/annotations.proto";
 import "identity/associations/signature.proto";
+import "mls/api/v1/mls.proto";
 
 option go_package = "github.com/xmtp/proto/v3/go/xmtpv4/message_api";
 
-// Authenticated data within the MlsPrivateMessage
+// Data visible to the server that has been signed by the client.
+// Included in one of:
+// - MLS PrivateMessage.authenticated_data for messages and commits
+// - MLS KeyPackageTBS.extensions for key packages
+// - Omitted for Welcome messages
 message AuthenticatedData {
   repeated uint64 last_originator_sids = 1;
 }
 
-// Replaces GroupMessageInput V1
-// To rename or not to rename?
+// Data visible to the server that has been signed by the payer. Fields can
+// be set by the client OR the payer, but the final result will be returned
+// to the client after publishing.
 message ClientEnvelope {
-  // TLS serialized MlsMessageIn, which contains MlsPrivateMessage
-  bytes data = 1;
-  bytes sender_hmac = 2;
+  uint32 target_originator = 1;
+  bytes target_topic = 2;
+  oneof payload {
+    xmtp.mls.api.v1.GroupMessageInput group_message = 3;
+    xmtp.mls.api.v1.WelcomeMessageInput welcome_message = 4;
+    xmtp.mls.api.v1.RegisterInstallationRequest register_installation = 5;
+    xmtp.mls.api.v1.UploadKeyPackageRequest upload_key_package = 6;
+    xmtp.mls.api.v1.RevokeInstallationRequest revoke_installation = 7;
+  }
 }
 
 // Wraps client envelope with payer signature
@@ -73,14 +85,16 @@ message MisbehaviorReport {
 
 // Query for envelopes, shared by query and subscribe endpoints
 message EnvelopesQuery {
-  oneof last_seen {
-    uint64 originator_sid = 1;
-    uint64 gateway_sid = 2;
+  oneof filter {
+    // Client queries
+    bytes topic = 1;
+    // Node queries
+    uint32 originator_id = 2;
   }
 
-  oneof filter {
-    bytes topic = 3;
-    uint32 originator_id = 4;
+  oneof last_seen {
+    uint64 originator_sid = 3;
+    uint64 gateway_sid = 4;
   }
 }
 
@@ -109,6 +123,26 @@ message QueryEnvelopesResponse {
   repeated GatewayEnvelope envelopes = 1;
 }
 
+message PublishEnvelopeRequest {
+  PayerEnvelope payer_envelope = 1;
+}
+
+message PublishEnvelopeResponse {
+  message PublishEnvelopeSuccess {
+    OriginatorEnvelope originator_envelope = 1;
+  }
+  message PublishEnvelopeFailure {
+    // TODO. Possible reasons:
+    // last_originator_sids are not synced
+    // identity validation failed, if we are doing this server-side
+  }
+
+  oneof result {
+    PublishEnvelopeSuccess success = 1;
+    PublishEnvelopeFailure failure = 2;
+  }
+}
+
 // Replication API
 service ReplicationApi {
   // Subscribe to envelopes
@@ -123,6 +157,14 @@ service ReplicationApi {
   rpc QueryEnvelopes(QueryEnvelopesRequest) returns (QueryEnvelopesResponse) {
     option (google.api.http) = {
       post: "/mls/v2/query-envelopes"
+      body: "*"
+    };
+  }
+
+  // Publish envelope
+  rpc PublishEnvelope(PublishEnvelopeRequest) returns (PublishEnvelopeResponse) {
+    option (google.api.http) = {
+      post: "/mls/v2/publish-envelope"
       body: "*"
     };
   }
