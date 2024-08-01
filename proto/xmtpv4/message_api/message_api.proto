@@ -128,19 +128,7 @@ message PublishEnvelopeRequest {
 }
 
 message PublishEnvelopeResponse {
-  message PublishEnvelopeSuccess {
-    OriginatorEnvelope originator_envelope = 1;
-  }
-  message PublishEnvelopeFailure {
-    // TODO. Possible reasons:
-    // last_originator_sids are not synced
-    // identity validation failed, if we are doing this server-side
-  }
-
-  oneof result {
-    PublishEnvelopeSuccess success = 1;
-    PublishEnvelopeFailure failure = 2;
-  }
+  OriginatorEnvelope originator_envelope = 1;
 }
 
 // Replication API
