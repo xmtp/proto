@@ -43,7 +43,7 @@ message PayerEnvelope {
 // but the originator_ns is set by the publishing node
 message UnsignedOriginatorEnvelope {
   uint64 originator_sid = 1;
-  uint64 originator_ns = 2;
+  int64 originator_ns = 2;
   PayerEnvelope payer_envelope = 3;
 }
 
