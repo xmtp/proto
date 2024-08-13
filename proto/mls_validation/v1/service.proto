@@ -10,21 +10,24 @@ option go_package = "github.com/xmtp/proto/v3/go/mls_validation/v1";
 // RPCs for the new MLS API
 service ValidationApi {
   // Validates and parses a batch of key packages and returns relevant details
-  rpc ValidateKeyPackages(ValidateKeyPackagesRequest) returns (ValidateKeyPackagesResponse) {}
+  rpc ValidateKeyPackages(ValidateKeyPackagesRequest) returns (ValidateKeyPackagesResponse) {
+    option deprecated = true;
+  }
 
   // Validates and parses a group message and returns relevant details
   rpc ValidateGroupMessages(ValidateGroupMessagesRequest) returns (ValidateGroupMessagesResponse) {}
-  
+
   // Gets the final association state for a batch of identity updates
   rpc GetAssociationState(GetAssociationStateRequest) returns (GetAssociationStateResponse) {}
-  
+
   // Validates InboxID key packages and returns credential information for them, without checking
   // whether an InboxId <> InstallationPublicKey pair is really valid.
   rpc ValidateInboxIdKeyPackages(ValidateKeyPackagesRequest) returns (ValidateInboxIdKeyPackagesResponse) {}
-  
+
   // Validate an InboxID Key Package
-  // need public key possibly
-  rpc ValidateInboxIds(ValidateInboxIdsRequest) returns (ValidateInboxIdsResponse) {}
+  rpc ValidateInboxIds(ValidateInboxIdsRequest) returns (ValidateInboxIdsResponse) {
+    option deprecated = true;
+  }
 }
 
 // Validates a Inbox-ID Key Package Type
@@ -35,7 +38,7 @@ message ValidateInboxIdKeyPackagesResponse {
     string error_message = 2;
     xmtp.identity.MlsCredential credential = 3;
     bytes installation_public_key = 4;
-    uint64 expiration = 5; 
+    uint64 expiration = 5;
   }
 
   repeated Response responses = 1;

@@ -36,7 +36,9 @@ service MlsApi {
   }
 
   // Register a new installation, which would be validated before storage
+  // DEPRECATED
   rpc RegisterInstallation(RegisterInstallationRequest) returns (RegisterInstallationResponse) {
+    option deprecated = true;
     option (google.api.http) = {
       post: "/mls/v1/register-installation"
       body: "*"
@@ -44,7 +46,9 @@ service MlsApi {
   }
 
   // Upload a new KeyPackage, which would be validated before storage
+  // DEPRECATED
   rpc UploadKeyPackage(UploadKeyPackageRequest) returns (google.protobuf.Empty) {
+    option deprecated = true;
     option (google.api.http) = {
       post: "/mls/v1/upload-key-package"
       body: "*"
@@ -52,7 +56,9 @@ service MlsApi {
   }
 
   // Get one or more Key Packages by installation_id
+  // DEPRECATED
   rpc FetchKeyPackages(FetchKeyPackagesRequest) returns (FetchKeyPackagesResponse) {
+    option deprecated = true;
     option (google.api.http) = {
       post: "/mls/v1/fetch-key-packages"
       body: "*"
@@ -61,7 +67,9 @@ service MlsApi {
 
   // Would delete all key packages associated with the installation and mark
   // the installation as having been revoked
+  // DEPRECATED
   rpc RevokeInstallation(RevokeInstallationRequest) returns (google.protobuf.Empty) {
+    option deprecated = true;
     option (google.api.http) = {
       post: "/mls/v1/revoke-installation"
       body: "*"
@@ -71,7 +79,9 @@ service MlsApi {
   // Used to check for changes related to members of a group.
   // Would return an array of any new installations associated with the wallet
   // address, and any revocations that have happened.
+  // DEPRECATED
   rpc GetIdentityUpdates(GetIdentityUpdatesRequest) returns (GetIdentityUpdatesResponse) {
+    option deprecated = true;
     option (google.api.http) = {
       post: "/mls/v1/get-identity-updates"
       body: "*"
@@ -194,7 +204,7 @@ message KeyPackageUpload {
 message RegisterInstallationRequest {
   // The Key Package contains all information needed to register an installation
   KeyPackageUpload key_package = 1;
-  bool is_inbox_id_credential= 2;
+  bool is_inbox_id_credential = 2;
 }
 
 // The response to a RegisterInstallationRequest

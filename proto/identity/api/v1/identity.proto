@@ -43,6 +43,23 @@ service IdentityApi {
       body: "*"
     };
   }
+
+  // Upload a key package to the server, replacing any previous key packages for the installation
+  rpc AddKeyPackage(AddKeyPackageRequest) returns (AddKeyPackageResponse) {
+    option (google.api.http) = {
+      post: "/identity/v1/add-key-package"
+      body: "*"
+    };
+  }
+
+  // Get key package for the given installation IDs.
+  // Will return an error if any key packages are not found
+  rpc GetKeyPackages(GetKeyPackagesRequest) returns (GetKeyPackagesResponse) {
+    option (google.api.http) = {
+      post: "/identity/v1/get-key-packages"
+      body: "*"
+    };
+  }
 }
 
 // Publishes an identity update to the network
@@ -102,4 +119,22 @@ message GetInboxIdsResponse {
   }
 
   repeated Response responses = 1;
+}
+
+message AddKeyPackageRequest {
+  bytes key_package = 1;
+}
+
+message AddKeyPackageResponse {}
+
+message GetKeyPackagesRequest {
+  repeated bytes installation_keys = 1;
+}
+
+message GetKeyPackagesResponse {
+  message KeyPackage {
+    bytes key_package_tls_serialized = 1;
+  }
+
+  repeated KeyPackage key_packages = 1;
 }
