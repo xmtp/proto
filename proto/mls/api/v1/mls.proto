@@ -36,9 +36,7 @@ service MlsApi {
   }
 
   // Register a new installation, which would be validated before storage
-  // DEPRECATED
   rpc RegisterInstallation(RegisterInstallationRequest) returns (RegisterInstallationResponse) {
-    option deprecated = true;
     option (google.api.http) = {
       post: "/mls/v1/register-installation"
       body: "*"
@@ -46,9 +44,7 @@ service MlsApi {
   }
 
   // Upload a new KeyPackage, which would be validated before storage
-  // DEPRECATED
   rpc UploadKeyPackage(UploadKeyPackageRequest) returns (google.protobuf.Empty) {
-    option deprecated = true;
     option (google.api.http) = {
       post: "/mls/v1/upload-key-package"
       body: "*"
@@ -195,12 +191,10 @@ message KeyPackageUpload {
 }
 
 // Register a new installation
-// DEPRECATED
 message RegisterInstallationRequest {
-  option deprecated = true;
   // The Key Package contains all information needed to register an installation
   KeyPackageUpload key_package = 1;
-  bool is_inbox_id_credential = 2;
+  bool is_inbox_id_credential= 2;
 }
 
 // The response to a RegisterInstallationRequest
