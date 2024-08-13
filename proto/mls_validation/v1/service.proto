@@ -10,18 +10,30 @@ option go_package = "github.com/xmtp/proto/v3/go/mls_validation/v1";
 // RPCs for the new MLS API
 service ValidationApi {
   // Validates and parses a batch of key packages and returns relevant details
-  rpc ValidateKeyPackages(ValidateKeyPackagesRequest) returns (ValidateKeyPackagesResponse) {}
+  // DEPRECATED
+  rpc ValidateKeyPackages(ValidateKeyPackagesRequest) returns (ValidateKeyPackagesResponse) {
+    option deprecated = true;
+  }
 
   // Validates and parses a group message and returns relevant details
   rpc ValidateGroupMessages(ValidateGroupMessagesRequest) returns (ValidateGroupMessagesResponse) {}
-  
+
   // Gets the final association state for a batch of identity updates
   rpc GetAssociationState(GetAssociationStateRequest) returns (GetAssociationStateResponse) {}
-  
+
   // Validates InboxID key packages and returns credential information for them, without checking
   // whether an InboxId <> InstallationPublicKey pair is really valid.
-  rpc ValidateInboxIdKeyPackages(ValidateKeyPackagesRequest) returns (ValidateInboxIdKeyPackagesResponse) {}
-  
+  // DEPRECATED
+  rpc ValidateInboxIdKeyPackages(ValidateKeyPackagesRequest) returns (ValidateInboxIdKeyPackagesResponse) {
+    option deprecated = true;
+  }
+
+  /**
+     Validate a key package, returning the installation ID based on the signing key
+     Expects a credential in the inbox_id format.
+     **/
+  rpc ValidateKeyPackagesV2(ValidateKeyPackagesV2Request) returns (ValidateKeyPackagesV2Response) {}
+
   // Validate an InboxID Key Package
   // need public key possibly
   rpc ValidateInboxIds(ValidateInboxIdsRequest) returns (ValidateInboxIdsResponse) {}
@@ -29,13 +41,14 @@ service ValidationApi {
 
 // Validates a Inbox-ID Key Package Type
 message ValidateInboxIdKeyPackagesResponse {
+  option deprecated = true;
   // one response corresponding to information about one key package
   message Response {
     bool is_ok = 1;
     string error_message = 2;
     xmtp.identity.MlsCredential credential = 3;
     bytes installation_public_key = 4;
-    uint64 expiration = 5; 
+    uint64 expiration = 5;
   }
 
   repeated Response responses = 1;
@@ -43,6 +56,7 @@ message ValidateInboxIdKeyPackagesResponse {
 
 // Contains a batch of serialized Key Packages
 message ValidateKeyPackagesRequest {
+  option deprecated = true;
   // Wrapper for each key package
   message KeyPackage {
     bytes key_package_bytes_tls_serialized = 1;
@@ -54,6 +68,7 @@ message ValidateKeyPackagesRequest {
 
 // Response to ValidateKeyPackagesRequest
 message ValidateKeyPackagesResponse {
+  option deprecated = true;
   // An individual response to one key package
   message ValidationResponse {
     bool is_ok = 1;
@@ -126,4 +141,26 @@ message ValidateInboxIdsResponse {
   }
   // List of validation responses
   repeated ValidationResponse responses = 1;
+}
+
+// Request to validate an array of key packages
+message ValidateKeyPackagesV2Request {
+  // Wrapper for each key package
+  message KeyPackage {
+    bytes key_package_bytes_tls_serialized = 1;
+  }
+
+  repeated KeyPackage key_packages = 1;
+}
+
+message ValidateKeyPackagesV2Response {
+  // one response corresponding to information about one key package
+  message Response {
+    bool is_ok = 1;
+    string error_message = 2;
+    bytes installation_public_key = 3;
+    uint64 expiration = 4;
+  }
+
+  repeated Response responses = 1;
 }
