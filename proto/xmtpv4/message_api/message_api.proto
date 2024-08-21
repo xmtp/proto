@@ -9,28 +9,22 @@ import "mls/api/v1/mls.proto";
 
 option go_package = "github.com/xmtp/proto/v3/go/xmtpv4/message_api";
 
-// Data visible to the server that has been signed by the client.
-// Included in one of:
-// - MLS PrivateMessage.authenticated_data for messages and commits
-// - MLS KeyPackageTBS.extensions for key packages
-// - Omitted for Welcome messages
+// Data visible to the server that has been authenticated by the client.
 message AuthenticatedData {
-  repeated uint64 last_originator_sids = 1;
-}
-
-// Data visible to the server that has been signed by the payer. Fields can
-// be set by the client OR the payer, but the final result will be returned
-// to the client after publishing.
-message ClientEnvelope {
   uint32 target_originator = 1;
   bytes target_topic = 2;
+  repeated uint64 last_originator_sids = 3;
+}
+
+message ClientEnvelope {
   oneof payload {
-    xmtp.mls.api.v1.GroupMessageInput group_message = 3;
-    xmtp.mls.api.v1.WelcomeMessageInput welcome_message = 4;
-    xmtp.mls.api.v1.RegisterInstallationRequest register_installation = 5;
-    xmtp.mls.api.v1.UploadKeyPackageRequest upload_key_package = 6;
-    xmtp.mls.api.v1.RevokeInstallationRequest revoke_installation = 7;
+    xmtp.mls.api.v1.GroupMessageInput group_message = 1;
+    xmtp.mls.api.v1.WelcomeMessageInput welcome_message = 2;
+    xmtp.mls.api.v1.RegisterInstallationRequest register_installation = 3;
+    xmtp.mls.api.v1.UploadKeyPackageRequest upload_key_package = 4;
+    xmtp.mls.api.v1.RevokeInstallationRequest revoke_installation = 5;
   }
+  AuthenticatedData aad = 6;
 }
 
 // Wraps client envelope with payer signature
