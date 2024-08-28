@@ -91,5 +91,12 @@ message MessageHistoryReply {
   // Where the messages can be retrieved from
   string url = 2;
   // Generated input 'secret' for the AES Key used to encrypt the message-bundle
-  bytes encryption_key = 3;
+  MessageHistoryKeyType encryption_key = 3;
+}
+
+// Key used to encrypt the message-bundle
+message MessageHistoryKeyType {
+  oneof key {
+    bytes chacha20_poly1305 = 1;
+  }
 }
