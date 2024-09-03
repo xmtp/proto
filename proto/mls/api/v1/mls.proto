@@ -4,16 +4,15 @@ package xmtp.mls.api.v1;
 
 import "google/api/annotations.proto";
 import "google/protobuf/empty.proto";
-import "message_contents/signature.proto";
 import "protoc-gen-openapiv2/options/annotations.proto";
 
 option go_package = "github.com/xmtp/proto/v3/go/mls/api/v1";
 option java_package = "org.xmtp.proto.mls.api.v1";
 option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
   info: {
-    title: "MlsApi";
-    version: "1.0";
-  };
+    title: "MlsApi"
+    version: "1.0"
+  }
 };
 
 // RPCs for the new MLS API
@@ -35,14 +34,6 @@ service MlsApi {
     };
   }
 
-  // Register a new installation, which would be validated before storage
-  rpc RegisterInstallation(RegisterInstallationRequest) returns (RegisterInstallationResponse) {
-    option (google.api.http) = {
-      post: "/mls/v1/register-installation"
-      body: "*"
-    };
-  }
-
   // Upload a new KeyPackage, which would be validated before storage
   rpc UploadKeyPackage(UploadKeyPackageRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
@@ -55,25 +46,6 @@ service MlsApi {
   rpc FetchKeyPackages(FetchKeyPackagesRequest) returns (FetchKeyPackagesResponse) {
     option (google.api.http) = {
       post: "/mls/v1/fetch-key-packages"
-      body: "*"
-    };
-  }
-
-  // Would delete all key packages associated with the installation and mark
-  // the installation as having been revoked
-  rpc RevokeInstallation(RevokeInstallationRequest) returns (google.protobuf.Empty) {
-    option (google.api.http) = {
-      post: "/mls/v1/revoke-installation"
-      body: "*"
-    };
-  }
-
-  // Used to check for changes related to members of a group.
-  // Would return an array of any new installations associated with the wallet
-  // address, and any revocations that have happened.
-  rpc GetIdentityUpdates(GetIdentityUpdatesRequest) returns (GetIdentityUpdatesResponse) {
-    option (google.api.http) = {
-      post: "/mls/v1/get-identity-updates"
       body: "*"
     };
   }
@@ -190,18 +162,6 @@ message KeyPackageUpload {
   bytes key_package_tls_serialized = 1;
 }
 
-// Register a new installation
-message RegisterInstallationRequest {
-  // The Key Package contains all information needed to register an installation
-  KeyPackageUpload key_package = 1;
-  bool is_inbox_id_credential= 2;
-}
-
-// The response to a RegisterInstallationRequest
-message RegisterInstallationResponse {
-  bytes installation_key = 1;
-}
-
 // Upload a new key packages
 message UploadKeyPackageRequest {
   // An individual key package upload request
@@ -228,52 +188,6 @@ message FetchKeyPackagesResponse {
   // request. If any installations are missing key packages, an empty entry is
   // left in their respective spots in the array.
   repeated KeyPackage key_packages = 1;
-}
-
-// Revoke an installation
-message RevokeInstallationRequest {
-  bytes installation_key = 1;
-  // All revocations must be validated with a wallet signature over the
-  // installation_id being revoked (and some sort of standard prologue)
-  xmtp.message_contents.Signature wallet_signature = 2;
-}
-
-// Get all updates for an identity since the specified time
-message GetIdentityUpdatesRequest {
-  repeated string account_addresses = 1;
-  uint64 start_time_ns = 2;
-}
-
-// Used to get any new or revoked installations for a list of wallet addresses
-message GetIdentityUpdatesResponse {
-  // A new installation key was seen for the first time by the nodes
-  message NewInstallationUpdate {
-    bytes installation_key = 1;
-    bytes credential_identity = 2;
-  }
-
-  // An installation was revoked
-  message RevokedInstallationUpdate {
-    bytes installation_key = 1;
-  }
-
-  // A wrapper for any update to the wallet
-  message Update {
-    uint64 timestamp_ns = 1;
-    oneof kind {
-      NewInstallationUpdate new_installation = 2;
-      RevokedInstallationUpdate revoked_installation = 3;
-    }
-  }
-
-  // A wrapper for the updates for a single wallet
-  message WalletUpdates {
-    repeated Update updates = 1;
-  }
-
-  // A list of updates (or empty objects if no changes) in the original order
-  // of the request
-  repeated WalletUpdates updates = 1;
 }
 
 // Sort direction for queries
