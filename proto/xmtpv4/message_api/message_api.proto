@@ -9,11 +9,17 @@ import "mls/api/v1/mls.proto";
 
 option go_package = "github.com/xmtp/proto/v3/go/xmtpv4/message_api";
 
+// The last seen entry per originator. Originators that have not been seen are omitted.
+// Entries MUST be sorted in ascending order, so that smaller node ID's appear first.
+message VectorClock {
+  repeated uint64 originator_sids = 1;
+}
+
 // Data visible to the server that has been authenticated by the client.
 message AuthenticatedData {
   uint32 target_originator = 1;
   bytes target_topic = 2;
-  repeated uint64 last_originator_sids = 3;
+  VectorClock last_seen = 3;
 }
 
 message ClientEnvelope {
@@ -56,12 +62,6 @@ message OriginatorEnvelope {
   }
 }
 
-// Wraps originator envelope with a sequence ID assigned by the gateway
-message GatewayEnvelope {
-  uint64 gateway_sid = 1;
-  OriginatorEnvelope originator_envelope = 2;
-}
-
 // Misbehavior types
 enum Misbehavior {
   MISBEHAVIOR_UNSPECIFIED = 0;
@@ -83,13 +83,9 @@ message EnvelopesQuery {
     // Client queries
     bytes topic = 1;
     // Node queries
-    uint32 originator_id = 2;
+    uint32 originator_node_id = 2;
   }
-
-  oneof last_seen {
-    uint64 originator_sid = 3;
-    uint64 gateway_sid = 4;
-  }
+  VectorClock last_seen = 3;
 }
 
 // Batch subscribe to envelopes
@@ -103,7 +99,7 @@ message BatchSubscribeEnvelopesRequest {
 
 // Streamed response for batch subscribe - can be multiple envelopes at once
 message BatchSubscribeEnvelopesResponse {
-  repeated GatewayEnvelope envelopes = 1;
+  repeated OriginatorEnvelope envelopes = 1;
 }
 
 // Query envelopes request
@@ -114,7 +110,7 @@ message QueryEnvelopesRequest {
 
 // Query envelopes response
 message QueryEnvelopesResponse {
-  repeated GatewayEnvelope envelopes = 1;
+  repeated OriginatorEnvelope envelopes = 1;
 }
 
 message PublishEnvelopeRequest {
