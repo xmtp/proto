@@ -62,12 +62,6 @@ message OriginatorEnvelope {
   }
 }
 
-// Wraps originator envelope with a sequence ID assigned by the gateway
-message GatewayEnvelope {
-  uint64 gateway_sid = 1;
-  OriginatorEnvelope originator_envelope = 2;
-}
-
 // Misbehavior types
 enum Misbehavior {
   MISBEHAVIOR_UNSPECIFIED = 0;
@@ -91,11 +85,7 @@ message EnvelopesQuery {
     // Node queries
     uint32 originator_node_id = 2;
   }
-
-  oneof last_seen {
-    uint64 gateway_sid = 3;
-    VectorClock vector_clock = 4;
-  }
+  VectorClock last_seen = 3;
 }
 
 // Batch subscribe to envelopes
@@ -109,7 +99,7 @@ message BatchSubscribeEnvelopesRequest {
 
 // Streamed response for batch subscribe - can be multiple envelopes at once
 message BatchSubscribeEnvelopesResponse {
-  repeated GatewayEnvelope envelopes = 1;
+  repeated OriginatorEnvelope envelopes = 1;
 }
 
 // Query envelopes request
@@ -120,7 +110,7 @@ message QueryEnvelopesRequest {
 
 // Query envelopes response
 message QueryEnvelopesResponse {
-  repeated GatewayEnvelope envelopes = 1;
+  repeated OriginatorEnvelope envelopes = 1;
 }
 
 message PublishEnvelopeRequest {
