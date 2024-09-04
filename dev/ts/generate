@@ -39,9 +39,7 @@ docker run --rm -i -v${PWD}:/code xmtp/protoc \
   message_contents/ecies.proto \
   mls/api/v1/mls.proto \
   mls/database/intents.proto \
-  mls/message_contents/association.proto \
   mls/message_contents/content.proto \
-  mls/message_contents/credential.proto \
   mls/message_contents/group_membership.proto \
   mls/message_contents/group_metadata.proto \
   mls/message_contents/group_mutable_metadata.proto \
