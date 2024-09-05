@@ -18,6 +18,9 @@ service ValidationApi {
   // Validates InboxID key packages and returns credential information for them, without checking
   // whether an InboxId <> InstallationPublicKey pair is really valid.
   rpc ValidateInboxIdKeyPackages(ValidateInboxIdKeyPackagesRequest) returns (ValidateInboxIdKeyPackagesResponse) {}
+
+  // Validate Smart Contract Wallet Signatures
+  rpc ValidateSignatures(ValidateSignaturesRequest) returns (ValidateSignaturesResponse) {}
 }
 
 // Contains a batch of serialized Key Packages
@@ -79,4 +82,28 @@ message GetAssociationStateRequest {
 message GetAssociationStateResponse {
   xmtp.identity.associations.AssociationState association_state = 1;
   xmtp.identity.associations.AssociationStateDiff state_diff = 2;
+}
+
+// Validate a batch of smart contract wallet signatures
+message ValidateSignaturesRequest {
+  message SignatureRequest {
+    uint64 chain_id = 1;
+    string account_address = 2;
+    bytes message_hash = 3;
+    bytes signature = 4;
+    optional uint64 block_number = 5;
+  }
+
+  repeated SignatureRequest signatures = 1;
+}
+
+// Get the validation response
+message ValidateSignaturesResponse {
+  message ValidationResponse {
+    bool is_ok = 1;
+    string error_message = 2;
+    string account_address = 3;
+  }
+
+  repeated ValidationResponse responses = 1;
 }
