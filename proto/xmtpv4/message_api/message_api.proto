@@ -35,7 +35,7 @@ message ClientEnvelope {
 
 // Wraps client envelope with payer signature
 message PayerEnvelope {
-  bytes unsigned_client_envelope = 1; // Protobuf serialized
+  ClientEnvelope unsigned_client_envelope = 1;
   xmtp.identity.associations.RecoverableEcdsaSignature payer_signature = 2;
 }
 
@@ -56,7 +56,7 @@ message BlockchainProof {
 
 // Signed originator envelope
 message OriginatorEnvelope {
-  bytes unsigned_originator_envelope = 1; // Protobuf serialized
+  UnsignedOriginatorEnvelope unsigned_originator_envelope = 1;
   oneof proof {
     xmtp.identity.associations.RecoverableEcdsaSignature originator_signature = 2;
     BlockchainProof blockchain_proof = 3;
