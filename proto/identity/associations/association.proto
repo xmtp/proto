@@ -83,6 +83,7 @@ message IdentityUpdate {
 message MemberMap {
   MemberIdentifier key = 1;
   Member value = 2;
+  uint64 created_at_ns = 3;
 }
 
 // A final association state resulting from multiple `IdentityUpdates`
