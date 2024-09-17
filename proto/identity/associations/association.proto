@@ -20,6 +20,7 @@ message MemberIdentifier {
 message Member {
   MemberIdentifier identifier = 1;
   optional MemberIdentifier added_by_entity = 2;
+  optional uint64 server_timestamp_ns = 3;
 }
 
 // The first entry of any XID log. The XID must be deterministically derivable
@@ -83,7 +84,6 @@ message IdentityUpdate {
 message MemberMap {
   MemberIdentifier key = 1;
   Member value = 2;
-  uint64 created_at_ns = 3;
 }
 
 // A final association state resulting from multiple `IdentityUpdates`
