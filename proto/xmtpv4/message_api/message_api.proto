@@ -78,15 +78,19 @@ message MisbehaviorReport {
   repeated OriginatorEnvelope envelopes = 2;
 }
 
-// Query for envelopes, shared by query and subscribe endpoints
-message EnvelopesQuery {
+message EnvelopesFilter {
   oneof filter {
     // Client queries
     bytes topic = 1;
     // Node queries
     uint32 originator_node_id = 2;
   }
-  VectorClock last_seen = 3;
+}
+
+// Query for envelopes, shared by query and subscribe endpoints
+message EnvelopesQuery {
+  EnvelopesFilter filter = 1;
+  VectorClock last_seen = 2;
 }
 
 // Batch subscribe to envelopes
@@ -95,7 +99,11 @@ message BatchSubscribeEnvelopesRequest {
   message SubscribeEnvelopesRequest {
     EnvelopesQuery query = 1;
   }
-  repeated SubscribeEnvelopesRequest requests = 1;
+  message UnsubscribeEnvelopesRequest {
+    EnvelopesFilter filter = 1;
+  }
+  repeated SubscribeEnvelopesRequest subscribes = 1;
+  repeated UnsubscribeEnvelopesRequest unsubscribes = 2;
 }
 
 // Streamed response for batch subscribe - can be multiple envelopes at once
@@ -125,7 +133,7 @@ message PublishEnvelopeResponse {
 // Replication API
 service ReplicationApi {
   // Subscribe to envelopes
-  rpc BatchSubscribeEnvelopes(BatchSubscribeEnvelopesRequest) returns (stream BatchSubscribeEnvelopesResponse) {
+  rpc BatchSubscribeEnvelopes(stream BatchSubscribeEnvelopesRequest) returns (stream BatchSubscribeEnvelopesResponse) {
     option (google.api.http) = {
       post: "/mls/v2/subscribe-envelopes"
       body: "*"
