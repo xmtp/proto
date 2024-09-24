@@ -149,7 +149,7 @@ service ReplicationApi {
     };
   }
 
-  rpc GetInboxIds(identity.api.v1.GetInboxIdsRequest) returns (identity.api.v1.GetInboxIdsResponse) {
+  rpc GetInboxIds(xmtp.identity.api.v1.GetInboxIdsRequest) returns (xmtp.identity.api.v1.GetInboxIdsResponse) {
     option (google.api.http) = {
       post: "/mls/v2/get-inbox-ids"
       body: "*"
