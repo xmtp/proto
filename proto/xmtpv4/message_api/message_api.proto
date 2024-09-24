@@ -4,6 +4,7 @@ syntax = "proto3";
 package xmtp.xmtpv4;
 
 import "google/api/annotations.proto";
+import "identity/api/v1/identity.proto";
 import "identity/associations/association.proto";
 import "identity/associations/signature.proto";
 import "mls/api/v1/mls.proto";
@@ -144,6 +145,13 @@ service ReplicationApi {
   rpc PublishEnvelope(PublishEnvelopeRequest) returns (PublishEnvelopeResponse) {
     option (google.api.http) = {
       post: "/mls/v2/publish-envelope"
+      body: "*"
+    };
+  }
+
+  rpc GetInboxIds(identity.api.v1.GetInboxIdsRequest) returns (identity.api.v1.GetInboxIdsResponse) {
+    option (google.api.http) = {
+      post: "/mls/v2/get-inbox-ids"
       body: "*"
     };
   }
