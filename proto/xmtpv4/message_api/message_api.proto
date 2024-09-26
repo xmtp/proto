@@ -4,7 +4,6 @@ syntax = "proto3";
 package xmtp.xmtpv4;
 
 import "google/api/annotations.proto";
-import "identity/associations/association.proto";
 import "identity/associations/signature.proto";
 import "mls/api/v1/mls.proto";
 
@@ -27,8 +26,9 @@ message ClientEnvelope {
   oneof payload {
     xmtp.mls.api.v1.GroupMessageInput group_message = 1;
     xmtp.mls.api.v1.WelcomeMessageInput welcome_message = 2;
-    xmtp.identity.associations.IdentityUpdate identity_update = 3;
+    xmtp.mls.api.v1.RegisterInstallationRequest register_installation = 3;
     xmtp.mls.api.v1.UploadKeyPackageRequest upload_key_package = 4;
+    xmtp.mls.api.v1.RevokeInstallationRequest revoke_installation = 5;
   }
   AuthenticatedData aad = 6;
 }
