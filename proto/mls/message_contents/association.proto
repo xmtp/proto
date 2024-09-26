@@ -1,0 +1,54 @@
+// Associations and signatures
+syntax = "proto3";
+
+package xmtp.mls.message_contents;
+
+import "message_contents/public_key.proto";
+
+option go_package = "github.com/xmtp/proto/v3/go/mls/message_contents";
+option java_package = "org.xmtp.proto.mls.message.contents";
+
+// Allows for us to update the format of the association text without
+// incrementing the entire proto
+enum AssociationTextVersion {
+  ASSOCIATION_TEXT_VERSION_UNSPECIFIED = 0;
+  ASSOCIATION_TEXT_VERSION_1 = 1;
+}
+
+// Used for "Grant Messaging Access" associations
+message GrantMessagingAccessAssociation {
+  AssociationTextVersion association_text_version = 1;
+  RecoverableEcdsaSignature signature = 2;  // EIP-191 signature
+  string account_address = 3;
+  uint64 created_ns = 4;
+}
+
+// Used for "Revoke Messaging Access" associations
+message RevokeMessagingAccessAssociation {
+  AssociationTextVersion association_text_version = 1;
+  RecoverableEcdsaSignature signature = 2;  // EIP-191 signature
+  string account_address = 3;
+  uint64 created_ns = 4;
+}
+
+// LegacyCreateIdentityAssociation is used when a v3 installation key
+// is signed by a v2 identity key, which in turn is signed via a
+// 'CreateIdentity' wallet signature
+message LegacyCreateIdentityAssociation {
+  // Signs SHA-256 hash of installation key
+  RecoverableEcdsaSignature signature = 1;
+  // created_ns is encoded inside serialized key, account_address is recoverable
+  // from the SignedPublicKey signature
+  xmtp.message_contents.SignedPublicKey signed_legacy_create_identity_key = 2;
+}
+
+// RecoverableEcdsaSignature
+message RecoverableEcdsaSignature {
+  // 65-bytes [ R || S || V ], with recovery id as the last byte
+  bytes bytes = 1;
+}
+
+// EdDSA signature bytes matching RFC 8032
+message EdDsaSignature {
+  bytes bytes = 1;
+}
