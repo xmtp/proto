@@ -64,7 +64,7 @@ message VerifySmartContractWalletSignaturesResponse {
   }
 
   repeated ValidationResponse responses = 1;
-
+}
 
 // Publishes an identity update to the network
 message PublishIdentityUpdateRequest {
