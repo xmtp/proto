@@ -3,6 +3,7 @@ syntax = "proto3";
 package xmtp.mls_validation.v1;
 
 import "identity/associations/association.proto";
+import "identity/associations/signature.proto";
 import "identity/credential.proto";
 
 option go_package = "github.com/xmtp/proto/v3/go/mls_validation/v1";
@@ -18,6 +19,22 @@ service ValidationApi {
   // Validates InboxID key packages and returns credential information for them, without checking
   // whether an InboxId <> InstallationPublicKey pair is really valid.
   rpc ValidateInboxIdKeyPackages(ValidateInboxIdKeyPackagesRequest) returns (ValidateInboxIdKeyPackagesResponse) {}
+
+  // Verifies smart contracts
+  rpc VerifySmartContractWalletSignatures(VerifySmartContractWalletSignaturesRequest) returns (VerifySmartContractWalletSignaturesResponse) {}
+}
+
+message VerifySmartContractWalletSignaturesRequest {
+  repeated Signature signatures = 1;
+}
+
+message VerifySmartContractWalletSignaturesResponse {
+  message ValidationResponse {
+    bool is_ok = 1;
+    string error_message = 2;
+  }
+
+  repeated ValidationResponse responses = 1;
 }
 
 // Contains a batch of serialized Key Packages
