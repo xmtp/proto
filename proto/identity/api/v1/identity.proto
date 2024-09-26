@@ -43,6 +43,13 @@ service IdentityApi {
       body: "*"
     };
   }
+
+  rpc VerifySmartContractWalletSignatures(VerifySmartContractWalletSignaturesRequest) returns (VerifySmartContractWalletSignaturesResponse) {
+    option (google.api.http) = {
+      post: "/identity/v1/verify-smart-contract-wallet-signatures"
+      body: "*"
+    };
+  }
 }
 
 // Publishes an identity update to the network
