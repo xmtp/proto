@@ -27,13 +27,14 @@ message SmartContractWalletSignature {
   // CAIP-10 string
   // https://github.com/ChainAgnostic/CAIPs/blob/main/CAIPs/caip-10.md
   string account_id = 1;
-  // The actual signature bytes
-  bytes signature = 2;
-  // The base 10 id of the EVM chain
-  uint64 chain_id = 3;
-
   // Specify the block number to verify the signature against
-  optional uint64 block_number = 4;
+  uint64 block_number = 2;
+  // The actual signature bytes
+  bytes signature = 3;
+  // The base 10 id of the EVM chain
+  uint64 chain_id = 4;
+
+
 }
 
 // An existing address on xmtpv2 may have already signed a legacy identity key
