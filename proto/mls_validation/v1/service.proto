@@ -32,7 +32,7 @@ service ValidationApi {
 }
 
 message VerifySmartContractWalletSignaturesRequest {
-  repeated xmtp.identity.associations.Signature signatures = 1;
+  repeated xmtp.identity.associations.SmartContractWalletSignature signatures = 1;
 }
 
 message VerifySmartContractWalletSignaturesResponse {
