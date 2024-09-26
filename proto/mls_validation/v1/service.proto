@@ -25,7 +25,7 @@ service ValidationApi {
 }
 
 message VerifySmartContractWalletSignaturesRequest {
-  repeated Signature signatures = 1;
+  repeated xmtp.identity.associations.Signature signatures = 1;
 }
 
 message VerifySmartContractWalletSignaturesResponse {
