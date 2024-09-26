@@ -4,6 +4,7 @@ package xmtp.identity.api.v1;
 
 import "google/api/annotations.proto";
 import "identity/associations/association.proto";
+import "identity/associations/signature.proto";
 import "protoc-gen-openapiv2/options/annotations.proto";
 
 option go_package = "github.com/xmtp/proto/v3/go/mls/api/v1";
@@ -51,6 +52,19 @@ service IdentityApi {
     };
   }
 }
+
+message VerifySmartContractWalletSignaturesRequest {
+  repeated xmtp.identity.associations.Signature signatures = 1;
+}
+
+message VerifySmartContractWalletSignaturesResponse {
+  message ValidationResponse {
+    bool is_ok = 1;
+    string error_message = 2;
+  }
+
+  repeated ValidationResponse responses = 1;
+
 
 // Publishes an identity update to the network
 message PublishIdentityUpdateRequest {
