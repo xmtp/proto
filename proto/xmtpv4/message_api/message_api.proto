@@ -168,7 +168,7 @@ service ReplicationApi {
       body: "*"
     };
   }
-
+  // Get inbox ids
   rpc GetInboxIds(GetInboxIdsRequest) returns (GetInboxIdsResponse) {
     option (google.api.http) = {
       post: "/mls/v2/get-inbox-ids"
