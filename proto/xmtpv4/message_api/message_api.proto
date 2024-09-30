@@ -122,6 +122,27 @@ message PublishEnvelopeResponse {
   OriginatorEnvelope originator_envelope = 1;
 }
 
+// Request to retrieve the XIDs for the given addresses
+message GetInboxIdsRequest {
+  // A single request for a given address
+  message Request {
+    string address = 1;
+  }
+
+  repeated Request requests = 1;
+}
+
+// Response with the XIDs for the requested addresses
+message GetInboxIdsResponse {
+  // A single response for a given address
+  message Response {
+    string address = 1;
+    optional string inbox_id = 2;
+  }
+
+  repeated Response responses = 1;
+}
+
 // Replication API
 service ReplicationApi {
   // Subscribe to envelopes
@@ -144,6 +165,13 @@ service ReplicationApi {
   rpc PublishEnvelope(PublishEnvelopeRequest) returns (PublishEnvelopeResponse) {
     option (google.api.http) = {
       post: "/mls/v2/publish-envelope"
+      body: "*"
+    };
+  }
+  // Get inbox ids
+  rpc GetInboxIds(GetInboxIdsRequest) returns (GetInboxIdsResponse) {
+    option (google.api.http) = {
+      post: "/mls/v2/get-inbox-ids"
       body: "*"
     };
   }
