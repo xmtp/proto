@@ -37,8 +37,7 @@ message VerifySmartContractWalletSignaturesRequest {
 
 message VerifySmartContractWalletSignaturesResponse {
   message ValidationResponse {
-    bool is_ok = 1;
-    string error_message = 2;
+    bool is_valid = 1;
   }
 
   repeated ValidationResponse responses = 1;
