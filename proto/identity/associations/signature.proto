@@ -32,7 +32,7 @@ message SmartContractWalletSignature {
   // The actual signature bytes
   bytes signature = 3;
   // The base 10 id of the EVM chain
-  uint64 chain_id = 4;
+  string chain_id = 4;
   // A 32 byte hash
   bytes hash = 5;
 }
