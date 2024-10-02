@@ -3,7 +3,7 @@ set -e
 
 (
   cd dev/kotlin/protoc
-  docker build --platform linux/x86_64 -t xmtp/protoc-kotlin . 
+  docker build --platform linux/x86_64 -t xmtp/protoc-kotlin .
 )
 
 rm -rf ./kotlin/lib/src/main/kotlin
@@ -48,6 +48,4 @@ docker run --platform linux/x86_64 --rm -i -v${PWD}:/code xmtp/protoc-kotlin \
   mls/message_contents/group_metadata.proto \
   mls/message_contents/group_mutable_metadata.proto \
   mls/message_contents/content.proto \
-  mls/message_contents/transcript_messages.proto \
-  mls/message_contents/credential.proto \
-  mls/message_contents/association.proto
+  mls/message_contents/transcript_messages.proto
