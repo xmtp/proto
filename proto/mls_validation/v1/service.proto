@@ -4,6 +4,7 @@ package xmtp.mls_validation.v1;
 
 import "identity/associations/association.proto";
 import "identity/associations/signature.proto";
+import "identity/api/v1/identity.proto";
 import "identity/credential.proto";
 
 option go_package = "github.com/xmtp/proto/v3/go/mls_validation/v1";
@@ -28,19 +29,7 @@ service ValidationApi {
   rpc ValidateInboxIds(ValidateInboxIdsRequest) returns (ValidateInboxIdsResponse) {}
 
   // Verifies smart contracts
-  rpc VerifySmartContractWalletSignatures(VerifySmartContractWalletSignaturesRequest) returns (VerifySmartContractWalletSignaturesResponse) {}
-}
-
-message VerifySmartContractWalletSignaturesRequest {
-  repeated xmtp.identity.associations.SmartContractWalletSignature signatures = 1;
-}
-
-message VerifySmartContractWalletSignaturesResponse {
-  message ValidationResponse {
-    bool is_valid = 1;
-  }
-
-  repeated ValidationResponse responses = 1;
+  rpc VerifySmartContractWalletSignatures(xmtp.identity.api.v1.VerifySmartContractWalletSignaturesRequest) returns (xmtp.identity.api.v1.VerifySmartContractWalletSignaturesResponse) {}
 }
 
 // Contains a batch of serialized Key Packages
