@@ -45,6 +45,7 @@ service IdentityApi {
     };
   }
 
+  // Verify an unverified smart contract wallet signature
   rpc VerifySmartContractWalletSignatures(VerifySmartContractWalletSignaturesRequest) returns (VerifySmartContractWalletSignaturesResponse) {
     option (google.api.http) = {
       post: "/identity/v1/verify-smart-contract-wallet-signatures"
