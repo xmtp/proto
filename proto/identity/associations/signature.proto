@@ -31,8 +31,6 @@ message SmartContractWalletSignature {
   uint64 block_number = 2;
   // The actual signature bytes
   bytes signature = 3;
-  // A 32 byte hash
-  bytes hash = 5;
 }
 
 // An existing address on xmtpv2 may have already signed a legacy identity key
