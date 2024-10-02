@@ -29,6 +29,7 @@ service ValidationApi {
   rpc ValidateInboxIds(ValidateInboxIdsRequest) returns (ValidateInboxIdsResponse) {}
 
   // Verifies smart contracts
+  // This request is proxied from the node, so we'll reuse those messgaes.
   rpc VerifySmartContractWalletSignatures(xmtp.identity.api.v1.VerifySmartContractWalletSignaturesRequest) returns (xmtp.identity.api.v1.VerifySmartContractWalletSignaturesResponse) {}
 }
 

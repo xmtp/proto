@@ -54,11 +54,11 @@ service IdentityApi {
 }
 
 message VerifySmartContractWalletSignaturesRequest {
-  repeated SignatureVerificationRequest signatures = 1;
+  repeated UnverifiedSmartContractWalletSignature signatures = 1;
 }
 
-message SignatureVerificationRequest {
-  xmtp.identity.associations.Signature signature = 1;
+message UnverifiedSmartContractWalletSignature {
+  xmtp.identity.associations.SmartContractWalletSignature scw_signature = 1;
   // SHA256 hash of the signature payload
   bytes hash = 5;
 }
