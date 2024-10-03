@@ -60,8 +60,10 @@ message VerifySmartContractWalletSignaturesRequest {
 
 message UnverifiedSmartContractWalletSignature {
   xmtp.identity.associations.SmartContractWalletSignature scw_signature = 1;
+  // Specify the block number to verify the signature against
+  uint64 block_number = 2;
   // SHA256 hash of the signature payload
-  bytes hash = 5;
+  bytes hash = 3;
 }
 
 message VerifySmartContractWalletSignaturesResponse {
