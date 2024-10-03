@@ -3,7 +3,7 @@ set -e
 
 (
   cd dev/kotlin/protoc
-  docker build --platform linux/x86_64 -t xmtp/protoc-kotlin . 
+  docker build --platform linux/x86_64 -t xmtp/protoc-kotlin .
 )
 
 rm -rf ./kotlin/lib/src/main/kotlin

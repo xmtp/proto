@@ -4,6 +4,7 @@ package xmtp.identity.api.v1;
 
 import "google/api/annotations.proto";
 import "identity/associations/association.proto";
+import "identity/associations/signature.proto";
 import "protoc-gen-openapiv2/options/annotations.proto";
 
 option go_package = "github.com/xmtp/proto/v3/go/mls/api/v1";
@@ -43,6 +44,32 @@ service IdentityApi {
       body: "*"
     };
   }
+
+  // Verify an unverified smart contract wallet signature
+  rpc VerifySmartContractWalletSignatures(VerifySmartContractWalletSignaturesRequest) returns (VerifySmartContractWalletSignaturesResponse) {
+    option (google.api.http) = {
+      post: "/identity/v1/verify-smart-contract-wallet-signatures"
+      body: "*"
+    };
+  }
+}
+
+message VerifySmartContractWalletSignaturesRequest {
+  repeated UnverifiedSmartContractWalletSignature signatures = 1;
+}
+
+message UnverifiedSmartContractWalletSignature {
+  xmtp.identity.associations.SmartContractWalletSignature scw_signature = 1;
+  // SHA256 hash of the signature payload
+  bytes hash = 5;
+}
+
+message VerifySmartContractWalletSignaturesResponse {
+  message ValidationResponse {
+    bool is_valid = 1;
+  }
+
+  repeated ValidationResponse responses = 1;
 }
 
 // Publishes an identity update to the network
