@@ -55,10 +55,10 @@ service IdentityApi {
 }
 
 message VerifySmartContractWalletSignaturesRequest {
-  repeated UnverifiedSmartContractWalletSignaturePayload signatures = 1;
+  repeated VerifySmartContractWalletSignatureRequestSignature signatures = 1;
 }
 
-message UnverifiedSmartContractWalletSignaturePayload {
+message VerifySmartContractWalletSignatureRequestSignature {
   // CAIP-10 string
   // https://github.com/ChainAgnostic/CAIPs/blob/main/CAIPs/caip-10.md
   string account_id = 1;
