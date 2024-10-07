@@ -30,7 +30,7 @@ message ClientEnvelope {
     xmtp.mls.api.v1.RegisterInstallationRequest register_installation = 3;
     xmtp.mls.api.v1.UploadKeyPackageRequest upload_key_package = 4;
     xmtp.mls.api.v1.RevokeInstallationRequest revoke_installation = 5;
-    xmtp.identity.associations.IdentityUpdate identity_update = 6;
+    xmtp.identity.associations.IdentityUpdate identity_update = 7;
   }
   AuthenticatedData aad = 6;
 }
