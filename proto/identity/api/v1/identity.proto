@@ -55,7 +55,13 @@ service IdentityApi {
 }
 
 message VerifySmartContractWalletSignaturesRequest {
-  repeated UnverifiedSmartContractWalletSignature signatures = 1;
+  repeated UnverifiedSmartContractWalletSignaturePayload signatures = 1;
+}
+
+message UnverifiedSmartContractWalletSignaturePayload {
+  UnverifiedSmartContractWalletSignature signature = 1;
+  // SHA256 hash of the signature payload
+  bytes hash = 4;
 }
 
 // Derived from xmtp.identity.associations.signature.SmartContractWalletSignature
@@ -68,8 +74,6 @@ message UnverifiedSmartContractWalletSignature {
   optional uint64 block_number = 2;
   // The signature bytes
   bytes signature = 3;
-  // SHA256 hash of the signature payload
-  bytes hash = 4;
 }
 
 message VerifySmartContractWalletSignaturesResponse {
