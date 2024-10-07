@@ -72,7 +72,7 @@ message VerifySmartContractWalletSignatureRequestSignature {
 message VerifySmartContractWalletSignaturesResponse {
   message ValidationResponse {
     bool is_valid = 1;
-    uint64 block_number = 2;
+    optional uint64 block_number = 2;
     optional string error = 3;
   }
 
