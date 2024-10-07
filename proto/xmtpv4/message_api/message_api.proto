@@ -4,7 +4,7 @@ syntax = "proto3";
 package xmtp.xmtpv4;
 
 import "google/api/annotations.proto";
-import "identity/api/v1/identity.proto";
+import "identity/associations/association.proto";
 import "identity/associations/signature.proto";
 import "mls/api/v1/mls.proto";
 
