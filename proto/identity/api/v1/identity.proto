@@ -59,14 +59,6 @@ message VerifySmartContractWalletSignaturesRequest {
 }
 
 message UnverifiedSmartContractWalletSignaturePayload {
-  UnverifiedSmartContractWalletSignature signature = 1;
-  // SHA256 hash of the signature payload
-  bytes hash = 4;
-}
-
-// Derived from xmtp.identity.associations.signature.SmartContractWalletSignature
-// Changes are - block number is optional, and hash is provided
-message UnverifiedSmartContractWalletSignature {
   // CAIP-10 string
   // https://github.com/ChainAgnostic/CAIPs/blob/main/CAIPs/caip-10.md
   string account_id = 1;
@@ -74,6 +66,7 @@ message UnverifiedSmartContractWalletSignature {
   optional uint64 block_number = 2;
   // The signature bytes
   bytes signature = 3;
+  bytes hash = 4;
 }
 
 message VerifySmartContractWalletSignaturesResponse {
