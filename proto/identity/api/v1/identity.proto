@@ -55,19 +55,25 @@ service IdentityApi {
 }
 
 message VerifySmartContractWalletSignaturesRequest {
-  repeated UnverifiedSmartContractWalletSignature signatures = 1;
+  repeated VerifySmartContractWalletSignatureRequestSignature signatures = 1;
 }
 
-message UnverifiedSmartContractWalletSignature {
-  xmtp.identity.associations.SmartContractWalletSignature scw_signature = 1;
-  // SHA256 hash of the signature payload
-  bytes hash = 5;
+message VerifySmartContractWalletSignatureRequestSignature {
+  // CAIP-10 string
+  // https://github.com/ChainAgnostic/CAIPs/blob/main/CAIPs/caip-10.md
+  string account_id = 1;
+  // Specify the block number to verify the signature against
+  optional uint64 block_number = 2;
+  // The signature bytes
+  bytes signature = 3;
+  bytes hash = 4;
 }
 
 message VerifySmartContractWalletSignaturesResponse {
   message ValidationResponse {
     bool is_valid = 1;
-    optional string error = 2;
+    optional uint64 block_number = 2;
+    optional string error = 3;
   }
 
   repeated ValidationResponse responses = 1;
