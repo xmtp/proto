@@ -19,7 +19,7 @@ message VectorClock {
 // Data visible to the server that has been authenticated by the client.
 message AuthenticatedData {
   uint32 target_originator = 1;
-  bytes target_topic = 2;
+  string target_topic = 2;
   VectorClock last_seen = 3;
 }
 
@@ -84,7 +84,7 @@ message MisbehaviorReport {
 // Either topics or originator_node_ids may be set, but not both
 message EnvelopesQuery {
   // Client queries
-  repeated bytes topics = 1;
+  repeated string topics = 1;
   // Node queries
   repeated uint32 originator_node_ids = 2;
   VectorClock last_seen = 3;
