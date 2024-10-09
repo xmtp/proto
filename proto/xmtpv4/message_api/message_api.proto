@@ -81,27 +81,22 @@ message MisbehaviorReport {
 }
 
 // Query for envelopes, shared by query and subscribe endpoints
+// Either topics or originator_node_ids may be set, but not both
 message EnvelopesQuery {
-  oneof filter {
-    // Client queries
-    bytes topic = 1;
-    // Node queries
-    uint32 originator_node_id = 2;
-  }
+  // Client queries
+  repeated bytes topics = 1;
+  // Node queries
+  repeated uint32 originator_node_ids = 2;
   VectorClock last_seen = 3;
 }
 
 // Batch subscribe to envelopes
-message BatchSubscribeEnvelopesRequest {
-  // Single subscription request for envelopes
-  message SubscribeEnvelopesRequest {
-    EnvelopesQuery query = 1;
-  }
-  repeated SubscribeEnvelopesRequest requests = 1;
+message SubscribeEnvelopesRequest {
+  EnvelopesQuery query = 1;
 }
 
 // Streamed response for batch subscribe - can be multiple envelopes at once
-message BatchSubscribeEnvelopesResponse {
+message SubscribeEnvelopesResponse {
   repeated OriginatorEnvelope envelopes = 1;
 }
 
@@ -116,12 +111,12 @@ message QueryEnvelopesResponse {
   repeated OriginatorEnvelope envelopes = 1;
 }
 
-message PublishEnvelopeRequest {
-  PayerEnvelope payer_envelope = 1;
+message PublishEnvelopesRequest {
+  repeated PayerEnvelope payer_envelopes = 1;
 }
 
-message PublishEnvelopeResponse {
-  OriginatorEnvelope originator_envelope = 1;
+message PublishEnvelopesResponse {
+  repeated OriginatorEnvelope originator_envelopes = 1;
 }
 
 // Request to retrieve the XIDs for the given addresses
@@ -148,7 +143,7 @@ message GetInboxIdsResponse {
 // Replication API
 service ReplicationApi {
   // Subscribe to envelopes
-  rpc BatchSubscribeEnvelopes(BatchSubscribeEnvelopesRequest) returns (stream BatchSubscribeEnvelopesResponse) {
+  rpc SubscribeEnvelopes(SubscribeEnvelopesRequest) returns (stream SubscribeEnvelopesResponse) {
     option (google.api.http) = {
       post: "/mls/v2/subscribe-envelopes"
       body: "*"
@@ -164,12 +159,13 @@ service ReplicationApi {
   }
 
   // Publish envelope
-  rpc PublishEnvelope(PublishEnvelopeRequest) returns (PublishEnvelopeResponse) {
+  rpc PublishEnvelopes(PublishEnvelopesRequest) returns (PublishEnvelopesResponse) {
     option (google.api.http) = {
-      post: "/mls/v2/publish-envelope"
+      post: "/mls/v2/publish-envelopes"
       body: "*"
     };
   }
+
   // Get inbox ids
   rpc GetInboxIds(GetInboxIdsRequest) returns (GetInboxIdsResponse) {
     option (google.api.http) = {
