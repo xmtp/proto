@@ -81,13 +81,12 @@ message MisbehaviorReport {
 }
 
 // Query for envelopes, shared by query and subscribe endpoints
+// Either topics or originator_node_ids may be set, but not both
 message EnvelopesQuery {
-  oneof filter {
-    // Client queries
-    repeated bytes topics = 1;
-    // Node queries
-    repeated uint32 originator_node_ids = 2;
-  }
+  // Client queries
+  repeated bytes topics = 1;
+  // Node queries
+  repeated uint32 originator_node_ids = 2;
   VectorClock last_seen = 3;
 }
 
