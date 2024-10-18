@@ -39,8 +39,7 @@ message PayerEnvelope {
   xmtp.identity.associations.RecoverableEcdsaSignature payer_signature = 2;
 }
 
-// For blockchain envelopes, the originator_sid is set by the smart contract,
-// but the originator_ns is set by the publishing node
+// For blockchain envelopes, these fields are set by the smart contract
 message UnsignedOriginatorEnvelope {
   uint32 originator_node_id = 1;
   uint64 originator_sequence_id = 2;
@@ -50,8 +49,7 @@ message UnsignedOriginatorEnvelope {
 
 // An alternative to a signature for blockchain payloads
 message BlockchainProof {
-  uint64 block_number = 1;
-  uint32 publisher_node_id = 2;
+  bytes transaction_hash = 1;
 }
 
 // Signed originator envelope
