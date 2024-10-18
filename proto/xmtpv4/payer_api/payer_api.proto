@@ -1,3 +1,4 @@
+// Payer API
 syntax = "proto3";
 
 package xmtp.xmtpv4.payer_api;
