@@ -1,0 +1,64 @@
+// Message API for XMTP V4
+syntax = "proto3";
+
+package xmtp.xmtpv4.envelopes;
+
+import "identity/associations/association.proto";
+import "identity/associations/signature.proto";
+import "mls/api/v1/mls.proto";
+
+option go_package = "github.com/xmtp/proto/v3/go/xmtpv4/envelopes";
+
+// The last seen entry per originator. Originators that have not been seen are omitted.
+// Entries MUST be sorted in ascending order, so that smaller node ID's appear first.
+message VectorClock {
+  map<uint32, uint64> node_id_to_sequence_id = 1;
+}
+
+// Data visible to the server that has been authenticated by the client.
+message AuthenticatedData {
+  uint32 target_originator = 1;
+  bytes target_topic = 2;
+  VectorClock last_seen = 3;
+}
+
+message ClientEnvelope {
+  AuthenticatedData aad = 1;
+
+  oneof payload {
+    xmtp.mls.api.v1.GroupMessageInput group_message = 2;
+    xmtp.mls.api.v1.WelcomeMessageInput welcome_message = 3;
+    xmtp.mls.api.v1.UploadKeyPackageRequest upload_key_package = 4;
+    xmtp.identity.associations.IdentityUpdate identity_update = 5;
+  }
+}
+
+// Wraps client envelope with payer signature
+message PayerEnvelope {
+  bytes unsigned_client_envelope = 1; // Protobuf serialized
+  xmtp.identity.associations.RecoverableEcdsaSignature payer_signature = 2;
+}
+
+// For blockchain envelopes, the originator_sid is set by the smart contract,
+// but the originator_ns is set by the publishing node
+message UnsignedOriginatorEnvelope {
+  uint32 originator_node_id = 1;
+  uint64 originator_sequence_id = 2;
+  int64 originator_ns = 3;
+  PayerEnvelope payer_envelope = 4;
+}
+
+// An alternative to a signature for blockchain payloads
+message BlockchainProof {
+  uint64 block_number = 1;
+  uint32 publisher_node_id = 2;
+}
+
+// Signed originator envelope
+message OriginatorEnvelope {
+  bytes unsigned_originator_envelope = 1; // Protobuf serialized
+  oneof proof {
+    xmtp.identity.associations.RecoverableEcdsaSignature originator_signature = 2;
+    BlockchainProof blockchain_proof = 3;
+  }
+}

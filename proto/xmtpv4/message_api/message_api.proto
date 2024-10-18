@@ -1,69 +1,12 @@
 // Message API for XMTP V4
 syntax = "proto3";
 
-package xmtp.xmtpv4;
+package xmtp.xmtpv4.message_api;
 
 import "google/api/annotations.proto";
-import "identity/associations/association.proto";
-import "identity/associations/signature.proto";
-import "mls/api/v1/mls.proto";
+import "xmtpv4/envelopes/envelopes.proto";
 
 option go_package = "github.com/xmtp/proto/v3/go/xmtpv4/message_api";
-
-// The last seen entry per originator. Originators that have not been seen are omitted.
-// Entries MUST be sorted in ascending order, so that smaller node ID's appear first.
-message VectorClock {
-  map<uint32, uint64> node_id_to_sequence_id = 1;
-}
-
-// Data visible to the server that has been authenticated by the client.
-message AuthenticatedData {
-  uint32 target_originator = 1;
-  bytes target_topic = 2;
-  VectorClock last_seen = 3;
-}
-
-message ClientEnvelope {
-  oneof payload {
-    xmtp.mls.api.v1.GroupMessageInput group_message = 1;
-    xmtp.mls.api.v1.WelcomeMessageInput welcome_message = 2;
-    xmtp.mls.api.v1.RegisterInstallationRequest register_installation = 3;
-    xmtp.mls.api.v1.UploadKeyPackageRequest upload_key_package = 4;
-    xmtp.mls.api.v1.RevokeInstallationRequest revoke_installation = 5;
-    xmtp.identity.associations.IdentityUpdate identity_update = 7;
-  }
-  AuthenticatedData aad = 6;
-}
-
-// Wraps client envelope with payer signature
-message PayerEnvelope {
-  bytes unsigned_client_envelope = 1; // Protobuf serialized
-  xmtp.identity.associations.RecoverableEcdsaSignature payer_signature = 2;
-}
-
-// For blockchain envelopes, the originator_sid is set by the smart contract,
-// but the originator_ns is set by the publishing node
-message UnsignedOriginatorEnvelope {
-  uint32 originator_node_id = 1;
-  uint64 originator_sequence_id = 2;
-  int64 originator_ns = 3;
-  PayerEnvelope payer_envelope = 4;
-}
-
-// An alternative to a signature for blockchain payloads
-message BlockchainProof {
-  uint64 block_number = 1;
-  uint32 publisher_node_id = 2;
-}
-
-// Signed originator envelope
-message OriginatorEnvelope {
-  bytes unsigned_originator_envelope = 1; // Protobuf serialized
-  oneof proof {
-    xmtp.identity.associations.RecoverableEcdsaSignature originator_signature = 2;
-    BlockchainProof blockchain_proof = 3;
-  }
-}
 
 // Misbehavior types
 enum Misbehavior {
@@ -77,7 +20,7 @@ enum Misbehavior {
 // Reports node misbehavior, submittable by nodes or by clients
 message MisbehaviorReport {
   Misbehavior type = 1;
-  repeated OriginatorEnvelope envelopes = 2;
+  repeated xmtp.xmtpv4.envelopes.OriginatorEnvelope envelopes = 2;
 }
 
 // Query for envelopes, shared by query and subscribe endpoints
@@ -87,7 +30,7 @@ message EnvelopesQuery {
   repeated bytes topics = 1;
   // Node queries
   repeated uint32 originator_node_ids = 2;
-  VectorClock last_seen = 3;
+  xmtp.xmtpv4.envelopes.VectorClock last_seen = 3;
 }
 
 // Batch subscribe to envelopes
@@ -97,7 +40,7 @@ message SubscribeEnvelopesRequest {
 
 // Streamed response for batch subscribe - can be multiple envelopes at once
 message SubscribeEnvelopesResponse {
-  repeated OriginatorEnvelope envelopes = 1;
+  repeated xmtp.xmtpv4.envelopes.OriginatorEnvelope envelopes = 1;
 }
 
 // Query envelopes request
@@ -108,15 +51,15 @@ message QueryEnvelopesRequest {
 
 // Query envelopes response
 message QueryEnvelopesResponse {
-  repeated OriginatorEnvelope envelopes = 1;
+  repeated xmtp.xmtpv4.envelopes.OriginatorEnvelope envelopes = 1;
 }
 
 message PublishEnvelopesRequest {
-  repeated PayerEnvelope payer_envelopes = 1;
+  repeated xmtp.xmtpv4.envelopes.PayerEnvelope payer_envelopes = 1;
 }
 
 message PublishEnvelopesResponse {
-  repeated OriginatorEnvelope originator_envelopes = 1;
+  repeated xmtp.xmtpv4.envelopes.OriginatorEnvelope originator_envelopes = 1;
 }
 
 // Request to retrieve the XIDs for the given addresses
