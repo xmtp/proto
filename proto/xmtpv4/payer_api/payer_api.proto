@@ -7,20 +7,20 @@ import "xmtpv4/envelopes/envelopes.proto";
 
 option go_package = "github.com/xmtp/proto/v3/go/xmtpv4/payer_api";
 
-message PublishEnvelopesRequest {
+message PublishUnpaidEnvelopesRequest {
   repeated xmtp.xmtpv4.envelopes.ClientEnvelope envelopes = 1;
 }
 
-message PublishEnvelopesResponse {
+message PublishUnpaidEnvelopesResponse {
   repeated xmtp.xmtpv4.envelopes.OriginatorEnvelope originator_envelopes = 1;
 }
 
 // A narrowly scoped API for publishing messages through a payer
 service PayerApi {
   // Publish envelope
-  rpc PublishEnvelopes(PublishEnvelopesRequest) returns (PublishEnvelopesResponse) {
+  rpc PublishUnpaidEnvelopes(PublishUnpaidEnvelopesRequest) returns (PublishUnpaidEnvelopesResponse) {
     option (google.api.http) = {
-      post: "/mls/v2/publish-envelopes"
+      post: "/mls/v2/payer/publish-envelopes"
       body: "*"
     };
   }
