@@ -54,11 +54,11 @@ message QueryEnvelopesResponse {
   repeated xmtp.xmtpv4.envelopes.OriginatorEnvelope envelopes = 1;
 }
 
-message PublishPaidEnvelopesRequest {
+message PublishPayerEnvelopesRequest {
   repeated xmtp.xmtpv4.envelopes.PayerEnvelope payer_envelopes = 1;
 }
 
-message PublishPaidEnvelopesResponse {
+message PublishPayerEnvelopesResponse {
   repeated xmtp.xmtpv4.envelopes.OriginatorEnvelope originator_envelopes = 1;
 }
 
@@ -102,9 +102,9 @@ service ReplicationApi {
   }
 
   // Publish envelope
-  rpc PublishPaidEnvelopes(PublishPaidEnvelopesRequest) returns (PublishPaidEnvelopesResponse) {
+  rpc PublishPayerEnvelopes(PublishPayerEnvelopesRequest) returns (PublishPayerEnvelopesResponse) {
     option (google.api.http) = {
-      post: "/mls/v2/publish-paid-envelopes"
+      post: "/mls/v2/publish-payer-envelopes"
       body: "*"
     };
   }
