@@ -82,6 +82,8 @@ message DeviceSyncRequest {
   string request_id = 1;
   // Ensures a human is in the loop
   string pin_code = 2;
+  // request type
+  DeviceSyncType type = 3;
 }
 
 // Pre-existing installation id capable of supplying a sync payload sends this reply
@@ -99,4 +101,9 @@ message DeviceSyncKeyType {
   oneof key {
     bytes chacha20_poly1305 = 1;
   }
+}
+
+enum DeviceSyncType {
+  MESSAGE_HISTORY = 0;
+  CONSENT = 1;
 }
