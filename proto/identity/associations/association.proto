@@ -21,6 +21,7 @@ message Member {
   MemberIdentifier identifier = 1;
   optional MemberIdentifier added_by_entity = 2;
   optional uint64 client_timestamp_ns = 3;
+  optional uint64 added_on_chain_id = 4;
 }
 
 // The first entry of any XID log. The XID must be deterministically derivable
