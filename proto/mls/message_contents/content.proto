@@ -103,7 +103,9 @@ message DeviceSyncKeyType {
   }
 }
 
+// The kind of device sync payload being sent
 enum DeviceSyncKind {
-  MESSAGE_HISTORY = 0;
-  CONSENT = 1;
+  DEVICE_SYNC_KIND_UNSPECIFIED = 0;
+  DEVICE_SYNC_KIND_MESSAGE_HISTORY = 1;
+  DEVICE_SYNC_KIND_CONSENT = 2;
 }
