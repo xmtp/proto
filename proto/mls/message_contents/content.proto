@@ -96,6 +96,8 @@ message DeviceSyncReply {
   DeviceSyncKeyType encryption_key = 3;
   // ns unix timestamp of when the reply was sent
   uint64 timestamp_ns = 4;
+  // request kind
+  DeviceSyncKind kind = 5;
 }
 
 // Key used to encrypt the message-bundle
