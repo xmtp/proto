@@ -94,6 +94,8 @@ message DeviceSyncReply {
   string url = 2;
   // Generated input 'secret' for the AES Key used to encrypt the message-bundle
   DeviceSyncKeyType encryption_key = 3;
+  // ns unix timestamp of when the reply was sent
+  uint64 timestamp_ns = 4;
 }
 
 // Key used to encrypt the message-bundle
