@@ -103,7 +103,7 @@ message DeviceSyncReply {
 // Key used to encrypt the message-bundle
 message DeviceSyncKeyType {
   oneof key {
-    bytes chacha20_poly1305 = 1;
+    bytes aes_256_gcm = 1;
   }
 }
 
