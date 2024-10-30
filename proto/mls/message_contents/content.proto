@@ -61,10 +61,10 @@ message PlaintextEnvelope {
     oneof message_type {
       // Expected to be EncodedContent
       bytes content = 2;
-      // Initiator sends a request to receive message history
-      MessageHistoryRequest request = 3;
-      // Some other authorized installation sends a reply
-      MessageHistoryReply reply = 4;
+      // Initiator sends a request to receive sync payload
+      DeviceSyncRequest request = 3;
+      // Some other authorized installation sends a reply with a link to payload
+      DeviceSyncReply reply = 4;
     }
   }
 
@@ -76,27 +76,40 @@ message PlaintextEnvelope {
   }
 }
 
-// Initiator or new installation id requesting a history will send a request
-message MessageHistoryRequest {
+// Initiator or new installation id requesting a sync payload send a request
+message DeviceSyncRequest {
   // Unique identifier for each request
   string request_id = 1;
   // Ensures a human is in the loop
   string pin_code = 2;
+  // request kind
+  DeviceSyncKind kind = 3;
 }
 
-// Pre-existing installation id capable of supplying a history sends this reply
-message MessageHistoryReply {
+// Pre-existing installation id capable of supplying a sync payload sends this reply
+message DeviceSyncReply {
   // Must match an existing request_id from a message history request
   string request_id = 1;
   // Where the messages can be retrieved from
   string url = 2;
   // Generated input 'secret' for the AES Key used to encrypt the message-bundle
-  MessageHistoryKeyType encryption_key = 3;
+  DeviceSyncKeyType encryption_key = 3;
+  // ns unix timestamp of when the reply was sent
+  uint64 timestamp_ns = 4;
+  // request kind
+  DeviceSyncKind kind = 5;
 }
 
 // Key used to encrypt the message-bundle
-message MessageHistoryKeyType {
+message DeviceSyncKeyType {
   oneof key {
-    bytes chacha20_poly1305 = 1;
+    bytes aes_256_gcm = 1;
   }
+}
+
+// The kind of device sync payload being sent
+enum DeviceSyncKind {
+  DEVICE_SYNC_KIND_UNSPECIFIED = 0;
+  DEVICE_SYNC_KIND_MESSAGE_HISTORY = 1;
+  DEVICE_SYNC_KIND_CONSENT = 2;
 }
