@@ -62,9 +62,11 @@ message PlaintextEnvelope {
       // Expected to be EncodedContent
       bytes content = 2;
       // Initiator sends a request to receive sync payload
-      DeviceSyncRequest request = 3;
+      DeviceSyncRequest device_sync_request = 3;
       // Some other authorized installation sends a reply with a link to payload
-      DeviceSyncReply reply = 4;
+      DeviceSyncReply device_sync_reply = 4;
+      // A streamed cosnent update
+      ConsentUpdate consent_update = 5;
     }
   }
 
@@ -112,4 +114,24 @@ enum DeviceSyncKind {
   DEVICE_SYNC_KIND_UNSPECIFIED = 0;
   DEVICE_SYNC_KIND_MESSAGE_HISTORY = 1;
   DEVICE_SYNC_KIND_CONSENT = 2;
+}
+
+// A streamed consent update
+message ConsentUpdate {
+  ConsentType consent_type = 1;
+  ConsentState consent_state = 2;
+  string entity = 3;
+}
+
+enum ConsentType {
+  CONSENT_TYPE_UNSPECIFIED = 0;
+  CONSENT_TYPE_CONVERSATION_ID = 1;
+  CONSENT_TYPE_INBOX_ID = 2;
+  CONSENT_TYPE_ADDRESS = 3;
+}
+
+enum ConsentState {
+  CONSENT_STATE_UNSPECIFIED = 0;
+  CONSENT_STATE_ALLOWED = 1;
+  CONSENT_STATE_DENIED = 2;
 }
