@@ -118,16 +118,16 @@ enum DeviceSyncKind {
 
 // A streamed consent update
 message ConsentUpdate {
-  ConsentType entity_type = 1;
-  ConsentState consent_state = 2;
+  ConsentEntityType entity_type = 1;
+  ConsentState state = 2;
   string entity = 3;
 }
 
-enum ConsentType {
-  CONSENT_TYPE_UNSPECIFIED = 0;
-  CONSENT_TYPE_CONVERSATION_ID = 1;
-  CONSENT_TYPE_INBOX_ID = 2;
-  CONSENT_TYPE_ADDRESS = 3;
+enum ConsentEntityType {
+  CONSENT_ENTITY_TYPE_UNSPECIFIED = 0;
+  CONSENT_ENTITY_TYPE_CONVERSATION_ID = 1;
+  CONSENT_ENTITY_TYPE_INBOX_ID = 2;
+  CONSENT_ENTITY_TYPE_ADDRESS = 3;
 }
 
 enum ConsentState {
