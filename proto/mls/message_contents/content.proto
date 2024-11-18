@@ -123,6 +123,7 @@ message ConsentUpdate {
   string entity = 3;
 }
 
+// The type of entity the user is consenting to
 enum ConsentEntityType {
   CONSENT_ENTITY_TYPE_UNSPECIFIED = 0;
   CONSENT_ENTITY_TYPE_CONVERSATION_ID = 1;
@@ -130,6 +131,7 @@ enum ConsentEntityType {
   CONSENT_ENTITY_TYPE_ADDRESS = 3;
 }
 
+// Possible states of consent
 enum ConsentState {
   CONSENT_STATE_UNSPECIFIED = 0;
   CONSENT_STATE_ALLOWED = 1;
