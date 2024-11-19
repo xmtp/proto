@@ -37,10 +37,9 @@ message FrameActionBody {
 // The outer payload that will be sent as the `messageBytes` in the
 // `trusted_data` part of the Frames message
 message FrameAction {
-  Signature signature = 1;
-  // The SignedPublicKeyBundle of the signer, used to link the XMTP signature
-  // with a blockchain account through a chain of signatures.
-  SignedPublicKeyBundle signed_public_key_bundle = 2;
+  bytes signature = 1;
+  // The public installation id used to sign.
+  string installation_id = 2;
   // Serialized FrameActionBody message, so that the signature verification can
   // happen on a byte-perfect representation of the message
   bytes action_body = 3;
