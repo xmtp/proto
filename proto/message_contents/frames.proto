@@ -48,4 +48,6 @@ message FrameAction {
   bytes installation_signature = 4;
   // The public installation id used to sign.
   bytes installation_id = 5;
+  // The inbox id of the installation used to sign.
+  bytes inbox_id = 6;
 }
