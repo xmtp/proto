@@ -4,16 +4,15 @@ package xmtp.identity.api.v1;
 
 import "google/api/annotations.proto";
 import "identity/associations/association.proto";
-import "identity/associations/signature.proto";
 import "protoc-gen-openapiv2/options/annotations.proto";
 
 option go_package = "github.com/xmtp/proto/v3/go/mls/api/v1";
 option java_package = "org.xmtp.proto.mls.api.v1";
 option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
   info: {
-    title: "IdentityApi";
-    version: "1.0";
-  };
+    title: "IdentityApi"
+    version: "1.0"
+  }
 };
 
 // RPCs for the new MLS API
