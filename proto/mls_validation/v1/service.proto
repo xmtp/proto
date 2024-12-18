@@ -29,7 +29,11 @@ service ValidationApi {
 
   // Verifies smart contracts
   // This request is proxied from the node, so we'll reuse those messgaes.
-  rpc VerifySmartContractWalletSignatures(xmtp.identity.api.v1.VerifySmartContractWalletSignaturesRequest) returns (xmtp.identity.api.v1.VerifySmartContractWalletSignaturesResponse) {}
+  rpc VerifySmartContractWalletSignatures(
+    xmtp.identity.api.v1.VerifySmartContractWalletSignaturesRequest
+  )  returns (
+    xmtp.identity.api.v1.VerifySmartContractWalletSignaturesResponse
+  ) {}
 }
 
 // Contains a batch of serialized Key Packages
