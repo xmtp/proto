@@ -69,16 +69,17 @@ message GetInboxIdsResponse {
 }
 
 message SubmitMisbehaviorReportRequest {
-  xmtp.xmtpv4.envelopes.MisbehaviorReport report = 1;
+  xmtp.xmtpv4.envelopes.UnsignedMisbehaviorReport report = 1;
 }
 
 message SubmitMisbehaviorReportResponse {}
 
-message QueryMisbehaviorReportsRequest {}
+message QueryMisbehaviorReportsRequest {
+  uint64 after_ns = 1;
+}
 
 message QueryMisbehaviorReportsResponse {
-  repeated xmtp.xmtpv4.envelopes.MisbehaviorReport node_reports = 1;
-  repeated xmtp.xmtpv4.envelopes.MisbehaviorReport client_reports = 2;
+  repeated xmtp.xmtpv4.envelopes.MisbehaviorReport reports = 1;
 }
 
 service ReplicationApi {

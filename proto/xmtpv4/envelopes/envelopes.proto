@@ -84,9 +84,20 @@ message SafetyFailure {
   repeated OriginatorEnvelope envelopes = 1;
 }
 
+message UnsignedMisbehaviorReport {
+  // Client time or server time?
+  // Can we query by this time? Is it strictly increasing?
+  uint64 report_time_ns = 1;
+  uint32 misbehaving_node_id = 2;
+  Misbehavior type = 3;
+  LivenessFailure liveness = 4;
+  SafetyFailure safety = 5;
+  // Nodes MUST verify this field is false for client-submitted reports
+  bool submitted_by_node = 6;
+}
+
 message MisbehaviorReport {
-  uint32 misbehaving_node_id = 1;
-  Misbehavior type = 2;
-  LivenessFailure liveness = 3;
-  SafetyFailure safety = 4;
+  bytes unsigned_misbehavior_report = 1;
+  // Signed by the node hosting the report
+  xmtp.identity.associations.RecoverableEcdsaSignature signature = 2;
 }
