@@ -41,12 +41,14 @@ lint:
       # We should probably turn this back on at some point, but pretty annoying RN
       - FIELDS_HAVE_COMMENT
       # I never want to turn this back on. Enums values should be self-explanatory
+      - ENUMS_HAVE_COMMENT
       - ENUM_FIELDS_HAVE_COMMENT
       # This one doesn't like single word RPCs, which I have no problem with
       - RPC_NAMES_CASE
       # In practice this creates a lot of meaningless comments, we can trust
       # authors to determine when comments will be useful or not
       - MESSAGES_HAVE_COMMENT
+      - RPCS_HAVE_COMMENT
       - SERVICES_HAVE_COMMENT
 
   # Linter rules option.

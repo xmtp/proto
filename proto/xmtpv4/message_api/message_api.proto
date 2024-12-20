@@ -68,20 +68,6 @@ message GetInboxIdsResponse {
   repeated Response responses = 1;
 }
 
-message SubmitMisbehaviorReportRequest {
-  xmtp.xmtpv4.envelopes.UnsignedMisbehaviorReport report = 1;
-}
-
-message SubmitMisbehaviorReportResponse {}
-
-message QueryMisbehaviorReportsRequest {
-  uint64 after_ns = 1;
-}
-
-message QueryMisbehaviorReportsResponse {
-  repeated xmtp.xmtpv4.envelopes.MisbehaviorReport reports = 1;
-}
-
 service ReplicationApi {
   rpc SubscribeEnvelopes(SubscribeEnvelopesRequest) returns (stream SubscribeEnvelopesResponse) {
     option (google.api.http) = {
@@ -107,20 +93,6 @@ service ReplicationApi {
   rpc GetInboxIds(GetInboxIdsRequest) returns (GetInboxIdsResponse) {
     option (google.api.http) = {
       post: "/mls/v2/get-inbox-ids"
-      body: "*"
-    };
-  }
-
-  rpc SubmitMisbehaviorReport(SubmitMisbehaviorReportRequest) returns (SubmitMisbehaviorReportResponse) {
-    option (google.api.http) = {
-      post: "/mls/v2/submit-misbehavior-report"
-      body: "*"
-    };
-  }
-
-  rpc QueryMisbehaviorReports(QueryMisbehaviorReportsRequest) returns (QueryMisbehaviorReportsResponse) {
-    option (google.api.http) = {
-      post: "/mls/v2/query-misbehavior-reports"
       body: "*"
     };
   }
