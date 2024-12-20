@@ -60,3 +60,33 @@ message OriginatorEnvelope {
     BlockchainProof blockchain_proof = 3;
   }
 }
+
+enum Misbehavior {
+  MISBEHAVIOR_UNSPECIFIED = 0;
+  MISBEHAVIOR_UNRESPONSIVE_NODE = 1;
+  MISBEHAVIOR_SLOW_NODE = 2;
+  MISBEHAVIOR_FAILED_REQUEST = 3;
+  MISBEHAVIOR_OUT_OF_ORDER = 4;
+  MISBEHAVIOR_DUPLICATE_SEQUENCE_ID = 5;
+  MISBEHAVIOR_CAUSAL_ORDERING = 6;
+  MISBEHAVIOR_INVALID_PAYLOAD = 7;
+  MISBEHAVIOR_BLOCKCHAIN_INCONSISTENCY = 8;
+}
+
+message LivenessFailure {
+  uint32 response_time_ns = 1;
+  SubscribeEnvelopesRequest subscribe = 2;
+  QueryEnvelopesRequest query = 3;
+  PublishPayerEnvelopesRequest publish = 4;
+}
+
+message SafetyFailure {
+  repeated OriginatorEnvelope envelopes = 1;
+}
+
+message MisbehaviorReport {
+  uint32 misbehaving_node_id = 1;
+  Misbehavior type = 2;
+  LivenessFailure liveness = 3;
+  SafetyFailure safety = 4;
+}
