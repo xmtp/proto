@@ -8,21 +8,6 @@ import "xmtpv4/envelopes/envelopes.proto";
 
 option go_package = "github.com/xmtp/proto/v3/go/xmtpv4/message_api";
 
-// Misbehavior types
-enum Misbehavior {
-  MISBEHAVIOR_UNSPECIFIED = 0;
-  MISBEHAVIOR_UNAVAILABLE_NODE = 1;
-  MISBEHAVIOR_OUT_OF_ORDER_ORIGINATOR_SID = 2;
-  MISBEHAVIOR_DUPLICATE_ORIGINATOR_SID = 3;
-  MISBEHAVIOR_CYCLICAL_MESSAGE_ORDERING = 4;
-}
-
-// Reports node misbehavior, submittable by nodes or by clients
-message MisbehaviorReport {
-  Misbehavior type = 1;
-  repeated xmtp.xmtpv4.envelopes.OriginatorEnvelope envelopes = 2;
-}
-
 // Query for envelopes, shared by query and subscribe endpoints
 // Either topics or originator_node_ids may be set, but not both
 message EnvelopesQuery {
@@ -83,9 +68,7 @@ message GetInboxIdsResponse {
   repeated Response responses = 1;
 }
 
-// Replication API
 service ReplicationApi {
-  // Subscribe to envelopes
   rpc SubscribeEnvelopes(SubscribeEnvelopesRequest) returns (stream SubscribeEnvelopesResponse) {
     option (google.api.http) = {
       post: "/mls/v2/subscribe-envelopes"
@@ -93,7 +76,6 @@ service ReplicationApi {
     };
   }
 
-  // Query envelopes
   rpc QueryEnvelopes(QueryEnvelopesRequest) returns (QueryEnvelopesResponse) {
     option (google.api.http) = {
       post: "/mls/v2/query-envelopes"
@@ -101,7 +83,6 @@ service ReplicationApi {
     };
   }
 
-  // Publish envelope
   rpc PublishPayerEnvelopes(PublishPayerEnvelopesRequest) returns (PublishPayerEnvelopesResponse) {
     option (google.api.http) = {
       post: "/mls/v2/publish-payer-envelopes"
@@ -109,7 +90,6 @@ service ReplicationApi {
     };
   }
 
-  // Get inbox ids
   rpc GetInboxIds(GetInboxIdsRequest) returns (GetInboxIdsResponse) {
     option (google.api.http) = {
       post: "/mls/v2/get-inbox-ids"
