@@ -52,6 +52,13 @@ service IdentityApi {
       body: "*"
     };
   }
+
+  rpc SubscribeAssociationChanges(SubscribeAssociationChangesRequest) returns (stream SubscribeAssociationChangesResponse) {
+    option (google.api.http) = {
+      post: "/identity/v1/subscribe-association-changes"
+      body: "*"
+    };
+  }
 }
 
 message VerifySmartContractWalletSignaturesRequest {
@@ -136,4 +143,17 @@ message GetInboxIdsResponse {
   }
 
   repeated Response responses = 1;
+}
+
+message SubscribeAssociationChangesRequest {}
+
+message SubscribeAssociationChangesResponse {
+  message AccountAddressAssociation {
+    string account_address = 1;
+    string inbox_id = 2;
+  }
+
+  oneof change {
+    AccountAddressAssociation account_address_association = 1;
+  }
 }
