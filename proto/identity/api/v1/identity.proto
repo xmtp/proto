@@ -145,15 +145,19 @@ message GetInboxIdsResponse {
   repeated Response responses = 1;
 }
 
+// Request to subscribe to association changes, triggered by Identity Updates
 message SubscribeAssociationChangesRequest {}
 
 message SubscribeAssociationChangesResponse {
+  // A change in account_address -> inbox_id association
   message AccountAddressAssociation {
     string account_address = 1;
     string inbox_id = 2;
   }
 
+  uint64 timestamp_ns = 1;
+
   oneof change {
-    AccountAddressAssociation account_address_association = 1;
+    AccountAddressAssociation account_address_association = 2;
   }
 }
