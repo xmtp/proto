@@ -155,9 +155,16 @@ message SubscribeAssociationChangesResponse {
     string inbox_id = 2;
   }
 
+  // A revocation of an account_address -> inbox_id association
+  message AccountAddressRevocation {
+    string account_address = 1;
+    string inbox_id = 2;
+  }
+
   uint64 timestamp_ns = 1;
 
   oneof change {
     AccountAddressAssociation account_address_association = 2;
+    AccountAddressRevocation account_address_revocation = 3;
   }
 }
