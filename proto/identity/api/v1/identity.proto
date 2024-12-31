@@ -53,6 +53,7 @@ service IdentityApi {
     };
   }
 
+  // Subscribe to a stream of addresses associated and revoked from all inboxes on the network
   rpc SubscribeAssociationChanges(SubscribeAssociationChangesRequest) returns (stream SubscribeAssociationChangesResponse) {
     option (google.api.http) = {
       post: "/identity/v1/subscribe-association-changes"
