@@ -62,9 +62,11 @@ message PlaintextEnvelope {
       // Expected to be EncodedContent
       bytes content = 2;
       // Initiator sends a request to receive sync payload
-      DeviceSyncRequest request = 3;
+      DeviceSyncRequest device_sync_request = 3;
       // Some other authorized installation sends a reply with a link to payload
-      DeviceSyncReply reply = 4;
+      DeviceSyncReply device_sync_reply = 4;
+      // A serialized user preference update
+      UserPreferenceUpdate user_preference_update = 5;
     }
   }
 
@@ -112,4 +114,8 @@ enum DeviceSyncKind {
   DEVICE_SYNC_KIND_UNSPECIFIED = 0;
   DEVICE_SYNC_KIND_MESSAGE_HISTORY = 1;
   DEVICE_SYNC_KIND_CONSENT = 2;
+}
+
+message UserPreferenceUpdate {
+  repeated bytes contents = 1;
 }
