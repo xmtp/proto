@@ -24,9 +24,11 @@ enum Misbehavior {
 
 message LivenessFailure {
   uint32 response_time_ns = 1;
-  xmtp.xmtpv4.message_api.SubscribeEnvelopesRequest subscribe = 2;
-  xmtp.xmtpv4.message_api.QueryEnvelopesRequest query = 3;
-  xmtp.xmtpv4.message_api.PublishPayerEnvelopesRequest publish = 4;
+  oneof request {
+    xmtp.xmtpv4.message_api.SubscribeEnvelopesRequest subscribe = 2;
+    xmtp.xmtpv4.message_api.QueryEnvelopesRequest query = 3;
+    xmtp.xmtpv4.message_api.PublishPayerEnvelopesRequest publish = 4;
+  }
 }
 
 message SafetyFailure {
@@ -37,8 +39,10 @@ message UnsignedMisbehaviorReport {
   uint64 reporter_time_ns = 1;
   uint32 misbehaving_node_id = 2;
   Misbehavior type = 3;
-  LivenessFailure liveness = 4;
-  SafetyFailure safety = 5;
+  oneof failure {
+    LivenessFailure liveness = 4;
+    SafetyFailure safety = 5;
+  }
   // Nodes must verify this field is false for client-submitted reports
   bool submitted_by_node = 6;
 }
