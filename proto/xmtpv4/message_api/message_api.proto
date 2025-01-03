@@ -15,8 +15,7 @@ message EnvelopesQuery {
   repeated bytes topics = 1;
   // Node queries
   repeated uint32 originator_node_ids = 2;
-  // The last seen entry per originator. Originators that have not been seen are omitted.
-  map<uint32, uint64> last_seen = 3;
+  xmtp.xmtpv4.envelopes.Cursor last_seen = 3;
 }
 
 // Batch subscribe to envelopes

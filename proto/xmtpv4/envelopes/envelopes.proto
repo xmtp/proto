@@ -9,12 +9,16 @@ import "mls/api/v1/mls.proto";
 
 option go_package = "github.com/xmtp/proto/v3/go/xmtpv4/envelopes";
 
+// The last seen entry per originator. Originators that have not been seen are omitted.
+message Cursor {
+  map<uint32, uint64> node_id_to_sequence_id = 1;
+}
+
 // Data visible to the server that has been authenticated by the client.
 message AuthenticatedData {
   uint32 target_originator = 1;
   bytes target_topic = 2;
-  // The last seen entry per originator. Originators that have not been seen are omitted.
-  map<uint32, uint64> last_seen = 3;
+  Cursor last_seen = 3;
 }
 
 message ClientEnvelope {
