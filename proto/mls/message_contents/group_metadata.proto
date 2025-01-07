@@ -14,6 +14,8 @@ message GroupMetadataV1 {
   string creator_inbox_id = 3;
   // Should only be present for CONVERSATION_TYPE_DM
   optional DmMembers dm_members = 4;
+  // Expiration time for messages in milliseconds. If not set, messages do not expire
+  optional int64 message_expiration_ms = 5;
 }
 
 // Defines the type of conversation
