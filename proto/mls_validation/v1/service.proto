@@ -4,7 +4,6 @@ package xmtp.mls_validation.v1;
 
 import "identity/api/v1/identity.proto";
 import "identity/associations/association.proto";
-import "identity/associations/signature.proto";
 import "identity/credential.proto";
 
 option go_package = "github.com/xmtp/proto/v3/go/mls_validation/v1";
