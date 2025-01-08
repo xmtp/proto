@@ -1,0 +1,27 @@
+syntax = "proto3";
+package xmtp.device_sync.group_backup;
+
+message GroupSave {
+  bytes id = 1;
+  int64 created_at_ns = 2;
+  GroupMembershipStateSave membership_state = 3;
+  int64 installations_last_checked = 4;
+  string added_by_inbox_id = 5;
+  optional int64 welcome_id = 6;
+  int64 rotated_at_ns = 7;
+  ConversationTypeSave conversation_type = 8;
+  optional string dm_id = 9;
+  optional int64 last_message_ns = 10;
+}
+
+enum GroupMembershipStateSave {
+  GROUP_MEMBERSHIP_STATE_SAVE_ALLOWED = 0;
+  GROUP_MEMBERSHIP_STATE_SAVE_REJECTED = 1;
+  GROUP_MEMBERSHIP_STATE_SAVE_PENDING = 2;
+}
+
+enum ConversationTypeSave {
+  CONVERSATION_TYPE_SAVE_GROUP = 0;
+  CONVERSATION_TYPE_SAVE_DM = 1;
+  CONVERSATION_TYPE_SAVE_SYNC = 2;
+}
