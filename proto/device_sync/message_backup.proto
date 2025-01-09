@@ -14,6 +14,7 @@ message GroupMessageSave {
   int32 version_major = 10;
   int32 version_minor = 11;
   string authority_id = 12;
+  optional bytes reference_id = 13;
 }
 
 enum GroupMessageKindSave {
