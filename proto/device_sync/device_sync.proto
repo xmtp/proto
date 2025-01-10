@@ -1,0 +1,14 @@
+syntax = "proto3";
+package xmtp.device_sync;
+
+import "device_sync/group_backup.proto";
+import "device_sync/message_backup.proto";
+import "device_sync/consent_backup.proto";
+
+message BackupElement {
+  oneof element {
+    xmtp.device_sync.group_backup.GroupSave group = 1;
+    xmtp.device_sync.message_backup.GroupMessageSave group_message = 2;
+    xmtp.device_sync.consent_backup.ConsentSave consent = 3;
+  }
+}

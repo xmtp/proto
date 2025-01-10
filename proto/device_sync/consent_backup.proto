@@ -1,7 +1,7 @@
 syntax = "proto3";
 package xmtp.device_sync.consent_backup;
 
-message ConsentRecordSave {
+message ConsentSave {
   ConsentTypeSave entity_type = 1;
   ConsentStateSave state = 2;
   string entity = 3;
