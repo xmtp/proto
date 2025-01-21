@@ -7,15 +7,14 @@ import "device_sync/consent_backup.proto";
 
 message BackupElement {
   oneof element {
-    BackupMetadata metadata = 1;
+    BackupMetadataSave metadata = 1;
     xmtp.device_sync.group_backup.GroupSave group = 2;
     xmtp.device_sync.message_backup.GroupMessageSave group_message = 3;
     xmtp.device_sync.consent_backup.ConsentSave consent = 4;
   }
 }
 
-message BackupMetadata {
-  uint32 backup_version = 1;
+message BackupMetadataSave {
   repeated BackupElementSelection elements = 2;
   int64 exported_at_ns = 3;
   optional int64 start_ns = 4;
