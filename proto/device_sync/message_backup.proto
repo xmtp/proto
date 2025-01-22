@@ -1,6 +1,7 @@
 syntax = "proto3";
 package xmtp.device_sync.message_backup;
 
+// Proto representation of a stored group message
 message GroupMessageSave {
   bytes id = 1;
   bytes group_id = 2;
@@ -17,17 +18,20 @@ message GroupMessageSave {
   optional bytes reference_id = 13;
 }
 
+// Group message kind
 enum GroupMessageKindSave {
   GROUP_MESSAGE_KIND_SAVE_APPLICATION = 0;
   GROUP_MESSAGE_KIND_SAVE_MEMBERSHIP_CHANGE = 1;
 }
 
+// Group message delivery status
 enum DeliveryStatusSave {
   DELIVERY_STATUS_SAVE_UNPUBLISHED = 0;
   DELIVERY_STATUS_SAVE_PUBLISHED = 1;
   DELIVERY_STATUS_SAVE_FAILED = 2;
 }
 
+// Group message content type
 enum ContentTypeSave {
   CONTENT_TYPE_SAVE_UNKNOWN = 0;
   CONTENT_TYPE_SAVE_TEXT = 1;
