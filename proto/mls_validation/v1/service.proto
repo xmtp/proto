@@ -21,7 +21,7 @@ service ValidationApi {
   rpc ValidateInboxIdKeyPackages(ValidateKeyPackagesRequest) returns (ValidateInboxIdKeyPackagesResponse) {}
 
   // Verifies smart contracts
-  // This request is proxied from the node, so we'll reuse those messgaes.
+  // This request is proxied from the node, so we'll reuse those messages.
   rpc VerifySmartContractWalletSignatures(
     xmtp.identity.api.v1.VerifySmartContractWalletSignaturesRequest
   )  returns (
@@ -114,29 +114,4 @@ message GetAssociationStateRequest {
 message GetAssociationStateResponse {
   xmtp.identity.associations.AssociationState association_state = 1;
   xmtp.identity.associations.AssociationStateDiff state_diff = 2;
-}
-
-// Request to validate an InboxID with the backend service. Ensures an Inbox Id <> Installation key are valid.
-message ValidateInboxIdsRequest {
-  // a single validation request
-  message ValidationRequest {
-    xmtp.identity.MlsCredential credential = 1;
-    bytes installation_public_key = 2;
-    repeated xmtp.identity.associations.IdentityUpdate identity_updates = 3;
-  }
-
-  // list of validation requests
-  repeated ValidationRequest requests = 1;
-}
-
-// Response to ValidateInboxIdRequest
-message ValidateInboxIdsResponse {
-  // a single validation response
-  message ValidationResponse {
-    bool is_ok = 1;
-    string error_message = 2;
-    string inbox_id = 3;
-  }
-  // List of validation responses
-  repeated ValidationResponse responses = 1;
 }
