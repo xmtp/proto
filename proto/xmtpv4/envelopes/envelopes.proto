@@ -18,7 +18,7 @@ message Cursor {
 message AuthenticatedData {
   uint32 target_originator = 1;
   bytes target_topic = 2;
-  Cursor last_seen = 3;
+  Cursor depends_on = 3;
 }
 
 message ClientEnvelope {
