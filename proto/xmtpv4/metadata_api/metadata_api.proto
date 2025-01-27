@@ -1,0 +1,27 @@
+// Metadata API
+syntax = "proto3";
+
+package xmtp.xmtpv4.payer_api;
+
+import "google/api/annotations.proto";
+import "xmtpv4/envelopes/envelopes.proto";
+
+option go_package = "github.com/xmtp/proto/v3/go/xmtpv4/metadata_api";
+
+message GetSyncCursorRequest {
+}
+
+message GetSyncCursorResponse {
+  xmtp.xmtpv4.envelopes.Cursor latest_sync = 1;
+}
+
+
+// Metadata for distributed tracing, debugging and synchronization
+service MetadataApi {
+  rpc GetSyncCursor(GetSyncCursorRequest) returns (GetSyncCursorResponse) {
+    option (google.api.http) = {
+      post: "/mls/v2/metadata/get-sync-cursor"
+      body: "*"
+    };
+  }
+}
