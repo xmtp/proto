@@ -1,7 +1,7 @@
 // Metadata API
 syntax = "proto3";
 
-package xmtp.xmtpv4.payer_api;
+package xmtp.xmtpv4.metadata_api;
 
 import "google/api/annotations.proto";
 import "xmtpv4/envelopes/envelopes.proto";
