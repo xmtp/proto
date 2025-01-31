@@ -15,7 +15,7 @@ message EnvelopesQuery {
   repeated bytes topics = 1;
   // Node queries
   repeated uint32 originator_node_ids = 2;
-  xmtp.xmtpv4.envelopes.VectorClock last_seen = 3;
+  xmtp.xmtpv4.envelopes.Cursor last_seen = 3;
 }
 
 // Batch subscribe to envelopes
