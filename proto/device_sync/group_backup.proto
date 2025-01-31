@@ -13,6 +13,8 @@ message GroupSave {
   ConversationTypeSave conversation_type = 8;
   optional string dm_id = 9;
   optional int64 last_message_ns = 10;
+  optional int64 message_disappear_from_ns = 11;
+  optional int64 message_disappear_in_ns = 12;
 }
 
 // Group membership state
