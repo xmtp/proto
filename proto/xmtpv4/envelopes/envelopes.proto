@@ -16,7 +16,7 @@ message Cursor {
 
 // Data visible to the server that has been authenticated by the client.
 message AuthenticatedData {
-  uint32 target_originator = 1;
+  optional uint32 target_originator = 1 [deprecated = true];
   bytes target_topic = 2;
   Cursor depends_on = 3;
 }
