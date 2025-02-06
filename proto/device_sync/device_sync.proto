@@ -1,0 +1,33 @@
+// Definitions for backups
+syntax = "proto3";
+package xmtp.device_sync;
+
+import "device_sync/consent_backup.proto";
+import "device_sync/group_backup.proto";
+import "device_sync/message_backup.proto";
+
+// Union type representing everything that can be serialied and saved in a backup archive.
+message BackupElement {
+  oneof element {
+    BackupMetadataSave metadata = 1;
+    xmtp.device_sync.group_backup.GroupSave group = 2;
+    xmtp.device_sync.message_backup.GroupMessageSave group_message = 3;
+    xmtp.device_sync.consent_backup.ConsentSave consent = 4;
+  }
+}
+
+// Proto representation of backup metadata
+// (Backup version is explicitly missing - it's stored as a header.)
+message BackupMetadataSave {
+  repeated BackupElementSelection elements = 2;
+  int64 exported_at_ns = 3;
+  optional int64 start_ns = 4;
+  optional int64 end_ns = 5;
+}
+
+// Elements selected for backup
+enum BackupElementSelection {
+  BACKUP_ELEMENT_SELECTION_UNSPECIFIED = 0;
+  BACKUP_ELEMENT_SELECTION_MESSAGES = 1;
+  BACKUP_ELEMENT_SELECTION_CONSENT = 2;
+}
