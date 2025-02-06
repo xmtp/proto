@@ -1,15 +1,16 @@
+// Definitions for backups
 syntax = "proto3";
 package xmtp.device_sync.group_backup;
 
 // Proto representation of a stored group
 message GroupSave {
   bytes id = 1;
-  int64 created_at_ns = 2;
+  int64 created_time_ns = 2;
   GroupMembershipStateSave membership_state = 3;
   int64 installations_last_checked = 4;
   string added_by_inbox_id = 5;
   optional int64 welcome_id = 6;
-  int64 rotated_at_ns = 7;
+  int64 rotated_tim_ns = 7;
   ConversationTypeSave conversation_type = 8;
   optional string dm_id = 9;
   optional int64 last_message_ns = 10;
