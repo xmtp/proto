@@ -1,6 +1,8 @@
 ---
 # Lint directives.
 lint:
+  disabled_rules:
+    - no_field_names_with_prepositions
   # Linter rules.
   # Run `protolint list` to see all available rules.
   rules:

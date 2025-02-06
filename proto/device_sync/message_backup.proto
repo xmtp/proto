@@ -7,7 +7,7 @@ message GroupMessageSave {
   bytes id = 1;
   bytes group_id = 2;
   bytes decrypted_message_bytes = 3;
-  int64 sent_time_ns = 4;
+  int64 sent_at_ns = 4;
   GroupMessageKindSave kind = 5;
   bytes sender_installation_id = 6;
   string sender_inbox_id = 7;

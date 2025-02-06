@@ -20,7 +20,7 @@ message BackupElement {
 // (Backup version is explicitly missing - it's stored as a header.)
 message BackupMetadataSave {
   repeated BackupElementSelection elements = 2;
-  int64 exported_time_ns = 3;
+  int64 exported_at_ns = 3;
   optional int64 start_ns = 4;
   optional int64 end_ns = 5;
 }
