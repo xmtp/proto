@@ -20,17 +20,14 @@ message MultiRemoteAttachment {
   // A 32 byte array for decrypting the remote content payload
   bytes secret = 1;
   
-  // A byte array for the salt used to encrypt the remote content payload
-  bytes salt = 2;
-  
   // Array of attachment information
-  repeated RemoteAttachmentInfo attachments = 3;
+  repeated RemoteAttachmentInfo attachments = 2;
 
   // The number of attachments in the attachments array
-  optional uint32 num_attachments = 4;
+  optional uint32 num_attachments = 3;
   
   // The maximum content length of an attachment in the attachments array
-  optional uint32 max_attachment_content_length = 5;
+  optional uint32 max_attachment_content_length = 4;
 }
 
 message RemoteAttachmentInfo {
@@ -39,13 +36,16 @@ message RemoteAttachmentInfo {
   
   // A byte array for the nonce used to encrypt the remote content payload
   bytes nonce = 2;
+
+  // A byte array for the salt used to encrypt the remote content payload
+  bytes salt = 3;
   
   // The scheme of the URL. Must be "https://"
-  string scheme = 3;
+  string scheme = 4;
   
   // The URL of the remote content
-  string url = 4;
+  string url = 5;
   
   // The filename of the remote content
-  string filename = 5;
+  string filename = 6;
 }
