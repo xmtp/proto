@@ -1,0 +1,35 @@
+// Definitions for backups
+syntax = "proto3";
+package xmtp.device_sync.group_backup;
+
+// Proto representation of a stored group
+message GroupSave {
+  bytes id = 1;
+  int64 created_at_ns = 2;
+  GroupMembershipStateSave membership_state = 3;
+  int64 installations_last_checked = 4;
+  string added_by_inbox_id = 5;
+  optional int64 welcome_id = 6;
+  int64 rotated_at_ns = 7;
+  ConversationTypeSave conversation_type = 8;
+  optional string dm_id = 9;
+  optional int64 last_message_ns = 10;
+  optional int64 message_disappear_from_ns = 11;
+  optional int64 message_disappear_in_ns = 12;
+}
+
+// Group membership state
+enum GroupMembershipStateSave {
+  GROUP_MEMBERSHIP_STATE_SAVE_UNSPECIFIED = 0;
+  GROUP_MEMBERSHIP_STATE_SAVE_ALLOWED = 1;
+  GROUP_MEMBERSHIP_STATE_SAVE_REJECTED = 2;
+  GROUP_MEMBERSHIP_STATE_SAVE_PENDING = 3;
+}
+
+// Conversation type
+enum ConversationTypeSave {
+  CONVERSATION_TYPE_SAVE_UNSPECIFIED = 0;
+  CONVERSATION_TYPE_SAVE_GROUP = 1;
+  CONVERSATION_TYPE_SAVE_DM = 2;
+  CONVERSATION_TYPE_SAVE_SYNC = 3;
+}

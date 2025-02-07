@@ -50,6 +50,8 @@ lint:
       - MESSAGES_HAVE_COMMENT
       - RPCS_HAVE_COMMENT
       - SERVICES_HAVE_COMMENT
+      # Allow for fields we have in libxmtp like "sent_at_ns"
+      - FIELD_NAMES_EXCLUDE_PREPOSITIONS
 
   # Linter rules option.
   rules_option:
