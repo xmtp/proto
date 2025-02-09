@@ -33,3 +33,15 @@ enum ConversationTypeSave {
   CONVERSATION_TYPE_SAVE_DM = 2;
   CONVERSATION_TYPE_SAVE_SYNC = 3;
 }
+
+message GroupMetadataOptionsSave {
+  optional string name = 1;
+  optional string image_url_square = 2;
+  optional string description = 3;
+  optional MessageDisappearingSettingsSave message_disappearing_settings = 4;
+}
+
+message MessageDisappearingSettingsSave {
+  int64 from_ns = 1;
+  int64 in_ns = 2;
+}
