@@ -49,6 +49,6 @@ message MutableMetadataSave {
 message ImmutableMetadataSave {
   string creator_inbox_id = 1;
 
-  // conversation_type can be derived from group field
-  // dm_members can be derived from dm_id
+  // conversation_type can be derived from the grouop
+  // dm_members can be derived from the group
 }
