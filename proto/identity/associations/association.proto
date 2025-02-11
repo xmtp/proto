@@ -13,7 +13,14 @@ message MemberIdentifier {
   oneof kind {
     string address = 1;
     bytes installation_public_key = 2;
+    Passkey passkey = 3;
   }
+}
+
+// The passkey identifier
+message Passkey {
+  bytes public_key = 1;
+  string relying_party = 2;
 }
 
 // single member that optionally indicates the member that added them
