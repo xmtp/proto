@@ -20,12 +20,6 @@ message MultiRemoteAttachment {
   
   // Array of attachment information
   repeated RemoteAttachmentInfo attachments = 1;
-
-  // The number of attachments in the attachments array
-  optional uint32 num_attachments = 2;
-  
-  // The maximum content length of an attachment in the attachments array
-  optional uint32 max_attachment_content_length = 3;
 }
 
 message RemoteAttachmentInfo {
@@ -46,4 +40,10 @@ message RemoteAttachmentInfo {
   
   // The URL of the remote content
   string url = 6;
+
+  // The size of the encrypted content in kilobytes
+  optional uint32 content_length_kb = 7; 
+
+  // The filename of the remote content
+  optional string filename = 8;
 }
