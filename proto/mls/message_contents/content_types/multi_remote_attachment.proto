@@ -17,35 +17,33 @@ option java_package = "org.xmtp.proto.mls.message_contents.content_types";
 
 // MultiRemoteAttachment message type
 message MultiRemoteAttachment {
-  // A 32 byte array for decrypting the remote content payload
-  bytes secret = 1;
   
   // Array of attachment information
-  repeated RemoteAttachmentInfo attachments = 2;
+  repeated RemoteAttachmentInfo attachments = 1;
 
   // The number of attachments in the attachments array
-  optional uint32 num_attachments = 3;
+  optional uint32 num_attachments = 2;
   
   // The maximum content length of an attachment in the attachments array
-  optional uint32 max_attachment_content_length = 4;
+  optional uint32 max_attachment_content_length = 3;
 }
 
 message RemoteAttachmentInfo {
   // The SHA256 hash of the remote content
   string content_digest = 1;
+
+  // A 32 byte array for decrypting the remote content payload
+  bytes secret = 2;
   
   // A byte array for the nonce used to encrypt the remote content payload
-  bytes nonce = 2;
+  bytes nonce = 3;
 
   // A byte array for the salt used to encrypt the remote content payload
-  bytes salt = 3;
+  bytes salt = 4;
   
   // The scheme of the URL. Must be "https://"
-  string scheme = 4;
+  string scheme = 5;
   
   // The URL of the remote content
-  string url = 5;
-  
-  // The filename of the remote content
-  string filename = 6;
+  string url = 6;
 }
