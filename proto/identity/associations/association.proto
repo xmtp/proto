@@ -23,6 +23,14 @@ message Passkey {
   string relying_party = 2;
 }
 
+// The public identifier of a member
+message PublicIdentifier {
+  oneof kind {
+    string address = 1;
+    bytes passkey = 2;
+  }
+}
+
 // single member that optionally indicates the member that added them
 message Member {
   MemberIdentifier identifier = 1;
@@ -98,7 +106,7 @@ message MemberMap {
 message AssociationState {
   string inbox_id = 1;
   repeated MemberMap members = 2;
-  string recovery_address = 3;
+  PublicIdentifier recovery_identifier = 3;
   repeated bytes seen_signatures = 4;
 }
 
