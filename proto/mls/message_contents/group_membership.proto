@@ -10,4 +10,5 @@ option java_package = "org.xmtp.proto.mls.message.contents";
 // Designed to be stored in the group context extension of the MLS group
 message GroupMembership {
   map<string, uint64> members = 1;
+  repeated bytes failed_installations = 2;
 }

@@ -70,6 +70,8 @@ message UpdateGroupMembershipData {
     map<string, uint64> membership_updates = 1;
     // Contains the list of members that will be removed
     repeated string removed_members = 2;
+    repeated bytes failed_installations = 3;
+
   }
 
   oneof version {
