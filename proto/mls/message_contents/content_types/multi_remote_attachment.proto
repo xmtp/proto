@@ -41,8 +41,8 @@ message RemoteAttachmentInfo {
   // The URL of the remote content
   string url = 6;
 
-  // The size of the encrypted content in kilobytes
-  optional uint32 content_length_kb = 7; 
+  // The size of the encrypted content in bytes (max size of 4GB)
+  optional uint32 content_length = 7; 
 
   // The filename of the remote content
   optional string filename = 8;
