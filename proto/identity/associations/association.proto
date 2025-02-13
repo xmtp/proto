@@ -11,8 +11,23 @@ option java_package = "org.xmtp.proto.identity.associations";
 // The identifier for a member of an XID
 message MemberIdentifier {
   oneof kind {
-    string address = 1;
+    string ethereum_address = 1;
     bytes installation_public_key = 2;
+    Passkey passkey = 3;
+  }
+}
+
+// The passkey identifier
+message Passkey {
+  bytes public_key = 1;
+  string relying_party = 2;
+}
+
+// The public identifier of a member
+message PublicIdentifier {
+  oneof kind {
+    string ethereum = 1;
+    bytes passkey = 2;
   }
 }
 
@@ -91,7 +106,7 @@ message MemberMap {
 message AssociationState {
   string inbox_id = 1;
   repeated MemberMap members = 2;
-  string recovery_address = 3;
+  PublicIdentifier recovery_identifier = 3;
   repeated bytes seen_signatures = 4;
 }
 
