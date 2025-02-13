@@ -6,9 +6,15 @@ package xmtp.mls.message_contents;
 option go_package = "github.com/xmtp/proto/v3/go/mls/message_contents";
 option java_package = "org.xmtp.proto.mls.message.contents";
 
+// Wrapper around a list of repeated Installation IDs
+message InstallationIds {
+  repeated bytes installation_ids = 1;
+}
+
 // Contains a mapping of `inbox_id` -> `sequence_id` for all members of a group.
 // Designed to be stored in the group context extension of the MLS group
 message GroupMembership {
   map<string, uint64> members = 1;
-  repeated bytes failed_installations = 2;
+  // List of installations that failed to be added due to errors encountered during the evaluation process.
+  optional InstallationIds failed_installations =2;
 }
