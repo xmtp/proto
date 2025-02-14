@@ -23,12 +23,10 @@ message Passkey {
   string relying_party = 2;
 }
 
-// The public identifier of a member
-message PublicIdentifier {
-  oneof kind {
-    string ethereum = 1;
-    bytes passkey = 2;
-  }
+enum ExternalIdentityKind {
+  PUBLIC_IDENTITY_KIND_UNSPECIFIED = 0; // Ethereum on old clients
+  PUBLIC_IDENTITY_KIND_ETHEREUM = 1;
+  PUBLIC_IDENTITY_KIND_PASSKEY = 2;
 }
 
 // single member that optionally indicates the member that added them
@@ -106,8 +104,9 @@ message MemberMap {
 message AssociationState {
   string inbox_id = 1;
   repeated MemberMap members = 2;
-  PublicIdentifier recovery_identifier = 3;
+  string recovery_identifier = 3;
   repeated bytes seen_signatures = 4;
+  ExternalIdentityKind recovery_identifier_kind = 5;
 }
 
 /// state diff between two final AssociationStates
