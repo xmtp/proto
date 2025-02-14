@@ -13,17 +13,12 @@ message MemberIdentifier {
   oneof kind {
     string ethereum_address = 1;
     bytes installation_public_key = 2;
-    Passkey passkey = 3;
+    bytes passkey = 3;
   }
 }
 
-// The passkey identifier
-message Passkey {
-  bytes public_key = 1;
-  string relying_party = 2;
-}
-
-enum ExternalIdentityKind {
+// List of root identity kinds
+enum ExternalRootIdentityKind {
   PUBLIC_IDENTITY_KIND_UNSPECIFIED = 0; // Ethereum on old clients
   PUBLIC_IDENTITY_KIND_ETHEREUM = 1;
   PUBLIC_IDENTITY_KIND_PASSKEY = 2;
@@ -106,7 +101,7 @@ message AssociationState {
   repeated MemberMap members = 2;
   string recovery_identifier = 3;
   repeated bytes seen_signatures = 4;
-  ExternalIdentityKind recovery_identifier_kind = 5;
+  ExternalRootIdentityKind recovery_identifier_kind = 5;
 }
 
 /// state diff between two final AssociationStates
