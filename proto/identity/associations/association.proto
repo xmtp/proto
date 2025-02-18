@@ -17,11 +17,11 @@ message MemberIdentifier {
   }
 }
 
-// List of root identity kinds
-enum ExternalRootIdentityKind {
-  PUBLIC_IDENTITY_KIND_UNSPECIFIED = 0; // Ethereum on old clients
-  PUBLIC_IDENTITY_KIND_ETHEREUM = 1;
-  PUBLIC_IDENTITY_KIND_PASSKEY = 2;
+// List of identity kinds
+enum IdentifierKind {
+  IDENTIFIER_KIND_UNSPECIFIED = 0; // Ethereum on old clients
+  IDENTIFIER_KIND_ETHEREUM = 1;
+  IDENTIFIER_KIND_PASSKEY = 2;
 }
 
 // single member that optionally indicates the member that added them
@@ -40,7 +40,7 @@ message CreateInbox {
   string initial_identifier = 1;
   uint64 nonce = 2;
   Signature initial_identifier_signature = 3; // Must be an addressable member
-  ExternalRootIdentityKind initial_identifier_kind = 4;
+  IdentifierKind initial_identifier_kind = 4;
 }
 
 // Adds a new member for an XID - either an addressable member such as a
@@ -65,7 +65,7 @@ message RevokeAssociation {
 message ChangeRecoveryAddress {
   string new_recovery_identifier = 1;
   Signature existing_recovery_identifier_signature = 2;
-  ExternalRootIdentityKind new_recovery_identifier_kind = 3;
+  IdentifierKind new_recovery_identifier_kind = 3;
 }
 
 // A single identity operation
@@ -103,7 +103,7 @@ message AssociationState {
   repeated MemberMap members = 2;
   string recovery_identifier = 3;
   repeated bytes seen_signatures = 4;
-  ExternalRootIdentityKind recovery_identifier_kind = 5;
+  IdentifierKind recovery_identifier_kind = 5;
 }
 
 /// state diff between two final AssociationStates
