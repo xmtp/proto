@@ -63,8 +63,9 @@ message GetInboxIdsRequest {
 message GetInboxIdsResponse {
   // A single response for a given address
   message Response {
-    string address = 1;
+    string identifier = 1;
     optional string inbox_id = 2;
+    xmtp.identity.associations.IdentifierKind identifier_kind = 3;
   }
 
   repeated Response responses = 1;
