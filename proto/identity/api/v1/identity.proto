@@ -120,7 +120,8 @@ message GetIdentityUpdatesResponse {
 message GetInboxIdsRequest {
   // A single request for a given address
   message Request {
-    string address = 1;
+    string identifier = 1;
+    xmtp.identity.associations.IdentifierKind identifier_kind = 2;
   }
 
   repeated Request requests = 1;
