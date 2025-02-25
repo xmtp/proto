@@ -46,6 +46,8 @@ message UnsignedOriginatorEnvelope {
   uint64 originator_sequence_id = 2;
   int64 originator_ns = 3;
   PayerEnvelope payer_envelope = 4;
+  uint64 base_fee_picodollars = 5; // The base fee for the message in picodollars
+  uint64 congestion_fee_picodollars = 6; // The congestion fee for the message in picodollars
 }
 
 // An alternative to a signature for blockchain payloads
