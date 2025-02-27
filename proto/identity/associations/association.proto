@@ -13,8 +13,14 @@ message MemberIdentifier {
   oneof kind {
     string ethereum_address = 1;
     bytes installation_public_key = 2;
-    bytes passkey_public_key = 3;
+    Passkey passkey = 3;
   }
+}
+
+// Passkey identifier
+message Passkey {
+    bytes key = 1;
+    string relying_partner = 2;
 }
 
 // List of identity kinds
@@ -41,6 +47,8 @@ message CreateInbox {
   uint64 nonce = 2;
   Signature initial_identifier_signature = 3; // Must be an addressable member
   IdentifierKind initial_identifier_kind = 4;
+  // Should be provided if identifier kind is passkey
+  optional string relying_partner = 5;
 }
 
 // Adds a new member for an XID - either an addressable member such as a
@@ -51,6 +59,8 @@ message AddAssociation {
   MemberIdentifier new_member_identifier = 1;
   Signature existing_member_signature = 2;
   Signature new_member_signature = 3;
+  // Should be provided if identifier kind is passkey
+  optional string relying_partner = 4;
 }
 
 // Revokes a member from an XID. The recovery address must sign the revocation.
@@ -59,13 +69,15 @@ message RevokeAssociation {
   Signature recovery_identifier_signature = 2;
 }
 
-// Changes the recovery address for an XID. The recovery address is not required
+// Changes the recovery identifier for an XID. The recovery identifier is not required
 // to be a member of the XID. In addition to being able to add members, the
-// recovery address can also revoke members.
+// recovery identifier can also revoke members.
 message ChangeRecoveryAddress {
   string new_recovery_identifier = 1;
   Signature existing_recovery_identifier_signature = 2;
   IdentifierKind new_recovery_identifier_kind = 3;
+  // Should be provided if identifier kind is passkey
+  optional string relying_partner = 4;
 }
 
 // A single identity operation
