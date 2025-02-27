@@ -20,7 +20,7 @@ message MemberIdentifier {
 // Passkey identifier
 message Passkey {
     bytes key = 1;
-    string relying_partner = 2;
+    optional string relying_partner = 2;
 }
 
 // List of identity kinds
