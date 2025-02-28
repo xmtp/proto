@@ -117,7 +117,7 @@ message AssociationState {
   repeated bytes seen_signatures = 4;
   IdentifierKind recovery_identifier_kind = 5;
   // Should be provided if identifier kind is passkey
-  optional string relying_partner = 4;
+  optional string relying_partner = 6;
 }
 
 /// state diff between two final AssociationStates
