@@ -7,7 +7,6 @@ message ConsentSave {
   ConsentTypeSave entity_type = 1;
   ConsentStateSave state = 2;
   string entity = 3;
-  optional ConsentIdentityKindSave identity_kind = 4;
 }
 
 // Consent record type
@@ -24,11 +23,4 @@ enum ConsentStateSave {
   CONSENT_STATE_SAVE_UNKNOWN = 1;
   CONSENT_STATE_SAVE_ALLOWED = 2;
   CONSENT_STATE_SAVE_DENIED = 3;
-}
-
-// Consent record identity kind (if type is set to identity)
-enum ConsentIdentityKindSave {
-  CONSENT_IDENTITY_KIND_SAVE_UNSPECIFIED = 0;
-  CONSENT_IDENTITY_KIND_SAVE_ETHEREUM = 1;
-  CONSENT_IDENTITY_KIND_SAVE_PASSKEY = 2;
 }
