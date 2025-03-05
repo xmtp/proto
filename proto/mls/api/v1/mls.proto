@@ -150,6 +150,7 @@ message GroupMessage {
     bytes group_id = 3;
     bytes data = 4;
     bytes sender_hmac = 5;
+    optional bool should_push = 4;
   }
 
   oneof version {
@@ -163,6 +164,7 @@ message GroupMessageInput {
   message V1 {
     bytes data = 1; // Serialized MlsProtocolMessage
     bytes sender_hmac = 2;
+    optional bool should_push = 4;
   }
 
   oneof version {
