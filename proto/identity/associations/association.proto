@@ -19,8 +19,8 @@ message MemberIdentifier {
 
 // Passkey identifier
 message Passkey {
-    bytes key = 1;
-    optional string relying_partner = 2;
+  bytes key = 1;
+  optional string relying_partner = 2;
 }
 
 // List of identity kinds
