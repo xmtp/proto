@@ -6,7 +6,6 @@ package xmtp.xmtpv4.message_api;
 import "google/api/annotations.proto";
 import "identity/associations/association.proto";
 import "xmtpv4/envelopes/envelopes.proto";
-import "identity/associations/association.proto";
 
 option go_package = "github.com/xmtp/proto/v3/go/xmtpv4/message_api";
 
