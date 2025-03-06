@@ -14,7 +14,7 @@ enum ConsentTypeSave {
   CONSENT_TYPE_SAVE_UNSPECIFIED = 0;
   CONSENT_TYPE_SAVE_CONVERSATION_ID = 1;
   CONSENT_TYPE_SAVE_INBOX_ID = 2;
-  CONSENT_TYPE_SAVE_ADDRESS = 3;
+  CONSENT_TYPE_SAVE_ADDRESS = 3 [deprecated = true];
 }
 
 // Consent record state
