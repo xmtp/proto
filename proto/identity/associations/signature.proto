@@ -33,6 +33,14 @@ message SmartContractWalletSignature {
   bytes signature = 3;
 }
 
+// Passkey signature
+message RecoverablePasskeySignature {
+  bytes public_key = 1;
+  bytes signature = 2;
+  bytes authenticator_data = 3;
+  bytes client_data_json = 4;
+}
+
 // An existing address on xmtpv2 may have already signed a legacy identity key
 // of type SignedPublicKey via the 'Create Identity' signature.
 // For migration to xmtpv3, the legacy key is permitted to sign on behalf of the
@@ -56,5 +64,6 @@ message Signature {
     SmartContractWalletSignature erc_6492 = 2;
     RecoverableEd25519Signature installation_key = 3;
     LegacyDelegatedSignature delegated_erc_191 = 4;
+    RecoverablePasskeySignature passkey = 5;
   }
 }

@@ -20,7 +20,7 @@ message MemberIdentifier {
 // Passkey identifier
 message Passkey {
   bytes key = 1;
-  optional string relying_partner = 2;
+  optional string relying_party = 2;
 }
 
 // List of identity kinds
@@ -48,7 +48,7 @@ message CreateInbox {
   Signature initial_identifier_signature = 3; // Must be an addressable member
   IdentifierKind initial_identifier_kind = 4;
   // Should be provided if identifier kind is passkey
-  optional string relying_partner = 5;
+  optional string relying_party = 5;
 }
 
 // Adds a new member for an XID - either an addressable member such as a
@@ -60,7 +60,7 @@ message AddAssociation {
   Signature existing_member_signature = 2;
   Signature new_member_signature = 3;
   // Should be provided if identifier kind is passkey
-  optional string relying_partner = 4;
+  optional string relying_party = 4;
 }
 
 // Revokes a member from an XID. The recovery address must sign the revocation.
@@ -77,7 +77,7 @@ message ChangeRecoveryAddress {
   Signature existing_recovery_identifier_signature = 2;
   IdentifierKind new_recovery_identifier_kind = 3;
   // Should be provided if identifier kind is passkey
-  optional string relying_partner = 4;
+  optional string relying_party = 4;
 }
 
 // A single identity operation
@@ -117,7 +117,7 @@ message AssociationState {
   repeated bytes seen_signatures = 4;
   IdentifierKind recovery_identifier_kind = 5;
   // Should be provided if identifier kind is passkey
-  optional string relying_partner = 6;
+  optional string relying_party = 6;
 }
 
 /// state diff between two final AssociationStates
