@@ -7,6 +7,8 @@ package xmtp.mls.message_contents;
 option go_package = "github.com/xmtp/proto/v3/go/mls/message_contents";
 option java_package = "org.xmtp.proto.mls.message.contents";
 
+import "device_sync/device_sync.proto";
+
 // ContentTypeId is used to identify the type of content stored in a Message.
 message ContentTypeId {
   string authority_id = 1;  // authority governing this content type
@@ -82,10 +84,11 @@ message PlaintextEnvelope {
 message DeviceSyncRequest {
   // Unique identifier for each request
   string request_id = 1;
-  // Ensures a human is in the loop
-  string pin_code = 2;
-  // request kind
-  DeviceSyncKind kind = 3;
+  xmtp.device_sync.BackupOptions options = 4;
+
+  // deprecated
+  string pin_code = 2 [deprecated = true];
+  DeviceSyncKind kind = 3 [deprecated = true];
 }
 
 // Pre-existing installation id capable of supplying a sync payload sends this reply
@@ -96,10 +99,12 @@ message DeviceSyncReply {
   string url = 2;
   // Generated input 'secret' for the AES Key used to encrypt the message-bundle
   DeviceSyncKeyType encryption_key = 3;
-  // ns unix timestamp of when the reply was sent
-  uint64 timestamp_ns = 4;
-  // request kind
-  DeviceSyncKind kind = 5;
+  // Metadata about the backup
+  xmtp.device_sync.BackupMetadataSave metadata = 6;
+
+  // deprecated
+  uint64 timestamp_ns = 4 [deprecated = true];
+  DeviceSyncKind kind = 5 [deprecated = true];
 }
 
 // Key used to encrypt the message-bundle

@@ -25,6 +25,13 @@ message BackupMetadataSave {
   optional int64 end_ns = 5;
 }
 
+// Backup Options
+message BackupOptions {
+  repeated BackupElementSelection elements = 1;
+  optional int64 start_ns = 2;
+  optional int64 end_ns = 3;
+}
+
 // Elements selected for backup
 enum BackupElementSelection {
   BACKUP_ELEMENT_SELECTION_UNSPECIFIED = 0;
