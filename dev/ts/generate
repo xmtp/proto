@@ -10,33 +10,18 @@ rm -f ./ts/**/*.pb.ts || true
 
 docker run --rm -i -v${PWD}:/code xmtp/protoc \
   -I=./proto \
-  --grpc-gateway-ts_out=ts \
-  message_api/v1/message_api.proto
-
-docker run --rm -i -v${PWD}:/code xmtp/protoc \
-  -I=./proto \
   --plugin=/usr/local/lib/node_modules/ts-proto/protoc-gen-ts_proto \
   --experimental_allow_proto3_optional \
   --ts_proto_opt=forceLong=long \
   --ts_proto_out=./ts \
   --ts_proto_opt=fileSuffix=.pb \
   --ts_proto_opt=esModuleInterop=true \
-  message_api/v1/authn.proto \
-  message_contents/composite.proto \
-  message_contents/conversation_reference.proto \
-  message_contents/signature.proto \
-  message_contents/ciphertext.proto \
   message_contents/public_key.proto \
-  message_contents/contact.proto \
-  message_contents/frames.proto \
-  message_contents/invitation.proto \
   message_contents/private_key.proto \
-  message_contents/content.proto \
-  message_contents/message.proto \
-  keystore_api/v1/keystore.proto \
-  message_contents/private_preferences.proto \
-  message_contents/signed_payload.proto \
-  message_contents/ecies.proto \
+  message_contents/ciphertext.proto \
+  message_contents/signature.proto \
+  mls/api/v1/mls.proto \
+  mls/database/intents.proto \
   mls/api/v1/mls.proto \
   mls/database/intents.proto \
   mls/message_contents/content.proto \
