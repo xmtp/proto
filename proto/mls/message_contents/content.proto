@@ -97,14 +97,15 @@ message DeviceSyncReply {
   string request_id = 1;
   // Where the messages can be retrieved from
   string url = 2;
-  // Generated input 'secret' for the AES Key used to encrypt the message-bundle
-  DeviceSyncKeyType encryption_key = 3;
+  // Encryption key
+  bytes key = 7;
   // Metadata about the backup
   xmtp.device_sync.BackupMetadataSave metadata = 6;
 
   // deprecated
   uint64 timestamp_ns = 4 [deprecated = true];
   DeviceSyncKind kind = 5 [deprecated = true];
+  DeviceSyncKeyType encryption_key = 3 [deprecated = true];
 }
 
 // Key used to encrypt the message-bundle
