@@ -1,4 +1,3 @@
-export * as fetcher from "./fetch.pb";
 export * as privateKey from "./message_contents/private_key.pb";
 export * as publicKey from "./message_contents/public_key.pb";
 export * as signature from "./message_contents/signature.pb";

@@ -20,6 +20,7 @@ docker run --rm -i -v${PWD}:/code xmtp/protoc \
   message_contents/private_key.proto \
   message_contents/ciphertext.proto \
   message_contents/signature.proto \
+  keystore_api/v1/keystore.proto \
   mls/api/v1/mls.proto \
   mls/database/intents.proto \
   mls/api/v1/mls.proto \
