@@ -16,6 +16,10 @@ message GroupSave {
   optional int64 last_message_ns = 10;
   optional int64 message_disappear_from_ns = 11;
   optional int64 message_disappear_in_ns = 12;
+
+  // metadata fields
+  ImmutableMetadataSave metdata = 13;
+  MutableMetadataSave mutable_metadata = 14;
 }
 
 // Group membership state
@@ -32,4 +36,19 @@ enum ConversationTypeSave {
   CONVERSATION_TYPE_SAVE_GROUP = 1;
   CONVERSATION_TYPE_SAVE_DM = 2;
   CONVERSATION_TYPE_SAVE_SYNC = 3;
+}
+
+// A Groups's mutable metadata
+message MutableMetadataSave {
+  map<string, string> attributes = 1;
+  repeated string admin_list = 2;
+  repeated string super_admin_list = 3;
+}
+
+// A Group's immutable metadata
+message ImmutableMetadataSave {
+  string creator_inbox_id = 1;
+
+  // conversation_type can be derived from the grouop
+  // dm_members can be derived from the group
 }
