@@ -10,14 +10,10 @@ lint:
   use:
     - DEFAULT
   ignore_only:
-    ENUM_ZERO_VALUE_SUFFIX:
-      - message_contents/content.proto
     RPC_REQUEST_RESPONSE_UNIQUE:
-      - message_api/v1/message_api.proto
       - identity/api/v1/identity.proto
       - mls/api/v1/mls.proto
     RPC_RESPONSE_STANDARD_NAME:
-      - message_api/v1/message_api.proto
       - identity/api/v1/identity.proto
       - mls/api/v1/mls.proto
   except:
