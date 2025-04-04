@@ -5,8 +5,8 @@ package xmtp.xmtpv4.envelopes;
 
 import "identity/associations/association.proto";
 import "identity/associations/signature.proto";
-import "xmtpv4/envelopes/payer_report.proto";
 import "mls/api/v1/mls.proto";
+import "xmtpv4/envelopes/payer_report.proto";
 
 option go_package = "github.com/xmtp/proto/v3/go/xmtpv4/envelopes";
 
