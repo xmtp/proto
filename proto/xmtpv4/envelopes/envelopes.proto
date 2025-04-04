@@ -30,6 +30,8 @@ message ClientEnvelope {
     xmtp.mls.api.v1.WelcomeMessageInput welcome_message = 3;
     xmtp.mls.api.v1.UploadKeyPackageRequest upload_key_package = 4;
     xmtp.identity.associations.IdentityUpdate identity_update = 5;
+    PayerReport payer_report = 6;
+    PayerReportAttestation payer_report_attestation = 7;
   }
 }
 
