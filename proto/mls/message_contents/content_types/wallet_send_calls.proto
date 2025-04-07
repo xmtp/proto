@@ -1,0 +1,64 @@
+// wallet_send_calls.proto
+// This file defines the WalletSendCalls message type and is associated with the following ContentTypeId:
+//
+// ContentTypeId {
+//     authority_id: "xmtp.org",
+//     type_id:      "walletSendCalls",
+//     version_major: 1,
+//     version_minor: 0,
+// }
+//
+syntax = "proto3";
+
+package xmtp.mls.message_contents.content_types;
+
+option go_package = "github.com/xmtp/proto/v3/go/mls/message_contents/content_types";
+option java_package = "org.xmtp.proto.mls.message_contents.content_types";
+
+// WalletSendCalls message type
+message WalletSendCalls {
+  // Protocol version, e.g. "1.0"
+  string version = 1;
+
+  // Chain ID as a hex string (e.g., "0x1" for Ethereum Mainnet)
+  string chain_id = 2;
+
+  // Sender address in hex format
+  string from = 3;
+
+  // List of contract call requests
+  repeated WalletCall calls = 4;
+
+  // Optional map of feature capabilities
+  map<string, string> capabilities = 5;
+}
+
+// Represents a single smart contract call
+message WalletCall {
+  // Recipient address in hex format
+  optional string to = 1;
+
+  // Hex-encoded calldata
+  optional string data = 2;
+
+  // Hex-encoded value in wei
+  optional string value = 3;
+
+  // Hex-encoded gas limit
+  optional string gas = 4;
+
+  // Optional metadata for the call
+  optional CallMetadata metadata = 5;
+}
+
+// Metadata for a single WalletCall
+message CallMetadata {
+  // Human-readable description of the call
+  string description = 1;
+
+  // Categorization or type of the transaction
+  string transaction_type = 2;
+
+  // Extra metadata fields as key-value pairs
+  map<string, string> additional_fields = 3;
+}
