@@ -1,0 +1,41 @@
+// Definitions for backups
+syntax = "proto3";
+package xmtp.device_sync.sync_content;
+
+import "device_sync/consent_backup.proto";
+import "mls/message_contents/content.proto";
+
+message DeviceSyncContent {
+  oneof content {
+    mls.message_contents.DeviceSyncRequest request = 1;
+    mls.message_contents.DeviceSyncReply payload = 2;
+    DeviceSyncAcknowledgeKind acknowledge = 3;
+    DeviceSyncPreferenceUpdates preference_updates = 4;
+  }
+}
+
+message DeviceSyncAcknowledgeKind {
+  oneof kind {
+    bool sync_group_presence = 1;
+    DeviceSyncRequestAcknowledge request = 2;
+  }
+}
+
+message DeviceSyncRequestAcknowledge {
+  string request_id = 1;
+}
+
+message DeviceSyncPreferenceUpdates {
+  repeated DeviceSyncUserPreferenceUpdate updates = 1;
+}
+
+message DeviceSyncUserPreferenceUpdate {
+  oneof update {
+    device_sync.consent_backup.ConsentSave consent_update = 1;
+    DeviceSyncHmacKeyUpdate hmac_key_update = 2;
+  }
+}
+
+message DeviceSyncHmacKeyUpdate {
+  bytes key = 1;
+}
