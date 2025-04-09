@@ -1,8 +1,9 @@
-// V3 invite message structure
+// Intent protos that are stored in the libxmtp database
 
 syntax = "proto3";
-
 package xmtp.mls.database;
+
+import "mls/message_contents/wrapper_encryption.proto";
 
 option go_package = "github.com/xmtp/proto/v3/go/mls/database";
 option java_package = "org.xmtp.proto.mls.database";
@@ -154,6 +155,7 @@ message PostCommitAction {
   message Installation {
     bytes installation_key = 1;
     bytes hpke_public_key = 2;
+    xmtp.mls.message_contents.WelcomeWrapperAlgorithm welcome_wrapper_algorithm = 3;
   }
   // SendWelcome message
   message SendWelcomes {
