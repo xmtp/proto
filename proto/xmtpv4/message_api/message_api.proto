@@ -71,6 +71,20 @@ message GetInboxIdsResponse {
   repeated Response responses = 1;
 }
 
+// Request to get the newest envelope for a given topic
+message GetNewestEnvelopeRequest {
+  repeated bytes topics = 1;
+}
+
+// Response to GetNewestEnvelopeRequest
+message GetNewestEnvelopeResponse {
+  message Response {
+    optional xmtp.xmtpv4.envelopes.OriginatorEnvelope originator_envelope = 1;
+  }
+  // The newest envelope for the given topic OR null if there are no envelopes on the topic
+  repeated Response results = 1;
+}
+
 service ReplicationApi {
   rpc SubscribeEnvelopes(SubscribeEnvelopesRequest) returns (stream SubscribeEnvelopesResponse) {
     option (google.api.http) = {
@@ -96,6 +110,14 @@ service ReplicationApi {
   rpc GetInboxIds(GetInboxIdsRequest) returns (GetInboxIdsResponse) {
     option (google.api.http) = {
       post: "/mls/v2/get-inbox-ids"
+      body: "*"
+    };
+  }
+
+  // Get the newest envelope for each topic
+  rpc GetNewestEnvelope(GetNewestEnvelopeRequest) returns (GetNewestEnvelopeResponse) {
+    option (google.api.http) = {
+      post: "/mls/v2/get-newest-envelope"
       body: "*"
     };
   }
