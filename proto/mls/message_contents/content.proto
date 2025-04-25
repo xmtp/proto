@@ -4,10 +4,10 @@ syntax = "proto3";
 
 package xmtp.mls.message_contents;
 
+import "device_sync/device_sync.proto";
+
 option go_package = "github.com/xmtp/proto/v3/go/mls/message_contents";
 option java_package = "org.xmtp.proto.mls.message.contents";
-
-import "device_sync/device_sync.proto";
 
 // ContentTypeId is used to identify the type of content stored in a Message.
 message ContentTypeId {
