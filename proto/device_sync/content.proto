@@ -7,7 +7,7 @@ import "mls/message_contents/content.proto";
 message DeviceSyncContent {
   oneof content {
     xmtp.mls.message_contents.DeviceSyncRequest request = 1;
-    xmtp.mls.message_contents.DeviceSyncReply payload = 2;
+    xmtp.mls.message_contents.DeviceSyncReply reply = 2;
     AcknowledgeKind acknowledge = 3;
     PreferenceUpdates preference_updates = 4;
   }
