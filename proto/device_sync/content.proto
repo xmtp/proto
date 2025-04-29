@@ -1,8 +1,8 @@
 syntax = "proto3";
 package xmtp.device_sync.content;
 
-import "mls/message_contents/content.proto";
 import "device_sync/consent_backup.proto";
+import "mls/message_contents/content.proto";
 
 message DeviceSyncContent {
   oneof content {
@@ -15,12 +15,8 @@ message DeviceSyncContent {
 
 message AcknowledgeKind {
   oneof kind {
-    SyncGroupPresence sync_group_presence = 1;
-    RequestAcknowledge request = 2;
+    RequestAcknowledge request = 1;
   }
-}
-
-message SyncGroupPresence {
 }
 
 message RequestAcknowledge {
