@@ -9,21 +9,14 @@ import "mls/message_contents/content.proto";
 message DeviceSyncContent {
   oneof content {
     xmtp.mls.message_contents.DeviceSyncRequest request = 1;
-    xmtp.mls.message_contents.DeviceSyncReply reply = 2;
-    AcknowledgeKind acknowledge = 3;
+    DeviceSyncAcknowledge acknowledge = 2;
+    xmtp.mls.message_contents.DeviceSyncReply reply = 3;
     PreferenceUpdates preference_updates = 4;
   }
 }
 
-// Acknowledges a request and potentially other things in the future.
-message AcknowledgeKind {
-  oneof kind {
-    RequestAcknowledge request = 1;
-  }
-}
-
-// Requets acknowledgement
-message RequestAcknowledge {
+// Acknowledges a request
+message DeviceSyncAcknowledge {
   string request_id = 1;
 }
 
