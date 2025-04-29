@@ -1,0 +1,43 @@
+syntax = "proto3";
+package xmtp.device_sync.content;
+
+import "mls/message_contents/content.proto";
+import "device_sync/consent_backup.proto";
+
+message DeviceSyncContent {
+  oneof content {
+    xmtp.mls.message_contents.DeviceSyncRequest request = 1;
+    xmtp.mls.message_contents.DeviceSyncReply payload = 2;
+    AcknowledgeKind acknowledge = 3;
+    PreferenceUpdates preference_updates = 4;
+  }
+}
+
+message AcknowledgeKind {
+  oneof kind {
+    SyncGroupPresence sync_group_presence = 1;
+    RequestAcknowledge request = 2;
+  }
+}
+
+message SyncGroupPresence {
+}
+
+message RequestAcknowledge {
+  string request_id = 1;
+}
+
+message PreferenceUpdates {
+  repeated UserPreferenceUpdate updates = 1;
+}
+
+message UserPreferenceUpdate {
+  oneof update {
+    xmtp.device_sync.consent_backup.ConsentSave consent_update = 1;
+    HmacKeyUpdate hmac_key_update = 2;
+  }
+}
+
+message HmacKeyUpdate {
+  bytes key = 1;
+}
