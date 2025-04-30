@@ -29,8 +29,8 @@ message PreferenceUpdates {
 // Preference update
 message UserPreferenceUpdate {
   oneof update {
-    xmtp.device_sync.consent_backup.ConsentSave consent_update = 1;
-    HmacKeyUpdate hmac_key_update = 2;
+    xmtp.device_sync.consent_backup.ConsentSave consent = 1;
+    HmacKeyUpdate hmac = 2;
   }
 }
 
