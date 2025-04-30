@@ -47,4 +47,8 @@ message SyncGroupContest {
     bytes group_id = 1;
     // The timestamp of the oldest message sent
     int64 oldest_message_timestamp = 2;
+    // The message id that prompted this contest.
+    // This message should be resent in the group_id listed above
+    // if the opposing device loses this contest.
+    optional bytes cited_message_id = 3;
 }
