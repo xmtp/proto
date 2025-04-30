@@ -16,11 +16,12 @@ message GroupSave {
   optional int64 last_message_ns = 10;
   optional int64 message_disappear_from_ns = 11;
   optional int64 message_disappear_in_ns = 12;
-  optional string paused_for_version = 15;
 
   // metadata fields
-  ImmutableMetadataSave metdata = 13;
+  ImmutableMetadataSave metadata = 13;
   MutableMetadataSave mutable_metadata = 14;
+
+  optional string paused_for_version = 15;
 }
 
 // Group membership state
