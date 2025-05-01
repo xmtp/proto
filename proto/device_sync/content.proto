@@ -12,7 +12,6 @@ message DeviceSyncContent {
     DeviceSyncAcknowledge acknowledge = 2;
     xmtp.mls.message_contents.DeviceSyncReply reply = 3;
     PreferenceUpdates preference_updates = 4;
-    SyncGroupContest sync_group_contest = 5;
   }
 }
 
@@ -37,18 +36,4 @@ message UserPreferenceUpdate {
 // Hmac key update
 message HmacKeyUpdate {
   bytes key = 1;
-}
-
-// If a device that already has a sync group is welcomed
-// into a new sync group, it should contest the new sync group
-// so that the oldest sync group wins.
-message SyncGroupContest {
-    // The ID of the existing sync group
-    bytes group_id = 1;
-    // The timestamp of the oldest message sent
-    int64 oldest_message_timestamp = 2;
-    // The message id that prompted this contest.
-    // This message should be resent in the group_id listed above
-    // if the opposing device loses this contest.
-    optional bytes cited_message_id = 3;
 }
