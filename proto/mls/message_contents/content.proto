@@ -88,7 +88,7 @@ message DeviceSyncRequest {
 
   // deprecated
   string pin_code = 2 [deprecated = true];
-  DeviceSyncKind kind = 3 [deprecated = true];
+  xmtp.device_sync.BackupElementSelection kind = 3 [deprecated = true];
 }
 
 // Pre-existing installation id capable of supplying a sync payload sends this reply
@@ -104,7 +104,7 @@ message DeviceSyncReply {
 
   // deprecated
   uint64 timestamp_ns = 4 [deprecated = true];
-  DeviceSyncKind kind = 5 [deprecated = true];
+  xmtp.device_sync.BackupElementSelection kind = 5 [deprecated = true];
   DeviceSyncKeyType encryption_key = 3 [deprecated = true];
 }
 
@@ -113,13 +113,6 @@ message DeviceSyncKeyType {
   oneof key {
     bytes aes_256_gcm = 1;
   }
-}
-
-// The kind of device sync payload being sent
-enum DeviceSyncKind {
-  DEVICE_SYNC_KIND_UNSPECIFIED = 0;
-  DEVICE_SYNC_KIND_MESSAGE_HISTORY = 1;
-  DEVICE_SYNC_KIND_CONSENT = 2;
 }
 
 message UserPreferenceUpdate {
