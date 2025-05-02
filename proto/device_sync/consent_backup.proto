@@ -2,6 +2,8 @@
 syntax = "proto3";
 package xmtp.device_sync.consent_backup;
 
+option java_package = "org.xmtp.proto.device_sync";
+
 // Proto representation of a consent record save
 message ConsentSave {
   ConsentTypeSave entity_type = 1;

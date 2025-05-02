@@ -2,6 +2,8 @@
 syntax = "proto3";
 package xmtp.device_sync.group_backup;
 
+option java_package = "org.xmtp.proto.device_sync";
+
 // Proto representation of a stored group
 message GroupSave {
   bytes id = 1;

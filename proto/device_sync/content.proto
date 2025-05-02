@@ -5,6 +5,8 @@ package xmtp.device_sync.content;
 import "device_sync/consent_backup.proto";
 import "mls/message_contents/content.proto";
 
+option java_package = "org.xmtp.proto.device_sync";
+
 // All potential device sync group messages
 message DeviceSyncContent {
   oneof content {
