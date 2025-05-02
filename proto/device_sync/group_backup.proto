@@ -30,6 +30,10 @@ enum GroupMembershipStateSave {
   GROUP_MEMBERSHIP_STATE_SAVE_ALLOWED = 1;
   GROUP_MEMBERSHIP_STATE_SAVE_REJECTED = 2;
   GROUP_MEMBERSHIP_STATE_SAVE_PENDING = 3;
+  // A group is marked as this state when it is restored
+  // from a backup. This is a non-functional archive state
+  // that can be reactivated when the user is re-added to
+  // the group.
   GROUP_MEMBERSHIP_STATE_SAVE_RESTORED = 4;
 }
 
