@@ -98,14 +98,14 @@ message DeviceSyncReply {
   // Where the messages can be retrieved from
   string url = 2;
   // Encryption key
-  bytes key = 7;
+  DeviceSyncKeyType encryption_key = 3;
+  // ns unix timestamp of when the reply was sent
+  uint64 timestamp_ns = 4 [deprecated = true];
+  // request kind
+  xmtp.device_sync.BackupElementSelection kind = 5 [deprecated = true];
+
   // Metadata about the backup
   xmtp.device_sync.BackupMetadataSave metadata = 6;
-
-  // deprecated
-  uint64 timestamp_ns = 4 [deprecated = true];
-  xmtp.device_sync.BackupElementSelection kind = 5 [deprecated = true];
-  DeviceSyncKeyType encryption_key = 3 [deprecated = true];
 }
 
 // Key used to encrypt the message-bundle
