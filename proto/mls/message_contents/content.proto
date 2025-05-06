@@ -4,6 +4,8 @@ syntax = "proto3";
 
 package xmtp.mls.message_contents;
 
+import "device_sync/device_sync.proto";
+
 option go_package = "github.com/xmtp/proto/v3/go/mls/message_contents";
 option java_package = "org.xmtp.proto.mls.message.contents";
 
@@ -82,10 +84,9 @@ message PlaintextEnvelope {
 message DeviceSyncRequest {
   // Unique identifier for each request
   string request_id = 1;
-  // Ensures a human is in the loop
-  string pin_code = 2;
-  // request kind
-  DeviceSyncKind kind = 3;
+  string pin_code = 2 [deprecated = true];
+  xmtp.device_sync.BackupElementSelection kind = 3 [deprecated = true];
+  xmtp.device_sync.BackupOptions options = 4;
 }
 
 // Pre-existing installation id capable of supplying a sync payload sends this reply
@@ -94,12 +95,15 @@ message DeviceSyncReply {
   string request_id = 1;
   // Where the messages can be retrieved from
   string url = 2;
-  // Generated input 'secret' for the AES Key used to encrypt the message-bundle
+  // Encryption key
   DeviceSyncKeyType encryption_key = 3;
   // ns unix timestamp of when the reply was sent
-  uint64 timestamp_ns = 4;
+  uint64 timestamp_ns = 4 [deprecated = true];
   // request kind
-  DeviceSyncKind kind = 5;
+  xmtp.device_sync.BackupElementSelection kind = 5 [deprecated = true];
+
+  // Metadata about the backup
+  xmtp.device_sync.BackupMetadataSave metadata = 6;
 }
 
 // Key used to encrypt the message-bundle
@@ -107,13 +111,6 @@ message DeviceSyncKeyType {
   oneof key {
     bytes aes_256_gcm = 1;
   }
-}
-
-// The kind of device sync payload being sent
-enum DeviceSyncKind {
-  DEVICE_SYNC_KIND_UNSPECIFIED = 0;
-  DEVICE_SYNC_KIND_MESSAGE_HISTORY = 1;
-  DEVICE_SYNC_KIND_CONSENT = 2;
 }
 
 message UserPreferenceUpdate {

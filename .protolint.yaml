@@ -102,9 +102,10 @@ lint:
     # REPEATED_FIELD_NAMES_PLURALIZED rule option.
     ## The spec for each rules follows the implementation of https://github.com/gertd/go-pluralize.
     ## Plus, you can refer to this rule's test code.
-    # repeated_field_names_pluralized:
-    #   uncountable_rules:
-    #     - paper
+    repeated_field_names_pluralized:
+      uncountable_rules:
+        - admin_list
+        - super_admin_list
     #   irregular_rules:
     #     Irregular: Regular
 
