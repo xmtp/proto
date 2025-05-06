@@ -84,11 +84,9 @@ message PlaintextEnvelope {
 message DeviceSyncRequest {
   // Unique identifier for each request
   string request_id = 1;
-  xmtp.device_sync.BackupOptions options = 4;
-
-  // deprecated
   string pin_code = 2 [deprecated = true];
   xmtp.device_sync.BackupElementSelection kind = 3 [deprecated = true];
+  xmtp.device_sync.BackupOptions options = 4;
 }
 
 // Pre-existing installation id capable of supplying a sync payload sends this reply
