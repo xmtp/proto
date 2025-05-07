@@ -17,12 +17,8 @@ message PayerReport {
   uint64 end_sequence_id = 3;
   // The merkle root of the payer balance diff tree
   bytes payers_merkle_root = 4;
-  // The number of payers in the given range
-  uint32 payers_leaf_count = 5;
-  // The hash of the sorted list of node IDs in the report
-  bytes nodes_hash = 6;
-  // The number of nodes in the report
-  uint32 nodes_count = 7;
+  // The node IDs that are active in the network at the time of the report
+  repeated uint32 active_node_ids = 5;
 }
 
 // An attestation of a payer report
