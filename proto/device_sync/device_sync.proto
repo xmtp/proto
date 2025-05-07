@@ -6,6 +6,8 @@ import "device_sync/consent_backup.proto";
 import "device_sync/group_backup.proto";
 import "device_sync/message_backup.proto";
 
+option java_package = "org.xmtp.proto.device_sync";
+
 // Union type representing everything that can be serialied and saved in a backup archive.
 message BackupElement {
   oneof element {
@@ -23,6 +25,13 @@ message BackupMetadataSave {
   int64 exported_at_ns = 3;
   optional int64 start_ns = 4;
   optional int64 end_ns = 5;
+}
+
+// Backup Options
+message BackupOptions {
+  repeated BackupElementSelection elements = 1;
+  optional int64 start_ns = 2;
+  optional int64 end_ns = 3;
 }
 
 // Elements selected for backup

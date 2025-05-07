@@ -2,6 +2,8 @@
 syntax = "proto3";
 package xmtp.device_sync.group_backup;
 
+option java_package = "org.xmtp.proto.device_sync";
+
 // Proto representation of a stored group
 message GroupSave {
   bytes id = 1;
@@ -16,6 +18,12 @@ message GroupSave {
   optional int64 last_message_ns = 10;
   optional int64 message_disappear_from_ns = 11;
   optional int64 message_disappear_in_ns = 12;
+
+  // metadata fields
+  ImmutableMetadataSave metadata = 13;
+  MutableMetadataSave mutable_metadata = 14;
+
+  optional string paused_for_version = 15;
 }
 
 // Group membership state
@@ -24,6 +32,11 @@ enum GroupMembershipStateSave {
   GROUP_MEMBERSHIP_STATE_SAVE_ALLOWED = 1;
   GROUP_MEMBERSHIP_STATE_SAVE_REJECTED = 2;
   GROUP_MEMBERSHIP_STATE_SAVE_PENDING = 3;
+  // A group is marked as this state when it is restored
+  // from a backup. This is a non-functional archive state
+  // that can be reactivated when the user is re-added to
+  // the group.
+  GROUP_MEMBERSHIP_STATE_SAVE_RESTORED = 4;
 }
 
 // Conversation type
@@ -32,4 +45,19 @@ enum ConversationTypeSave {
   CONVERSATION_TYPE_SAVE_GROUP = 1;
   CONVERSATION_TYPE_SAVE_DM = 2;
   CONVERSATION_TYPE_SAVE_SYNC = 3;
+}
+
+// A Groups's mutable metadata
+message MutableMetadataSave {
+  map<string, string> attributes = 1;
+  repeated string admin_list = 2;
+  repeated string super_admin_list = 3;
+}
+
+// A Group's immutable metadata
+message ImmutableMetadataSave {
+  string creator_inbox_id = 1;
+
+  // conversation_type can be derived from the grouop
+  // dm_members can be derived from the group
 }
