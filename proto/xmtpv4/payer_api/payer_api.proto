@@ -21,6 +21,7 @@ message GetReaderNodeRequest {
 
 message GetReaderNodeResponse {
   string reader_node_url = 1;
+  repeated string backup_node_urls = 2;
 }
 
 // A narrowly scoped API for publishing messages through a payer
