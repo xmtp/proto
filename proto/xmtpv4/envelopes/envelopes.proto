@@ -41,7 +41,7 @@ message PayerEnvelope {
   bytes unsigned_client_envelope = 1; // Protobuf serialized
   xmtp.identity.associations.RecoverableEcdsaSignature payer_signature = 2;
   uint32 target_originator = 3;
-  int64 expiry_unixtime = 4;
+  uint32 message_retention_days = 4;
 }
 
 // For blockchain envelopes, these fields are set by the smart contract
@@ -52,6 +52,7 @@ message UnsignedOriginatorEnvelope {
   bytes payer_envelope_bytes = 4;
   uint64 base_fee_picodollars = 5; // The base fee for the message in picodollars
   uint64 congestion_fee_picodollars = 6; // The congestion fee for the message in picodollars
+  uint64 expiry_unixtime = 7;
 }
 
 // An alternative to a signature for blockchain payloads
