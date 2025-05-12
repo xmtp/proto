@@ -19,6 +19,8 @@ message GroupMessageSave {
   int32 version_minor = 11;
   string authority_id = 12;
   optional bytes reference_id = 13;
+  optional int64 sequence_id = 14;
+  optional int64 originator_id = 15;
 }
 
 // Group message kind
