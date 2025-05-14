@@ -5,6 +5,7 @@ package xmtp.mls.api.v1;
 import "google/api/annotations.proto";
 import "google/protobuf/empty.proto";
 import "message_contents/signature.proto";
+import "mls/message_contents/wrapper_encryption.proto";
 import "protoc-gen-openapiv2/options/annotations.proto";
 
 option go_package = "github.com/xmtp/proto/v3/go/mls/api/v1";
@@ -120,6 +121,7 @@ message WelcomeMessage {
     bytes installation_key = 3;
     bytes data = 4;
     bytes hpke_public_key = 5;
+    xmtp.mls.message_contents.WelcomeWrapperAlgorithm wrapper_algorithm = 6;
   }
 
   oneof version {
@@ -134,6 +136,7 @@ message WelcomeMessageInput {
     bytes installation_key = 1;
     bytes data = 2;
     bytes hpke_public_key = 3;
+    xmtp.mls.message_contents.WelcomeWrapperAlgorithm wrapper_algorithm = 4;
   }
 
   oneof version {
