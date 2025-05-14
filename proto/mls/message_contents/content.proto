@@ -4,7 +4,7 @@ syntax = "proto3";
 
 package xmtp.mls.message_contents;
 
-import "device_sync/device_sync.proto";
+import "device_sync/content.proto";
 
 option go_package = "github.com/xmtp/proto/v3/go/mls/message_contents";
 option java_package = "org.xmtp.proto.mls.message.contents";
@@ -64,11 +64,11 @@ message PlaintextEnvelope {
       // Expected to be EncodedContent
       bytes content = 2;
       // Initiator sends a request to receive sync payload
-      DeviceSyncRequest device_sync_request = 3;
+      xmtp.device_sync.content.DeviceSyncRequest device_sync_request = 3;
       // Some other authorized installation sends a reply with a link to payload
-      DeviceSyncReply device_sync_reply = 4;
+      xmtp.device_sync.content.DeviceSyncReply device_sync_reply = 4;
       // A serialized user preference update
-      UserPreferenceUpdate user_preference_update = 5;
+      xmtp.device_sync.content.V1UserPreferenceUpdate user_preference_update = 5;
     }
   }
 
@@ -78,41 +78,4 @@ message PlaintextEnvelope {
     V1 v1 = 1;
     V2 v2 = 2;
   }
-}
-
-// Initiator or new installation id requesting a sync payload send a request
-message DeviceSyncRequest {
-  // Unique identifier for each request
-  string request_id = 1;
-  string pin_code = 2 [deprecated = true];
-  xmtp.device_sync.BackupElementSelection kind = 3 [deprecated = true];
-  xmtp.device_sync.BackupOptions options = 4;
-}
-
-// Pre-existing installation id capable of supplying a sync payload sends this reply
-message DeviceSyncReply {
-  // Must match an existing request_id from a message history request
-  string request_id = 1;
-  // Where the messages can be retrieved from
-  string url = 2;
-  // Encryption key
-  DeviceSyncKeyType encryption_key = 3;
-  // ns unix timestamp of when the reply was sent
-  uint64 timestamp_ns = 4 [deprecated = true];
-  // request kind
-  xmtp.device_sync.BackupElementSelection kind = 5 [deprecated = true];
-
-  // Metadata about the backup
-  xmtp.device_sync.BackupMetadataSave metadata = 6;
-}
-
-// Key used to encrypt the message-bundle
-message DeviceSyncKeyType {
-  oneof key {
-    bytes aes_256_gcm = 1;
-  }
-}
-
-message UserPreferenceUpdate {
-  repeated bytes contents = 1;
 }
