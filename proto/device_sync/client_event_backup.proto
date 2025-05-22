@@ -7,5 +7,7 @@ option java_package = "org.xmtp.proto.device_sync";
 // Proto representation of a client record save
 message ClientEventSave {
     int64 created_at_ns = 1;
-    bytes details = 2;
+    string event = 2;
+    bytes details = 3;
+    optional bytes group_id = 4;
 }
