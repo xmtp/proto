@@ -2,6 +2,7 @@
 syntax = "proto3";
 package xmtp.device_sync;
 
+import "device_sync/client_event_backup.proto";
 import "device_sync/consent_backup.proto";
 import "device_sync/group_backup.proto";
 import "device_sync/message_backup.proto";
@@ -15,6 +16,7 @@ message BackupElement {
     xmtp.device_sync.group_backup.GroupSave group = 2;
     xmtp.device_sync.message_backup.GroupMessageSave group_message = 3;
     xmtp.device_sync.consent_backup.ConsentSave consent = 4;
+    xmtp.device_sync.client_event_backup.ClientEventSave client_event = 5;
   }
 }
 
@@ -39,4 +41,5 @@ enum BackupElementSelection {
   BACKUP_ELEMENT_SELECTION_UNSPECIFIED = 0;
   BACKUP_ELEMENT_SELECTION_MESSAGES = 1;
   BACKUP_ELEMENT_SELECTION_CONSENT = 2;
+  BACKUP_ELEMENT_SELECTION_CLIENT_EVENT = 3;
 }
