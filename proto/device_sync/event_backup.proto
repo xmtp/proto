@@ -1,0 +1,13 @@
+// Definitions for backups
+syntax = "proto3";
+package xmtp.device_sync.event_backup;
+
+option java_package = "org.xmtp.proto.device_sync";
+
+// Proto representation of a client record save
+message EventSave {
+  int64 created_at_ns = 1;
+  string event = 2;
+  bytes details = 3;
+  optional bytes group_id = 4;
+}

@@ -56,4 +56,5 @@ docker run --platform linux/x86_64 --rm -i -v${PWD}:/code xmtp/protoc-kotlin \
   device_sync/content.proto \
   device_sync/consent_backup.proto \
   device_sync/group_backup.proto \
-  device_sync/message_backup.proto
+  device_sync/message_backup.proto \
+  device_sync/event_backup.proto
