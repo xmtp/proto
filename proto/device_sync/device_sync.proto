@@ -2,8 +2,8 @@
 syntax = "proto3";
 package xmtp.device_sync;
 
-import "device_sync/event_backup.proto";
 import "device_sync/consent_backup.proto";
+import "device_sync/event_backup.proto";
 import "device_sync/group_backup.proto";
 import "device_sync/message_backup.proto";
 

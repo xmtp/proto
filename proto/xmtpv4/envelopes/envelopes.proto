@@ -64,7 +64,7 @@ message BlockchainProof {
 message OriginatorEnvelope {
   bytes unsigned_originator_envelope = 1; // Protobuf serialized
   oneof proof {
-    xmtp.identity.associations.RecoverableEcdsaSignature originator_ecdsa_signature = 2;
+    xmtp.identity.associations.RecoverableEcdsaSignature originator_signature = 2;
     BlockchainProof blockchain_proof = 3;
   }
 }
