@@ -15,10 +15,17 @@ message PayerReport {
   uint64 start_sequence_id = 2;
   // The sequence_id that the report ends at [inclusive]
   uint64 end_sequence_id = 3;
+  // The end timestamp of the report
+  uint32 end_minute_since_epoch = 4;
   // The merkle root of the payer balance diff tree
-  bytes payers_merkle_root = 4;
+  bytes payers_merkle_root = 5;
   // The node IDs that are active in the network at the time of the report
-  repeated uint32 active_node_ids = 5;
+  repeated uint32 active_node_ids = 6;
+}
+
+message NodeSignature {
+  uint32 node_id = 1;
+  xmtp.identity.associations.RecoverableEcdsaSignature signature = 2;
 }
 
 // An attestation of a payer report
@@ -26,5 +33,5 @@ message PayerReportAttestation {
   // The ID of the report, determined by hashing the report contents
   bytes report_id = 1;
   // The signature of the attester
-  xmtp.identity.associations.RecoverableEcdsaSignature signature = 2;
+  NodeSignature signature = 2;
 }
