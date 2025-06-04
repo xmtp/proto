@@ -122,6 +122,7 @@ message WelcomeMessage {
     bytes data = 4;
     bytes hpke_public_key = 5;
     xmtp.mls.message_contents.WelcomeWrapperAlgorithm wrapper_algorithm = 6;
+    uint64 group_refresh_state_cursor = 7;
   }
 
   oneof version {
@@ -137,6 +138,7 @@ message WelcomeMessageInput {
     bytes data = 2;
     bytes hpke_public_key = 3;
     xmtp.mls.message_contents.WelcomeWrapperAlgorithm wrapper_algorithm = 4;
+    uint64 group_refresh_state_cursor = 5;
   }
 
   oneof version {
