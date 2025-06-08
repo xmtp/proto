@@ -10,4 +10,16 @@ message EventSave {
   string event = 2;
   bytes details = 3;
   optional bytes group_id = 4;
+  EventLevelSave level = 5;
+  optional string icon = 6;
+}
+
+
+enum EventLevelSave {
+  EVENT_LEVEL_UNSPECIFIED = 0;
+  EVENT_LEVEL_NONE = 1;
+  EVENT_LEVEL_SUCCESS = 2;
+  EVENT_LEVEL_WARN = 3;
+  EVENT_LEVEL_ERROR = 4;
+  EVENT_LEVEL_FAULT = 5;
 }
