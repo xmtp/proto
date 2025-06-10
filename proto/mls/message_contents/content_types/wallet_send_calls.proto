@@ -12,8 +12,6 @@ syntax = "proto3";
 
 package xmtp.mls.message_contents.content_types;
 
-import "google/protobuf/struct.proto";
-
 option go_package = "github.com/xmtp/proto/v3/go/mls/message_contents/content_types";
 option java_package = "org.xmtp.proto.mls.message_contents.content_types";
 
@@ -26,7 +24,7 @@ message WalletSendCalls {
   string from = 3;
   repeated Call calls = 4;
   // wallet capabilities to request or configure
-  google.protobuf.Struct capabilities = 5;
+  map<string, string> capabilities = 5;
 }
 
 // Call represents an individual transaction call
@@ -40,15 +38,5 @@ message Call {
   // hex gas limit
   string gas = 4;
   // metadata for the call
-  Metadata metadata = 5;
-}
-
-// Metadata contains descriptive fields and additional properties
-message Metadata {
-  // description of the call
-  string description = 1;
-  // type of the transaction
-  string transaction_type = 2;
-  // other arbitrary metadata fields
-  google.protobuf.Struct additional_properties = 3;
+  map<string, string> metadata = 5;
 }
