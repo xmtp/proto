@@ -10,9 +10,9 @@
 //
 syntax = "proto3";
 
-import "google/protobuf/struct.proto";
-
 package xmtp.mls.message_contents.content_types;
+
+import "google/protobuf/struct.proto";
 
 option go_package = "github.com/xmtp/proto/v3/go/mls/message_contents/content_types";
 option java_package = "org.xmtp.proto.mls.message_contents.content_types";
