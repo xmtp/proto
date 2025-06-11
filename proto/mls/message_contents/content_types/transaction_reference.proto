@@ -1,0 +1,55 @@
+// transaction_reference.proto
+// This file defines the TransactionReference message type and is associated with the following ContentTypeId:
+// 
+// ContentTypeId {
+//     authority_id: "xmtp.org",
+//     type_id:      "transactionReference",
+//     version_major: 1,
+//     version_minor: 0,
+// }
+//
+syntax = "proto3";
+
+package xmtp.mls.message_contents.content_types;
+
+option go_package = "github.com/xmtp/proto/v3/go/mls/message_contents/content_types";
+option java_package = "org.xmtp.proto.mls.message_contents.content_types";
+
+// reference to a transaction on a blockchain network
+message TransactionReference {
+  // namespace for the network ID
+  optional string namespace = 1;
+
+  // network ID for the transaction, in decimal or hexadecimal format
+  oneof network_id {
+    uint32 network_id_numeric = 2;
+    string network_id_string  = 3;
+  }
+
+  // transaction hash
+  string reference = 4;
+
+  // metadata about the transaction
+  Metadata metadata = 5;
+}
+
+// metadata object for a transaction
+message Metadata {
+  // type of the transaction (e.g., "transfer", "mint", etc.)
+  string transaction_type = 1;
+
+  // currency code (e.g., "ETH", "BTC")
+  string currency = 2;
+
+  // amount transferred
+  uint32 amount = 3;
+
+  // number of decimal places the currency uses
+  uint32 decimals = 4;
+
+  // address sending the funds
+  string from_address = 5;
+
+  // address receiving the funds
+  string to_address = 6;
+}

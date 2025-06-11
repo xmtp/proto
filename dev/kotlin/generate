@@ -52,6 +52,7 @@ docker run --platform linux/x86_64 --rm -i -v${PWD}:/code xmtp/protoc-kotlin \
   mls/message_contents/wrapper_encryption.proto \
   mls/message_contents/content_types/multi_remote_attachment.proto \
   mls/message_contents/content_types/reaction.proto \
+  mls/message_contents/content_types/transaction_reference.proto \
   mls/message_contents/content_types/wallet_send_calls.proto \
   identity/associations/signature.proto \
   identity/associations/association.proto \
