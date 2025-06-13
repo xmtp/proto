@@ -353,3 +353,18 @@ message SubscribeWelcomeMessagesRequest {
   }
   repeated Filter filters = 1;
 }
+
+message PublishCommitLogEntryRequest {
+  bytes group_id = 1;
+  bytes encrypted_commit_log_entry = 2;
+}
+
+message QueryCommitLogRequest {
+  bytes group_id = 1;
+  PagingInfo paging_info = 2;
+}
+
+message QueryCommitLogResponse {
+  repeated CommitLogEntry commit_log_entries = 1;
+  PagingInfo paging_info = 2;
+}
