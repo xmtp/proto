@@ -119,7 +119,6 @@ service MlsApi {
     };
   }
 
-  // Query stored group messages
   rpc QueryCommitLog(QueryCommitLogRequest) returns (QueryCommitLogResponse) {
     option (google.api.http) = {
       post: "/mls/v1/query-commit-log"
