@@ -22,11 +22,10 @@ message PlaintextCommitLogEntry {
   uint64 sequence_id = 3;
   // Indicates whether the current commit was successful, or why it failed.
   CommitResult commit_result = 4;
-  // The encryption state after the current commit was applied, if successful.
-  bytes epoch_authenticator = 5;
   // The epoch number after the current commit was applied, if successful.
-  // For informational or debugging purposes only.
-  uint64 epoch_number = 6;
+  uint64 epoch_number = 5;
+  // The encryption state after the current commit was applied, if successful.
+  bytes epoch_authenticator = 6;
 }
 
 message CommitLogEntry {
