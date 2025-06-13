@@ -16,15 +16,15 @@ enum CommitResult {
 message PlaintextCommitLogEntry {
   // The group_id of the group that the commit belongs to.
   bytes group_id = 1;
-  // The sequence_id of the current commit payload being validated.
-  uint64 commit_sequence_id = 2;
-  // The encryption state after the previous successful commit was applied.
+  // The sequence ID of the commit payload being validated.
+  bytes commit_sequence_id = 2;
+  // The encryption state before the commit was applied.
   bytes last_epoch_authenticator = 3;
-  // Indicates whether the current commit was successful, or why it failed.
+  // Indicates whether the commit was successful, or why it failed.
   CommitResult commit_result = 4;
-  // The epoch number after the current commit was applied, if successful.
+  // The epoch number after the commit was applied, if successful.
   uint64 applied_epoch_number = 5;
-  // The encryption state after the current commit was applied, if successful.
+  // The encryption state after the commit was applied, if successful.
   bytes applied_epoch_authenticator = 6;
 }
 
