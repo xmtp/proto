@@ -11,39 +11,15 @@ enum CommitResult {
   COMMIT_RESULT_INVALID = 4;
 }
 
-/**
-   PLAINTEXT COMMIT LOG ENTRY
-   PlaintextCommitLogEntry indicates whether a commit was successful or not,
-   when applied on top of the indicated `last_epoch_authenticator`.
-
-   Commit hashes are defined as the Keccak256 hash of the 'data' field of the
-   GroupMessageInput protobuf (which is the serialized MlsProtocolMessage).
-
-   Epoch authenticators identify the encryption state for the epoch after the
-   commit was applied, and are defined in the MLS spec.
-
-   CLIENT PROCESSING ALGORITHM
-   Clients must start from the beginning of the commit log, and process entries
-   sequentially to determine the authoritative state after each commit is
-   applied.
-
-   Each entry is processed as follows:
-   1. If the `last_epoch_authenticator` does not match the `epoch_authenticator`
-      of the most recent successful commit, or if the `group_id` is incorrect,
-      the entry is ignored and the next entry is processed.
-   2. If the `result` is any value other than COMMIT_RESULT_SUCCESS, then the
-      commit_hash is recorded as failed.
-   3. Otherwise, the commit_hash is marked as successful and the
-      `epoch_authenticator` is recorded as the next valid state.
-
-*/
+// PlaintextCommitLogEntry indicates whether a commit was successful or not,
+// when applied on top of the indicated `last_epoch_authenticator`.
 message PlaintextCommitLogEntry {
   // The group_id of the group that the commit belongs to.
   bytes group_id = 1;
   // The encryption state after the previous successful commit was applied.
   bytes last_epoch_authenticator = 2;
-  // The hash of the current commit payload being validated.
-  bytes commit_hash = 3;
+  // The sequence_id of the current commit payload being validated.
+  uint64 sequence_id = 3;
   // Indicates whether the current commit was successful, or why it failed.
   CommitResult result = 4;
   // The encryption state after the current commit was applied, if successful.
