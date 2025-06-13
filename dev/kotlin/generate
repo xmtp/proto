@@ -47,6 +47,7 @@ docker run --platform linux/x86_64 --rm -i -v${PWD}:/code xmtp/protoc-kotlin \
   mls/database/intents.proto \
   mls/message_contents/group_metadata.proto \
   mls/message_contents/group_mutable_metadata.proto \
+  mls/message_contents/commit_log.proto \
   mls/message_contents/content.proto \
   mls/message_contents/transcript_messages.proto \
   mls/message_contents/wrapper_encryption.proto \
