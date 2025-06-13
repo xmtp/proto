@@ -5,7 +5,7 @@ package xmtp.mls.message_contents;
 
 enum CommitResult {
   COMMIT_RESULT_UNSPECIFIED = 0;
-  COMMIT_RESULT_SUCCESS = 1;
+  COMMIT_RESULT_APPLIED = 1;
   COMMIT_RESULT_WRONG_EPOCH = 2;
   COMMIT_RESULT_UNDECRYPTABLE = 3;
   COMMIT_RESULT_INVALID = 4;
@@ -21,7 +21,7 @@ message PlaintextCommitLogEntry {
   // The sequence_id of the current commit payload being validated.
   uint64 sequence_id = 3;
   // Indicates whether the current commit was successful, or why it failed.
-  CommitResult result = 4;
+  CommitResult commit_result = 4;
   // The encryption state after the current commit was applied, if successful.
   bytes epoch_authenticator = 5;
   // The epoch number after the current commit was applied, if successful.
