@@ -5,6 +5,7 @@ package xmtp.mls.api.v1;
 import "google/api/annotations.proto";
 import "google/protobuf/empty.proto";
 import "message_contents/signature.proto";
+import "mls/message_contents/commit_log.proto";
 import "mls/message_contents/wrapper_encryption.proto";
 import "protoc-gen-openapiv2/options/annotations.proto";
 
@@ -365,6 +366,6 @@ message QueryCommitLogRequest {
 }
 
 message QueryCommitLogResponse {
-  repeated CommitLogEntry commit_log_entries = 1;
+  repeated xmtp.mls.message_contents.CommitLogEntry commit_log_entries = 1;
   PagingInfo paging_info = 2;
 }
