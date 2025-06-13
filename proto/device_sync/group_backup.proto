@@ -58,6 +58,7 @@ message MutableMetadataSave {
 message ImmutableMetadataSave {
   string creator_inbox_id = 1;
 
+  // commit_log_encryption_key can be derived from the group
   // conversation_type can be derived from the grouop
   // dm_members can be derived from the group
 }
