@@ -1,0 +1,61 @@
+// Out-of-band signaling payloads that are sent between devices on
+// side channels outside of the main group.
+syntax = "proto3";
+
+package xmtp.mls.message_contents;
+
+/**
+   A readd request is sent by an installation when it detects that it is on a
+   fork - in other words, its local commit log conflicts with the remote commit
+   log.
+
+   In order to send it, a single-use MLS group is constructed containing all
+   superadmin installations (according to the group metadata on the local forked
+   state), as well as all other installations under its own inbox. The readd
+   payload is encrypted and sent on this group in standard MLS fashion.
+
+   The readd request contains the group ID, and the latest epoch according to
+   the remote commit log.
+
+   When an installation receives a readd request, the following steps must be
+   taken:
+   1. If the readd request is received in a group that either the recipient or
+      sender inboxes are not members of, the request is ignored.
+   2. The recipient notes the sender's identity and inserts or updates the
+      (group_id, inbox_id, installation_id, last_requested_epoch,
+      last_responded_epoch, result=PENDING) readd record in its local DB. The
+      last_responded_epoch is preserved if it already exists, or set to 0.
+   3. The recipient sets the `scheduled_readd_ns` on its local copy of the
+      group to a random jitter 0-15 minutes after the local time. If a time was
+      already set, it is not overwritten. This mitigates the 'thundering herd'
+      problem while also allowing for batch readds.
+   4. Anytime a readd commit is received on a group, for each affected
+      installation, if the commit's epoch is greater than the
+      last_responded_epoch on the installation's readd record, the
+      last_responded_epoch is updated. If the last_responded_epoch is greater
+      than the last_requested_epoch, the result is set to SUCCESS_REMOTE.
+   5. A worker process on the recipient is started anytime after the
+      `scheduled_readd_ns` on the group. The worker process:
+      a. Syncs the group, and then the commit log.
+      b. If the recipient is no longer a member of the group, or if the local
+         commit log conflicts with the remote commit log, all pending readds on
+         the group are marked with status=FAILED.
+      c. If the local commit log is ahead of the remote commit log,
+         `scheduled_readd_ns` is set to 10 minutes after the local time, and the
+          current run of the process is aborted.
+      d. For each readd with status=PENDING, if the installation is no longer a
+         member of the group, the readd is marked with status=FAILED.
+      e. All remaining installations are added to a readd commit that is
+         published to the group. This installation list is also preserved on
+         the local intent state.
+      f. The `scheduled_readd_ns` for the group is cleared.
+    6. When the published readd commit is received:
+      a. If there are no epoch errors or conflicts, the last_responded_epoch and
+         result are updated for each installation in the local intent state.
+      b. Otherwise, the intent is failed, and the `scheduled_readd_ns` is set to
+         the local time so that the worker process can retry.
+*/
+message ReaddRequest {
+  bytes group_id = 1;
+  uint64 commit_log_epoch = 2;
+}
