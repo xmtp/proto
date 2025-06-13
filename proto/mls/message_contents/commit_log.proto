@@ -19,13 +19,13 @@ message PlaintextCommitLogEntry {
   // The encryption state after the previous successful commit was applied.
   bytes last_epoch_authenticator = 2;
   // The sequence_id of the current commit payload being validated.
-  uint64 sequence_id = 3;
+  uint64 commit_sequence_id = 3;
   // Indicates whether the current commit was successful, or why it failed.
   CommitResult commit_result = 4;
   // The epoch number after the current commit was applied, if successful.
-  uint64 epoch_number = 5;
+  uint64 applied_epoch_number = 5;
   // The encryption state after the current commit was applied, if successful.
-  bytes epoch_authenticator = 6;
+  bytes applied_epoch_authenticator = 6;
 }
 
 message CommitLogEntry {
