@@ -44,4 +44,7 @@ docker run --rm -i -v${PWD}:/code xmtp/protoc \
   mls/message_contents/group_metadata.proto \
   mls/message_contents/group_mutable_metadata.proto \
   mls/message_contents/transcript_messages.proto \
+  mls/message_contents/content_types/multi_remote_attachment.proto \
+  mls/message_contents/content_types/reaction.proto \
+  mls/message_contents/content_types/wallet_send_calls.proto \
   mls_validation/v1/service.proto
