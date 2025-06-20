@@ -119,9 +119,9 @@ service MlsApi {
     };
   }
 
-  rpc QueryCommitLog(QueryCommitLogRequest) returns (QueryCommitLogResponse) {
+  rpc BatchQueryCommitLog(BatchQueryCommitLogRequest) returns (BatchQueryCommitLogResponse) {
     option (google.api.http) = {
-      post: "/mls/v1/query-commit-log"
+      post: "/mls/v1/batch-query-commit-log"
       body: "*"
     };
   }
@@ -367,6 +367,15 @@ message QueryCommitLogRequest {
 }
 
 message QueryCommitLogResponse {
-  repeated xmtp.mls.message_contents.CommitLogEntry commit_log_entries = 1;
-  PagingInfo paging_info = 2;
+  bytes group_id = 1;
+  repeated xmtp.mls.message_contents.CommitLogEntry commit_log_entries = 2;
+  PagingInfo paging_info = 3;
+}
+
+message BatchQueryCommitLogRequest {
+  repeated QueryCommitLogRequest requests = 1;
+}
+
+message BatchQueryCommitLogResponse {
+  repeated QueryCommitLogResponse responses = 1;
 }
