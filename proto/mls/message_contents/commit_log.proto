@@ -1,4 +1,5 @@
 // Defines entries on the commit log, used for fork detection and recovery
+// XIP: https://community.xmtp.org/t/xip-68-draft-automated-fork-recovery/951
 syntax = "proto3";
 
 package xmtp.mls.message_contents;

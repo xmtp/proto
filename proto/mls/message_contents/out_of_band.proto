@@ -6,6 +6,7 @@ package xmtp.mls.message_contents;
 
 // A request sent by an installation to recover from a fork. Other members
 // may remove and readd that installation from the group.
+// XIP: https://community.xmtp.org/t/xip-68-draft-automated-fork-recovery/951
 message ReaddRequest {
   bytes group_id = 1;
   uint64 commit_log_epoch = 2;
