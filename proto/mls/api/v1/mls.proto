@@ -112,9 +112,9 @@ service MlsApi {
     };
   }
 
-  rpc BatchPublishCommitLogEntry(BatchPublishCommitLogEntryRequest) returns (google.protobuf.Empty) {
+  rpc BatchPublishCommitLog(BatchPublishCommitLogRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
-      post: "/mls/v1/batch-publish-commit-log-entry"
+      post: "/mls/v1/batch-publish-commit-log"
       body: "*"
     };
   }
@@ -356,11 +356,11 @@ message SubscribeWelcomeMessagesRequest {
   repeated Filter filters = 1;
 }
 
-message BatchPublishCommitLogEntryRequest {
-  repeated PublishCommitLogEntryRequest requests = 1;
+message BatchPublishCommitLogRequest {
+  repeated PublishCommitLogRequest requests = 1;
 }
 
-message PublishCommitLogEntryRequest {
+message PublishCommitLogRequest {
   bytes group_id = 1;
   bytes encrypted_commit_log_entry = 2;
 }
