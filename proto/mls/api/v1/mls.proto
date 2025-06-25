@@ -122,7 +122,7 @@ message WelcomeMessage {
     bytes data = 4;
     bytes hpke_public_key = 5;
     xmtp.mls.message_contents.WelcomeWrapperAlgorithm wrapper_algorithm = 6;
-    uint64 message_cursor = 7;
+    bytes welcome_metadata = 7;
   }
 
   oneof version {
@@ -138,12 +138,17 @@ message WelcomeMessageInput {
     bytes data = 2;
     bytes hpke_public_key = 3;
     xmtp.mls.message_contents.WelcomeWrapperAlgorithm wrapper_algorithm = 4;
-    uint64 message_cursor = 5;
+    bytes welcome_metadata = 7;
   }
 
   oneof version {
     V1 v1 = 1;
   }
+}
+
+// This field is encrypted along with the `data` field on the welcome message.
+message WelcomeMetadata {
+    uint64 message_cursor = 1;
 }
 
 // Full representation of a group message
