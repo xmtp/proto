@@ -148,7 +148,7 @@ message WelcomeMessageInput {
 
 // This field is encrypted along with the `data` field on the welcome message.
 message WelcomeMetadata {
-    uint64 message_cursor = 1;
+  uint64 message_cursor = 1;
 }
 
 // Full representation of a group message
