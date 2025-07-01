@@ -5,6 +5,7 @@ package xmtp.mls.api.v1;
 import "google/api/annotations.proto";
 import "google/protobuf/empty.proto";
 import "message_contents/signature.proto";
+import "mls/message_contents/commit_log.proto";
 import "mls/message_contents/wrapper_encryption.proto";
 import "protoc-gen-openapiv2/options/annotations.proto";
 
@@ -12,9 +13,9 @@ option go_package = "github.com/xmtp/proto/v3/go/mls/api/v1";
 option java_package = "org.xmtp.proto.mls.api.v1";
 option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
   info: {
-    title: "MlsApi";
-    version: "1.0";
-  };
+    title: "MlsApi"
+    version: "1.0"
+  }
 };
 
 // RPCs for the new MLS API
@@ -107,6 +108,20 @@ service MlsApi {
   rpc SubscribeWelcomeMessages(SubscribeWelcomeMessagesRequest) returns (stream WelcomeMessage) {
     option (google.api.http) = {
       post: "/mls/v1/subscribe-welcome-messages"
+      body: "*"
+    };
+  }
+
+  rpc BatchPublishCommitLog(BatchPublishCommitLogRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      post: "/mls/v1/batch-publish-commit-log"
+      body: "*"
+    };
+  }
+
+  rpc BatchQueryCommitLog(BatchQueryCommitLogRequest) returns (BatchQueryCommitLogResponse) {
+    option (google.api.http) = {
+      post: "/mls/v1/batch-query-commit-log"
       body: "*"
     };
   }
@@ -206,7 +221,7 @@ message KeyPackageUpload {
 message RegisterInstallationRequest {
   // The Key Package contains all information needed to register an installation
   KeyPackageUpload key_package = 1;
-  bool is_inbox_id_credential= 2;
+  bool is_inbox_id_credential = 2;
 }
 
 // The response to a RegisterInstallationRequest
@@ -344,4 +359,32 @@ message SubscribeWelcomeMessagesRequest {
     uint64 id_cursor = 2;
   }
   repeated Filter filters = 1;
+}
+
+message BatchPublishCommitLogRequest {
+  repeated PublishCommitLogRequest requests = 1;
+}
+
+message PublishCommitLogRequest {
+  bytes group_id = 1;
+  bytes encrypted_commit_log_entry = 2;
+}
+
+message QueryCommitLogRequest {
+  bytes group_id = 1;
+  PagingInfo paging_info = 2;
+}
+
+message QueryCommitLogResponse {
+  bytes group_id = 1;
+  repeated xmtp.mls.message_contents.CommitLogEntry commit_log_entries = 2;
+  PagingInfo paging_info = 3;
+}
+
+message BatchQueryCommitLogRequest {
+  repeated QueryCommitLogRequest requests = 1;
+}
+
+message BatchQueryCommitLogResponse {
+  repeated QueryCommitLogResponse responses = 1;
 }
