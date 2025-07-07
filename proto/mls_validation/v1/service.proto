@@ -97,6 +97,7 @@ message ValidateGroupMessagesResponse {
     bool is_ok = 1;
     string error_message = 2;
     string group_id = 3;
+    bool is_commit = 4;
   }
 
   repeated ValidationResponse responses = 1;
