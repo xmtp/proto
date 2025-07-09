@@ -15,6 +15,13 @@ message GetSyncCursorResponse {
   xmtp.xmtpv4.envelopes.Cursor latest_sync = 1;
 }
 
+message GetVersionRequest {
+}
+
+message GetVersionResponse {
+  string version = 1;
+}
+
 // Metadata for distributed tracing, debugging and synchronization
 service MetadataApi {
   rpc GetSyncCursor(GetSyncCursorRequest) returns (GetSyncCursorResponse) {
@@ -23,9 +30,17 @@ service MetadataApi {
       body: "*"
     };
   }
+
   rpc SubscribeSyncCursor(GetSyncCursorRequest) returns (stream GetSyncCursorResponse) {
     option (google.api.http) = {
       post: "/mls/v2/metadata/subscribe-sync-cursor"
+      body: "*"
+    };
+  }
+
+  rpc GetVersion(GetVersionRequest) returns (GetVersionResponse) {
+    option (google.api.http) = {
+      post: "/mls/v2/metadata/version"
       body: "*"
     };
   }
