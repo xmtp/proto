@@ -125,6 +125,14 @@ service MlsApi {
       body: "*"
     };
   }
+
+  // Get the latest sequence ID for an installation
+  rpc GetInstallationLatestSequenceID(GetInstallationLatestSequenceIDRequest) returns (GetInstallationLatestSequenceIDResponse) {
+    option (google.api.http) = {
+      post: "/mls/v1/get-installation-latest-sequence-id"
+      body: "*"
+    };
+  }
 }
 
 // Full representation of a welcome message
@@ -387,4 +395,12 @@ message BatchQueryCommitLogRequest {
 
 message BatchQueryCommitLogResponse {
   repeated QueryCommitLogResponse responses = 1;
+}
+
+message GetInstallationLatestSequenceIDRequest {
+  bytes installation_key = 1;
+}
+
+message GetInstallationLatestSequenceIDResponse {
+  uint64 sequence_id = 1;
 }
