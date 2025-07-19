@@ -20,7 +20,6 @@ message AuthenticatedData {
   // Do NOT reuse tag 1 — previously used by target_originator
   bytes target_topic = 2;
   Cursor depends_on = 3;
-  bool is_commit = 4;
 }
 
 message ClientEnvelope {
