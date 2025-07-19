@@ -6,15 +6,17 @@ package xmtp.mls.message_contents;
 option go_package = "github.com/xmtp/proto/v3/go/mls/message_contents";
 option java_package = "org.xmtp.proto.mls.message.contents";
 
-
 // Message for group mutable metadata
 message GroupMutableMetadataV1 {
   // Map to store various metadata attributes (Group name, etc.)
-  map<string, string> attributes = 1;  
+  map<string, string> attributes = 1;
   Inboxes admin_list = 2;
   // Creator starts as only super_admin
   // Only super_admin can add/remove other super_admin
   Inboxes super_admin_list = 3;
+  // The ED25519 private key used to sign commit log entries
+  // Must match the first entry in the commit log to be valid
+  optional bytes commit_log_signer = 4;
 }
 
 // Wrapper around a list of repeated Inbox Ids

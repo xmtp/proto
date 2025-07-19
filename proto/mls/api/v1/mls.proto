@@ -4,6 +4,7 @@ package xmtp.mls.api.v1;
 
 import "google/api/annotations.proto";
 import "google/protobuf/empty.proto";
+import "identity/associations/signature.proto";
 import "message_contents/signature.proto";
 import "mls/message_contents/commit_log.proto";
 import "mls/message_contents/wrapper_encryption.proto";
@@ -367,7 +368,8 @@ message BatchPublishCommitLogRequest {
 
 message PublishCommitLogRequest {
   bytes group_id = 1;
-  bytes encrypted_commit_log_entry = 2;
+  bytes serialized_commit_log_entry = 2;
+  xmtp.identity.associations.RecoverableEd25519Signature signature = 3;
 }
 
 message QueryCommitLogRequest {
