@@ -4,6 +4,8 @@ syntax = "proto3";
 
 package xmtp.mls.message_contents;
 
+import "identity/associations/signature.proto";
+
 enum CommitResult {
   COMMIT_RESULT_UNSPECIFIED = 0;
   COMMIT_RESULT_APPLIED = 1;
@@ -31,5 +33,6 @@ message PlaintextCommitLogEntry {
 
 message CommitLogEntry {
   uint64 sequence_id = 1;
-  bytes encrypted_commit_log_entry = 2;
+  bytes serialized_commit_log_entry = 2;
+  xmtp.identity.associations.RecoverableEd25519Signature signature = 3;
 }
