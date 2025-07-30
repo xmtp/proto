@@ -1,0 +1,41 @@
+// transaction_reference.proto
+// This file defines the TransactionReference message type and is associated with the following ContentTypeId:
+//
+// ContentTypeId {
+//     authority_id: "xmtp.org",
+//     type_id:      "transactionReference",
+//     version_major: 1,
+//     version_minor: 0,
+// }
+
+syntax = "proto3";
+
+package xmtp.mls.message_contents.content_types;
+
+option go_package = "github.com/xmtp/proto/v3/go/mls/message_contents/content_types";
+option java_package = "org.xmtp.proto.mls.message_contents.content_types";
+
+// Metadata message to capture optional transaction details
+message TransactionMetadata {
+  string transaction_type = 1;
+  string currency = 2;
+  uint64 amount = 3;
+  uint32 decimals = 4;
+  string from_address = 5;
+  string to_address = 6;
+}
+
+// TransactionReference message type
+message TransactionReference {
+  // The optional namespace for the networkId (e.g., "eip155")
+  string namespace = 1;
+
+  // The network ID in decimal or hexadecimal format
+  string network_id = 2;
+
+  // The transaction hash (should be unique within network)
+  string reference = 3;
+
+  // Optional metadata for transaction interpretation
+  TransactionMetadata metadata = 4;
+}
