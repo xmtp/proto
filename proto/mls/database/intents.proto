@@ -73,6 +73,8 @@ message UpdateGroupMembershipData {
     repeated string removed_members = 2;
     // List of installations that failed to be added due to errors encountered during the evaluation process.
     repeated bytes failed_installations = 3;
+    // List of installations that later recovered (e.g., after uploading new keypacakges) and were successfully re-added.
+    repeated bytes recovered_installations = 4;
   }
 
   oneof version {
