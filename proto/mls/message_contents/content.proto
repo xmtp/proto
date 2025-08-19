@@ -5,7 +5,6 @@ syntax = "proto3";
 package xmtp.mls.message_contents;
 
 import "device_sync/content.proto";
-import "mls/message_contents/out_of_band.proto";
 
 option go_package = "github.com/xmtp/proto/v3/go/mls/message_contents";
 option java_package = "org.xmtp.proto.mls.message.contents";
@@ -70,9 +69,11 @@ message PlaintextEnvelope {
       xmtp.device_sync.content.DeviceSyncReply device_sync_reply = 4;
       // A serialized user preference update
       xmtp.device_sync.content.V1UserPreferenceUpdate user_preference_update = 5;
-      // A readd request for fork recovery
-      ReaddRequest readd_request = 6;
     }
+
+    // Removed; moved to oneshot message
+    reserved 6;
+    reserved "readd_request";
   }
 
   // Selector which declares which version of the EncodedContent this
