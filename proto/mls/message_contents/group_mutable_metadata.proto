@@ -14,9 +14,9 @@ message GroupMutableMetadataV1 {
   // Creator starts as only super_admin
   // Only super_admin can add/remove other super_admin
   Inboxes super_admin_list = 3;
-  // The ED25519 private key used to sign commit log entries
-  // Must match the first entry in the commit log to be valid
-  optional bytes commit_log_signer = 4;
+  // Top-level commit_log_signer removed in favor of attribute
+  reserved 4;
+  reserved "commit_log_signer";
 }
 
 // Wrapper around a list of repeated Inbox Ids
