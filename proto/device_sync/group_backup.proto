@@ -37,6 +37,7 @@ enum GroupMembershipStateSave {
   // that can be reactivated when the user is re-added to
   // the group.
   GROUP_MEMBERSHIP_STATE_SAVE_RESTORED = 4;
+  GROUP_MEMBERSHIP_STATE_SAVE_PENDING_REMOVE = 5;
 }
 
 // Conversation type
@@ -52,6 +53,7 @@ message MutableMetadataSave {
   map<string, string> attributes = 1;
   repeated string admin_list = 2;
   repeated string super_admin_list = 3;
+  repeated string pending_remove_list = 4;
 }
 
 // A Group's immutable metadata
