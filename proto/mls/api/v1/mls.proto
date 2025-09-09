@@ -7,6 +7,7 @@ import "google/protobuf/empty.proto";
 import "identity/associations/signature.proto";
 import "message_contents/signature.proto";
 import "mls/message_contents/commit_log.proto";
+import "mls/message_contents/welcome_pointer.proto";
 import "mls/message_contents/wrapper_encryption.proto";
 import "protoc-gen-openapiv2/options/annotations.proto";
 
@@ -141,24 +142,58 @@ message WelcomeMessage {
     bytes welcome_metadata = 7;
   }
 
+  message WelcomePointer {
+    uint64 id = 1;
+    uint64 created_ns = 2;
+    // The topic of the welcome message (generally the installation id)
+    bytes destination = 3;
+    // A WelcomePointer encrypted using the algorithm specified by wrapper_algorithm
+    bytes welcome_pointer = 4;
+    // The public key used to encrypt the welcome pointer
+    bytes hpke_public_key = 5;
+    // The algorithm used to encrypt the welcome pointer
+    xmtp.mls.message_contents.WelcomePointerWrapperAlgorithm wrapper_algorithm = 6;
+  }
+
   oneof version {
     V1 v1 = 1;
+    WelcomePointer welcome_pointer = 2;
   }
 }
 
 // Input type for a welcome message
 message WelcomeMessageInput {
-  // Version 1 of the WelcomeMessageInput format
+  // Version 1 of the WelcomeMessageInput format, if used as the pointee of a WelcomePointer then
+  // the hpke_public_key will be unset, and the wrapper_algorithm will be WELCOME_WRAPPER_ALGORITHM_SYMMETRIC_KEY
   message V1 {
+    // The topic of the welcome message (generally the installation id)
     bytes installation_key = 1;
+    // An encrypted mls `Welcome` struct
     bytes data = 2;
+    // The public key of the welcome message
     bytes hpke_public_key = 3;
+    // The algorithm used to encrypt the welcome message
     xmtp.mls.message_contents.WelcomeWrapperAlgorithm wrapper_algorithm = 4;
+    // The metadata of the welcome message
     bytes welcome_metadata = 7;
+  }
+
+  // Version 2 of the WelcomeMessageInput format which uses a WelcomePointer
+  // to point to the welcome message for several installations at once
+  message WelcomePointer {
+    // The topic of the welcome message (generally the installation id)
+    bytes destination = 1;
+    // A WelcomePointer encrypted using the wrapper_algorithm
+    bytes welcome_pointer = 2;
+    // The public key used to encrypt the welcome pointer
+    bytes hpke_public_key = 3;
+    // The algorithm used to encrypt the welcome pointer
+    xmtp.mls.message_contents.WelcomePointerWrapperAlgorithm wrapper_algorithm = 4;
   }
 
   oneof version {
     V1 v1 = 1;
+    WelcomePointer welcome_pointer = 2;
   }
 }
 

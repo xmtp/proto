@@ -51,6 +51,7 @@ docker run --platform linux/x86_64 --rm -i -v${PWD}:/code xmtp/protoc-kotlin \
   mls/message_contents/content.proto \
   mls/message_contents/oneshot.proto \
   mls/message_contents/transcript_messages.proto \
+  mls/message_contents/welcome_pointer.proto \
   mls/message_contents/wrapper_encryption.proto \
   mls/message_contents/content_types/multi_remote_attachment.proto \
   mls/message_contents/content_types/reaction.proto \
