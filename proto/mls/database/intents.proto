@@ -172,7 +172,7 @@ message PostCommitAction {
 enum PendingRemoveListUpdateType {
   PENDING_REMOVE_LIST_UPDATE_TYPE_UNSPECIFIED = 0;
   PENDING_REMOVE_LIST_UPDATE_TYPE_ADD = 1;
-  PENDING_REMOVE_UPDATE_TYPE_REMOVE = 2;
+  PENDING_REMOVE_LIST_UPDATE_TYPE_REMOVE = 2;
 }
 
 // The data required to update group pending-remove lists
