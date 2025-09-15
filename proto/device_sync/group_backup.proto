@@ -53,7 +53,7 @@ message MutableMetadataSave {
   map<string, string> attributes = 1;
   repeated string admin_list = 2;
   repeated string super_admin_list = 3;
-  repeated string pending_removal_list = 4;
+  repeated string pending_remove_list = 4;
 }
 
 // A Group's immutable metadata
