@@ -106,7 +106,6 @@ lint:
       uncountable_rules:
         - admin_list
         - super_admin_list
-        - pending_remove_list
     #   irregular_rules:
     #     Irregular: Regular
 

@@ -17,8 +17,6 @@ message GroupMutableMetadataV1 {
   // The ED25519 private key used to sign commit log entries
   // Must match the first entry in the commit log to be valid
   optional bytes commit_log_signer = 4;
-  // List of users want to leave the group
-  Inboxes pending_remove_list = 5;
 }
 
 // Wrapper around a list of repeated Inbox Ids
