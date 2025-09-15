@@ -168,14 +168,14 @@ message PostCommitAction {
   }
 }
 
-// Type of update to pending-remove lists
+// Type of update to pending-remove list
 enum PendingRemoveListUpdateType {
   PENDING_REMOVE_LIST_UPDATE_TYPE_UNSPECIFIED = 0;
   PENDING_REMOVE_LIST_UPDATE_TYPE_ADD = 1;
   PENDING_REMOVE_LIST_UPDATE_TYPE_REMOVE = 2;
 }
 
-// The data required to update group pending-remove lists
+// The data required to update group pending-remove list
 message UpdatePendingRemoveListsData {
   // V1 of PendingRemoveUpdateType
   message V1 {
