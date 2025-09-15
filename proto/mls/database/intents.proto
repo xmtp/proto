@@ -169,7 +169,7 @@ message PostCommitAction {
 }
 
 // Type of update to pending-remove lists
-enum PendingRemoveUpdateType {
+enum PendingRemoveListUpdateType {
   PENDING_REMOVE_LIST_UPDATE_TYPE_UNSPECIFIED = 0;
   PENDING_REMOVE_LIST_UPDATE_TYPE_ADD = 1;
   PENDING_REMOVE_UPDATE_TYPE_REMOVE = 2;
@@ -179,7 +179,7 @@ enum PendingRemoveUpdateType {
 message UpdatePendingRemoveListsData {
   // V1 of PendingRemoveUpdateType
   message V1 {
-    PendingRemoveUpdateType pending_remove_list_update_type = 1;
+    PendingRemoveListUpdateType pending_remove_list_update_type = 1;
     string inbox_id = 2;
   }
 
