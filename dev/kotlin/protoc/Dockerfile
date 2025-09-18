@@ -1,10 +1,10 @@
-FROM openjdk:20-jdk-bullseye as build
+FROM openjdk:20-jdk-bullseye AS build
 
 COPY protoc.sh /opt/protoc
 
 RUN apt-get -q update && \
-  apt-get -y install build-essential unzip curl && \
-  rm -r /var/lib/apt/lists/*
+    apt-get -y install build-essential unzip curl && \
+    rm -r /var/lib/apt/lists/*
 
 # Latest version on protoc so that it has Kotlin
 ARG JAVA_PLATFORM=linux-x86_64
@@ -14,7 +14,7 @@ RUN curl -OL https://github.com/protocolbuffers/protobuf/releases/download/v$PRO
     unzip -o protoc-$PROTOC_VERSION-$JAVA_PLATFORM.zip -d /usr/local bin/protoc && \
     unzip -o protoc-$PROTOC_VERSION-$JAVA_PLATFORM.zip -d /usr/local include/* && \
     rm -rf protoc-$PROTOC_VERSION-$JAVA_PLATFORM.zip
-  
+
 # Kotlin gRPC plugin
 ARG KOTLIN_GRPC_VERSION=1.3.0
 ARG KOTLIN_GRPC_URL=https://repo1.maven.org/maven2/io/grpc/protoc-gen-grpc-kotlin/$KOTLIN_GRPC_VERSION/protoc-gen-grpc-kotlin-$KOTLIN_GRPC_VERSION-jdk8.jar
@@ -31,10 +31,10 @@ RUN chmod +x /bin/protoc-gen-grpc-java
 
 # # Vendor some dependencies.
 RUN mkdir -p /opt/proto && \
-  cd /opt && \
-  git clone --depth 1 https://github.com/googleapis/googleapis.git && \
-  mv googleapis/google proto/ && \
-  rm -rf googleapis
+    cd /opt && \
+    git clone --depth 1 https://github.com/googleapis/googleapis.git && \
+    mv googleapis/google proto/ && \
+    rm -rf googleapis
 
 RUN mkdir -p /opt/proto && \
     cd /opt && \

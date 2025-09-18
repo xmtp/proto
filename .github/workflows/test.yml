@@ -22,7 +22,7 @@ jobs:
       - name: Setup Gradle
         uses: gradle/gradle-build-action@v2
       - name: Validate Gradle Wrapper
-        uses: gradle/wrapper-validation-action@v1
+        uses: gradle/actions/wrapper-validation@v3
       - name: Generate protobufs
         run: dev/kotlin/generate
       - name: Run build with Gradle Wrapper

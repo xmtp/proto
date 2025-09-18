@@ -1,6 +1,6 @@
 // reaction.proto
 // This file defines the ReactionV2 message type and is associated with the following ContentTypeId:
-// 
+//
 // ContentTypeId {
 //     authority_id: "xmtp.org",
 //     type_id:      "reaction",
@@ -34,7 +34,7 @@ enum ReactionSchema {
 message ReactionV2 {
   // The message ID being reacted to
   string reference = 1;
-  
+
   // The inbox ID of the user who sent the message being reacted to
   // Optional for group messages
   string reference_inbox_id = 2;
@@ -42,7 +42,7 @@ message ReactionV2 {
   // The action of the reaction (added or removed)
   ReactionAction action = 3;
 
-  // The content of the reaction 
+  // The content of the reaction
   string content = 4;
 
   // The schema of the reaction content

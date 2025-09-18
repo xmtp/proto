@@ -16,8 +16,7 @@ message PublishClientEnvelopesResponse {
   repeated xmtp.xmtpv4.envelopes.OriginatorEnvelope originator_envelopes = 1;
 }
 
-message GetNodesRequest {
-}
+message GetNodesRequest {}
 
 message GetNodesResponse {
   map<uint32, string> nodes = 1;

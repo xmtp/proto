@@ -38,7 +38,6 @@ message PrivatePreferencesAction {
     repeated string inbox_ids = 1;
   }
 
-
   // Allow Group access
   message AllowGroup {
     // Add the given group_ids to the allow list
@@ -63,5 +62,7 @@ message PrivatePreferencesAction {
 
 // The payload that goes over the wire
 message PrivatePreferencesPayload {
-  oneof version { Ciphertext v1 = 1; }
+  oneof version {
+    Ciphertext v1 = 1;
+  }
 }
