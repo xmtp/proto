@@ -11,6 +11,8 @@ enum WelcomeWrapperAlgorithm {
   WELCOME_WRAPPER_ALGORITHM_UNSPECIFIED = 0;
   WELCOME_WRAPPER_ALGORITHM_CURVE25519 = 1;
   WELCOME_WRAPPER_ALGORITHM_XWING_MLKEM_768_DRAFT_6 = 2;
+  // TODO: Name this properly
+  WELCOME_WRAPPER_ALGORITHM_SYMMETRIC_KEY = 15;
 }
 
 // The KeyPackageExtension that stores the PubKey and the WelcomeWrapperEncryption

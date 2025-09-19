@@ -134,6 +134,7 @@ message WelcomeMessage {
   message V1 {
     uint64 id = 1;
     uint64 created_ns = 2;
+    // TODO: rename this to identifier
     bytes installation_key = 3;
     bytes data = 4;
     bytes hpke_public_key = 5;
@@ -141,24 +142,55 @@ message WelcomeMessage {
     bytes welcome_metadata = 7;
   }
 
+  message WelcomePointer {
+    uint64 id = 1;
+    uint64 created_ns = 2;
+    // The topic of the welcome message (generally the installation id)
+    bytes identifier = 3;
+    // A WelcomePointer encrypted using the WELCOME_WRAPPER_ALGORITHM_XWING_MLKEM_768_DRAFT_6 algorithm
+    bytes welcome_pointer = 4;
+    // The public key used to encrypt the welcome pointer
+    bytes hpke_public_key = 5;
+  }
+
   oneof version {
     V1 v1 = 1;
+    WelcomePointer welcome_pointer = 2;
   }
 }
 
 // Input type for a welcome message
 message WelcomeMessageInput {
-  // Version 1 of the WelcomeMessageInput format
+  // Version 1 of the WelcomeMessageInput format, if used as the pointee of a WelcomePointer then
+  // the hpke_public_key will be unset, and the wrapper_algorithm will be WELCOME_WRAPPER_ALGORITHM_SYMMETRIC_KEY
   message V1 {
+    // The topic of the welcome message (generally the installation id)
+    // TODO: rename this to identifier
     bytes installation_key = 1;
+    // An encrypted mls `Welcome` struct
     bytes data = 2;
+    // The public key of the welcome message
     bytes hpke_public_key = 3;
+    // The algorithm used to encrypt the welcome message
     xmtp.mls.message_contents.WelcomeWrapperAlgorithm wrapper_algorithm = 4;
+    // The metadata of the welcome message
     bytes welcome_metadata = 7;
+  }
+
+  // Version 2 of the WelcomeMessageInput format which uses a WelcomePointer
+  // to point to the welcome message for several installations at once
+  message WelcomePointer {
+    // The topic of the welcome message (generally the installation id)
+    bytes identifier = 1;
+    // A WelcomePointer encrypted using the WELCOME_WRAPPER_ALGORITHM_XWING_MLKEM_768_DRAFT_6 algorithm
+    bytes welcome_pointer = 2;
+    // The public key used to encrypt the welcome pointer
+    bytes hpke_public_key = 3;
   }
 
   oneof version {
     V1 v1 = 1;
+    WelcomePointer welcome_pointer = 2;
   }
 }
 
