@@ -16,12 +16,11 @@ message PublishClientEnvelopesResponse {
   repeated xmtp.xmtpv4.envelopes.OriginatorEnvelope originator_envelopes = 1;
 }
 
-message GetReaderNodeRequest {
+message GetNodesRequest {
 }
 
-message GetReaderNodeResponse {
-  string reader_node_url = 1;
-  repeated string backup_node_urls = 2;
+message GetNodesResponse {
+  repeated string nodes = 1;
 }
 
 // A narrowly scoped API for publishing messages through a payer
@@ -34,9 +33,9 @@ service PayerApi {
     };
   }
 
-  rpc GetReaderNode(GetReaderNodeRequest) returns (GetReaderNodeResponse) {
+  rpc GetNodes(GetNodesRequest) returns (GetNodesResponse) {
     option (google.api.http) = {
-      post: "/mls/v2/payer/get-reader-node"
+      post: "/mls/v2/payer/get-nodes"
       body: "*"
     };
   }
