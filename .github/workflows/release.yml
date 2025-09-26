@@ -22,7 +22,6 @@ jobs:
       - name: Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: npm run semantic-release
   kotlin:
     # The `semantic-release` from JS calculates the version tag
