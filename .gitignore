@@ -106,6 +106,8 @@ dist
 *.pb.ts
 .DS_STORE
 ts/dist
+ts/gen
+kotlin/gen
 build
 
 # Swift
