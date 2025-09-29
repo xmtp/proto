@@ -18,6 +18,7 @@
     "build:types": "./dev/ts/clean types && tsc -p ./ts/tsconfig.types.json",
     "clean": "rm -rf ./ts/dist",
     "generate": "./dev/ts/generate",
+    "buf:gen": "buf dep update && buf generate",
     "prebuild": "npm run generate",
     "prepare": "husky install",
     "pretest": "npm run build",
@@ -63,6 +64,8 @@
   },
   "homepage": "https://github.com/xmtp/proto#readme",
   "devDependencies": {
+    "@bufbuild/buf": "^1.57.2",
+    "@bufbuild/protoc-gen-es": "^2.9.0",
     "@commitlint/config-conventional": "^20.0.0",
     "@types/node": "^24.6.0",
     "husky": "^9.1.7",
