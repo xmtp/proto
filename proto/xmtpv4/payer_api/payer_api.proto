@@ -20,7 +20,7 @@ message GetNodesRequest {
 }
 
 message GetNodesResponse {
-  repeated string nodes = 1;
+  map<uint32, string> nodes = 1;
 }
 
 // A narrowly scoped API for publishing messages through a payer
