@@ -37,6 +37,7 @@ enum GroupMembershipStateSave {
   // that can be reactivated when the user is re-added to
   // the group.
   GROUP_MEMBERSHIP_STATE_SAVE_RESTORED = 4;
+  GROUP_MEMBERSHIP_STATE_SAVE_PENDING_REMOVE = 5;
 }
 
 // Conversation type
