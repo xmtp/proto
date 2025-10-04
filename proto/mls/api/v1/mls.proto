@@ -126,6 +126,12 @@ service MlsApi {
       body: "*"
     };
   }
+
+  rpc GetNewestGroupMessage(GetNewestGroupMessageRequest) returns (GetNewestGroupMessageResponse) {
+      option (google.api.http) = {
+        get: "/mls/v1/get-newest-group-message"
+      };
+  }
 }
 
 // Full representation of a welcome message
@@ -389,4 +395,21 @@ message BatchQueryCommitLogRequest {
 
 message BatchQueryCommitLogResponse {
   repeated QueryCommitLogResponse responses = 1;
+}
+
+// Request to get the newest group message from a range of topics
+message GetNewestGroupMessageRequest {
+    // Get the newest message from each of these topics
+    repeated bytes group_ids = 1;
+    bool include_content = 2;
+}
+
+// Returns a list of responses that will always be the same length as the request
+message GetNewestGroupMessageResponse {
+    message Response {
+        // If no message is found on the topic, will be nil
+        optional GroupMessage group_message = 1;
+    }
+
+    repeated Response responses = 1;
 }
