@@ -17,6 +17,6 @@ option java_package = "org.xmtp.proto.mls.message_contents.content_types";
 
 // LeaveRequest message type
 message LeaveRequest {
-  // A signed statement created by the sender that can be verified only by group members
-  string authenticated_note = 1;
+  // A serialized AuthenticatedNote containing the sender's signed, member-only verifiable statement
+  bytes authenticated_note = 1;
 }
