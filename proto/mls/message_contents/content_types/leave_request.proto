@@ -16,4 +16,7 @@ option go_package = "github.com/xmtp/proto/v3/go/mls/message_contents/content_ty
 option java_package = "org.xmtp.proto.mls.message_contents.content_types";
 
 // LeaveRequest message type
-message LeaveRequest {}
+message LeaveRequest {
+  // A signed statement created by the sender that can be verified only by group members
+  string authenticated_note = 1;
+}
