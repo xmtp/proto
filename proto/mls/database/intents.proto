@@ -3,6 +3,7 @@
 syntax = "proto3";
 package xmtp.mls.database;
 
+import "mls/message_contents/welcome_pointer.proto";
 import "mls/message_contents/wrapper_encryption.proto";
 
 option go_package = "github.com/xmtp/proto/v3/go/mls/database";
@@ -171,6 +172,7 @@ message PostCommitAction {
     bytes installation_key = 1;
     bytes hpke_public_key = 2;
     xmtp.mls.message_contents.WelcomeWrapperAlgorithm welcome_wrapper_algorithm = 3;
+    xmtp.mls.message_contents.WelcomePointeeEncryptionAeadTypesExtension welcome_pointee_encryption_aead_types = 4;
   }
   // SendWelcome message
   message SendWelcomes {
