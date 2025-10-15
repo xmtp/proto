@@ -8,19 +8,22 @@ option java_package = "org.xmtp.proto.mls.message.contents";
 
 // A WelcomePointer is used to point to the welcome message for several installations at once to save overhead
 message WelcomePointer {
-  message V1 {
+  // Points to a V1 WelcomeMessage
+  message WelcomeV1Pointer {
     // The topic of the welcome message. For V1, this means that it will be the first message in the topic, so no other identifier is required
     bytes destination = 1;
     // The algorithm used to encrypt the welcome pointer
     WelcomePointeeEncryptionAeadType aead_type = 2;
     // The encryption key of the welcome message. Must match key size specified by the aead_type.
     bytes encryption_key = 3;
-    // Nonces used to encrypt the welcome pointer fields. Must match nonce size specified by the aead_type.
-    repeated bytes nonces = 4;
+    // Nonce used to encrypt the data field. Must match nonce size specified by the aead_type.
+    bytes data_nonce = 4;
+    // Nonce used to encrypt the welcome_metadata field. Must match nonce size specified by the aead_type.
+    bytes welcome_metadata_nonce = 5;
   }
 
   oneof version {
-    V1 v1 = 1;
+    WelcomeV1Pointer welcome_v1_pointer = 1;
   }
 }
 
