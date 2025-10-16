@@ -25,7 +25,8 @@ message GroupMembershipChanges {
   repeated MembershipChange installations_added = 3;
   // Installations removed in the commit, grouped by member
   repeated MembershipChange installations_removed = 4;
-
+  /// The inboxes that were removed from the group in response to pending-remove/self-remove requests
+  repeated MembershipChange members_left = 5;
   // protolint:enable REPEATED_FIELD_NAMES_PLURALIZED
 }
 
@@ -54,6 +55,4 @@ message GroupUpdated {
   repeated Inbox removed_inboxes = 3;
   // The metadata changes in the commit
   repeated MetadataFieldChange metadata_field_changes = 4;
-  /// The inboxes that were removed from the group in response to pending-remove/self-remove requests
-  repeated Inbox left_inboxes = 5;
 }
