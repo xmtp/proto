@@ -1,0 +1,8 @@
+version: v2
+plugins:
+  - local: protoc-gen-es
+    out: ts/gen
+    include_imports: true
+    opt: target=ts
+  - remote: buf.build/grpc/kotlin
+    out: kotlin/gen
