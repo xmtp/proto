@@ -146,7 +146,7 @@ message WelcomeMessage {
     uint64 id = 1;
     uint64 created_ns = 2;
     // The topic of the welcome message (generally the installation id)
-    bytes destination = 3;
+    bytes installation_key = 3;
     // A WelcomePointer encrypted using the algorithm specified by wrapper_algorithm
     bytes welcome_pointer = 4;
     // The public key used to encrypt the welcome pointer
@@ -182,7 +182,7 @@ message WelcomeMessageInput {
   // to point to the welcome message for several installations at once
   message WelcomePointer {
     // The topic of the welcome message (generally the installation id)
-    bytes destination = 1;
+    bytes installation_key = 1;
     // A WelcomePointer encrypted using the wrapper_algorithm
     bytes welcome_pointer = 2;
     // The public key used to encrypt the welcome pointer
