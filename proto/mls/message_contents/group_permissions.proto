@@ -20,7 +20,7 @@ message PolicySet {
   PermissionsUpdatePolicy remove_admin_policy = 5;
   PermissionsUpdatePolicy update_permissions_policy = 6;
 }
-  
+
 // A policy that governs adding/removing members or installations
 message MembershipPolicy {
   // Base policy
@@ -86,7 +86,7 @@ message PermissionsUpdatePolicy {
     PERMISSIONS_BASE_POLICY_ALLOW_IF_ADMIN = 2;
     PERMISSIONS_BASE_POLICY_ALLOW_IF_SUPER_ADMIN = 3;
   }
-    
+
   // Combine multiple policies. All must evaluate to true
   message AndCondition {
     repeated PermissionsUpdatePolicy policies = 1;

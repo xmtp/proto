@@ -14,7 +14,6 @@ message EventSave {
   optional string icon = 6;
 }
 
-
 enum EventLevelSave {
   EVENT_LEVEL_SAVE_UNSPECIFIED = 0;
   EVENT_LEVEL_SAVE_NONE = 1;

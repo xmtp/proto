@@ -1,0 +1,18 @@
+{
+  "languages": {
+    "Proto": {
+      "format_on_save": "on",
+      "formatter": {
+        "external": {
+          "command": "protolint",
+          "arguments": ["--fix", "{buffer_path}", "--output-file={buffer_path}"]
+        }
+      },
+      "tab_size": 2,
+      "hard_tabs": false,
+      "code_actions_on_format": {
+        "source.organizeImports": true
+      }
+    }
+  }
+}

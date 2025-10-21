@@ -9,9 +9,9 @@ option go_package = "github.com/xmtp/proto/v3/go/message_api/v1";
 option java_package = "org.xmtp.proto.message.api.v1";
 option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
   info: {
-    title: "MessageApi";
-    version: "1.0";
-  };
+    title: "MessageApi"
+    version: "1.0"
+  }
 };
 
 // RPC

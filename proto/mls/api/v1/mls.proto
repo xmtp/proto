@@ -127,6 +127,10 @@ service MlsApi {
       body: "*"
     };
   }
+
+  rpc GetNewestGroupMessage(GetNewestGroupMessageRequest) returns (GetNewestGroupMessageResponse) {
+    option (google.api.http) = {get: "/mls/v1/get-newest-group-message"};
+  }
 }
 
 // Full representation of a welcome message
@@ -147,7 +151,8 @@ message WelcomeMessage {
     uint64 created_ns = 2;
     // The topic of the welcome message (generally the installation id)
     bytes installation_key = 3;
-    // A WelcomePointer encrypted using the algorithm specified by wrapper_algorithm
+    // A WelcomePointer encrypted using the algorithm specified by
+    // wrapper_algorithm
     bytes welcome_pointer = 4;
     // The public key used to encrypt the welcome pointer
     bytes hpke_public_key = 5;
@@ -163,8 +168,9 @@ message WelcomeMessage {
 
 // Input type for a welcome message
 message WelcomeMessageInput {
-  // Version 1 of the WelcomeMessageInput format, if used as the pointee of a WelcomePointer then
-  // the hpke_public_key will be unset, and the wrapper_algorithm will be WELCOME_WRAPPER_ALGORITHM_SYMMETRIC_KEY
+  // Version 1 of the WelcomeMessageInput format, if used as the pointee of a
+  // WelcomePointer then the hpke_public_key will be unset, and the
+  // wrapper_algorithm will be WELCOME_WRAPPER_ALGORITHM_SYMMETRIC_KEY
   message V1 {
     // The topic of the welcome message (generally the installation id)
     bytes installation_key = 1;
@@ -212,6 +218,7 @@ message GroupMessage {
     bytes data = 4;
     bytes sender_hmac = 5;
     bool should_push = 6;
+    bool is_commit = 7;
   }
 
   oneof version {
@@ -424,4 +431,22 @@ message BatchQueryCommitLogRequest {
 
 message BatchQueryCommitLogResponse {
   repeated QueryCommitLogResponse responses = 1;
+}
+
+// Request to get the newest group message from a range of topics
+message GetNewestGroupMessageRequest {
+  // Get the newest message from each of these topics
+  repeated bytes group_ids = 1;
+  bool include_content = 2;
+}
+
+// Returns a list of responses that will always be the same length as the
+// request
+message GetNewestGroupMessageResponse {
+  message Response {
+    // If no message is found on the topic, will be nil
+    optional GroupMessage group_message = 1;
+  }
+
+  repeated Response responses = 1;
 }

@@ -8,15 +8,13 @@ import "xmtpv4/envelopes/envelopes.proto";
 
 option go_package = "github.com/xmtp/proto/v3/go/xmtpv4/metadata_api";
 
-message GetSyncCursorRequest {
-}
+message GetSyncCursorRequest {}
 
 message GetSyncCursorResponse {
   xmtp.xmtpv4.envelopes.Cursor latest_sync = 1;
 }
 
-message GetVersionRequest {
-}
+message GetVersionRequest {}
 
 message GetVersionResponse {
   string version = 1;

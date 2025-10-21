@@ -1,6 +1,6 @@
 // wallet_send_calls.proto
 // This file defines the WalletSendCalls message type and is associated with the following ContentTypeId:
-// 
+//
 // ContentTypeId {
 //     authority_id: "xmtp.org",
 //     type_id:      "walletSendCalls",

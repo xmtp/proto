@@ -11,22 +11,25 @@ option go_package = "github.com/xmtp/proto/v3/go/mls_validation/v1";
 // RPCs for the new MLS API
 service ValidationApi {
   // Validates and parses a group message and returns relevant details
-  rpc ValidateGroupMessages(ValidateGroupMessagesRequest) returns (ValidateGroupMessagesResponse) {}
+  rpc ValidateGroupMessages(ValidateGroupMessagesRequest)
+      returns (ValidateGroupMessagesResponse) {}
 
   // Gets the final association state for a batch of identity updates
-  rpc GetAssociationState(GetAssociationStateRequest) returns (GetAssociationStateResponse) {}
+  rpc GetAssociationState(GetAssociationStateRequest)
+      returns (GetAssociationStateResponse) {}
 
-  // Validates InboxID key packages and returns credential information for them, without checking
-  // whether an InboxId <> InstallationPublicKey pair is really valid.
-  rpc ValidateInboxIdKeyPackages(ValidateKeyPackagesRequest) returns (ValidateInboxIdKeyPackagesResponse) {}
+  // Validates InboxID key packages and returns credential information for them,
+  // without checking whether an InboxId <> InstallationPublicKey pair is really
+  // valid.
+  rpc ValidateInboxIdKeyPackages(ValidateKeyPackagesRequest)
+      returns (ValidateInboxIdKeyPackagesResponse) {}
 
   // Verifies smart contracts
   // This request is proxied from the node, so we'll reuse those messages.
   rpc VerifySmartContractWalletSignatures(
-    xmtp.identity.api.v1.VerifySmartContractWalletSignaturesRequest
-  )  returns (
-    xmtp.identity.api.v1.VerifySmartContractWalletSignaturesResponse
-  ) {}
+      xmtp.identity.api.v1.VerifySmartContractWalletSignaturesRequest)
+      returns (
+          xmtp.identity.api.v1.VerifySmartContractWalletSignaturesResponse) {}
 }
 
 // Contains a batch of serialized Key Packages
@@ -83,9 +86,7 @@ message ValidateKeyPackagesResponse {
 // Contains a batch of serialized Group Messages
 message ValidateGroupMessagesRequest {
   // Wrapper for each message
-  message GroupMessage {
-    bytes group_message_bytes_tls_serialized = 1;
-  }
+  message GroupMessage { bytes group_message_bytes_tls_serialized = 1; }
 
   repeated GroupMessage group_messages = 1;
 }
@@ -110,8 +111,8 @@ message GetAssociationStateRequest {
   repeated xmtp.identity.associations.IdentityUpdate new_updates = 2;
 }
 
-// Response to GetAssociationStateRequest, containing the final association state
-// for an InboxID
+// Response to GetAssociationStateRequest, containing the final association
+// state for an InboxID
 message GetAssociationStateResponse {
   xmtp.identity.associations.AssociationState association_state = 1;
   xmtp.identity.associations.AssociationStateDiff state_diff = 2;
