@@ -9,6 +9,7 @@ jobs:
     name: Release (JS)
     permissions:
       id-token: write
+      contents: write
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
