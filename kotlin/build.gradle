@@ -107,7 +107,7 @@ publishing {
                 }
                 scm {
                     connection = "https://github.com/xmtp/proto.git"
-                    developerConnection = "https://github.com/xmtp/proto.git"
+                    developerConnection =  "https://github.com/xmtp/proto.git"
                     url = "https://github.com/xmtp/proto/tree/main"
                 }
             }
@@ -116,12 +116,10 @@ publishing {
 }
 
 signing {
-    def signingKey = project.findProperty("signingKey")
-    def signingPassword = project.findProperty("signingPassword")
-    if (signingKey && signingPassword) {
-        useInMemoryPgpKeys(signingKey, signingPassword)
-        sign publishing.publications.mavenKotlin
-    }
+    def signingKey = System.getenv("SIGN_KEY")
+    def signingPassword = System.getenv("SIGN_PASSWORD")
+    useInMemoryPgpKeys(signingKey, signingPassword)
+    sign publishing.publications.mavenKotlin
 }
 
 tasks.named('test') {
