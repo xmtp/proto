@@ -9,9 +9,10 @@ nexusPublishing {
     repositories {
         sonatype {
             nexusUrl.set(uri("https://s01.oss.sonatype.org/service/local/"))
-            username = System.getenv("MAVEN_USERNAME")
-            password = System.getenv("MAVEN_PASSWORD")
-            stagingProfileId = System.getenv("MAVEN_PROFILE_ID")
+            snapshotRepositoryUrl.set(uri("https://s01.oss.sonatype.org/content/repositories/snapshots/"))
+            username = project.findProperty("sonatypeUsername") ?: ""
+            password = project.findProperty("sonatypePassword") ?: ""
+            stagingProfileId = project.findProperty("stagingProfileId") ?: ""
         }
     }
 }
