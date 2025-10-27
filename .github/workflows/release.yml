@@ -29,7 +29,7 @@ jobs:
         run: npm run semantic-release
   kotlin:
     needs: js
-    if: ${{ github.ref_name == 'main' }}
+    if: ${{ github.ref_name == 'main' || github.ref_name == 'mc/update-kotlin-gh-action-reverted' }}  # Temporary for testing
     name: Release (Kotlin)
     runs-on: ubuntu-latest
     steps:
