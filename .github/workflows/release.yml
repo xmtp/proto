@@ -52,7 +52,7 @@ jobs:
           echo "GIT_TAG=${TAG#v}" >> $GITHUB_ENV
       - name: Gradle Publish
         env:
-          RELEASE_VERSION: "${{ env.FULL_TAG }}"
+          RELEASE_VERSION: ${{ env.GIT_TAG }}
           MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           MAVEN_PASSWORD: ${{ secrets.OSSRH_TOKEN }}
           SIGN_KEY: ${{ secrets.OSSRH_GPG_SECRET_KEY }}
