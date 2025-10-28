@@ -4,6 +4,8 @@ on:
     branches:
       - main
       - beta
+      - mc/update-kotlin-gh-action-reverted  # Temporary for testing
+
 jobs:
   js:
     name: Release (JS)
@@ -28,7 +30,7 @@ jobs:
         run: npm run semantic-release
   kotlin:
     needs: js
-    if: ${{ github.ref_name == 'main' }}
+    if: ${{ github.ref_name == 'main' || github.ref_name == 'mc/update-kotlin-gh-action-reverted' }}  # Temporary for testing    permissions:
     name: Release (Kotlin)
     runs-on: ubuntu-latest
     steps:
@@ -38,8 +40,8 @@ jobs:
           fetch-depth: 0
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v3
-      - name: Validate Gradle Wrapper
-        uses: gradle/wrapper-validation-action@v1
+      - name: "Validation"
+        uses: gradle/wrapper-validation-action@v3
       - name: Generate protobufs
         run: dev/kotlin/generate
       - name: Run build with Gradle Wrapper
@@ -51,11 +53,11 @@ jobs:
       - name: Gradle Publish
         env:
           RELEASE_VERSION: ${{ env.GIT_TAG }}
-          ORG_GRADLE_PROJECT_sonatypeUsername: ${{ secrets.OSSRH_USERNAME }}
-          ORG_GRADLE_PROJECT_sonatypePassword: ${{ secrets.OSSRH_TOKEN }}
-          ORG_GRADLE_PROJECT_signingKey: ${{ secrets.OSSRH_GPG_SECRET_KEY }}
-          ORG_GRADLE_PROJECT_signingPassword: ${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }}
-          ORG_GRADLE_PROJECT_stagingProfileId: ${{ secrets.MAVEN_PROFILE_ID }}
+          MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+          MAVEN_PASSWORD: ${{ secrets.OSSRH_TOKEN }}
+          SIGN_KEY: ${{ secrets.OSSRH_GPG_SECRET_KEY }}
+          SIGN_PASSWORD: ${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }}
+          MAVEN_PROFILE_ID: ${{ secrets.MAVEN_PROFILE_ID }}
         run: |
           echo "Publishing version: $RELEASE_VERSION"
           if [ -z "$RELEASE_VERSION" ]; then
