@@ -28,7 +28,9 @@
     "test": "node ./ts/dist/cjs/index.js"
   },
   "publishConfig": {
-    "access": "public"
+    "access": "public",
+    "provenance": true,
+    "registry": "https://registry.npmjs.org/"
   },
   "files": [
     "ts/dist"
