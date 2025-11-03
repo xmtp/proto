@@ -6,6 +6,13 @@
   "module": "./ts/dist/esm/index.js",
   "types": "./ts/dist/types/index.d.ts",
   "browser": "./ts/dist/esm/index.js",
+  "exports": {
+    ".": {
+      "types": "./ts/dist/types/index.d.ts",
+      "import": "./ts/dist/esm/index.js",
+      "require": "./ts/dist/cjs/index.js"
+    }
+  },
   "scripts": {
     "build": "npm run clean && npm run build:cjs && npm run build:esm && npm run build:types",
     "build:cjs": "./dev/ts/clean cjs && tsc -p ./ts/tsconfig.cjs.json",
