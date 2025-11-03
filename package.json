@@ -2,8 +2,8 @@
   "name": "@xmtp/proto",
   "version": "0.0.0-development",
   "description": "Protobuf client and generated classes for GRPC API",
-  "main": "./ts/dist/cjs/index.js",
-  "module": "./ts/dist/esm/index.js",
+  "type": "module",
+  "main": "./ts/dist/esm/index.js",
   "types": "./ts/dist/types/index.d.ts",
   "browser": "./ts/dist/esm/index.js",
   "exports": {
