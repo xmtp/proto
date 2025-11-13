@@ -48,15 +48,18 @@ jobs:
         uses: gradle/wrapper-validation-action@v3
       - name: Fix missing Docker base image references and Generate protobufs
         run: |
-          # Replace common broken OpenJDK 20 tags with a maintained Temurin image for this run.
-          if git grep -Il "openjdk:20" >/dev/null 2>&1; then
-            echo "Patching files that reference openjdk:20* -> eclipse-temurin:20-jdk"
-            git grep -Il "openjdk:20" | xargs -r sed -i 's|openjdk:20-jdk-bullseye|eclipse-temurin:20-jdk|g'
-            git grep -Il "openjdk:20" | xargs -r sed -i 's|openjdk:20-jdk|eclipse-temurin:20-jdk|g'
-            git grep -Il "openjdk:20" | xargs -r sed -i 's|openjdk:20|eclipse-temurin:20-jdk|g'
-          fi
-          # Pre-pull the replacement image to avoid remote lookup failures.
+          # Pre-pull Temurin images to give the runner reliable base images.
+          # Prefer Temurin 20, but pull 17 (LTS) as a fallback to increase resilience.
           docker pull eclipse-temurin:20-jdk || true
+          docker pull eclipse-temurin:17-jdk || true
+
+          # Try to patch any exact references to the removed Debian-specific OpenJDK tag.
+          # This is conservative: only replace the specific 'openjdk:20-jdk-bullseye' tag.
+          if git grep -Il "openjdk:20-jdk-bullseye" >/dev/null 2>&1; then
+            echo "Patching files that reference openjdk:20-jdk-bullseye -> eclipse-temurin:20-jdk"
+            git grep -Il "openjdk:20-jdk-bullseye" | xargs -r sed -i 's|openjdk:20-jdk-bullseye|eclipse-temurin:20-jdk|g'
+          fi
+
           # Run the existing generator script
           dev/kotlin/generate
       - name: Run build with Gradle Wrapper
