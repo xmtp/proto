@@ -19,10 +19,8 @@ RUN curl -OL https://github.com/protocolbuffers/protobuf/releases/download/v$PRO
 ARG KOTLIN_GRPC_VERSION=1.3.0
 ARG KOTLIN_GRPC_URL=https://repo1.maven.org/maven2/io/grpc/protoc-gen-grpc-kotlin/$KOTLIN_GRPC_VERSION/protoc-gen-grpc-kotlin-$KOTLIN_GRPC_VERSION-jdk8.jar
 
-RUN mkdir -p /opt/protoc-plugins && \
-    curl -fsSL -o /opt/protoc-plugins/protoc-gen-grpc-kotlin-$KOTLIN_GRPC_VERSION-jdk8.jar $KOTLIN_GRPC_URL && \
-    printf '%s\n' '#!/bin/sh' "exec java -jar /opt/protoc-plugins/protoc-gen-grpc-kotlin-$KOTLIN_GRPC_VERSION-jdk8.jar \"\$@\"" > /bin/protoc-gen-grpc-kotlin && \
-    chmod +x /bin/protoc-gen-grpc-kotlin
+RUN curl -fsSL -o protoc-gen-grpc-kotlin-$KOTLIN_GRPC_VERSION-jdk8.jar $KOTLIN_GRPC_URL
+RUN chmod +x protoc-gen-grpc-kotlin-$KOTLIN_GRPC_VERSION-jdk8.jar
 
 # Java gRPC plugin
 ARG JAVA_GRPC_VERSION=1.45.1
