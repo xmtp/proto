@@ -2,10 +2,12 @@
 syntax = "proto3";
 package xmtp.device_sync;
 
+import "device_sync/blob_backup.proto";
 import "device_sync/consent_backup.proto";
 import "device_sync/event_backup.proto";
 import "device_sync/group_backup.proto";
 import "device_sync/message_backup.proto";
+import "identity/associations/association.proto";
 
 option java_package = "org.xmtp.proto.device_sync";
 
@@ -17,6 +19,8 @@ message BackupElement {
     xmtp.device_sync.message_backup.GroupMessageSave group_message = 3;
     xmtp.device_sync.consent_backup.ConsentSave consent = 4;
     xmtp.device_sync.event_backup.EventSave event = 5;
+    xmtp.identity.associations.IdentityUpdate identity_updates = 6;
+    xmtp.device_sync.blob_backup.BlobSave blob = 7;
   }
 }
 
