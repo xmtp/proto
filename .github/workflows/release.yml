@@ -46,8 +46,17 @@ jobs:
         uses: gradle/actions/setup-gradle@v3
       - name: "Validation"
         uses: gradle/wrapper-validation-action@v3
-      - name: Generate protobufs
-        run: dev/kotlin/generate
+      - name: Fix missing Docker base image references and Generate protobufs
+        run: |
+          # If any files reference the missing image, replace it with a valid one for this run.
+          if git grep -Il "openjdk:20-jdk-bullseye" >/dev/null 2>&1; then
+            echo "Patching files that reference openjdk:20-jdk-bullseye -> eclipse-temurin:20-jdk"
+            git grep -Il "openjdk:20-jdk-bullseye" | xargs -r sed -i 's|openjdk:20-jdk-bullseye|eclipse-temurin:20-jdk|g'
+          fi
+          # Pre-pull the valid base image to avoid remote lookup failures.
+          docker pull eclipse-temurin:20-jdk || true
+          # Run the existing generator script
+          dev/kotlin/generate
       - name: Run build with Gradle Wrapper
         run: ./gradlew build
       - name: Set Tag
