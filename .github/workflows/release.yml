@@ -4,6 +4,8 @@ on:
     branches:
       - main
       - beta
+      - mc/update-kotlin-gh-action-reverted  # Temporary for testing
+
 jobs:
   js:
     name: Release (JS)
@@ -26,10 +28,14 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: npm run semantic-release
+
   kotlin:
     needs: js
-    if: ${{ github.ref_name == 'main' }}
+    if: ${{ github.ref_name == 'main' || github.ref_name == 'mc/update-kotlin-gh-action-reverted' }}  # Temporary for testing
     name: Release (Kotlin)
+    permissions:
+      id-token: write
+      contents: write
     runs-on: ubuntu-latest
     steps:
       - name: Checkout project sources
@@ -38,24 +44,43 @@ jobs:
           fetch-depth: 0
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v3
-      - name: Validate Gradle Wrapper
-        uses: gradle/wrapper-validation-action@v1
-      - name: Generate protobufs
-        run: dev/kotlin/generate
+      - name: "Validation"
+        uses: gradle/wrapper-validation-action@v3
+      - name: Fix missing Docker base image references and Generate protobufs
+        run: |
+          # Pre-pull Temurin images to give the runner reliable base images.
+          # Prefer Temurin 20, but pull 17 (LTS) as a fallback to increase resilience.
+          docker pull eclipse-temurin:20-jdk || true
+          docker pull eclipse-temurin:17-jdk || true
+
+          # Try to patch any exact references to the removed Debian-specific OpenJDK tag.
+          # This is conservative: only replace the specific 'openjdk:20-jdk-bullseye' tag.
+          if git grep -Il "openjdk:20-jdk-bullseye" >/dev/null 2>&1; then
+            echo "Patching files that reference openjdk:20-jdk-bullseye -> eclipse-temurin:20-jdk"
+            git grep -Il "openjdk:20-jdk-bullseye" | xargs -r sed -i 's|openjdk:20-jdk-bullseye|eclipse-temurin:20-jdk|g'
+          fi
+
+          # Run the existing generator script
+          dev/kotlin/generate
       - name: Run build with Gradle Wrapper
         run: ./gradlew build
       - name: Set Tag
         run: |
-          TAG=`echo $(git describe --tags --abbrev=0)`
+          git fetch --tags --prune
+          TAG=$(git describe --tags --abbrev=0 2>/dev/null || true)
+          if [ -z "$TAG" ]; then
+            echo "No tag found"
+            exit 1
+          fi
           echo "GIT_TAG=${TAG#v}" >> $GITHUB_ENV
       - name: Gradle Publish
         env:
           RELEASE_VERSION: ${{ env.GIT_TAG }}
-          ORG_GRADLE_PROJECT_sonatypeUsername: ${{ secrets.OSSRH_USERNAME }}
-          ORG_GRADLE_PROJECT_sonatypePassword: ${{ secrets.OSSRH_TOKEN }}
-          ORG_GRADLE_PROJECT_signingKey: ${{ secrets.OSSRH_GPG_SECRET_KEY }}
-          ORG_GRADLE_PROJECT_signingPassword: ${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }}
-          ORG_GRADLE_PROJECT_stagingProfileId: ${{ secrets.MAVEN_PROFILE_ID }}
+          MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+          MAVEN_PASSWORD: ${{ secrets.OSSRH_TOKEN }}
+          SIGN_KEY: ${{ secrets.OSSRH_GPG_SECRET_KEY }}
+          SIGN_PASSWORD: ${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }}
+          MAVEN_PROFILE_ID: ${{ secrets.MAVEN_PROFILE_ID }}
         run: |
           echo "Publishing version: $RELEASE_VERSION"
           if [ -z "$RELEASE_VERSION" ]; then
