@@ -21,6 +21,7 @@ message GroupMessageSave {
   optional bytes reference_id = 13;
   optional int64 sequence_id = 14;
   optional int64 originator_id = 15;
+  optional int64 published_in_epoch = 16;
 }
 
 // Group message kind
