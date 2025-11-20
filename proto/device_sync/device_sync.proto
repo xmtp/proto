@@ -34,6 +34,7 @@ message BackupOptions {
   repeated BackupElementSelection elements = 1;
   optional int64 start_ns = 2;
   optional int64 end_ns = 3;
+  bool exclude_disappearing_messages = 4;
 }
 
 // Elements selected for backup
