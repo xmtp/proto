@@ -1,4 +1,4 @@
-FROM openjdk:20-jdk-bullseye AS build
+FROM eclipse-temurin:20-jdk AS build
 
 COPY protoc.sh /opt/protoc
 
