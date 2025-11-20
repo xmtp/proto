@@ -1,9 +1,9 @@
-FROM openjdk:20-jdk-bullseye AS build
+FROM eclipse-temurin:21-jdk-jammy AS build
 
 COPY protoc.sh /opt/protoc
 
 RUN apt-get -q update && \
-    apt-get -y install build-essential unzip curl && \
+    apt-get -y install build-essential unzip curl git && \
     rm -r /var/lib/apt/lists/*
 
 # Latest version on protoc so that it has Kotlin
