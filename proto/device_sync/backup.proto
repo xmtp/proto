@@ -1,0 +1,12 @@
+syntax = "proto3";
+package xmtp.device_sync.blob_backup;
+
+option java_package = "org.xmtp.proto.device_sync";
+
+message SnapshotSave {
+  bytes snapshot = 1;
+}
+
+message KeypackageSave {
+  bytes keypackage = 1;
+}

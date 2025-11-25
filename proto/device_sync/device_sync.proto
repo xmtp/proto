@@ -2,7 +2,7 @@
 syntax = "proto3";
 package xmtp.device_sync;
 
-import "device_sync/blob_backup.proto";
+import "device_sync/backup.proto";
 import "device_sync/consent_backup.proto";
 import "device_sync/event_backup.proto";
 import "device_sync/group_backup.proto";
@@ -20,7 +20,8 @@ message BackupElement {
     xmtp.device_sync.consent_backup.ConsentSave consent = 4;
     xmtp.device_sync.event_backup.EventSave event = 5;
     xmtp.identity.associations.IdentityUpdate identity_updates = 6;
-    xmtp.device_sync.blob_backup.BlobSave blob = 7;
+    xmtp.device_sync.backup.SnapshotSave snapshot = 7;
+    xmtp.device_sync.backup.KeypackageSave keypackage = 8;
   }
 }
 
