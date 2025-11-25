@@ -11,4 +11,5 @@ message BlobSave {
 enum BlobTypeSave {
   BLOB_TYPE_SAVE_UNSPECIFIED = 0;
   BLOB_TYPE_SAVE_SNAPSHOT = 1;
+  BLOB_TYPE_SAVE_KEYPACKAGE = 2;
 }
