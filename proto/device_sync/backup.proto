@@ -1,5 +1,5 @@
 syntax = "proto3";
-package xmtp.device_sync.blob_backup;
+package xmtp.device_sync.backup;
 
 option java_package = "org.xmtp.proto.device_sync";
 
