@@ -21,7 +21,6 @@ message BackupElement {
     xmtp.device_sync.event_backup.EventSave event = 5;
     xmtp.identity.associations.IdentityUpdate identity_updates = 6;
     xmtp.device_sync.backup.SnapshotSave snapshot = 7;
-    xmtp.device_sync.backup.KeypackageSave keypackage = 8;
   }
 }
 
