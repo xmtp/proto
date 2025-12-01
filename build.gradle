@@ -9,10 +9,9 @@ version = System.getenv("RELEASE_VERSION")
 nexusPublishing {
     repositories {
         sonatype {
-            // Using Central Portal Publishing API (OSSRH has been shut down as of June 30, 2025)
-            // This is the compatibility layer that translates Nexus 2 APIs to Portal API
-            nexusUrl.set(uri("https://central.sonatype.com/api/v1/publisher/"))
-            snapshotRepositoryUrl.set(uri("https://central.sonatype.com/api/v1/publisher/upload"))
+            // OSSRH shut down June 30, 2025
+            // Using Maven Central Portal via OSSRH Staging API compatibility layer
+            // Credentials should be from https://central.sonatype.com/ (not legacy OSSRH)
 
             def mavenUser = System.getenv("MAVEN_USERNAME")
             def mavenPass = System.getenv("MAVEN_PASSWORD")
@@ -24,11 +23,20 @@ nexusPublishing {
 
             username = mavenUser ?: ""
             password = mavenPass ?: ""
-            // Central Portal doesn't use stagingProfileId
+
+            // Maven Central Portal endpoints via OSSRH Staging API compatibility service
+            nexusUrl.set(uri("https://ossrh-staging-api.central.sonatype.com/service/local/"))
+            snapshotRepositoryUrl.set(uri("https://central.sonatype.com/repository/maven-snapshots/"))
         }
     }
 
     // Increase timeout for slow connections
     connectTimeout.set(Duration.ofMinutes(3))
     clientTimeout.set(Duration.ofMinutes(3))
+
+    // Transitional check options for staging repository
+    transitionCheckOptions {
+        maxRetries.set(50)
+        delayBetween.set(java.time.Duration.ofSeconds(10))
+    }
 }
