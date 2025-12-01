@@ -65,9 +65,6 @@ jobs:
       - name: Generate protobufs
         run: dev/kotlin/generate
 
-      - name: Run build with Gradle Wrapper
-        run: ./gradlew build
-
       - name: Set Tag
         id: set-tag
         run: |
@@ -80,26 +77,22 @@ jobs:
           VERSION="${TAG#v}"
           echo "GIT_TAG=${VERSION}" >> $GITHUB_ENV
           echo "version=${VERSION}" >> $GITHUB_OUTPUT
+          echo "RELEASE_VERSION=${VERSION}" >> $GITHUB_ENV
           echo "Publishing version: ${VERSION}"
 
-      - name: Verify environment variables
-        run: |
-          echo "Checking required environment variables (without exposing values)..."
-          [ -n "$MAVEN_USERNAME" ] && echo "✓ MAVEN_USERNAME is set" || echo "✗ MAVEN_USERNAME is missing"
-          [ -n "$MAVEN_PASSWORD" ] && echo "✓ MAVEN_PASSWORD is set" || echo "✗ MAVEN_PASSWORD is missing"
-          [ -n "$ORG_GRADLE_PROJECT_signingKey" ] && echo "✓ signingKey is set" || echo "✗ signingKey is missing"
-          [ -n "$ORG_GRADLE_PROJECT_signingPassword" ] && echo "✓ signingPassword is set" || echo "✗ signingPassword is missing"
-          [ -n "$MAVEN_PROFILE_ID" ] && echo "✓ MAVEN_PROFILE_ID is set" || echo "✗ MAVEN_PROFILE_ID is missing"
+      - name: Run build with Gradle Wrapper
         env:
+          RELEASE_VERSION: ${{ env.RELEASE_VERSION }}
           MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           MAVEN_PASSWORD: ${{ secrets.OSSRH_TOKEN }}
           ORG_GRADLE_PROJECT_signingKey: ${{ secrets.OSSRH_GPG_SECRET_KEY }}
           ORG_GRADLE_PROJECT_signingPassword: ${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }}
           MAVEN_PROFILE_ID: ${{ secrets.MAVEN_PROFILE_ID }}
+        run: ./gradlew build --no-daemon
 
       - name: Gradle Publish
         env:
-          RELEASE_VERSION: ${{ env.GIT_TAG }}
+          RELEASE_VERSION: ${{ env.RELEASE_VERSION }}
           MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           MAVEN_PASSWORD: ${{ secrets.OSSRH_TOKEN }}
           ORG_GRADLE_PROJECT_signingKey: ${{ secrets.OSSRH_GPG_SECRET_KEY }}
