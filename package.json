@@ -2,10 +2,17 @@
   "name": "@xmtp/proto",
   "version": "0.0.0-development",
   "description": "Protobuf client and generated classes for GRPC API",
-  "main": "./ts/dist/cjs/node.js",
-  "module": "./ts/dist/esm/node.js",
+  "main": "./ts/dist/cjs/index.js",
+  "module": "./ts/dist/esm/index.js",
   "types": "./ts/dist/types/index.d.ts",
   "browser": "./ts/dist/esm/index.js",
+  "exports": {
+    ".": {
+      "types": "./ts/dist/types/index.d.ts",
+      "import": "./ts/dist/esm/index.js",
+      "require": "./ts/dist/cjs/index.js"
+    }
+  },
   "scripts": {
     "build": "npm run clean && npm run build:cjs && npm run build:esm && npm run build:types",
     "build:cjs": "./dev/ts/clean cjs && tsc -p ./ts/tsconfig.cjs.json",
@@ -14,15 +21,16 @@
     "clean": "rm -rf ./ts/dist",
     "generate": "./dev/ts/generate",
     "prebuild": "npm run generate",
-    "prepare": "husky install",
+    "prepare": "husky || true",
     "pretest": "npm run build",
     "prepublish": "npm run build",
     "semantic-release": "semantic-release",
-    "typescript": "^4.6.4",
     "test": "node ./ts/dist/cjs/index.js"
   },
   "publishConfig": {
-    "access": "public"
+    "access": "public",
+    "provenance": true,
+    "registry": "https://registry.npmjs.org/"
   },
   "files": [
     "ts/dist"
@@ -57,15 +65,15 @@
   },
   "homepage": "https://github.com/xmtp/proto#readme",
   "devDependencies": {
-    "@commitlint/config-conventional": "^17.0.3",
-    "husky": "^8.0.0",
+    "@commitlint/config-conventional": "^20.0.0",
+    "@types/node": "^24.10.0",
+    "husky": "^9.1.7",
     "semantic-release": "^25.0.1",
-    "typescript": "^4.6.4"
+    "typescript": "^5.9.3"
   },
   "dependencies": {
-    "long": "^5.2.0",
-    "protobufjs": "^7.0.0",
-    "rxjs": "^7.8.0",
-    "undici": "^5.8.1"
+    "long": "^5.3.2",
+    "protobufjs": "^7.5.4",
+    "rxjs": "^7.8.2"
   }
 }

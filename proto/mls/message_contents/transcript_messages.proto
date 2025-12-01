@@ -56,4 +56,12 @@ message GroupUpdated {
   repeated MetadataFieldChange metadata_field_changes = 4;
   /// The inboxes that were removed from the group in response to pending-remove/self-remove requests
   repeated Inbox left_inboxes = 5;
+  // The inboxes that were added to admin list in the commit
+  repeated Inbox added_admin_inboxes = 6;
+  // The inboxes that were removed from admin list in the commit
+  repeated Inbox removed_admin_inboxes = 7;
+  // The inboxes that were added to super admin list in the commit
+  repeated Inbox added_super_admin_inboxes = 8;
+  // The inboxes that were removed from super admin list in the commit
+  repeated Inbox removed_super_admin_inboxes = 9;
 }
