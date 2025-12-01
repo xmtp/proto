@@ -4,6 +4,7 @@ on:
     branches:
       - main
       - beta
+
 jobs:
   js:
     name: Release (JS)
@@ -18,50 +19,87 @@ jobs:
         uses: actions/checkout@v5
         with:
           fetch-depth: 0
+
       - name: Setup Node.js
         uses: actions/setup-node@v6
         with:
           node-version-file: ".node-version"
+          cache: 'npm'
+
       - name: Install dependencies
         run: npm ci
+
       - name: Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: npm run semantic-release
+
   kotlin:
     needs: js
-    if: ${{ github.ref_name == 'main' }}
     name: Release (Kotlin)
+    permissions:
+      id-token: write
+      contents: write
     runs-on: ubuntu-latest
     steps:
       - name: Checkout project sources
         uses: actions/checkout@v5
         with:
           fetch-depth: 0
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '11'
+
       - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v3
-      - name: Validate Gradle Wrapper
-        uses: gradle/wrapper-validation-action@v1
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          validate-wrappers: true
+          cache-read-only: false
+
       - name: Generate protobufs
         run: dev/kotlin/generate
-      - name: Run build with Gradle Wrapper
-        run: ./gradlew build
+
       - name: Set Tag
+        id: set-tag
         run: |
-          TAG=`echo $(git describe --tags --abbrev=0)`
-          echo "GIT_TAG=${TAG#v}" >> $GITHUB_ENV
-      - name: Gradle Publish
-        env:
-          RELEASE_VERSION: ${{ env.GIT_TAG }}
-          ORG_GRADLE_PROJECT_sonatypeUsername: ${{ secrets.OSSRH_USERNAME }}
-          ORG_GRADLE_PROJECT_sonatypePassword: ${{ secrets.OSSRH_TOKEN }}
-          ORG_GRADLE_PROJECT_signingKey: ${{ secrets.OSSRH_GPG_SECRET_KEY }}
-          ORG_GRADLE_PROJECT_signingPassword: ${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }}
-          ORG_GRADLE_PROJECT_stagingProfileId: ${{ secrets.MAVEN_PROFILE_ID }}
-        run: |
-          echo "Publishing version: $RELEASE_VERSION"
-          if [ -z "$RELEASE_VERSION" ]; then
-            echo "Error: RELEASE_VERSION is empty"
+          git fetch --tags --prune
+          TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
+          if [ -z "$TAG" ]; then
+            echo "::error::No git tag found. Cannot determine release version."
             exit 1
           fi
-          ./gradlew publishToSonatype closeAndReleaseSonatypeStagingRepository --info --stacktrace
+          VERSION="${TAG#v}"
+          echo "GIT_TAG=${VERSION}" >> $GITHUB_ENV
+          echo "version=${VERSION}" >> $GITHUB_OUTPUT
+          echo "RELEASE_VERSION=${VERSION}" >> $GITHUB_ENV
+          echo "Publishing version: ${VERSION}"
+
+      - name: Run build with Gradle Wrapper
+        env:
+          RELEASE_VERSION: ${{ env.RELEASE_VERSION }}
+          MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+          MAVEN_PASSWORD: ${{ secrets.OSSRH_TOKEN }}
+          ORG_GRADLE_PROJECT_signingKey: ${{ secrets.OSSRH_GPG_SECRET_KEY }}
+          ORG_GRADLE_PROJECT_signingPassword: ${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }}
+          MAVEN_PROFILE_ID: ${{ secrets.MAVEN_PROFILE_ID }}
+        run: ./gradlew build --no-daemon
+
+      - name: Gradle Publish
+        env:
+          RELEASE_VERSION: ${{ env.RELEASE_VERSION }}
+          MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+          MAVEN_PASSWORD: ${{ secrets.OSSRH_TOKEN }}
+          ORG_GRADLE_PROJECT_signingKey: ${{ secrets.OSSRH_GPG_SECRET_KEY }}
+          ORG_GRADLE_PROJECT_signingPassword: ${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }}
+          MAVEN_PROFILE_ID: ${{ secrets.MAVEN_PROFILE_ID }}
+        run: |
+          if [ -z "$RELEASE_VERSION" ]; then
+            echo "::error::RELEASE_VERSION is empty"
+            exit 1
+          fi
+          echo "Publishing version: $RELEASE_VERSION to Maven Central"
+          ./gradlew publishToSonatype closeAndReleaseSonatypeStagingRepository --no-daemon --stacktrace
