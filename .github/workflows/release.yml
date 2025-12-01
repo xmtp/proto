@@ -96,4 +96,4 @@ jobs:
             exit 1
           fi
           echo "Publishing version: $RELEASE_VERSION to Maven Central"
-          ./gradlew publishToSonatype closeAndReleaseSonatypeStagingRepository --info --stacktrace
+          ./gradlew publishToSonatype closeAndReleaseSonatypeStagingRepository --no-daemon --info --stacktrace
