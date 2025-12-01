@@ -9,9 +9,23 @@ nexusPublishing {
     repositories {
         sonatype {
             nexusUrl.set(uri("https://s01.oss.sonatype.org/service/local/"))
-            username = System.getenv("MAVEN_USERNAME")
-            password = System.getenv("MAVEN_PASSWORD")
-            stagingProfileId = System.getenv("MAVEN_PROFILE_ID")
+            snapshotRepositoryUrl.set(uri("https://s01.oss.sonatype.org/content/repositories/snapshots/"))
+
+            def mavenUser = System.getenv("MAVEN_USERNAME")
+            def mavenPass = System.getenv("MAVEN_PASSWORD")
+            def profileId = System.getenv("MAVEN_PROFILE_ID")
+
+            if (!mavenUser || !mavenPass) {
+                println "WARNING: MAVEN_USERNAME or MAVEN_PASSWORD not set"
+            }
+
+            username = mavenUser ?: ""
+            password = mavenPass ?: ""
+            stagingProfileId = profileId ?: ""
         }
     }
+
+    // Increase timeout for slow connections
+    connectTimeout.set(Duration.ofMinutes(3))
+    clientTimeout.set(Duration.ofMinutes(3))
 }
