@@ -1,5 +1,4 @@
 plugins {
-    // Updated to latest version for Maven Central Portal support
     id 'io.github.gradle-nexus.publish-plugin' version "2.0.0"
 }
 
@@ -9,32 +8,17 @@ version = System.getenv("RELEASE_VERSION")
 nexusPublishing {
     repositories {
         sonatype {
-            // OSSRH shut down June 30, 2025
-            // Using Maven Central Portal via OSSRH Staging API compatibility layer
-            // Credentials should be from https://central.sonatype.com/ (not legacy OSSRH)
+            username = System.getenv("MAVEN_USERNAME") ?: ""
+            password = System.getenv("MAVEN_PASSWORD") ?: ""
 
-            def mavenUser = System.getenv("MAVEN_USERNAME")
-            def mavenPass = System.getenv("MAVEN_PASSWORD")
-
-            if (!mavenUser || !mavenPass) {
-                println "WARNING: MAVEN_USERNAME or MAVEN_PASSWORD not set"
-                println "Please generate Portal credentials at: https://central.sonatype.com/"
-            }
-
-            username = mavenUser ?: ""
-            password = mavenPass ?: ""
-
-            // Maven Central Portal endpoints via OSSRH Staging API compatibility service
             nexusUrl.set(uri("https://ossrh-staging-api.central.sonatype.com/service/local/"))
             snapshotRepositoryUrl.set(uri("https://central.sonatype.com/repository/maven-snapshots/"))
         }
     }
 
-    // Increase timeout for slow connections
     connectTimeout.set(Duration.ofMinutes(3))
     clientTimeout.set(Duration.ofMinutes(3))
 
-    // Transitional check options for staging repository
     transitionCheckOptions {
         maxRetries.set(50)
         delayBetween.set(java.time.Duration.ofSeconds(10))

@@ -119,12 +119,8 @@ signing {
     def signingKey = project.findProperty("signingKey")
     def signingPassword = project.findProperty("signingPassword")
     if (signingKey && signingPassword) {
-        // Gradle expects the key without any base64 encoding
-        // The key should be ASCII-armored format from: gpg --armor --export-secret-keys KEY_ID
         useInMemoryPgpKeys(signingKey, signingPassword)
         sign publishing.publications.mavenKotlin
-    } else {
-        println "WARNING: Signing key or password not found. Artifacts will not be signed."
     }
 }
 

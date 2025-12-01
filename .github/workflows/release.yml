@@ -4,7 +4,6 @@ on:
     branches:
       - main
       - beta
-      - mc/update-kotlin-gh-action-reverted  # Temporary for testing
 
 jobs:
   js:
@@ -38,7 +37,6 @@ jobs:
 
   kotlin:
     needs: js
-    if: ${{ github.ref_name == 'main' || github.ref_name == 'mc/update-kotlin-gh-action-reverted' }}  # Temporary for testing
     name: Release (Kotlin)
     permissions:
       id-token: write
