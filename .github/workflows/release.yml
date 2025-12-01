@@ -82,6 +82,21 @@ jobs:
           echo "version=${VERSION}" >> $GITHUB_OUTPUT
           echo "Publishing version: ${VERSION}"
 
+      - name: Verify environment variables
+        run: |
+          echo "Checking required environment variables (without exposing values)..."
+          [ -n "$MAVEN_USERNAME" ] && echo "✓ MAVEN_USERNAME is set" || echo "✗ MAVEN_USERNAME is missing"
+          [ -n "$MAVEN_PASSWORD" ] && echo "✓ MAVEN_PASSWORD is set" || echo "✗ MAVEN_PASSWORD is missing"
+          [ -n "$ORG_GRADLE_PROJECT_signingKey" ] && echo "✓ signingKey is set" || echo "✗ signingKey is missing"
+          [ -n "$ORG_GRADLE_PROJECT_signingPassword" ] && echo "✓ signingPassword is set" || echo "✗ signingPassword is missing"
+          [ -n "$MAVEN_PROFILE_ID" ] && echo "✓ MAVEN_PROFILE_ID is set" || echo "✗ MAVEN_PROFILE_ID is missing"
+        env:
+          MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+          MAVEN_PASSWORD: ${{ secrets.OSSRH_TOKEN }}
+          ORG_GRADLE_PROJECT_signingKey: ${{ secrets.OSSRH_GPG_SECRET_KEY }}
+          ORG_GRADLE_PROJECT_signingPassword: ${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }}
+          MAVEN_PROFILE_ID: ${{ secrets.MAVEN_PROFILE_ID }}
+
       - name: Gradle Publish
         env:
           RELEASE_VERSION: ${{ env.GIT_TAG }}
@@ -96,4 +111,4 @@ jobs:
             exit 1
           fi
           echo "Publishing version: $RELEASE_VERSION to Maven Central"
-          ./gradlew publishToSonatype closeAndReleaseSonatypeStagingRepository --no-daemon --info --stacktrace
+          ./gradlew publishToSonatype closeAndReleaseSonatypeStagingRepository --no-daemon --stacktrace
