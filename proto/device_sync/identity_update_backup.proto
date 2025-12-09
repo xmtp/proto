@@ -1,0 +1,11 @@
+syntax = "proto3";
+package xmtp.device_sync.identity_update_backup;
+
+option java_package = "org.xmtp.proto.device_sync";
+
+import "identity/associations/association.proto";
+
+// Proto wrapper for an identity update backup
+message IdentityUpdateSave {
+  xmtp.identity.associations.IdentityUpdate identity_update = 1;
+}
