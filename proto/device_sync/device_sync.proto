@@ -18,7 +18,7 @@ message BackupElement {
     xmtp.device_sync.group_backup.GroupSave group = 2;
     xmtp.device_sync.message_backup.GroupMessageSave group_message = 3;
     xmtp.device_sync.consent_backup.ConsentSave consent = 4;
-    xmtp.device_sync.event_backup.EventSave event = 5;
+    xmtp.device_sync.event_backup.EventSave event = 5 [deprecated = true];
     xmtp.identity.associations.IdentityUpdate identity_updates = 6;
     xmtp.device_sync.backup.SnapshotSave snapshot = 7;
   }
@@ -46,5 +46,6 @@ enum BackupElementSelection {
   BACKUP_ELEMENT_SELECTION_UNSPECIFIED = 0;
   BACKUP_ELEMENT_SELECTION_MESSAGES = 1;
   BACKUP_ELEMENT_SELECTION_CONSENT = 2;
-  BACKUP_ELEMENT_SELECTION_EVENT = 3;
+  BACKUP_ELEMENT_SELECTION_EVENT = 3 [deprecated = true];
+  BACKUP_ELEMENT_SELECTION_SNAPSHOT = 4;
 }

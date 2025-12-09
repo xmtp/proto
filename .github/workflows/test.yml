@@ -13,6 +13,7 @@ jobs:
       - uses: actions/setup-node@v6
         with:
           node-version-file: ".node-version"
+          cache: 'npm'
       - run: npm ci
       - run: npm test
   kotlin:
@@ -21,14 +22,25 @@ jobs:
     steps:
       - name: Checkout project sources
         uses: actions/checkout@v5
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '11'
+
       - name: Setup Gradle
-        uses: gradle/gradle-build-action@v3
-      - name: Validate Gradle Wrapper
-        uses: gradle/actions/wrapper-validation@v3
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          validate-wrappers: true
+          cache-read-only: false
+
       - name: Generate protobufs
         run: dev/kotlin/generate
+
       - name: Run build with Gradle Wrapper
         run: ./gradlew build
+
       - name: Gradle Run Tests
         run: ./gradlew kotlin:test
   golang:
