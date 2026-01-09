@@ -3,6 +3,7 @@
 syntax = "proto3";
 package xmtp.mls.database;
 
+import "device_sync/device_sync.proto";
 import "mls/message_contents/welcome_pointer.proto";
 
 option go_package = "github.com/xmtp/proto/v3/go/mls/database";
@@ -11,5 +12,11 @@ option java_package = "org.xmtp.proto.mls.database";
 message Task {
   oneof task {
     xmtp.mls.message_contents.WelcomePointer process_welcome_pointer = 1;
+    SendSyncArchive send_sync_archive = 2;
   }
+}
+
+message SendSyncArchive {
+  xmtp.device_sync.BackupOptions options = 1;
+  optional string request_id = 2;
 }
