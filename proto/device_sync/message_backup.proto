@@ -14,13 +14,14 @@ message GroupMessageSave {
   bytes sender_installation_id = 6;
   string sender_inbox_id = 7;
   DeliveryStatusSave delivery_status = 8;
-  ContentTypeSave content_type = 9;
+  ContentTypeSave content_type_save = 9 [deprecated = true];
   int32 version_major = 10;
   int32 version_minor = 11;
   string authority_id = 12;
   optional bytes reference_id = 13;
   optional int64 sequence_id = 14;
   optional int64 originator_id = 15;
+  string content_type = 16;
 }
 
 // Group message kind
@@ -40,6 +41,7 @@ enum DeliveryStatusSave {
 
 // Group message content type
 enum ContentTypeSave {
+  option deprecated = true;
   CONTENT_TYPE_SAVE_UNSPECIFIED = 0;
   CONTENT_TYPE_SAVE_UNKNOWN = 1;
   CONTENT_TYPE_SAVE_TEXT = 2;
