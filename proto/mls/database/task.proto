@@ -20,4 +20,5 @@ message SendSyncArchive {
   xmtp.device_sync.BackupOptions options = 1;
   bytes sync_group_id = 2;
   optional string request_id = 3;
+  string server_url = 4;
 }
