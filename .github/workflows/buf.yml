@@ -4,13 +4,16 @@ on:
     branches:
       - main
   pull_request:
+
 jobs:
   buf:
     runs-on: ubuntu-latest
     steps:
-      # Run `git checkout`
-      - uses: actions/checkout@v5
-      # Push only the Input in `proto` to the BSR
+      - name: checkout source
+        uses: actions/checkout@v5
       - uses: bufbuild/buf-action@v1
         with:
           token: ${{ secrets.BUF_TOKEN }}
+          setup_only: true # Disables default behavior.
+      - if: ${{ github.event_name == 'push' }}
+        run: buf push --error-format github-actions --create --git-metadata
