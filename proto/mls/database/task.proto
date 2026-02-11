@@ -17,7 +17,7 @@ message Task {
 }
 
 message SendSyncArchive {
-  xmtp.device_sync.BackupOptions options = 1;
+  xmtp.device_sync.ArchiveOptions options = 1;
   bytes sync_group_id = 2;
   optional string pin = 3;
   string server_url = 4;

@@ -50,7 +50,7 @@ message DeviceSyncRequest {
   string pin = 1;
   string server_url = 2;
   xmtp.device_sync.BackupElementSelection deprecated_kind = 3 [deprecated = true];
-  xmtp.device_sync.BackupOptions options = 4;
+  xmtp.device_sync.ArchiveOptions options = 4;
 }
 
 // Pre-existing installation id capable of supplying a sync payload sends this reply
