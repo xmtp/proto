@@ -24,6 +24,39 @@ message SubscribeEnvelopesRequest {
   EnvelopesQuery query = 1;
 }
 
+// Request to subscribe to a series of topics, with a separate cursor for each topic
+message SubscribeTopicsRequest {
+  message TopicFilter {
+    bytes topic = 1;
+    xmtp.xmtpv4.envelopes.Cursor last_seen = 2;
+  }
+
+  repeated TopicFilter filters = 1;
+}
+
+// Response to SubscribeTopics
+message SubscribeTopicsResponse {
+  enum SubscriptionStatus {
+    SUBSCRIPTION_STATUS_UNSPECIFIED = 0;
+    SUBSCRIPTION_STATUS_STARTED = 1;
+    SUBSCRIPTION_STATUS_CATCHUP_COMPLETE = 2;
+    SUBSCRIPTION_STATUS_WAITING = 3;
+  }
+
+  message StatusUpdate {
+    SubscriptionStatus status = 1;
+  }
+
+  message Envelopes {
+    repeated xmtp.xmtpv4.envelopes.OriginatorEnvelope envelopes = 1;
+  }
+
+  oneof response {
+    Envelopes envelopes = 1;
+    StatusUpdate status_update = 2;
+  }
+}
+
 // Streamed response for batch subscribe - can be multiple envelopes at once
 message SubscribeEnvelopesResponse {
   repeated xmtp.xmtpv4.envelopes.OriginatorEnvelope envelopes = 1;
@@ -91,46 +124,21 @@ message GetNewestEnvelopeResponse {
 }
 
 service ReplicationApi {
-  rpc SubscribeEnvelopes(SubscribeEnvelopesRequest) returns (stream SubscribeEnvelopesResponse) {
-    option (google.api.http) = {
-      post: "/mls/v2/subscribe-envelopes"
-      body: "*"
-    };
-  }
+  // This will be renamed to SubscribeOriginators
+  rpc SubscribeEnvelopes(SubscribeEnvelopesRequest) returns (stream SubscribeEnvelopesResponse) {}
 
-  rpc SubscribeAllEnvelopes(SubscribeAllEnvelopesRequest) returns (stream SubscribeEnvelopesResponse) {
-    option (google.api.http) = {
-      post: "/mls/v2/subscribe-all-envelopes"
-      body: "*"
-    };
-  }
+  rpc SubscribeAllEnvelopes(SubscribeAllEnvelopesRequest) returns (stream SubscribeEnvelopesResponse) {}
 
-  rpc QueryEnvelopes(QueryEnvelopesRequest) returns (QueryEnvelopesResponse) {
-    option (google.api.http) = {
-      post: "/mls/v2/query-envelopes"
-      body: "*"
-    };
-  }
+  rpc SubscribeTopics(SubscribeTopicsRequest) returns (stream SubscribeTopicsResponse) {}
 
-  rpc PublishPayerEnvelopes(PublishPayerEnvelopesRequest) returns (PublishPayerEnvelopesResponse) {
-    option (google.api.http) = {
-      post: "/mls/v2/publish-payer-envelopes"
-      body: "*"
-    };
-  }
+  rpc QueryEnvelopes(QueryEnvelopesRequest) returns (QueryEnvelopesResponse) {}
 
-  rpc GetInboxIds(GetInboxIdsRequest) returns (GetInboxIdsResponse) {
-    option (google.api.http) = {
-      post: "/mls/v2/get-inbox-ids"
-      body: "*"
-    };
-  }
+  rpc QueryEnvelopes(QueryEnvelopesRequest) returns (QueryEnvelopesResponse) {}
+
+  rpc PublishPayerEnvelopes(PublishPayerEnvelopesRequest) returns (PublishPayerEnvelopesResponse) {}
+
+  rpc GetInboxIds(GetInboxIdsRequest) returns (GetInboxIdsResponse) {}
 
   // Get the newest envelope for each topic
-  rpc GetNewestEnvelope(GetNewestEnvelopeRequest) returns (GetNewestEnvelopeResponse) {
-    option (google.api.http) = {
-      post: "/mls/v2/get-newest-envelope"
-      body: "*"
-    };
-  }
+  rpc GetNewestEnvelope(GetNewestEnvelopeRequest) returns (GetNewestEnvelopeResponse) {}
 }

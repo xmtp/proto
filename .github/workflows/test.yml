@@ -13,7 +13,7 @@ jobs:
       - uses: actions/setup-node@v6
         with:
           node-version-file: ".node-version"
-          cache: 'npm'
+          cache: "npm"
       - run: npm ci
       - run: npm test
   kotlin:
@@ -26,8 +26,8 @@ jobs:
       - name: Setup Java
         uses: actions/setup-java@v4
         with:
-          distribution: 'temurin'
-          java-version: '11'
+          distribution: "temurin"
+          java-version: "11"
 
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
@@ -55,7 +55,7 @@ jobs:
           path: xmtpd
       - uses: actions/setup-go@v6
         with:
-          go-version: ">=1.25.0"
+          go-version: ">=1.26.0"
       - name: Install Go tools
         run: |
           cd xmtpd
