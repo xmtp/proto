@@ -30,7 +30,7 @@ message BackupMetadataSave {
 }
 
 // Backup Options
-message BackupOptions {
+message ArchiveOptions {
   repeated BackupElementSelection elements = 1;
   optional int64 start_ns = 2;
   optional int64 end_ns = 3;
