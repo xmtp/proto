@@ -19,13 +19,22 @@ message EnvelopesQuery {
   xmtp.xmtpv4.envelopes.Cursor last_seen = 3;
 }
 
-// Batch subscribe to envelopes
 message SubscribeEnvelopesRequest {
   EnvelopesQuery query = 1;
 }
 
 // Streamed response for batch subscribe - can be multiple envelopes at once
 message SubscribeEnvelopesResponse {
+  repeated xmtp.xmtpv4.envelopes.OriginatorEnvelope envelopes = 1;
+}
+
+// Batch subscribe to all envelopes
+message SubscribeAllEnvelopesRequest {
+  xmtp.xmtpv4.envelopes.Cursor last_seen = 1;
+}
+
+// Streamed response for batch subscribe - can be multiple envelopes at once
+message SubscribeAllEnvelopesResponse {
   repeated xmtp.xmtpv4.envelopes.OriginatorEnvelope envelopes = 1;
 }
 
@@ -89,6 +98,14 @@ service ReplicationApi {
   rpc SubscribeEnvelopes(SubscribeEnvelopesRequest) returns (stream SubscribeEnvelopesResponse) {
     option (google.api.http) = {
       post: "/mls/v2/subscribe-envelopes"
+      body: "*"
+    };
+  }
+
+  rpc SubscribeAllEnvelopes(SubscribeAllEnvelopesRequest) returns (stream SubscribeAllEnvelopesResponse) {
+    option (google.api.http) = {
+      // TODO: Meaning here? Should vN be incremented?
+      post: "/mls/v2/subscribe-all-envelopes"
       body: "*"
     };
   }
