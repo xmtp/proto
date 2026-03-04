@@ -133,8 +133,6 @@ service ReplicationApi {
 
   rpc QueryEnvelopes(QueryEnvelopesRequest) returns (QueryEnvelopesResponse) {}
 
-  rpc QueryEnvelopes(QueryEnvelopesRequest) returns (QueryEnvelopesResponse) {}
-
   rpc PublishPayerEnvelopes(PublishPayerEnvelopesRequest) returns (PublishPayerEnvelopesResponse) {}
 
   rpc GetInboxIds(GetInboxIdsRequest) returns (GetInboxIdsResponse) {}
