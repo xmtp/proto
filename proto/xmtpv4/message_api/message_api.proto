@@ -29,6 +29,11 @@ message SubscribeEnvelopesResponse {
   repeated xmtp.xmtpv4.envelopes.OriginatorEnvelope envelopes = 1;
 }
 
+// Batch subscribe to all envelopes
+message SubscribeAllEnvelopesRequest {
+  xmtp.xmtpv4.envelopes.Cursor last_seen = 1;
+}
+
 // Query envelopes request
 message QueryEnvelopesRequest {
   EnvelopesQuery query = 1;
@@ -89,6 +94,13 @@ service ReplicationApi {
   rpc SubscribeEnvelopes(SubscribeEnvelopesRequest) returns (stream SubscribeEnvelopesResponse) {
     option (google.api.http) = {
       post: "/mls/v2/subscribe-envelopes"
+      body: "*"
+    };
+  }
+
+  rpc SubscribeAllEnvelopes(SubscribeAllEnvelopesRequest) returns (stream SubscribeEnvelopesResponse) {
+    option (google.api.http) = {
+      post: "/mls/v2/subscribe-all-envelopes"
       body: "*"
     };
   }
