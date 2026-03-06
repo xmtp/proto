@@ -184,3 +184,35 @@ message PostCommitAction {
     SendWelcomes send_welcomes = 1;
   }
 }
+
+message ProposeMemberUpdateData {
+  message V1 {
+    // Not hex encoded
+    repeated bytes add_inbox_ids = 1;
+    repeated bytes remove_inbox_ids = 2;
+  }
+
+  oneof version {
+    V1 v1 = 1;
+  }
+}
+
+message ProposeGroupContextExtensionData {
+  message V1 {
+    bytes group_context_extension = 1;
+  }
+
+  oneof version {
+    V1 v1 = 1;
+  }
+}
+
+message CommitPendingProposalsData {
+  message V1 {
+    repeated bytes proposal_hashes = 1;
+  }
+
+  oneof version {
+    V1 v1 = 1;
+  }
+}
