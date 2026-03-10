@@ -64,7 +64,7 @@ message SubscribeEnvelopesResponse {
 
 // Batch subscribe to all envelopes
 message SubscribeAllEnvelopesRequest {
-  xmtp.xmtpv4.envelopes.Cursor last_seen = 1;
+  reserved 1;
 }
 
 // Query envelopes request
