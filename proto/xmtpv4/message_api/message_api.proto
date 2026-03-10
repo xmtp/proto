@@ -63,9 +63,7 @@ message SubscribeEnvelopesResponse {
 }
 
 // Batch subscribe to all envelopes
-message SubscribeAllEnvelopesRequest {
-  reserved 1;
-}
+message SubscribeAllEnvelopesRequest {}
 
 // Query envelopes request
 message QueryEnvelopesRequest {
