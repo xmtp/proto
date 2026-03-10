@@ -38,7 +38,7 @@ message PlaintextCommitLogEntry {
 message CommitLogEntry {
   uint64 sequence_id = 1;
   bytes serialized_commit_log_entry = 2;
-  xmtp.identity.associations.RecoverableEd25519Signature signature = 3 [deprecated = true];
+  xmtp.identity.associations.RecoverableEd25519Signature deprecated_signature = 3 [deprecated = true];
 
   // Installation cred signature on field 2 + group salt
   bytes signature = 4;
