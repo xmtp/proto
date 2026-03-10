@@ -100,7 +100,7 @@ message ValidateGroupMessagesResponse {
     string error_message = 2;
     string group_id = 3;
     bool is_commit = 4 [deprecated = true];
-    MessageType message_type = 5;
+    xmtp.mls.api.v1.MessageType message_type = 5;
   }
 
   repeated ValidationResponse responses = 1;
