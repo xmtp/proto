@@ -218,7 +218,16 @@ message GroupMessage {
     bytes data = 4;
     bytes sender_hmac = 5;
     bool should_push = 6;
-    bool is_commit = 7;
+    bool is_commit = 7 [deprecated = true];
+
+    enum MessageType {
+      MESSAGE_TYPE_UNSPECIFIED = 0;
+      MESSAGE_TYPE_APPLICATION = 1;
+      MESSAGE_TYPE_COMMIT = 2;
+      MESSAGE_TYPE_FORK_ADMIN_CHANGE = 3;
+    }
+
+    MessageType message_type = 8;
   }
 
   oneof version {
