@@ -22,17 +22,33 @@ message PlaintextCommitLogEntry {
   // The sequence ID of the commit payload being validated.
   uint64 commit_sequence_id = 2;
   // The encryption state before the commit was applied.
-  bytes last_epoch_authenticator = 3;
+  bytes last_epoch_authenticator = 3 [deprecated = true];
   // Indicates whether the commit was successful, or why it failed.
   CommitResult commit_result = 4;
   // The epoch number after the commit was applied, if successful.
   uint64 applied_epoch_number = 5;
   // The encryption state after the commit was applied, if successful.
   bytes applied_epoch_authenticator = 6;
+  
+  // The hmac of the installation_id that published this commit log entry.
+  // Value: hmac-sha256(salt, installation_id)
+  bytes installation_hmac = 7;
 }
 
 message CommitLogEntry {
   uint64 sequence_id = 1;
   bytes serialized_commit_log_entry = 2;
-  xmtp.identity.associations.RecoverableEd25519Signature signature = 3;
+  xmtp.identity.associations.RecoverableEd25519Signature deprecated_signature = 3 [deprecated = true];
+
+  // Installation cred signature on field 2 + group salt
+  bytes signature = 4;
+}
+
+message ForkAdminChange {
+  // Used to protect against replays, and against replays for new members.
+	int64 sequence_id = 1;
+	// value: hmac-sha256(group salt, installation_id)
+	bytes fork_admin_hmac = 2;
+	// Installation cred signature on fields 1 + 2 + group salt
+	bytes signature = 3;
 }
