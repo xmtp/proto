@@ -49,6 +49,7 @@ message ForkAdminChange {
 	int64 sequence_id = 1;
 	// value: hmac-sha256(group salt, installation_id)
 	bytes fork_admin_hmac = 2;
-	// Installation cred signature on fields 1 + 2 + group salt
+	// Installation cred signature on fields 1 + 2 + 4 + group salt
 	bytes signature = 3;
+	bytes group_id = 4;
 }
