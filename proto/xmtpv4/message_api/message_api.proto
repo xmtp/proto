@@ -122,13 +122,23 @@ message GetNewestEnvelopeResponse {
 
 // Subscribe to envelopes from specific originator nodes
 message SubscribeOriginatorsRequest {
-  repeated uint32 originator_node_ids = 1;
-  xmtp.xmtpv4.envelopes.Cursor last_seen = 2;
+  message OriginatorFilter {
+    repeated uint32 originator_node_ids = 1;
+    xmtp.xmtpv4.envelopes.Cursor last_seen = 2;
+  }
+
+  OriginatorFilter filter = 1;
 }
 
 // Response for SubscribeOriginators
 message SubscribeOriginatorsResponse {
-  repeated xmtp.xmtpv4.envelopes.OriginatorEnvelope envelopes = 1;
+  message Envelopes {
+    repeated xmtp.xmtpv4.envelopes.OriginatorEnvelope envelopes = 1;
+  }
+
+  oneof response {
+    Envelopes envelopes = 1;
+  }
 }
 
 service ReplicationApi {
