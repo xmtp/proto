@@ -1,0 +1,21 @@
+// Query API - Client to Node queries and subscriptions
+syntax = "proto3";
+
+package xmtp.xmtpv4.message_api;
+
+import "xmtpv4/message_api/message_api.proto";
+
+option go_package = "github.com/xmtp/proto/v3/go/xmtpv4/message_api";
+
+// Client -> Node. No auth token required.
+service QueryApi {
+  rpc QueryEnvelopes(QueryEnvelopesRequest) returns (QueryEnvelopesResponse) {}
+
+  rpc SubscribeTopics(SubscribeTopicsRequest)
+      returns (stream SubscribeTopicsResponse) {}
+
+  rpc GetInboxIds(GetInboxIdsRequest) returns (GetInboxIdsResponse) {}
+
+  rpc GetNewestEnvelope(GetNewestEnvelopeRequest)
+      returns (GetNewestEnvelopeResponse) {}
+}
