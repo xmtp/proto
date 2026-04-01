@@ -3,7 +3,6 @@ syntax = "proto3";
 
 package xmtp.xmtpv4.message_api;
 
-import "google/api/annotations.proto";
 import "identity/associations/association.proto";
 import "xmtpv4/envelopes/envelopes.proto";
 
