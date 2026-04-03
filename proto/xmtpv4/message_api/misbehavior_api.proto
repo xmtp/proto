@@ -3,7 +3,6 @@ syntax = "proto3";
 
 package xmtp.xmtpv4.message_api;
 
-import "google/api/annotations.proto";
 import "identity/associations/signature.proto";
 import "xmtpv4/envelopes/envelopes.proto";
 import "xmtpv4/message_api/message_api.proto";
@@ -71,17 +70,7 @@ message QueryMisbehaviorReportsResponse {
 }
 
 service MisbehaviorApi {
-  rpc SubmitMisbehaviorReport(SubmitMisbehaviorReportRequest) returns (SubmitMisbehaviorReportResponse) {
-    option (google.api.http) = {
-      post: "/mls/v2/submit-misbehavior-report"
-      body: "*"
-    };
-  }
+  rpc SubmitMisbehaviorReport(SubmitMisbehaviorReportRequest) returns (SubmitMisbehaviorReportResponse) {}
 
-  rpc QueryMisbehaviorReports(QueryMisbehaviorReportsRequest) returns (QueryMisbehaviorReportsResponse) {
-    option (google.api.http) = {
-      post: "/mls/v2/query-misbehavior-reports"
-      body: "*"
-    };
-  }
+  rpc QueryMisbehaviorReports(QueryMisbehaviorReportsRequest) returns (QueryMisbehaviorReportsResponse) {}
 }

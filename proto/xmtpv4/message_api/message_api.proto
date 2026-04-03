@@ -3,7 +3,6 @@ syntax = "proto3";
 
 package xmtp.xmtpv4.message_api;
 
-import "google/api/annotations.proto";
 import "identity/associations/association.proto";
 import "xmtpv4/envelopes/envelopes.proto";
 
@@ -121,20 +120,65 @@ message GetNewestEnvelopeResponse {
   repeated Response results = 1;
 }
 
+// Subscribe to envelopes from specific originator nodes
+message SubscribeOriginatorsRequest {
+  message OriginatorFilter {
+    repeated uint32 originator_node_ids = 1;
+    xmtp.xmtpv4.envelopes.Cursor last_seen = 2;
+  }
+
+  OriginatorFilter filter = 1;
+}
+
+// Response for SubscribeOriginators
+message SubscribeOriginatorsResponse {
+  message Envelopes {
+    repeated xmtp.xmtpv4.envelopes.OriginatorEnvelope envelopes = 1;
+  }
+
+  oneof response {
+    Envelopes envelopes = 1;
+  }
+}
+
 service ReplicationApi {
-  // This will be renamed to SubscribeOriginators
-  rpc SubscribeEnvelopes(SubscribeEnvelopesRequest) returns (stream SubscribeEnvelopesResponse) {}
+  // Node-to-node originator subscription
+  rpc SubscribeOriginators(SubscribeOriginatorsRequest)
+      returns (stream SubscribeOriginatorsResponse) {}
 
-  rpc SubscribeAllEnvelopes(SubscribeAllEnvelopesRequest) returns (stream SubscribeEnvelopesResponse) {}
+  // Deprecated: use SubscribeOriginators for node queries,
+  // QueryApi.SubscribeTopics for client queries
+  rpc SubscribeEnvelopes(SubscribeEnvelopesRequest)
+      returns (stream SubscribeEnvelopesResponse) {
+    option deprecated = true;
+  }
 
-  rpc SubscribeTopics(SubscribeTopicsRequest) returns (stream SubscribeTopicsResponse) {}
+  // Deprecated: moved to QueryApi
+  rpc SubscribeTopics(SubscribeTopicsRequest)
+      returns (stream SubscribeTopicsResponse) {
+    option deprecated = true;
+  }
 
-  rpc QueryEnvelopes(QueryEnvelopesRequest) returns (QueryEnvelopesResponse) {}
+  // Deprecated: moved to QueryApi
+  rpc QueryEnvelopes(QueryEnvelopesRequest)
+      returns (QueryEnvelopesResponse) {
+    option deprecated = true;
+  }
 
-  rpc PublishPayerEnvelopes(PublishPayerEnvelopesRequest) returns (PublishPayerEnvelopesResponse) {}
+  // Deprecated: moved to PublishApi
+  rpc PublishPayerEnvelopes(PublishPayerEnvelopesRequest)
+      returns (PublishPayerEnvelopesResponse) {
+    option deprecated = true;
+  }
 
-  rpc GetInboxIds(GetInboxIdsRequest) returns (GetInboxIdsResponse) {}
+  // Deprecated: moved to QueryApi
+  rpc GetInboxIds(GetInboxIdsRequest) returns (GetInboxIdsResponse) {
+    option deprecated = true;
+  }
 
-  // Get the newest envelope for each topic
-  rpc GetNewestEnvelope(GetNewestEnvelopeRequest) returns (GetNewestEnvelopeResponse) {}
+  // Deprecated: moved to QueryApi
+  rpc GetNewestEnvelope(GetNewestEnvelopeRequest)
+      returns (GetNewestEnvelopeResponse) {
+    option deprecated = true;
+  }
 }

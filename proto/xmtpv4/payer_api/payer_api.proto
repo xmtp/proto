@@ -3,7 +3,6 @@ syntax = "proto3";
 
 package xmtp.xmtpv4.payer_api;
 
-import "google/api/annotations.proto";
 import "xmtpv4/envelopes/envelopes.proto";
 
 option go_package = "github.com/xmtp/proto/v3/go/xmtpv4/payer_api";
@@ -22,20 +21,12 @@ message GetNodesResponse {
   map<uint32, string> nodes = 1;
 }
 
-// A narrowly scoped API for publishing messages through a payer
+// Deprecated: use gateway_api.GatewayApi
 service PayerApi {
-  // Publish envelope
-  rpc PublishClientEnvelopes(PublishClientEnvelopesRequest) returns (PublishClientEnvelopesResponse) {
-    option (google.api.http) = {
-      post: "/mls/v2/payer/publish-client-envelopes"
-      body: "*"
-    };
-  }
+  option deprecated = true;
 
-  rpc GetNodes(GetNodesRequest) returns (GetNodesResponse) {
-    option (google.api.http) = {
-      post: "/mls/v2/payer/get-nodes"
-      body: "*"
-    };
-  }
+  rpc PublishClientEnvelopes(PublishClientEnvelopesRequest)
+      returns (PublishClientEnvelopesResponse) {}
+
+  rpc GetNodes(GetNodesRequest) returns (GetNodesResponse) {}
 }

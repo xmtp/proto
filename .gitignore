@@ -122,3 +122,6 @@ Package.resolved
 # Kotlin
 kotlin/lib/src/main
 kotlin/bin
+
+# Agent plans
+docs/plans
