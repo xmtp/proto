@@ -1,0 +1,52 @@
+// Component-level permission and metadata definitions for app data
+syntax = "proto3";
+
+package xmtp.mls.message_contents;
+
+import "mls/message_contents/group_permissions.proto";
+
+option go_package = "github.com/xmtp/proto/v3/go/mls/message_contents";
+option java_package = "org.xmtp.proto.mls.message.contents";
+
+// The data structure type of a component's value
+enum ComponentType {
+  COMPONENT_TYPE_UNSPECIFIED = 0;
+  // Opaque bytes, replaced atomically
+  COMPONENT_TYPE_BYTES = 1;
+  // A TlsMap<bytes, bytes> supporting key-level insert/update/delete via deltas
+  COMPONENT_TYPE_TLS_MAP_BYTES_BYTES = 2;
+  // A TlsMap<InboxId, bytes> supporting key-level insert/update/delete via deltas
+  COMPONENT_TYPE_TLS_MAP_INBOX_ID_BYTES = 3;
+  // A TlsSet<bytes> supporting insert/remove/remove-by-hash via deltas
+  COMPONENT_TYPE_SET_BYTES = 4;
+  // A TlsSet<InboxId> supporting insert/remove/remove-by-hash via deltas
+  COMPONENT_TYPE_SET_INBOX_ID = 5;
+}
+
+// Per-component permission policy with separate rules for insert, update,
+// and delete operations.
+//
+// Insert and update are separate because some components need different
+// permission levels for creating vs modifying entries. For example, group
+// membership allows any member to update (installations/sequence ID) but
+// only admins to insert (add a new member).
+message ComponentPermissions {
+  // Policy for inserting a new value (component does not yet exist)
+  MetadataPolicy insert_policy = 1;
+  // Policy for updating an existing value
+  MetadataPolicy update_policy = 2;
+  // Policy for deleting a value
+  MetadataPolicy delete_policy = 3;
+}
+
+// Metadata describing a component: its data type and permission policies.
+//
+// Stored as the value in the component registry (ComponentId 0x8000).
+// Each registered component has one of these describing what kind of data
+// it holds and who can insert, update, or delete it.
+message ComponentMetadata {
+  // Permission policies for this component
+  ComponentPermissions permissions = 1;
+  // The data structure type of the component's value
+  ComponentType component_type = 2;
+}
