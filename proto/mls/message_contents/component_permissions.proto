@@ -13,14 +13,16 @@ enum ComponentType {
   COMPONENT_TYPE_UNSPECIFIED = 0;
   // Opaque bytes, replaced atomically
   COMPONENT_TYPE_BYTES = 1;
+  // A utf-8 encoded string, replaced atomically
+  COMPONENT_TYPE_STRING = 2;
   // A TlsMap<bytes, bytes> supporting key-level insert/update/delete via deltas
-  COMPONENT_TYPE_TLS_MAP_BYTES_BYTES = 2;
+  COMPONENT_TYPE_TLS_MAP_BYTES_BYTES = 3;
   // A TlsMap<InboxId, bytes> supporting key-level insert/update/delete via deltas
-  COMPONENT_TYPE_TLS_MAP_INBOX_ID_BYTES = 3;
+  COMPONENT_TYPE_TLS_MAP_INBOX_ID_BYTES = 4;
   // A TlsSet<bytes> supporting insert/remove/remove-by-hash via deltas
-  COMPONENT_TYPE_SET_BYTES = 4;
+  COMPONENT_TYPE_TLS_SET_BYTES = 5;
   // A TlsSet<InboxId> supporting insert/remove/remove-by-hash via deltas
-  COMPONENT_TYPE_SET_INBOX_ID = 5;
+  COMPONENT_TYPE_TLS_SET_INBOX_ID = 6;
 }
 
 // Per-component permission policy with separate rules for insert, update,
@@ -45,8 +47,8 @@ message ComponentPermissions {
 // Each registered component has one of these describing what kind of data
 // it holds and who can insert, update, or delete it.
 message ComponentMetadata {
-  // Permission policies for this component
-  ComponentPermissions permissions = 1;
   // The data structure type of the component's value
-  ComponentType component_type = 2;
+  ComponentType component_type = 1;
+  // Permission policies for this component
+  ComponentPermissions permissions = 2;
 }
