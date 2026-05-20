@@ -165,6 +165,48 @@ message UpdatePermissionData {
   }
 }
 
+// Generic AppData write intent — local-only serialization for the
+// `group_intents` table. Replaces the proliferation of per-component
+// IntentKind/IntentData pairs with a single shape that carries the
+// target component_id and the same payload bytes that will be written
+// to the on-wire `AppDataUpdate` proposal. Interpretation of `payload`
+// is determined by the target component's `ComponentType` in the
+// registry:
+//
+//   * `Bytes` / `String` typed components — payload is the new value
+//     written verbatim (last-writer-wins).
+//   * `TlsMap` typed components — payload is a TLS-encoded
+//     `TlsMapDelta<K, V>` carrying `Insert` / `Update` / `Delete`
+//     mutations. Apply semantics on the receive side are total
+//     (Insert is no-op-if-present, Update is upsert, Delete is
+//     idempotent); the strict variants of the in-process TlsMap API
+//     are not exposed on the wire. No "conflict" failure path.
+//   * `TlsSet` typed components — payload is a TLS-encoded
+//     `TlsSetDelta<E>` (`Add` is no-op-if-present, `Remove` is
+//     idempotent).
+//
+// Never appears on the MLS wire; lives only in the local intents
+// table.
+message AppDataUpdateData {
+  // v1 payload shape.
+  message V1 {
+    // u16 component_id widened to u32 (proto has no u16). The
+    // dispatcher narrows back to u16 at decode time.
+    uint32 component_id = 1;
+    // The bytes that will be written verbatim as the on-wire
+    // AppDataUpdate proposal payload. Interpretation determined by
+    // the component's registered ComponentType (see message-level
+    // comment above).
+    bytes payload = 2;
+  }
+
+  // Versioned envelope. New variants are added as new oneof entries;
+  // readers that don't recognize a variant fail closed.
+  oneof version {
+    V1 v1 = 1;
+  }
+}
+
 // Generic data-type for all post-commit actions
 message PostCommitAction {
   // An installation
