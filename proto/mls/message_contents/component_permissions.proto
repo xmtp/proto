@@ -49,6 +49,14 @@ message ComponentPermissions {
 message ComponentMetadata {
   // The data structure type of the component's value
   ComponentType component_type = 1;
-  // Permission policies for this component
+  // Permission policies for this component, evaluated against regular
+  // (member-issued) commits.
   ComponentPermissions permissions = 2;
+  // Permission policies for this component, evaluated against MLS External
+  // Commits (RFC 9420 §12.4.3.2). Absent / unset is equivalent to all-Deny:
+  // external committers cannot touch this component. Each component opts in
+  // explicitly by setting this field. Combined with the EXTERNAL_COMMIT_POLICY
+  // master switch (`allow_external_commit`), this is the per-component declarative
+  // authorization for external-commit-driven joins.
+  ComponentPermissions external_committer_permissions = 3;
 }
