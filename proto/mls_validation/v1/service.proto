@@ -5,6 +5,7 @@ package xmtp.mls_validation.v1;
 import "identity/api/v1/identity.proto";
 import "identity/associations/association.proto";
 import "identity/credential.proto";
+import "mls/api/v1/mls.proto";
 
 option go_package = "github.com/xmtp/proto/v3/go/mls_validation/v1";
 
@@ -98,7 +99,8 @@ message ValidateGroupMessagesResponse {
     bool is_ok = 1;
     string error_message = 2;
     string group_id = 3;
-    bool is_commit = 4;
+    bool is_commit = 4 [deprecated = true];
+    xmtp.mls.api.v1.MessageType message_type = 5;
   }
 
   repeated ValidationResponse responses = 1;
