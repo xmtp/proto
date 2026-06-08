@@ -13,6 +13,7 @@ message Task {
   oneof task {
     xmtp.mls.message_contents.WelcomePointer process_welcome_pointer = 1;
     SendSyncArchive send_sync_archive = 2;
+    ProcessPendingSelfRemove process_pending_self_remove = 3;
   }
 }
 
@@ -21,4 +22,13 @@ message SendSyncArchive {
   bytes sync_group_id = 2;
   optional string pin = 3;
   string server_url = 4;
+}
+
+// Durable TaskRunner intent: process a group's pending self-remove requests
+// (build the MLS RemoveProposal/Commit to evict members who sent a LeaveRequest,
+// then clean up the pending-remove list). Enqueued in the same DB transaction as
+// the pending_remove row so it survives restart; runs on the TaskRunner with
+// retry/backoff. group_id is the target conversation.
+message ProcessPendingSelfRemove {
+  bytes group_id = 1;
 }
