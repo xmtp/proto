@@ -14,8 +14,15 @@ message Task {
     xmtp.mls.message_contents.WelcomePointer process_welcome_pointer = 1;
     SendSyncArchive send_sync_archive = 2;
     ProcessPendingSelfRemove process_pending_self_remove = 3;
+    KpMaintenance kp_maintenance = 4;
   }
 }
+
+// Durable singleton TaskRunner intent: run key-package maintenance (delete
+// expired key packages, rotate the local key package when due) and reschedule
+// itself to the next rotation/deletion deadline. Empty payload — exactly one
+// such task exists per installation (enforced by the tasks UNIQUE(data_hash)).
+message KpMaintenance {}
 
 message SendSyncArchive {
   xmtp.device_sync.ArchiveOptions options = 1;
