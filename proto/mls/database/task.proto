@@ -14,8 +14,28 @@ message Task {
     xmtp.mls.message_contents.WelcomePointer process_welcome_pointer = 1;
     SendSyncArchive send_sync_archive = 2;
     ProcessPendingSelfRemove process_pending_self_remove = 3;
+    PullInDeadline pull_in_deadline = 4;
+    KpRotation kp_rotation = 5;
+    KpDeletion kp_deletion = 6;
   }
 }
+
+// Lower a target task's next-attempt deadline so it runs sooner. One-shot:
+// applied by the TaskWorker, then deleted.
+message PullInDeadline {
+  // The UNIQUE data_hash identifying the target task row.
+  bytes target_data_hash = 1;
+  // Target's next_attempt_at_ns is set to MIN(current, this).
+  int64 not_later_than_ns = 2;
+}
+
+// Recurring singleton: rotate + upload a fresh key package when the identity's
+// rotation deadline is due. Empty payload => stable data_hash for pull-ins.
+message KpRotation {}
+
+// Recurring singleton: delete superseded local key-package material whose
+// delete_at_ns has passed. Empty payload => stable data_hash for pull-ins.
+message KpDeletion {}
 
 message SendSyncArchive {
   xmtp.device_sync.ArchiveOptions options = 1;
