@@ -17,6 +17,7 @@ message Task {
     PullInDeadline pull_in_deadline = 4;
     KpRotation kp_rotation = 5;
     KpDeletion kp_deletion = 6;
+    AddMissingInstallations add_missing_installations = 7;
   }
 }
 
@@ -50,5 +51,15 @@ message SendSyncArchive {
 // the pending_remove row so it survives restart; runs on the TaskRunner with
 // retry/backoff. group_id is the target conversation.
 message ProcessPendingSelfRemove {
+  bytes group_id = 1;
+}
+
+// Durable TaskRunner intent: reconcile a group's membership with the inbox's
+// latest identity state (add installations registered after the group was
+// last updated). Enqueued by the device-sync worker when a sync-group welcome
+// signals a new installation; runs on the TaskRunner with retry/backoff so a
+// transient failure (e.g. identity propagation lag) cannot permanently skip
+// the add. group_id is the target conversation.
+message AddMissingInstallations {
   bytes group_id = 1;
 }
