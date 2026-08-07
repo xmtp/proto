@@ -18,6 +18,7 @@ message Task {
     KpRotation kp_rotation = 5;
     KpDeletion kp_deletion = 6;
     AddMissingInstallations add_missing_installations = 7;
+    KpLiveness kp_liveness = 8;
   }
 }
 
@@ -37,6 +38,19 @@ message KpRotation {}
 // Recurring singleton: delete superseded local key-package material whose
 // delete_at_ns has passed. Empty payload => stable data_hash for pull-ins.
 message KpDeletion {}
+
+// Recurring singleton: verify that THIS installation still has a usable key
+// package published on the network, and queue a rotation when it does not.
+//
+// Distinct from KpRotation on purpose. Rotation is driven by a local deadline
+// column; if that column is ever wrong the client stops rotating, its published
+// key package expires, and it becomes permanently unreachable (added to groups
+// only as a failed installation, so it never receives a welcome and never gets
+// the welcome-driven rotation nudge either) without observing any local error.
+// Liveness is the independent watchdog for that closed loop: its own schedule,
+// its own retry/backoff, and a network probe rather than a local deadline as
+// its source of truth. Empty payload => stable data_hash for pull-ins.
+message KpLiveness {}
 
 message SendSyncArchive {
   xmtp.device_sync.ArchiveOptions options = 1;
