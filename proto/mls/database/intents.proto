@@ -102,6 +102,11 @@ message UpdateMetadataData {
   message V1 {
     string field_name = 1;
     string field_value = 2;
+    // Compare-and-swap guard. When set, the publisher must abandon this
+    // intent unless the field's currently committed value equals this,
+    // rather than overwriting whatever landed in the meantime. Absent
+    // means last-writer-wins, which is the historical behavior.
+    optional string expected_field_value = 3;
   }
 
   oneof version {
