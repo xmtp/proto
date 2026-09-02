@@ -55,8 +55,12 @@ message ComponentMetadata {
   // Permission policies for this component, evaluated against MLS External
   // Commits (RFC 9420 §12.4.3.2). Absent / unset is equivalent to all-Deny:
   // external committers cannot touch this component. Each component opts in
-  // explicitly by setting this field. Combined with the EXTERNAL_COMMIT_POLICY
-  // master switch (`allow_external_commit`), this is the per-component declarative
-  // authorization for external-commit-driven joins.
+  // explicitly by setting this field.
+  //
+  // Reserved surface in XIP-82 v1: the atomic external-commit shape permits
+  // no AppDataUpdate beyond the joiner's own GROUP_MEMBERSHIP entry, and that
+  // one mandatory write is authorized by `allow_external_commit` itself — not
+  // by this field. Future flavors that let an external committer write other
+  // components consult the touched component's block here (deny-by-default).
   ComponentPermissions external_committer_permissions = 3;
 }

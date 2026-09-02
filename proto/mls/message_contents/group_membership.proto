@@ -35,6 +35,24 @@ message GroupMembershipEntry {
     // bounded to extra or silenced retries. Installations whose owning
     // inbox can't be determined are dropped.
     repeated bytes failed_installations = 2;
+    // The `external_group_id` of the invite this member was admitted
+    // under (XIP-82). Set if and only if the member joined via an MLS
+    // external commit; absent for members added by `Welcome`. This is
+    // what `EXTERNAL_COMMIT_POLICY.max_uses` accounting counts: the
+    // live use-count for an invite is the number of entries whose value
+    // here equals the policy's active `external_group_id`.
+    //
+    // Recorded on EVERY external commit (even when `max_uses` is 0, so
+    // a later policy change to a finite cap starts from accurate data)
+    // and WRITE-ONCE: set exactly once by the admitting external commit
+    // and immutable for the life of the entry. Validators reject a
+    // member-sender commit that sets, clears, or alters it — its own
+    // entry included; otherwise an invited member could untag itself
+    // and free a `max_uses` slot at will — and any rewrite of a
+    // member's entry for unrelated reasons (an installation change,
+    // say) MUST carry the field through unchanged. The field disappears
+    // only when the entry itself does (the member is removed).
+    bytes admitted_via_external_group_id = 3;
   }
 
   oneof version {
